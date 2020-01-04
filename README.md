@@ -3,6 +3,7 @@
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/TcM1911/stix2?label=Latest)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/TcM1911/stix2)
 [![Go Doc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](http://godoc.org/github.com/TcM1911/stix2)
+[![codecov](https://codecov.io/gh/TcM1911/stix2/branch/master/graph/badge.svg)](https://codecov.io/gh/TcM1911/stix2)
 
 # stix2
 A pure Go library for working with Structured Threat Information Expression
