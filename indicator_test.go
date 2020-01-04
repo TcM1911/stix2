@@ -1,0 +1,235 @@
+// Copyright 2020 Joakim Kennedy. All rights reserved. Use of
+// this source code is governed by the included BSD license.
+
+package stix2
+
+import (
+	"encoding/json"
+	"testing"
+	"time"
+
+	"github.com/stretchr/testify/assert"
+)
+
+func TestIndicator(t *testing.T) {
+	assert := assert.New(t)
+
+	pattern := "new pattern"
+	patternType := "stix"
+	ts := &Timestamp{time.Now()}
+	indType := []string{IndicatorTypeCompromised}
+
+	t.Run("missing_property", func(t *testing.T) {
+		obj, err := NewIndicator("", "", []string{}, nil)
+		assert.Nil(obj)
+		assert.Equal(ErrPropertyMissing, err)
+	})
+
+	t.Run("no_optional", func(t *testing.T) {
+		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		assert.NotNil(obj)
+		assert.NoError(err)
+	})
+
+	t.Run("with_options", func(t *testing.T) {
+		conf := 50
+		desc := "My description"
+		ts := &Timestamp{time.Now()}
+		createdBy, err := NewIdentifier(TypeIndicator)
+		assert.NoError(err)
+		ref := &ExternalReference{}
+		marking := &GranularMarking{}
+		lables := []string{"tag1", "tag2"}
+		lang := "en"
+		objmark := []Identifier{Identifier("id")}
+		specVer := "2.0"
+
+		name := "Name"
+		patVer := "1.0"
+		kchain := []*KillChainPhase{&KillChainPhase{}}
+
+		opts := []IndicatorOption{
+			IndicatorOptionConfidence(conf),
+			IndicatorOptionCreated(ts),
+			IndicatorOptionModified(ts),
+			IndicatorOptionCreatedBy(createdBy),
+			IndicatorOptionExternalReferences([]*ExternalReference{ref}),
+			IndicatorOptionGranularMarking(marking),
+			IndicatorOptionLables(lables),
+			IndicatorOptionLang(lang),
+			IndicatorOptionObjectMarking(objmark),
+			IndicatorOptionRevoked(true),
+			IndicatorOptionSpecVersion(specVer),
+			//
+			IndicatorOptionDesciption(desc),
+			IndicatorOptionName(name),
+			IndicatorOptionKillChainPhase(kchain),
+			IndicatorOptionPatternVersion(patVer),
+			IndicatorOptionValidUntil(ts),
+		}
+		obj, err := NewIndicator(pattern, patternType, indType, ts, opts...)
+		assert.NotNil(obj)
+		assert.NoError(err)
+		assert.Equal(conf, obj.Confidence)
+		assert.Equal(ts, obj.Created)
+		assert.Equal(ts, obj.Modified)
+		assert.Equal(createdBy, obj.CreatedBy)
+		assert.Contains(obj.ExternalReferences, ref)
+		assert.Equal(marking, obj.GranularMarking)
+		assert.Equal(lables, obj.Lables)
+		assert.Equal(lang, obj.Lang)
+		assert.Equal(objmark, obj.ObjectMarking)
+		assert.True(obj.Revoked)
+		assert.Equal(specVer, obj.SpecVersion)
+
+		assert.Equal(desc, obj.Description)
+		assert.Equal(name, obj.Name)
+		assert.Equal(kchain, obj.KillChainPhases)
+		assert.Equal(ts, obj.ValidUntil)
+		assert.Equal(patVer, obj.PatternVersion)
+	})
+
+	t.Run("parse_json", func(t *testing.T) {
+		data := []byte(`{
+    "type": "indicator",
+    "spec_version": "2.1",
+    "id": "indicator--8e2e2d2b-17d4-4cbf-938f-98ee46b3cd3f",
+    "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
+    "created": "2016-04-06T20:03:48.000Z",
+    "modified": "2016-04-06T20:03:48.000Z",
+    "indicator_types": ["malicious-activity"],
+    "name": "Poison Ivy Malware",
+    "description": "This file is part of Poison Ivy",
+    "pattern": "[ file:hashes.'SHA-256' = '4bac27393bdd9777ce02453256c5577cd02275510b2227f473d03f533924f877' ]",
+    "valid_from": "2016-01-01T00:00:00Z"
+  }`)
+		ts, err := time.Parse(time.RFC3339Nano, "2016-04-06T20:03:48.000Z")
+		assert.NoError(err)
+		var obj *Indicator
+		err = json.Unmarshal(data, &obj)
+		assert.NoError(err)
+		assert.Equal(Identifier("indicator--8e2e2d2b-17d4-4cbf-938f-98ee46b3cd3f"), obj.ID)
+		assert.Equal("2.1", obj.SpecVersion)
+		assert.Equal(TypeIndicator, obj.Type)
+		assert.Equal("Poison Ivy Malware", obj.Name)
+		assert.Equal(ts, obj.Created.Time)
+		assert.Equal(ts, obj.Modified.Time)
+		assert.Equal("This file is part of Poison Ivy", obj.Description)
+		assert.Equal("[ file:hashes.'SHA-256' = '4bac27393bdd9777ce02453256c5577cd02275510b2227f473d03f533924f877' ]", obj.Pattern)
+		assert.Contains(obj.IndicatorTypes, IndicatorTypeMaliciousActivity)
+	})
+}
+
+func TestIndicatorIndicates(t *testing.T) {
+	assert := assert.New(t)
+	pattern := "new pattern"
+	patternType := "stix"
+	ts := &Timestamp{time.Now()}
+	indType := []string{IndicatorTypeCompromised}
+
+	t.Run("attack-pattern", func(t *testing.T) {
+		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		id, err := NewIdentifier(TypeAttackPattern)
+		assert.NoError(err)
+		rel, err := obj.AddIndicates(id)
+		assert.NoError(err)
+		assert.Equal(id, rel.Target)
+		assert.Equal(obj.ID, rel.Source)
+	})
+
+	t.Run("campaign", func(t *testing.T) {
+		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		id, err := NewIdentifier(TypeCampaign)
+		assert.NoError(err)
+		rel, err := obj.AddIndicates(id)
+		assert.NoError(err)
+		assert.Equal(id, rel.Target)
+		assert.Equal(obj.ID, rel.Source)
+	})
+
+	t.Run("infrastructure", func(t *testing.T) {
+		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		id, err := NewIdentifier(TypeInfrastructure)
+		assert.NoError(err)
+		rel, err := obj.AddIndicates(id)
+		assert.NoError(err)
+		assert.Equal(id, rel.Target)
+		assert.Equal(obj.ID, rel.Source)
+	})
+
+	t.Run("intrusion-set", func(t *testing.T) {
+		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		id, err := NewIdentifier(TypeIntrusionSet)
+		assert.NoError(err)
+		rel, err := obj.AddIndicates(id)
+		assert.NoError(err)
+		assert.Equal(id, rel.Target)
+		assert.Equal(obj.ID, rel.Source)
+	})
+
+	t.Run("malware", func(t *testing.T) {
+		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		id, err := NewIdentifier(TypeMalware)
+		assert.NoError(err)
+		rel, err := obj.AddIndicates(id)
+		assert.NoError(err)
+		assert.Equal(id, rel.Target)
+		assert.Equal(obj.ID, rel.Source)
+	})
+
+	t.Run("threat-actor", func(t *testing.T) {
+		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		id, err := NewIdentifier(TypeThreatActor)
+		assert.NoError(err)
+		rel, err := obj.AddIndicates(id)
+		assert.NoError(err)
+		assert.Equal(id, rel.Target)
+		assert.Equal(obj.ID, rel.Source)
+	})
+
+	t.Run("tool", func(t *testing.T) {
+		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		id, err := NewIdentifier(TypeTool)
+		assert.NoError(err)
+		rel, err := obj.AddIndicates(id)
+		assert.NoError(err)
+		assert.Equal(id, rel.Target)
+		assert.Equal(obj.ID, rel.Source)
+	})
+
+	t.Run("invalid_type", func(t *testing.T) {
+		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		id, err := NewIdentifier(TypeIPv4Addr)
+		assert.NoError(err)
+		rel, err := obj.AddIndicates(id)
+		assert.Equal(err, ErrInvalidParameter)
+		assert.Nil(rel)
+	})
+}
+
+func TestIndicatorBasedOn(t *testing.T) {
+	assert := assert.New(t)
+	pattern := "new pattern"
+	patternType := "stix"
+	ts := &Timestamp{time.Now()}
+	indType := []string{IndicatorTypeCompromised}
+
+	t.Run("observed-data", func(t *testing.T) {
+		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		id, err := NewIdentifier(TypeObservedData)
+		assert.NoError(err)
+		rel, err := obj.AddBasedOn(id)
+		assert.NoError(err)
+		assert.Equal(id, rel.Target)
+		assert.Equal(obj.ID, rel.Source)
+	})
+
+	t.Run("invalid_type", func(t *testing.T) {
+		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		id, err := NewIdentifier(TypeIPv4Addr)
+		assert.NoError(err)
+		rel, err := obj.AddBasedOn(id)
+		assert.Equal(err, ErrInvalidParameter)
+		assert.Nil(rel)
+	})
+}
