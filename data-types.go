@@ -169,7 +169,7 @@ type Identifier string
 
 // ForType checks if the identifier is for the StixType.
 func (i Identifier) ForType(typ StixType) bool {
-	return strings.Index(string(i), typ.String()) == 0
+	return strings.Index(string(i), string(typ)) == 0
 }
 
 // ForTypes checks if the Identifier is for any of the types given.
@@ -220,156 +220,138 @@ func IsValidIdentifier(id Identifier) bool {
 }
 
 // StixType is type strings used in Stix objects.
-type StixType uint16
-
-// String returns the string representation of the type.
-func (typ StixType) String() string {
-	return stixTypeMap[typ]
-}
-
-// UnmarshalJSON extracts the STIXType from the json data.
-func (typ *StixType) UnmarshalJSON(b []byte) error {
-	t := string(b[1 : len(b)-1])
-	for k, v := range stixTypeMap {
-		if v == t {
-			*typ = k
-			return nil
-		}
-	}
-	*typ = TypeUnknown
-	return nil
-}
+type StixType string
 
 const (
-	// TypeUnknown is an unknown Stix type.
-	TypeUnknown StixType = iota
-	// TypeRelationship is used for relationship types.
-	TypeRelationship
-	// TypeIndicator is used for indicator types.
-	TypeIndicator
-	// TypeIdentity is used for identity types.
-	TypeIdentity
-	// TypeSighting is used for sighting types.
-	TypeSighting
-	// TypeAttackPattern is used for attack-pattern type.
-	TypeAttackPattern
-	// TypeMalware is used for malware type.
-	TypeMalware
-	// TypeLocation is used for location type.
-	TypeLocation
-	// TypeVulnerability is used for vulnerability type.
-	TypeVulnerability
-	// TypeTool is used for tool type.
-	TypeTool
-	// TypeCourseOfAction is used for course of action type.
-	TypeCourseOfAction
-	// TypeCampaign is used for campaign type.
-	TypeCampaign
-	// TypeIntrusionSet is used for intrusion set type.
-	TypeIntrusionSet
-	// TypeThreatActor is used for threat actor type.
-	TypeThreatActor
-	// TypeInfrastructure is used for infrastructure type.
-	TypeInfrastructure
-	// TypeGrouping is used for grouping type.
-	TypeGrouping
-	// TypeObservedData is used for observed data type.
-	TypeObservedData
-	// TypeIPv4Addr is used for IPv4 address types.
-	TypeIPv4Addr
-	// TypeIPv6Addr is used for IPv6 address types.
-	TypeIPv6Addr
-	// TypeDomainName is used for domain name types.
-	TypeDomainName
-	// TypeURL is used for URL types.
-	TypeURL
-	// TypeFile is used for file types.
-	TypeFile
-	// TypeMalwareAnalysis is used for file types.
-	TypeMalwareAnalysis
-	// TypeNote is used for the note type.
-	TypeNote
-	// TypeOpinion is used for the opinion type.
-	TypeOpinion
-	// TypeReport is used for the report type.
-	TypeReport
-	// TypeArtifact is used for artifact type.
-	TypeArtifact
 	// TypeAS is used for AS type.
-	TypeAS
+	TypeAS StixType = "autonomous-system"
+	// TypeArtifact is used for artifact type.
+	TypeArtifact StixType = "artifact"
+	// TypeAttackPattern is used for attack-pattern type.
+	TypeAttackPattern StixType = "attack-pattern"
+	// TypeCampaign is used for campaign type.
+	TypeCampaign StixType = "campaign"
+	// TypeCourseOfAction is used for course of action type.
+	TypeCourseOfAction StixType = "course-of-action"
 	// TypeDirectory is used for directory type.
-	TypeDirectory
+	TypeDirectory StixType = "directory"
+	// TypeDomainName is used for domain name types.
+	TypeDomainName StixType = "domain-name"
 	// TypeEmailAddress is used for email address type.
-	TypeEmailAddress
+	TypeEmailAddress StixType = "email-addr"
 	// TypeEmailMIME is used for email Mime type.
-	TypeEmailMIME
+	TypeEmailMIME StixType = "mime-part-type"
 	// TypeEmailMessage is used for email message type.
-	TypeEmailMessage
-	// TypeMACAddress is used for MAC address type.
-	TypeMACAddress
-	// TypeMutex is used for mutex type.
-	TypeMutex
-	// TypeNetworkTraffic is used for network traffic type.
-	TypeNetworkTraffic
-	// TypeProcess is used for process type.
-	TypeProcess
-	// TypeSoftware is used for software type.
-	TypeSoftware
-	// TypeUserAccount is used for user account type.
-	TypeUserAccount
-	// TypeRegistryKey is used for registry key type.
-	TypeRegistryKey
-	// TypeX509Certificate is used for X.509 certificate type.
-	TypeX509Certificate
+	TypeEmailMessage StixType = "email-message"
+	// TypeFile is used for file types.
+	TypeFile StixType = "file"
+	// TypeGrouping is used for grouping type.
+	TypeGrouping StixType = "grouping"
+	// TypeIPv4Addr is used for IPv4 address types.
+	TypeIPv4Addr StixType = "ipv4-addr"
+	// TypeIPv6Addr is used for IPv6 address types.
+	TypeIPv6Addr StixType = "ipv6-addr"
+	// TypeIdentity is used for identity types.
+	TypeIdentity StixType = "identity"
+	// TypeIndicator is used for indicator types.
+	TypeIndicator StixType = "indicator"
+	// TypeInfrastructure is used for infrastructure type.
+	TypeInfrastructure StixType = "infrastructure"
+	// TypeIntrusionSet is used for intrusion set type.
+	TypeIntrusionSet StixType = "intrusion-set"
 	// TypeLanguageContent is used for language content type.
-	TypeLanguageContent
+	TypeLanguageContent StixType = "language-content"
+	// TypeLocation is used for location type.
+	TypeLocation StixType = "location"
+	// TypeMACAddress is used for MAC address type.
+	TypeMACAddress StixType = "mac-addr"
+	// TypeMalware is used for malware type.
+	TypeMalware StixType = "malware"
+	// TypeMalwareAnalysis is used for file types.
+	TypeMalwareAnalysis StixType = "malware-analysis"
 	// TypeMarkingDefinition is used for marking definition type.
-	TypeMarkingDefinition
+	TypeMarkingDefinition StixType = "marking-definition"
+	// TypeMutex is used for mutex type.
+	TypeMutex StixType = "mutex"
+	// TypeNetworkTraffic is used for network traffic type.
+	TypeNetworkTraffic StixType = "network-traffic"
+	// TypeNote is used for the note type.
+	TypeNote StixType = "note"
+	// TypeObservedData is used for observed data type.
+	TypeObservedData StixType = "observed-data"
+	// TypeOpinion is used for the opinion type.
+	TypeOpinion StixType = "opinion"
+	// TypeProcess is used for process type.
+	TypeProcess StixType = "process"
+	// TypeRegistryKey is used for registry key type.
+	TypeRegistryKey StixType = "windows-registry-key"
+	// TypeRelationship is used for relationship types.
+	TypeRelationship StixType = "relationship"
+	// TypeReport is used for the report type.
+	TypeReport StixType = "report"
+	// TypeSighting is used for sighting types.
+	TypeSighting StixType = "sighting"
+	// TypeSoftware is used for software type.
+	TypeSoftware StixType = "software"
+	// TypeThreatActor is used for threat actor type.
+	TypeThreatActor StixType = "threat-actor"
+	// TypeTool is used for tool type.
+	TypeTool StixType = "tool"
+	// TypeURL is used for URL types.
+	TypeURL StixType = "url"
+	// TypeUserAccount is used for user account type.
+	TypeUserAccount StixType = "user-account"
+	// TypeVulnerability is used for vulnerability type.
+	TypeVulnerability StixType = "vulnerability"
+	// TypeX509Certificate is used for X.509 certificate type.
+	TypeX509Certificate StixType = "x509-certificate"
 )
 
-var stixTypeMap = map[StixType]string{
-	TypeUnknown:           "unknown",
-	TypeRelationship:      "relationship",
-	TypeIndicator:         "indicator",
-	TypeIdentity:          "identity",
-	TypeSighting:          "sighting",
-	TypeAttackPattern:     "attack-pattern",
-	TypeMalware:           "malware",
-	TypeLocation:          "location",
-	TypeVulnerability:     "vulnerability",
-	TypeTool:              "tool",
-	TypeCourseOfAction:    "course-of-action",
-	TypeCampaign:          "campaign",
-	TypeIntrusionSet:      "intrusion-set",
-	TypeThreatActor:       "threat-actor",
-	TypeInfrastructure:    "infrastructure",
-	TypeGrouping:          "grouping",
-	TypeObservedData:      "observed-data",
-	TypeIPv4Addr:          "ipv4-addr",
-	TypeIPv6Addr:          "ipv6-addr",
-	TypeDomainName:        "domain-name",
-	TypeURL:               "url",
-	TypeFile:              "file",
-	TypeMalwareAnalysis:   "malware-analysis",
-	TypeNote:              "note",
-	TypeOpinion:           "opinion",
-	TypeReport:            "report",
-	TypeArtifact:          "artifact",
-	TypeAS:                "autonomous-system",
-	TypeDirectory:         "directory",
-	TypeEmailAddress:      "email-addr",
-	TypeEmailMIME:         "mime-part-type",
-	TypeEmailMessage:      "email-message",
-	TypeMACAddress:        "mac-addr",
-	TypeMutex:             "mutex",
-	TypeNetworkTraffic:    "network-traffic",
-	TypeProcess:           "process",
-	TypeSoftware:          "software",
-	TypeUserAccount:       "user-account",
-	TypeRegistryKey:       "windows-registry-key",
-	TypeX509Certificate:   "x509-certificate",
-	TypeLanguageContent:   "language-content",
-	TypeMarkingDefinition: "marking-definition",
+// AllTypes returns a list of all STIX types.
+func AllTypes() []StixType {
+	return []StixType{
+		TypeAS,
+		TypeArtifact,
+		TypeAttackPattern,
+		TypeCampaign,
+		TypeCourseOfAction,
+		TypeDirectory,
+		TypeDomainName,
+		TypeEmailAddress,
+		TypeEmailMIME,
+		TypeEmailMessage,
+		TypeFile,
+		TypeGrouping,
+		TypeIPv4Addr,
+		TypeIPv6Addr,
+		TypeIdentity,
+		TypeIndicator,
+		TypeInfrastructure,
+		TypeIntrusionSet,
+		TypeLanguageContent,
+		TypeLocation,
+		TypeMACAddress,
+		TypeMalware,
+		TypeMalwareAnalysis,
+		TypeMarkingDefinition,
+		TypeMutex,
+		TypeNetworkTraffic,
+		TypeNote,
+		TypeObservedData,
+		TypeOpinion,
+		TypeProcess,
+		TypeRegistryKey,
+		TypeRelationship,
+		TypeReport,
+		TypeSighting,
+		TypeSoftware,
+		TypeThreatActor,
+		TypeTool,
+		TypeURL,
+		TypeUserAccount,
+		TypeVulnerability,
+		TypeX509Certificate,
+	}
 }
 
 const (
