@@ -117,6 +117,16 @@ type STIXRelationshipObject struct {
 	GranularMarking *GranularMarking `json:"granular_markings,omitempty"`
 }
 
+// GetID returns the identifier for the object.
+func (s *STIXRelationshipObject) GetID() Identifier {
+	return s.ID
+}
+
+// GetType returns the object's type.
+func (s *STIXRelationshipObject) GetType() StixType {
+	return s.Type
+}
+
 func newSTIXDomainObject(typ StixType) (*STIXDomainObject, error) {
 	id, err := NewIdentifier(typ)
 	if err != nil {
@@ -215,6 +225,16 @@ type STIXDomainObject struct {
 	GranularMarking *GranularMarking `json:"granular_markings,omitempty"`
 }
 
+// GetID returns the identifier for the object.
+func (s *STIXDomainObject) GetID() Identifier {
+	return s.ID
+}
+
+// GetType returns the object's type.
+func (s *STIXDomainObject) GetType() StixType {
+	return s.Type
+}
+
 // STIXCyberObservableObject represent observed facts about a network or host
 // that may be used and related to higher level intelligence to form a more
 // complete understanding of the threat landscape.
@@ -248,6 +268,16 @@ type STIXCyberObservableObject struct {
 	Defanged bool `json:"defanged,omitempty"`
 	// Specifies any extensions of the object, as a dictionary.
 	Extensions map[string]json.RawMessage `json:"extensions,omitempty"`
+}
+
+// GetID returns the identifier for the object.
+func (o *STIXCyberObservableObject) GetID() Identifier {
+	return o.ID
+}
+
+// GetType returns the object's type.
+func (o *STIXCyberObservableObject) GetType() StixType {
+	return o.Type
 }
 
 func (o *STIXCyberObservableObject) addExtension(key string, val interface{}) {

@@ -128,6 +128,16 @@ type LanguageContent struct {
 	Contents map[string]map[string]interface{} `json:"contents"`
 }
 
+// GetID returns the identifier for the object.
+func (l *LanguageContent) GetID() Identifier {
+	return l.ID
+}
+
+// GetType returns the object's type.
+func (l *LanguageContent) GetType() StixType {
+	return l.Type
+}
+
 // NewLanguageContent creates a new LanguageContent object.
 func NewLanguageContent(object Identifier, content map[string]map[string]interface{}, opts ...LanguageContentOption) (*LanguageContent, error) {
 	if object == "" || content == nil {
@@ -314,6 +324,16 @@ type MarkingDefinition struct {
 	// Definition contains the marking object itself (e.g., the TLP marking,
 	// the Statement, or some other marking definition defined).
 	Definition interface{} `json:"definition"`
+}
+
+// GetID returns the identifier for the object.
+func (m *MarkingDefinition) GetID() Identifier {
+	return m.ID
+}
+
+// GetType returns the object's type.
+func (m *MarkingDefinition) GetType() StixType {
+	return m.Type
 }
 
 // NewMarkingDefinition creates a new MarkingDefinition object.

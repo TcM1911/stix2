@@ -64,8 +64,8 @@ func ExampleFromJSON() {
 ]
 `)
 	collection, _ := stix2.FromJSON(data)
-	fmt.Println(collection.DomainNames["domain-name--3c10e93f-798e-5a26-a0c1-08156efab7f5"].Value)
-	fmt.Println(collection.Malware["malware--3a41e552-999b-4ad3-bedc-332b6d9ff80c"].Name)
+	fmt.Println(collection.DomainName("domain-name--3c10e93f-798e-5a26-a0c1-08156efab7f5").Value)
+	fmt.Println(collection.Malware("malware--3a41e552-999b-4ad3-bedc-332b6d9ff80c").Name)
 	// Output:
 	// example.com
 	// IMDDOS
