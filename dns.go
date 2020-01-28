@@ -7,7 +7,7 @@ import "fmt"
 
 // Domain object represents the properties of a network domain name.
 type Domain struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// Value specifies the value of the domain name. The value of this property
 	// MUST conform to RFC1034, and each domain and sub-domain contained within
 	// the domain name MUST conform to RFC5890.

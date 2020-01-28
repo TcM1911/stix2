@@ -10,7 +10,7 @@ import "strings"
 // or url MUST be provided. It is incumbent on object creators to ensure that
 // the URL is accessible for downstream consumers.
 type Artifact struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// MimeType should, whenever feasible, be one of the values defined in the
 	// Template column in the IANA media type registry. Maintaining a
 	// comprehensive universal catalog of all extant file types is obviously

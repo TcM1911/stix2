@@ -7,7 +7,7 @@ import "fmt"
 
 // Mutex represents the properties of a mutual exclusion (mutex) object.
 type Mutex struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// Name specifies the name of the mutex object.
 	Name string `json:"name"`
 }

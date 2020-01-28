@@ -49,7 +49,7 @@ package stix2
 // using the Objects properties, Either the objects property or the ObjectRefs
 // property MUST be provided, but both MUST NOT be present at the same time.
 type ObservedData struct {
-	*STIXDomainObject
+	STIXDomainObject
 	// FirstObserved is the beginning of the time window during which the data
 	// was seen.
 	FirstObserved *Timestamp `json:"first_observed"`

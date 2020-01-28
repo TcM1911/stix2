@@ -12,7 +12,7 @@ import (
 // File object represents the properties of a file. A File object MUST contain
 // at least one of hashes or name.
 type File struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// Hashes specifies a dictionary of hashes for the file.
 	Hashes Hashes `json:"hashes,omitempty"`
 	// Size specifies the size of the file, in bytes. The value of this

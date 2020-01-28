@@ -11,7 +11,7 @@ package stix2
 // things, targets of attacks, information sources, object creators, and threat
 // actor identities.
 type Identity struct {
-	*STIXDomainObject
+	STIXDomainObject
 	// Name is the name of this Identity. When referring to a specific entity
 	// (e.g., an individual or organization), this property SHOULD contain the
 	// canonical name of the specific entity.

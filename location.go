@@ -39,7 +39,7 @@ package stix2
 // the scope of the location being identified. The scope is defined by the
 // boundary as outlined by the precision around the coordinates.
 type Location struct {
-	*STIXDomainObject
+	STIXDomainObject
 	// Name is used to identify the Location.
 	Name string `json:"name,omitempty"`
 	// Description is a textual description of the Location.

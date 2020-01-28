@@ -18,10 +18,10 @@ const (
 	SpecVersion21 = "2.1"
 )
 
-func newSTIXRelationshipObject(typ StixType) *STIXRelationshipObject {
+func newSTIXRelationshipObject(typ StixType) STIXRelationshipObject {
 	id := NewIdentifier(typ)
 	t := time.Now()
-	return &STIXRelationshipObject{
+	return STIXRelationshipObject{
 		Type:        typ,
 		ID:          id,
 		SpecVersion: SpecVersion21,
@@ -124,10 +124,10 @@ func (s *STIXRelationshipObject) GetType() StixType {
 	return s.Type
 }
 
-func newSTIXDomainObject(typ StixType) *STIXDomainObject {
+func newSTIXDomainObject(typ StixType) STIXDomainObject {
 	id := NewIdentifier(typ)
 	t := time.Now()
-	return &STIXDomainObject{
+	return STIXDomainObject{
 		Type:        typ,
 		ID:          id,
 		SpecVersion: SpecVersion21,
@@ -301,8 +301,8 @@ func (o *STIXCyberObservableObject) canonicalizeExtensions() string {
 	return buf.String()
 }
 
-func newSTIXCyberObservableObject(typ StixType) *STIXCyberObservableObject {
-	return &STIXCyberObservableObject{
+func newSTIXCyberObservableObject(typ StixType) STIXCyberObservableObject {
+	return STIXCyberObservableObject{
 		Type:        typ,
 		SpecVersion: SpecVersion21,
 	}

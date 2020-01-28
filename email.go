@@ -10,7 +10,7 @@ import (
 
 // EmailAddress object represents a single email address.
 type EmailAddress struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// Value specifies the value of the email address. This MUST NOT include
 	// the display name.
 	Value string `json:"value"`
@@ -116,7 +116,7 @@ func EmailAddressOptionBelongsTo(s Identifier) EmailAddressOption {
 // value as observed, this can be achieved by referencing an Artifact object
 // through the raw_email_ref property.
 type EmailMessage struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// IsMultipart indicates whether the email body contains multiple MIME
 	// parts.
 	IsMultipart bool `json:"is_multipart"`

@@ -16,7 +16,7 @@ package stix2
 // textual descriptions of the pattern along with references to
 // externally-defined taxonomies of attacks such as CAPEC.
 type AttackPattern struct {
-	*STIXDomainObject
+	STIXDomainObject
 	// Name is used to identify the Attack Pattern.
 	Name string `json:"name"`
 	// Description provides more details and context about the Attack Pattern,

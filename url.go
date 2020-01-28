@@ -7,7 +7,7 @@ import "fmt"
 
 // URL object represents the properties of a uniform resource locator (URL).
 type URL struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// Value specifies the value of the URL. The value of this property MUST
 	// conform to RFC3986, more specifically section 1.1.3 with reference to
 	// the definition for "Uniform Resource Locator".

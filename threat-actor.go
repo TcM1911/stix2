@@ -15,7 +15,7 @@ package stix2
 // sophistication level, past activities, resources they have access to, and
 // their role in the organization.
 type ThreatActor struct {
-	*STIXDomainObject
+	STIXDomainObject
 	// Name is used to identify this Threat Actor or Threat Actor group.
 	Name string `json:"name"`
 	// Description provides more details and context about the Threat Actor,

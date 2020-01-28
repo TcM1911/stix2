@@ -23,7 +23,7 @@ package stix2
 // Threat Actors and may be able to only attribute it back to a nation state or
 // perhaps back to an organization within that nation state.
 type IntrusionSet struct {
-	*STIXDomainObject
+	STIXDomainObject
 	// Name is used to identify this IntrusionSet.
 	Name string `json:"name"`
 	// Description provides more details and context about the Intrusion Set,

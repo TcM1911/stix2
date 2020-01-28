@@ -27,7 +27,7 @@ import (
 // not describe how, or they could use delivered-by (a user-defined name they
 // determined) to indicate more detail.
 type Relationship struct {
-	*STIXRelationshipObject
+	STIXRelationshipObject
 	// The name used to identify the type of Relationship. This value SHOULD be
 	// an exact value listed in the relationships for the source and target
 	// SDO, but MAY be any string. The value of this property MUST be in ASCII

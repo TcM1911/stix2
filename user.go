@@ -15,7 +15,7 @@ import (
 // optional, at least one of the properties defined below MUST be included when
 // using this object.
 type UserAccount struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// UserID specifies the identifier of the account. The format of the
 	// identifier depends on the system the user account is maintained in, and
 	// may be a numeric ID, a GUID, an account name, an email address, etc. The

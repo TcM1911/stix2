@@ -12,7 +12,7 @@ import (
 // all properties of this object are optional, at least one of the properties
 // defined below MUST be included when using this object.
 type RegistryKey struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// Key specifies the full registry key including the hive. The value of the
 	// key, including the hive portion, SHOULD be case-preserved. The hive
 	// portion of the key MUST be fully expanded and not truncated; e.g.,

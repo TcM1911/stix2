@@ -45,7 +45,7 @@ import (
 // of the 1000 IP addresses in an indicator were sighted is helpful when
 // tracking which of those IPs is still malicious.
 type Sighting struct {
-	*STIXRelationshipObject
+	STIXRelationshipObject
 	// Description that provides more details and context about the Sighting.
 	Description string `json:"description,omitempty"`
 	// FirstSeen indicates the beginning the time window during which the SDO
@@ -108,7 +108,7 @@ func NewSighting(s Identifier, opts ...SightingOption) (*Sighting, error) {
 	id := NewIdentifier(TypeSighting)
 	ts := &Timestamp{time.Now()}
 	obj := &Sighting{
-		STIXRelationshipObject: &STIXRelationshipObject{
+		STIXRelationshipObject: STIXRelationshipObject{
 			Type:        TypeSighting,
 			ID:          id,
 			SpecVersion: "2.1",

@@ -7,7 +7,7 @@ import "fmt"
 
 // MACAddress represents a single Media Access Control (MAC) address.
 type MACAddress struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// Value specifies the value of a single MAC address.
 	Value string `json:"value"`
 }

@@ -20,7 +20,7 @@ import "fmt"
 // in order to gain secret information about an upcoming merger with another
 // bank.
 type Campaign struct {
-	*STIXDomainObject
+	STIXDomainObject
 	// Name used to identify the Campaign.
 	Name string `json:"name"`
 	// Description provides more details and context about the Campaign,

@@ -7,7 +7,7 @@ import "fmt"
 
 // AS object represents the properties of an Autonomous System (AS).
 type AS struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// Number specifies the number assigned to the AS. Such assignments are
 	// typically performed by a Regional Internet Registry (RIR).
 	Number int64 `json:"number"`

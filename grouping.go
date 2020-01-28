@@ -19,7 +19,7 @@ package stix2
 // SDOs, SCOs, and SROs, along with an explicit statement of the context shared
 // by the content, a textual description, and the name of the grouping.
 type Grouping struct {
-	*STIXDomainObject
+	STIXDomainObject
 	// Name is used to identify the Grouping.
 	Name string `json:"name,omitempty"`
 	// Description provides more details and context about the Grouping,

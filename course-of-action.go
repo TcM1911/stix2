@@ -14,7 +14,7 @@ import "fmt"
 // remediate a vulnerability could describe how to apply the patch that removes
 // that vulnerability.
 type CourseOfAction struct {
-	*STIXDomainObject
+	STIXDomainObject
 	// Name used to identify the Course of Action.
 	Name string `json:"name"`
 	// Description provides more details and context about the Course of

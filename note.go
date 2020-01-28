@@ -15,7 +15,7 @@ package stix2
 // the Note. This is distinct from the created_by_ref property, which is meant
 // to capture the organization that created the object.
 type Note struct {
-	*STIXDomainObject
+	STIXDomainObject
 	// Abstract is a brief summary of the note content.
 	Abstract string `json:"abstract,omitempty"`
 	// Content is the content of the note.

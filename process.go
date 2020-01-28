@@ -12,7 +12,7 @@ import (
 // executed on an operating system. A Process object MUST contain at least one
 // property (other than type) from this object (or one of its extensions).
 type Process struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// IsHidden specifies whether the process is hidden.
 	IsHidden bool `json:"is_hidden,omitempty"`
 	// PID specifies the Process ID, or PID, of the process.

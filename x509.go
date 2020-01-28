@@ -13,7 +13,7 @@ import (
 // MUST contain at least one object specific property (other than type) from
 // this object.
 type X509Certificate struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// SelfSigned specifies whether the certificate is self-signed, i.e.,
 	// whether it is signed by the same entity whose identity it certifies.
 	SelfSigned bool `json:"is_self_signed,omitempty"`

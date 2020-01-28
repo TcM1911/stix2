@@ -14,7 +14,7 @@ package stix2
 // Tool, and Attack Pattern). In addition, it may also imply the presence of a
 // Campaigns, Intrusion Sets, and Threat Actors, etc.
 type Indicator struct {
-	*STIXDomainObject
+	STIXDomainObject
 	// Name is used to identify the Indicator. Producers SHOULD provide this
 	// property to help products and analysts understand what this Indicator
 	// actually does.

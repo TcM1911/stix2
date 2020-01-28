@@ -11,7 +11,7 @@ import (
 // Software object represents high-level properties associated with software,
 // including software products.
 type Software struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// Name specifies the name of the software.
 	Name string `json:"name"`
 	// CPE specifies the Common Platform Enumeration (CPE) entry for the

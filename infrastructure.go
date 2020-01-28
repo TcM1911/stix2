@@ -11,7 +11,7 @@ package stix2
 // the Infrastructure SDO represents a named group of related data that
 // constitutes the infrastructure.
 type Infrastructure struct {
-	*STIXDomainObject
+	STIXDomainObject
 	// Name is the name or characterizing text used to identify the
 	// Infrastructure.
 	Name string `json:"name"`

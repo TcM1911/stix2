@@ -22,7 +22,7 @@ import (
 // least one of the Src or Dst properties and SHOULD contain the SrcPort and
 // DstPort properties.
 type NetworkTraffic struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// Start specifies the date/time the network traffic was initiated, if
 	// known.
 	Start *Timestamp `json:"start,omitempty"`

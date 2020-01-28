@@ -22,7 +22,7 @@ package stix2
 // used to characterise tools used as part of a course of action in response to
 // an attack.
 type Tool struct {
-	*STIXDomainObject
+	STIXDomainObject
 	// Name is used to identify the Tool.
 	Name string `json:"name"`
 	// Description provides more details and context about the Tool,

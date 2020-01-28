@@ -19,7 +19,7 @@ package stix2
 // related SDOs (e.g., Indicators for the Campaign, Malware it uses, and the
 // associated Relationships) would be referenced in the report contents.
 type Report struct {
-	*STIXDomainObject
+	STIXDomainObject
 	// Name is used to identify the Report.
 	Name string `json:"name"`
 	// Description that provides more details and context about the Report,

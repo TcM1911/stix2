@@ -8,7 +8,7 @@ import "fmt"
 // IPv4Address represents one or more IPv4 addresses expressed using CIDR
 // notation.
 type IPv4Address struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// Value specifies the values of one or more IPv4 addresses expressed using
 	// CIDR notation. If a given IPv4Address object represents a single IPv4
 	// address, the CIDR /32 suffix MAY be omitted. Example: 10.2.4.5/24
@@ -108,7 +108,7 @@ func IPv4AddressOptionExtension(name string, value interface{}) IPv4AddressOptio
 // IPv6Address represents one or more IPv6 addresses expressed using CIDR
 // notation.
 type IPv6Address struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// Value specifies the values of one or more IPv6 addresses expressed using
 	// CIDR notation. If a given IPv6Address object represents a single IPv6
 	// address, the CIDR /128 suffix MAY be omitted.

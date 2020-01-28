@@ -8,7 +8,7 @@ import "fmt"
 // Directory object represents the properties common to a file system
 // directory.
 type Directory struct {
-	*STIXCyberObservableObject
+	STIXCyberObservableObject
 	// Path specifies the path, as originally observed, to the directory on the
 	// file system.
 	Path string `json:"path"`

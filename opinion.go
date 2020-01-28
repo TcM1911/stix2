@@ -25,7 +25,7 @@ package stix2
 // distinct from the CreatedBy property, which is meant to capture the
 // organization that created the object.
 type Opinion struct {
-	*STIXDomainObject
+	STIXDomainObject
 	// Explanation is an explanation of why the producer has this Opinion. For
 	// example, if an Opinion of strongly-disagree is given, the explanation
 	// can contain an explanation of why the Opinion producer disagrees and
