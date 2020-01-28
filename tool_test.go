@@ -19,7 +19,7 @@ func TestTool(t *testing.T) {
 	name := "Tool name"
 	typs := []string{ToolTypeNetworkCapture}
 	alias := []string{"Name 1"}
-	kcf := []*KillChainPhase{&KillChainPhase{}}
+	kcf := []*KillChainPhase{{}}
 	toolVersion := "1.0"
 
 	t.Run("missing_property", func(t *testing.T) {

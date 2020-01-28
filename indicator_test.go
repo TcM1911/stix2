@@ -45,7 +45,7 @@ func TestIndicator(t *testing.T) {
 
 		name := "Name"
 		patVer := "1.0"
-		kchain := []*KillChainPhase{&KillChainPhase{}}
+		kchain := []*KillChainPhase{{}}
 
 		opts := []IndicatorOption{
 			IndicatorOptionConfidence(conf),

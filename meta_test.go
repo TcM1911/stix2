@@ -16,7 +16,7 @@ func TestLanguageContent(t *testing.T) {
 
 	object := Identifier("ref")
 	content := map[string]map[string]interface{}{
-		"de": map[string]interface{}{
+		"de": {
 			"name":        "Bank Angriff",
 			"description": "Weitere Informationen über Banküberfall",
 		},

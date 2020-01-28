@@ -41,7 +41,7 @@ func TestAttackPattern(t *testing.T) {
 		specVer := "2.0"
 
 		aliases := []string{"name1", "name2"}
-		killChain := []*KillChainPhase{&KillChainPhase{}}
+		killChain := []*KillChainPhase{{}}
 
 		opts := []AttackPatternOption{
 			AttackPatternOptionConfidence(conf),

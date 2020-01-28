@@ -42,7 +42,7 @@ func TestInfrastructure(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		kchain := []*KillChainPhase{&KillChainPhase{}}
+		kchain := []*KillChainPhase{{}}
 		aliases := []string{"1", "2"}
 
 		opts := []InfrastructureOption{

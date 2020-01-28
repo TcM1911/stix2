@@ -98,7 +98,7 @@ func TestEmailMessage(t *testing.T) {
 	ts := &Timestamp{time.Now()}
 	ref := Identifier("ref")
 	headers := map[string]string{"1": "2"}
-	multi := []EmailMIME{EmailMIME{ContentType: "type"}}
+	multi := []EmailMIME{{ContentType: "type"}}
 
 	t.Run("with_property", func(t *testing.T) {
 		obj, err := NewEmailMessage(false, nil)

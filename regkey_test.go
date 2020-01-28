@@ -15,7 +15,7 @@ func TestRegistryKey(t *testing.T) {
 	assert := assert.New(t)
 
 	testStr := "test string"
-	val := []*RegistryValue{&RegistryValue{Name: "name", Data: "data", DataType: RegSz}}
+	val := []*RegistryValue{{Name: "name", Data: "data", DataType: RegSz}}
 	ts := &Timestamp{time.Now()}
 	ref := Identifier("ref")
 	num := int64(42)
