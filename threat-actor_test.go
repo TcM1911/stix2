@@ -146,6 +146,7 @@ func TestThreatActorAttributedTo(t *testing.T) {
 
 	t.Run("identity", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
+		assert.NoError(err)
 		id := NewIdentifier(TypeIdentity)
 		rel, err := a.AddAttributedTo(id)
 		assert.NoError(err)
@@ -156,6 +157,7 @@ func TestThreatActorAttributedTo(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
+		assert.NoError(err)
 		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddAttributedTo(id)
 		assert.Equal(err, ErrInvalidParameter)

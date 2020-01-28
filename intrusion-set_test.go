@@ -131,6 +131,7 @@ func TestIntrusionSetAttributedTo(t *testing.T) {
 
 	t.Run("threat-actor", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
+		assert.NoError(err)
 		id := NewIdentifier(TypeThreatActor)
 		rel, err := obj.AddAttributedTo(id)
 		assert.NoError(err)
@@ -141,6 +142,7 @@ func TestIntrusionSetAttributedTo(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
+		assert.NoError(err)
 		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddAttributedTo(id)
 		assert.Equal(err, ErrInvalidParameter)
