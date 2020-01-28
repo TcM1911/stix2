@@ -22,7 +22,7 @@ func TestDomain(t *testing.T) {
 	})
 
 	t.Run("with_property", func(t *testing.T) {
-		obj, err := NewDomain(name)
+		obj, err := NewDomain(name, nil)
 		assert.NotNil(obj)
 		assert.NoError(err)
 	})

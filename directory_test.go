@@ -26,7 +26,7 @@ func TestDirectory(t *testing.T) {
 	})
 
 	t.Run("with_property", func(t *testing.T) {
-		obj, err := NewDirectory(pth)
+		obj, err := NewDirectory(pth, nil)
 		assert.NotNil(obj)
 		assert.NoError(err)
 	})

@@ -49,6 +49,7 @@ func TestProcess(t *testing.T) {
 			ProcessOptionImage(ref),
 			ProcessOptionParent(ref),
 			ProcessOptionChild([]Identifier{ref}),
+			nil, // test for nil to be passed in.
 		}
 		obj, err := NewProcess(opts...)
 		assert.NotNil(obj)

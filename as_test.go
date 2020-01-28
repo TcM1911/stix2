@@ -24,7 +24,7 @@ func TestAS(t *testing.T) {
 	})
 
 	t.Run("with_property", func(t *testing.T) {
-		obj, err := NewAS(num)
+		obj, err := NewAS(num, nil)
 		assert.NotNil(obj)
 		assert.NoError(err)
 	})

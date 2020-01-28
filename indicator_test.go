@@ -26,7 +26,7 @@ func TestIndicator(t *testing.T) {
 	})
 
 	t.Run("no_optional", func(t *testing.T) {
-		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		obj, err := NewIndicator(pattern, patternType, indType, ts, nil)
 		assert.NotNil(obj)
 		assert.NoError(err)
 	})
