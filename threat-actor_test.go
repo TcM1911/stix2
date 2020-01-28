@@ -41,8 +41,7 @@ func TestThreatActor(t *testing.T) {
 
 	t.Run("with_options", func(t *testing.T) {
 		conf := 50
-		createdBy, err := NewIdentifier(TypeIdentity)
-		assert.NoError(err)
+		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
 		lables := []string{"tag1", "tag2"}
@@ -147,8 +146,7 @@ func TestThreatActorAttributedTo(t *testing.T) {
 
 	t.Run("identity", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeIdentity)
-		assert.NoError(err)
+		id := NewIdentifier(TypeIdentity)
 		rel, err := a.AddAttributedTo(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -158,8 +156,7 @@ func TestThreatActorAttributedTo(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeIPv4Addr)
-		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddAttributedTo(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -173,8 +170,8 @@ func TestThreatActorCompromises(t *testing.T) {
 
 	t.Run("Infrastructure", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeInfrastructure)
 		assert.NoError(err)
+		id := NewIdentifier(TypeInfrastructure)
 		rel, err := a.AddCompromises(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -184,8 +181,8 @@ func TestThreatActorCompromises(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddCompromises(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -199,8 +196,8 @@ func TestThreatActorHosts(t *testing.T) {
 
 	t.Run("Infrastructure", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeInfrastructure)
 		assert.NoError(err)
+		id := NewIdentifier(TypeInfrastructure)
 		rel, err := a.AddHosts(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -210,8 +207,8 @@ func TestThreatActorHosts(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddHosts(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -225,8 +222,8 @@ func TestThreatActorOwns(t *testing.T) {
 
 	t.Run("Infrastructure", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeInfrastructure)
 		assert.NoError(err)
+		id := NewIdentifier(TypeInfrastructure)
 		rel, err := a.AddOwns(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -236,8 +233,8 @@ func TestThreatActorOwns(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddOwns(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -251,8 +248,8 @@ func TestThreatActorImpersonates(t *testing.T) {
 
 	t.Run("identity", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeIdentity)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIdentity)
 		rel, err := a.AddImpersonates(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -262,8 +259,8 @@ func TestThreatActorImpersonates(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddImpersonates(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -277,8 +274,8 @@ func TestThreatActorLocatedAt(t *testing.T) {
 
 	t.Run("location", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeLocation)
 		assert.NoError(err)
+		id := NewIdentifier(TypeLocation)
 		rel, err := a.AddLocatedAt(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -288,8 +285,8 @@ func TestThreatActorLocatedAt(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddLocatedAt(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -303,8 +300,8 @@ func TestThreatActorTargets(t *testing.T) {
 
 	t.Run("identity", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeIdentity)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIdentity)
 		rel, err := a.AddTargets(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -314,8 +311,8 @@ func TestThreatActorTargets(t *testing.T) {
 
 	t.Run("location", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeLocation)
 		assert.NoError(err)
+		id := NewIdentifier(TypeLocation)
 		rel, err := a.AddTargets(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -325,8 +322,8 @@ func TestThreatActorTargets(t *testing.T) {
 
 	t.Run("vulnerability", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeVulnerability)
 		assert.NoError(err)
+		id := NewIdentifier(TypeVulnerability)
 		rel, err := a.AddTargets(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -336,8 +333,8 @@ func TestThreatActorTargets(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddTargets(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -351,8 +348,8 @@ func TestThreatActorUses(t *testing.T) {
 
 	t.Run("attack-pattern", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeAttackPattern)
 		assert.NoError(err)
+		id := NewIdentifier(TypeAttackPattern)
 		rel, err := a.AddUses(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -362,8 +359,8 @@ func TestThreatActorUses(t *testing.T) {
 
 	t.Run("Infrastructure", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeInfrastructure)
 		assert.NoError(err)
+		id := NewIdentifier(TypeInfrastructure)
 		rel, err := a.AddUses(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -373,8 +370,8 @@ func TestThreatActorUses(t *testing.T) {
 
 	t.Run("malware", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeMalware)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMalware)
 		rel, err := a.AddUses(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -384,8 +381,8 @@ func TestThreatActorUses(t *testing.T) {
 
 	t.Run("tool", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeTool)
 		assert.NoError(err)
+		id := NewIdentifier(TypeTool)
 		rel, err := a.AddUses(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -395,8 +392,8 @@ func TestThreatActorUses(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		a, err := NewThreatActor(name, typs)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddUses(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)

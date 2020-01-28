@@ -191,12 +191,9 @@ var CyberObservableNamespace = uuid.MustParse("00abedb4-aa42-466c-9c01-fed23315a
 // a UUIDv4 to produce a random ID. This function should be used when
 // generating identifiers for TIX Domain Objects, STIX Relationship Objects,
 // STIX Meta Objects, and STIX Bundle Object.
-func NewIdentifier(typ StixType) (Identifier, error) {
-	id, err := uuid.NewRandom()
-	if err != nil {
-		return "", err
-	}
-	return Identifier(fmt.Sprintf("%s--%s", typ, id)), nil
+func NewIdentifier(typ StixType) Identifier {
+	id := uuid.New()
+	return Identifier(fmt.Sprintf("%s--%s", typ, id))
 }
 
 // NewObservableIdenfier creates a new STIX Cyber-observable Object identifier.

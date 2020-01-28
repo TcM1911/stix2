@@ -87,8 +87,8 @@ func TestIPv4AddressResolvesTo(t *testing.T) {
 
 	t.Run("mac", func(t *testing.T) {
 		obj, err := NewIPv4Address(val)
-		id, err := NewIdentifier(TypeMACAddress)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMACAddress)
 		rel, err := obj.AddResolvesTo(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -98,8 +98,8 @@ func TestIPv4AddressResolvesTo(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewIPv4Address(val)
-		id, err := NewIdentifier(TypeMalware)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMalware)
 		rel, err := obj.AddResolvesTo(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -112,8 +112,8 @@ func TestIPv4AddressBelongsTo(t *testing.T) {
 
 	t.Run("as", func(t *testing.T) {
 		obj, err := NewIPv4Address(val)
-		id, err := NewIdentifier(TypeAS)
 		assert.NoError(err)
+		id := NewIdentifier(TypeAS)
 		rel, err := obj.AddBelongsTo(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -123,8 +123,8 @@ func TestIPv4AddressBelongsTo(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewIPv4Address(val)
-		id, err := NewIdentifier(TypeMalware)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMalware)
 		rel, err := obj.AddBelongsTo(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -208,8 +208,8 @@ func TestIPv6AddressResolvesTo(t *testing.T) {
 
 	t.Run("mac", func(t *testing.T) {
 		obj, err := NewIPv6Address(val)
-		id, err := NewIdentifier(TypeMACAddress)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMACAddress)
 		rel, err := obj.AddResolvesTo(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -219,8 +219,8 @@ func TestIPv6AddressResolvesTo(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewIPv6Address(val)
-		id, err := NewIdentifier(TypeMalware)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMalware)
 		rel, err := obj.AddResolvesTo(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -233,8 +233,8 @@ func TestIPv6AddressBelongsTo(t *testing.T) {
 
 	t.Run("as", func(t *testing.T) {
 		obj, err := NewIPv6Address(val)
-		id, err := NewIdentifier(TypeAS)
 		assert.NoError(err)
+		id := NewIdentifier(TypeAS)
 		rel, err := obj.AddBelongsTo(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -244,8 +244,8 @@ func TestIPv6AddressBelongsTo(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewIPv6Address(val)
-		id, err := NewIdentifier(TypeMalware)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMalware)
 		rel, err := obj.AddBelongsTo(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)

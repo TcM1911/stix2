@@ -61,12 +61,8 @@ func NewAttackPattern(name string, opts ...AttackPatternOption) (*AttackPattern,
 	if name == "" {
 		return nil, ErrPropertyMissing
 	}
-	base, err := newSTIXDomainObject(TypeAttackPattern)
-	if err != nil {
-		return nil, err
-	}
+	base := newSTIXDomainObject(TypeAttackPattern)
 	obj := &AttackPattern{STIXDomainObject: base, Name: name}
-
 	for _, opt := range opts {
 		if opt == nil {
 			continue

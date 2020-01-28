@@ -18,11 +18,8 @@ const (
 	SpecVersion21 = "2.1"
 )
 
-func newSTIXRelationshipObject(typ StixType) (*STIXRelationshipObject, error) {
-	id, err := NewIdentifier(typ)
-	if err != nil {
-		return nil, err
-	}
+func newSTIXRelationshipObject(typ StixType) *STIXRelationshipObject {
+	id := NewIdentifier(typ)
 	t := time.Now()
 	return &STIXRelationshipObject{
 		Type:        typ,
@@ -30,7 +27,7 @@ func newSTIXRelationshipObject(typ StixType) (*STIXRelationshipObject, error) {
 		SpecVersion: SpecVersion21,
 		Created:     &Timestamp{t},
 		Modified:    &Timestamp{t},
-	}, nil
+	}
 }
 
 // STIXRelationshipObject is objects that connect STIX Domain Objects together,
@@ -127,11 +124,8 @@ func (s *STIXRelationshipObject) GetType() StixType {
 	return s.Type
 }
 
-func newSTIXDomainObject(typ StixType) (*STIXDomainObject, error) {
-	id, err := NewIdentifier(typ)
-	if err != nil {
-		return nil, err
-	}
+func newSTIXDomainObject(typ StixType) *STIXDomainObject {
+	id := NewIdentifier(typ)
 	t := time.Now()
 	return &STIXDomainObject{
 		Type:        typ,
@@ -139,7 +133,7 @@ func newSTIXDomainObject(typ StixType) (*STIXDomainObject, error) {
 		SpecVersion: SpecVersion21,
 		Created:     &Timestamp{t},
 		Modified:    &Timestamp{t},
-	}, nil
+	}
 }
 
 // STIXDomainObject are higher Level Intelligence Objects that represent

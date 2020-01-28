@@ -32,8 +32,7 @@ func TestIntrusionSet(t *testing.T) {
 		conf := 50
 		desc := "My description"
 		ts := &Timestamp{time.Now()}
-		createdBy, err := NewIdentifier(TypeIntrusionSet)
-		assert.NoError(err)
+		createdBy := NewIdentifier(TypeIntrusionSet)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
 		lables := []string{"tag1", "tag2"}
@@ -132,8 +131,7 @@ func TestIntrusionSetAttributedTo(t *testing.T) {
 
 	t.Run("threat-actor", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeThreatActor)
-		assert.NoError(err)
+		id := NewIdentifier(TypeThreatActor)
 		rel, err := obj.AddAttributedTo(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -143,8 +141,7 @@ func TestIntrusionSetAttributedTo(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeIPv4Addr)
-		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddAttributedTo(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -157,8 +154,8 @@ func TestIntrusionSetCompromises(t *testing.T) {
 
 	t.Run("infrastructure", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeInfrastructure)
 		assert.NoError(err)
+		id := NewIdentifier(TypeInfrastructure)
 		rel, err := obj.AddCompromises(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -168,8 +165,8 @@ func TestIntrusionSetCompromises(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddCompromises(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -182,8 +179,8 @@ func TestIntrusionSetHosts(t *testing.T) {
 
 	t.Run("infrastructure", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeInfrastructure)
 		assert.NoError(err)
+		id := NewIdentifier(TypeInfrastructure)
 		rel, err := obj.AddHosts(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -193,8 +190,8 @@ func TestIntrusionSetHosts(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddHosts(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -207,8 +204,8 @@ func TestIntrusionSetOwns(t *testing.T) {
 
 	t.Run("infrastructure", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeInfrastructure)
 		assert.NoError(err)
+		id := NewIdentifier(TypeInfrastructure)
 		rel, err := obj.AddOwns(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -218,8 +215,8 @@ func TestIntrusionSetOwns(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddOwns(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -232,8 +229,8 @@ func TestIntrusionSetOriginatesFrom(t *testing.T) {
 
 	t.Run("location", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeLocation)
 		assert.NoError(err)
+		id := NewIdentifier(TypeLocation)
 		rel, err := obj.AddOriginatesFrom(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -243,8 +240,8 @@ func TestIntrusionSetOriginatesFrom(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddOriginatesFrom(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -257,8 +254,8 @@ func TestIntrusionSetTargets(t *testing.T) {
 
 	t.Run("identity", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeIdentity)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIdentity)
 		rel, err := obj.AddTargets(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -268,8 +265,8 @@ func TestIntrusionSetTargets(t *testing.T) {
 
 	t.Run("vulnerability", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeVulnerability)
 		assert.NoError(err)
+		id := NewIdentifier(TypeVulnerability)
 		rel, err := obj.AddTargets(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -279,8 +276,8 @@ func TestIntrusionSetTargets(t *testing.T) {
 
 	t.Run("location", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeLocation)
 		assert.NoError(err)
+		id := NewIdentifier(TypeLocation)
 		rel, err := obj.AddTargets(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -290,8 +287,8 @@ func TestIntrusionSetTargets(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddTargets(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -304,8 +301,8 @@ func TestIntrusionSetUses(t *testing.T) {
 
 	t.Run("attack-pattern", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeAttackPattern)
 		assert.NoError(err)
+		id := NewIdentifier(TypeAttackPattern)
 		rel, err := obj.AddUses(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -315,8 +312,8 @@ func TestIntrusionSetUses(t *testing.T) {
 
 	t.Run("malware", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeMalware)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMalware)
 		rel, err := obj.AddUses(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -326,8 +323,8 @@ func TestIntrusionSetUses(t *testing.T) {
 
 	t.Run("infrastructure", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeInfrastructure)
 		assert.NoError(err)
+		id := NewIdentifier(TypeInfrastructure)
 		rel, err := obj.AddUses(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -337,8 +334,8 @@ func TestIntrusionSetUses(t *testing.T) {
 
 	t.Run("tool", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeTool)
 		assert.NoError(err)
+		id := NewIdentifier(TypeTool)
 		rel, err := obj.AddUses(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -348,8 +345,8 @@ func TestIntrusionSetUses(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewIntrusionSet(name)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddUses(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)

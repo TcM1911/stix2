@@ -89,10 +89,7 @@ func NewCampaign(name string, opts ...CampaignOption) (*Campaign, error) {
 	if name == "" {
 		return nil, ErrPropertyMissing
 	}
-	base, err := newSTIXDomainObject(TypeAttackPattern)
-	if err != nil {
-		return nil, err
-	}
+	base := newSTIXDomainObject(TypeAttackPattern)
 	obj := &Campaign{STIXDomainObject: base, Name: name}
 
 	for _, opt := range opts {

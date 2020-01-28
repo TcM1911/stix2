@@ -46,10 +46,7 @@ func NewOpinion(val OpinionValue, objects []Identifier, opts ...OpinionOption) (
 	if len(objects) == 0 {
 		return nil, ErrPropertyMissing
 	}
-	base, err := newSTIXDomainObject(TypeOpinion)
-	if err != nil {
-		return nil, err
-	}
+	base := newSTIXDomainObject(TypeOpinion)
 	obj := &Opinion{
 		STIXDomainObject: base,
 		Value:            val,

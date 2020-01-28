@@ -69,10 +69,7 @@ func NewRelationship(relType RelationshipType, source, target Identifier, opts .
 	if relType == 0 || source == "" || target == "" {
 		return nil, ErrPropertyMissing
 	}
-	base, err := newSTIXRelationshipObject(TypeRelationship)
-	if err != nil {
-		return nil, fmt.Errorf("error when creating identifier for relationship type %s %s to %s: %w", relType, source, target, err)
-	}
+	base := newSTIXRelationshipObject(TypeRelationship)
 	r := &Relationship{
 		STIXRelationshipObject: base,
 		Source:                 source,

@@ -87,8 +87,8 @@ func TestDomainResolvesTo(t *testing.T) {
 
 	t.Run("domain", func(t *testing.T) {
 		obj, err := NewDomain(val)
-		id, err := NewIdentifier(TypeDomainName)
 		assert.NoError(err)
+		id := NewIdentifier(TypeDomainName)
 		rel, err := obj.AddResolvesTo(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -97,8 +97,8 @@ func TestDomainResolvesTo(t *testing.T) {
 
 	t.Run("ip-v4", func(t *testing.T) {
 		obj, err := NewDomain(val)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddResolvesTo(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -107,8 +107,8 @@ func TestDomainResolvesTo(t *testing.T) {
 
 	t.Run("ip-v6", func(t *testing.T) {
 		obj, err := NewDomain(val)
-		id, err := NewIdentifier(TypeIPv6Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv6Addr)
 		rel, err := obj.AddResolvesTo(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -117,8 +117,8 @@ func TestDomainResolvesTo(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewDomain(val)
-		id, err := NewIdentifier(TypeMalware)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMalware)
 		rel, err := obj.AddResolvesTo(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)

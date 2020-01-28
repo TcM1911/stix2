@@ -143,10 +143,7 @@ func NewLanguageContent(object Identifier, content map[string]map[string]interfa
 	if object == "" || content == nil {
 		return nil, ErrPropertyMissing
 	}
-	id, err := NewIdentifier(TypeLanguageContent)
-	if err != nil {
-		return nil, err
-	}
+	id := NewIdentifier(TypeLanguageContent)
 	t := &Timestamp{time.Now()}
 	obj := &LanguageContent{
 		Type:        TypeLanguageContent,
@@ -341,10 +338,7 @@ func NewMarkingDefinition(typ string, definition interface{}, opts ...MarkingDef
 	if typ == "" || definition == nil {
 		return nil, ErrPropertyMissing
 	}
-	id, err := NewIdentifier(TypeMarkingDefinition)
-	if err != nil {
-		return nil, err
-	}
+	id := NewIdentifier(TypeMarkingDefinition)
 	t := &Timestamp{time.Now()}
 	obj := &MarkingDefinition{
 		Type:           TypeMarkingDefinition,

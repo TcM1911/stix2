@@ -32,8 +32,7 @@ func TestCampaign(t *testing.T) {
 		conf := 50
 		desc := "My description"
 		ts := &Timestamp{time.Now()}
-		createdBy, err := NewIdentifier(TypeIdentity)
-		assert.NoError(err)
+		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
 		lables := []string{"tag1", "tag2"}
@@ -140,8 +139,8 @@ func TestCampaignAddTargets(t *testing.T) {
 
 	t.Run("identity", func(t *testing.T) {
 		obj, err := NewCampaign("name")
-		id, err := NewIdentifier(TypeIdentity)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIdentity)
 		rel, err := obj.AddTargets(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -150,8 +149,8 @@ func TestCampaignAddTargets(t *testing.T) {
 
 	t.Run("location", func(t *testing.T) {
 		obj, err := NewCampaign("name")
-		id, err := NewIdentifier(TypeLocation)
 		assert.NoError(err)
+		id := NewIdentifier(TypeLocation)
 		rel, err := obj.AddTargets(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -160,8 +159,8 @@ func TestCampaignAddTargets(t *testing.T) {
 
 	t.Run("identity", func(t *testing.T) {
 		obj, err := NewCampaign("name")
-		id, err := NewIdentifier(TypeVulnerability)
 		assert.NoError(err)
+		id := NewIdentifier(TypeVulnerability)
 		rel, err := obj.AddTargets(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -170,8 +169,8 @@ func TestCampaignAddTargets(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewCampaign("name")
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddTargets(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -183,8 +182,8 @@ func TestCampaignAddUses(t *testing.T) {
 
 	t.Run("malware", func(t *testing.T) {
 		obj, err := NewCampaign("name")
-		id, err := NewIdentifier(TypeMalware)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMalware)
 		rel, err := obj.AddUses(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -193,8 +192,8 @@ func TestCampaignAddUses(t *testing.T) {
 
 	t.Run("tool", func(t *testing.T) {
 		obj, err := NewCampaign("name")
-		id, err := NewIdentifier(TypeTool)
 		assert.NoError(err)
+		id := NewIdentifier(TypeTool)
 		rel, err := obj.AddUses(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -203,8 +202,8 @@ func TestCampaignAddUses(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewCampaign("name")
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddUses(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -216,8 +215,8 @@ func TestCampaignAttributedTo(t *testing.T) {
 
 	t.Run("intrusion-set", func(t *testing.T) {
 		obj, err := NewCampaign("name")
-		id, err := NewIdentifier(TypeIntrusionSet)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIntrusionSet)
 		rel, err := obj.AddAttributedTo(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -226,8 +225,8 @@ func TestCampaignAttributedTo(t *testing.T) {
 
 	t.Run("threat-actor", func(t *testing.T) {
 		obj, err := NewCampaign("name")
-		id, err := NewIdentifier(TypeThreatActor)
 		assert.NoError(err)
+		id := NewIdentifier(TypeThreatActor)
 		rel, err := obj.AddAttributedTo(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -236,8 +235,8 @@ func TestCampaignAttributedTo(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewCampaign("name")
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddAttributedTo(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -249,8 +248,8 @@ func TestCampaignAddCompromises(t *testing.T) {
 
 	t.Run("infrastructure", func(t *testing.T) {
 		obj, err := NewCampaign("name")
-		id, err := NewIdentifier(TypeInfrastructure)
 		assert.NoError(err)
+		id := NewIdentifier(TypeInfrastructure)
 		rel, err := obj.AddCompromises(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -259,8 +258,8 @@ func TestCampaignAddCompromises(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewCampaign("name")
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddCompromises(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -272,8 +271,8 @@ func TestCampaignAddOriginatesFrom(t *testing.T) {
 
 	t.Run("location", func(t *testing.T) {
 		obj, err := NewCampaign("name")
-		id, err := NewIdentifier(TypeLocation)
 		assert.NoError(err)
+		id := NewIdentifier(TypeLocation)
 		rel, err := obj.AddOriginatesFrom(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -282,8 +281,8 @@ func TestCampaignAddOriginatesFrom(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewCampaign("name")
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddOriginatesFrom(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)

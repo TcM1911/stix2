@@ -37,8 +37,7 @@ func TestLanguageContent(t *testing.T) {
 	t.Run("with_options", func(t *testing.T) {
 		conf := 50
 		ts := &Timestamp{time.Now()}
-		createdBy, err := NewIdentifier(TypeIdentity)
-		assert.NoError(err)
+		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
 		lables := []string{"tag1", "tag2"}
@@ -135,8 +134,7 @@ func TestMarkingDefinition(t *testing.T) {
 
 	t.Run("with_options", func(t *testing.T) {
 		ts := &Timestamp{time.Now()}
-		createdBy, err := NewIdentifier(TypeIdentity)
-		assert.NoError(err)
+		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
 		objmark := []Identifier{Identifier("id")}

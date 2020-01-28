@@ -95,10 +95,7 @@ func NewCourseOfAction(name string, opts ...CourseOfActionOption) (*CourseOfActi
 	if name == "" {
 		return nil, ErrPropertyMissing
 	}
-	base, err := newSTIXDomainObject(TypeCourseOfAction)
-	if err != nil {
-		return nil, err
-	}
+	base := newSTIXDomainObject(TypeCourseOfAction)
 	obj := &CourseOfAction{STIXDomainObject: base, Name: name}
 
 	for _, opt := range opts {

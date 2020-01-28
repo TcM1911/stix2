@@ -32,8 +32,7 @@ func TestAttackPattern(t *testing.T) {
 		conf := 50
 		desc := "My description"
 		ts := &Timestamp{time.Now()}
-		createdBy, err := NewIdentifier(TypeIdentity)
-		assert.NoError(err)
+		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
 		lables := []string{"tag1", "tag2"}
@@ -120,8 +119,8 @@ func TestAttackPatternAddDelivers(t *testing.T) {
 
 	t.Run("valid", func(t *testing.T) {
 		a, err := NewAttackPattern("name")
-		id, err := NewIdentifier(TypeMalware)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMalware)
 		rel, err := a.AddDelivers(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -130,8 +129,8 @@ func TestAttackPatternAddDelivers(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		a, err := NewAttackPattern("name")
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddDelivers(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -143,8 +142,8 @@ func TestAttackPatternAddTargets(t *testing.T) {
 
 	t.Run("identity", func(t *testing.T) {
 		a, err := NewAttackPattern("name")
-		id, err := NewIdentifier(TypeIdentity)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIdentity)
 		rel, err := a.AddTargets(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -153,8 +152,8 @@ func TestAttackPatternAddTargets(t *testing.T) {
 
 	t.Run("location", func(t *testing.T) {
 		a, err := NewAttackPattern("name")
-		id, err := NewIdentifier(TypeLocation)
 		assert.NoError(err)
+		id := NewIdentifier(TypeLocation)
 		rel, err := a.AddTargets(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -163,8 +162,8 @@ func TestAttackPatternAddTargets(t *testing.T) {
 
 	t.Run("identity", func(t *testing.T) {
 		a, err := NewAttackPattern("name")
-		id, err := NewIdentifier(TypeVulnerability)
 		assert.NoError(err)
+		id := NewIdentifier(TypeVulnerability)
 		rel, err := a.AddTargets(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -173,8 +172,8 @@ func TestAttackPatternAddTargets(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		a, err := NewAttackPattern("name")
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddTargets(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -186,8 +185,8 @@ func TestAttackPatternAddUses(t *testing.T) {
 
 	t.Run("malware", func(t *testing.T) {
 		a, err := NewAttackPattern("name")
-		id, err := NewIdentifier(TypeMalware)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMalware)
 		rel, err := a.AddUses(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -196,8 +195,8 @@ func TestAttackPatternAddUses(t *testing.T) {
 
 	t.Run("tool", func(t *testing.T) {
 		a, err := NewAttackPattern("name")
-		id, err := NewIdentifier(TypeTool)
 		assert.NoError(err)
+		id := NewIdentifier(TypeTool)
 		rel, err := a.AddUses(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -206,8 +205,8 @@ func TestAttackPatternAddUses(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		a, err := NewAttackPattern("name")
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddUses(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)

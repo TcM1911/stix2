@@ -48,10 +48,7 @@ func NewIdentity(name, class string, opts ...IdentityOption) (*Identity, error) 
 	if name == "" || class == "" {
 		return nil, ErrPropertyMissing
 	}
-	base, err := newSTIXDomainObject(TypeIdentity)
-	if err != nil {
-		return nil, err
-	}
+	base := newSTIXDomainObject(TypeIdentity)
 	obj := &Identity{STIXDomainObject: base, Name: name, IdentityClass: class}
 
 	for _, opt := range opts {

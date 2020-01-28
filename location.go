@@ -87,10 +87,7 @@ func NewLocation(region, country string, lat, long float64, opts ...LocationOpti
 	if lat < float64(-90) || lat > float64(90) || long < float64(-180) || long > float64(180) || (lat == float64(0) && long != float64(0)) || (lat != float64(0) && long == float64(0)) {
 		return nil, ErrInvalidProperty
 	}
-	base, err := newSTIXDomainObject(TypeLocation)
-	if err != nil {
-		return nil, err
-	}
+	base := newSTIXDomainObject(TypeLocation)
 	obj := &Location{
 		STIXDomainObject: base,
 		Region:           region,

@@ -14,10 +14,8 @@ import (
 func TestSighting(t *testing.T) {
 	assert := assert.New(t)
 
-	data, err := NewIdentifier(TypeIPv4Addr)
-	assert.NoError(err)
-	indicator, err := NewIdentifier(TypeIndicator)
-	assert.NoError(err)
+	data := NewIdentifier(TypeIPv4Addr)
+	indicator := NewIdentifier(TypeIndicator)
 
 	t.Run("missing_property", func(t *testing.T) {
 		r, err := NewSighting("")
@@ -35,8 +33,7 @@ func TestSighting(t *testing.T) {
 		conf := 50
 		desc := "My description"
 		ts := &Timestamp{time.Now()}
-		createdBy, err := NewIdentifier(TypeIdentity)
-		assert.NoError(err)
+		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
 		lables := []string{"tag1", "tag2"}

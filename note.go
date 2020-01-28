@@ -32,10 +32,7 @@ func NewNote(content string, objects []Identifier, opts ...NoteOption) (*Note, e
 	if len(objects) == 0 {
 		return nil, ErrPropertyMissing
 	}
-	base, err := newSTIXDomainObject(TypeNote)
-	if err != nil {
-		return nil, err
-	}
+	base := newSTIXDomainObject(TypeNote)
 	obj := &Note{
 		STIXDomainObject: base,
 		Content:          content,

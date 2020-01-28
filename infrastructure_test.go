@@ -34,8 +34,7 @@ func TestInfrastructure(t *testing.T) {
 		conf := 50
 		desc := "My description"
 		ts := &Timestamp{time.Now()}
-		createdBy, err := NewIdentifier(TypeInfrastructure)
-		assert.NoError(err)
+		createdBy := NewIdentifier(TypeInfrastructure)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
 		lables := []string{"tag1", "tag2"}
@@ -120,8 +119,8 @@ func TestInfrastructureCommunicatesWith(t *testing.T) {
 
 	t.Run("infrastructure", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeInfrastructure)
 		assert.NoError(err)
+		id := NewIdentifier(TypeInfrastructure)
 		rel, err := obj.AddCommunicatesWith(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -131,8 +130,8 @@ func TestInfrastructureCommunicatesWith(t *testing.T) {
 
 	t.Run("ipv4", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddCommunicatesWith(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -142,8 +141,8 @@ func TestInfrastructureCommunicatesWith(t *testing.T) {
 
 	t.Run("ipv6", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeIPv6Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv6Addr)
 		rel, err := obj.AddCommunicatesWith(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -153,8 +152,8 @@ func TestInfrastructureCommunicatesWith(t *testing.T) {
 
 	t.Run("domain-name", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeDomainName)
 		assert.NoError(err)
+		id := NewIdentifier(TypeDomainName)
 		rel, err := obj.AddCommunicatesWith(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -164,8 +163,8 @@ func TestInfrastructureCommunicatesWith(t *testing.T) {
 
 	t.Run("url", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeURL)
 		assert.NoError(err)
+		id := NewIdentifier(TypeURL)
 		rel, err := obj.AddCommunicatesWith(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -175,8 +174,8 @@ func TestInfrastructureCommunicatesWith(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeAttackPattern)
 		assert.NoError(err)
+		id := NewIdentifier(TypeAttackPattern)
 		rel, err := obj.AddCommunicatesWith(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -190,8 +189,8 @@ func TestInfrastructureConsistsOf(t *testing.T) {
 
 	t.Run("infrastructure", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeInfrastructure)
 		assert.NoError(err)
+		id := NewIdentifier(TypeInfrastructure)
 		rel, err := obj.AddConsistsOf(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -201,8 +200,8 @@ func TestInfrastructureConsistsOf(t *testing.T) {
 
 	t.Run("observed-data", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeObservedData)
 		assert.NoError(err)
+		id := NewIdentifier(TypeObservedData)
 		rel, err := obj.AddConsistsOf(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -212,8 +211,8 @@ func TestInfrastructureConsistsOf(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeAttackPattern)
 		assert.NoError(err)
+		id := NewIdentifier(TypeAttackPattern)
 		rel, err := obj.AddConsistsOf(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -227,8 +226,8 @@ func TestInfrastructureControls(t *testing.T) {
 
 	t.Run("infrastructure", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeInfrastructure)
 		assert.NoError(err)
+		id := NewIdentifier(TypeInfrastructure)
 		rel, err := obj.AddControls(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -238,8 +237,8 @@ func TestInfrastructureControls(t *testing.T) {
 
 	t.Run("malware", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeMalware)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMalware)
 		rel, err := obj.AddControls(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -249,8 +248,8 @@ func TestInfrastructureControls(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddControls(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -264,8 +263,8 @@ func TestInfrastructureDelivers(t *testing.T) {
 
 	t.Run("malware", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeMalware)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMalware)
 		rel, err := obj.AddDelivers(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -275,8 +274,8 @@ func TestInfrastructureDelivers(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddDelivers(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -290,8 +289,8 @@ func TestInfrastructureHas(t *testing.T) {
 
 	t.Run("vulnerability", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeVulnerability)
 		assert.NoError(err)
+		id := NewIdentifier(TypeVulnerability)
 		rel, err := obj.AddHas(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -301,8 +300,8 @@ func TestInfrastructureHas(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddHas(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -316,8 +315,8 @@ func TestInfrastructureHosts(t *testing.T) {
 
 	t.Run("tool", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeTool)
 		assert.NoError(err)
+		id := NewIdentifier(TypeTool)
 		rel, err := obj.AddHosts(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -327,8 +326,8 @@ func TestInfrastructureHosts(t *testing.T) {
 
 	t.Run("malware", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeMalware)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMalware)
 		rel, err := obj.AddHosts(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -338,8 +337,8 @@ func TestInfrastructureHosts(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddHosts(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -353,8 +352,8 @@ func TestInfrastructureLocatedAt(t *testing.T) {
 
 	t.Run("location", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeLocation)
 		assert.NoError(err)
+		id := NewIdentifier(TypeLocation)
 		rel, err := obj.AddLocatedAt(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -364,8 +363,8 @@ func TestInfrastructureLocatedAt(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddLocatedAt(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -379,8 +378,8 @@ func TestInfrastructureUses(t *testing.T) {
 
 	t.Run("infrastructure", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeInfrastructure)
 		assert.NoError(err)
+		id := NewIdentifier(TypeInfrastructure)
 		rel, err := obj.AddUses(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -390,8 +389,8 @@ func TestInfrastructureUses(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddUses(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)

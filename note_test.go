@@ -17,8 +17,7 @@ func TestNote(t *testing.T) {
 	content := "Note content"
 	authors := []string{"Author 1", "Author 2"}
 	abstract := "Note abstract"
-	ip, err := NewIdentifier(TypeIPv4Addr)
-	assert.NoError(err)
+	ip := NewIdentifier(TypeIPv4Addr)
 	objects := []Identifier{ip}
 
 	t.Run("missing_property", func(t *testing.T) {
@@ -36,8 +35,7 @@ func TestNote(t *testing.T) {
 	t.Run("with_options", func(t *testing.T) {
 		conf := 50
 		ts := &Timestamp{time.Now()}
-		createdBy, err := NewIdentifier(TypeIdentity)
-		assert.NoError(err)
+		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
 		lables := []string{"tag1", "tag2"}

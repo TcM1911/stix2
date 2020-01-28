@@ -142,10 +142,7 @@ func NewIntrusionSet(name string, opts ...IntrusionSetOption) (*IntrusionSet, er
 	if name == "" {
 		return nil, ErrPropertyMissing
 	}
-	base, err := newSTIXDomainObject(TypeIntrusionSet)
-	if err != nil {
-		return nil, err
-	}
+	base := newSTIXDomainObject(TypeIntrusionSet)
 	obj := &IntrusionSet{STIXDomainObject: base, Name: name}
 
 	for _, opt := range opts {

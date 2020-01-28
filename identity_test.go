@@ -33,8 +33,7 @@ func TestIdentity(t *testing.T) {
 		conf := 50
 		desc := "My description"
 		ts := &Timestamp{time.Now()}
-		createdBy, err := NewIdentifier(TypeIdentity)
-		assert.NoError(err)
+		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
 		lables := []string{"tag1", "tag2"}
@@ -116,8 +115,8 @@ func TestIdentityMitigates(t *testing.T) {
 
 	t.Run("vulnerability", func(t *testing.T) {
 		obj, err := NewIdentity("name", "class")
-		id, err := NewIdentifier(TypeLocation)
 		assert.NoError(err)
+		id := NewIdentifier(TypeLocation)
 		rel, err := obj.AddLocatedAt(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -126,8 +125,8 @@ func TestIdentityMitigates(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewIdentity("name", "class")
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddLocatedAt(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)

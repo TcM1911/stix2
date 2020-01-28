@@ -73,10 +73,7 @@ func NewIndicator(pattern, patternType string, indicatorTypes []string, validFro
 	if pattern == "" || patternType == "" || len(indicatorTypes) == 0 || validFrom == nil {
 		return nil, ErrPropertyMissing
 	}
-	base, err := newSTIXDomainObject(TypeIndicator)
-	if err != nil {
-		return nil, err
-	}
+	base := newSTIXDomainObject(TypeIndicator)
 	obj := &Indicator{STIXDomainObject: base, Pattern: pattern, PatternType: patternType, IndicatorTypes: indicatorTypes, ValidFrom: validFrom}
 
 	for _, opt := range opts {

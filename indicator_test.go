@@ -35,8 +35,7 @@ func TestIndicator(t *testing.T) {
 		conf := 50
 		desc := "My description"
 		ts := &Timestamp{time.Now()}
-		createdBy, err := NewIdentifier(TypeIndicator)
-		assert.NoError(err)
+		createdBy := NewIdentifier(TypeIndicator)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
 		lables := []string{"tag1", "tag2"}
@@ -129,8 +128,8 @@ func TestIndicatorIndicates(t *testing.T) {
 
 	t.Run("attack-pattern", func(t *testing.T) {
 		obj, err := NewIndicator(pattern, patternType, indType, ts)
-		id, err := NewIdentifier(TypeAttackPattern)
 		assert.NoError(err)
+		id := NewIdentifier(TypeAttackPattern)
 		rel, err := obj.AddIndicates(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -139,8 +138,8 @@ func TestIndicatorIndicates(t *testing.T) {
 
 	t.Run("campaign", func(t *testing.T) {
 		obj, err := NewIndicator(pattern, patternType, indType, ts)
-		id, err := NewIdentifier(TypeCampaign)
 		assert.NoError(err)
+		id := NewIdentifier(TypeCampaign)
 		rel, err := obj.AddIndicates(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -149,8 +148,8 @@ func TestIndicatorIndicates(t *testing.T) {
 
 	t.Run("infrastructure", func(t *testing.T) {
 		obj, err := NewIndicator(pattern, patternType, indType, ts)
-		id, err := NewIdentifier(TypeInfrastructure)
 		assert.NoError(err)
+		id := NewIdentifier(TypeInfrastructure)
 		rel, err := obj.AddIndicates(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -159,8 +158,8 @@ func TestIndicatorIndicates(t *testing.T) {
 
 	t.Run("intrusion-set", func(t *testing.T) {
 		obj, err := NewIndicator(pattern, patternType, indType, ts)
-		id, err := NewIdentifier(TypeIntrusionSet)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIntrusionSet)
 		rel, err := obj.AddIndicates(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -169,8 +168,8 @@ func TestIndicatorIndicates(t *testing.T) {
 
 	t.Run("malware", func(t *testing.T) {
 		obj, err := NewIndicator(pattern, patternType, indType, ts)
-		id, err := NewIdentifier(TypeMalware)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMalware)
 		rel, err := obj.AddIndicates(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -179,8 +178,8 @@ func TestIndicatorIndicates(t *testing.T) {
 
 	t.Run("threat-actor", func(t *testing.T) {
 		obj, err := NewIndicator(pattern, patternType, indType, ts)
-		id, err := NewIdentifier(TypeThreatActor)
 		assert.NoError(err)
+		id := NewIdentifier(TypeThreatActor)
 		rel, err := obj.AddIndicates(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -189,8 +188,8 @@ func TestIndicatorIndicates(t *testing.T) {
 
 	t.Run("tool", func(t *testing.T) {
 		obj, err := NewIndicator(pattern, patternType, indType, ts)
-		id, err := NewIdentifier(TypeTool)
 		assert.NoError(err)
+		id := NewIdentifier(TypeTool)
 		rel, err := obj.AddIndicates(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -199,8 +198,8 @@ func TestIndicatorIndicates(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewIndicator(pattern, patternType, indType, ts)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddIndicates(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -216,8 +215,8 @@ func TestIndicatorBasedOn(t *testing.T) {
 
 	t.Run("observed-data", func(t *testing.T) {
 		obj, err := NewIndicator(pattern, patternType, indType, ts)
-		id, err := NewIdentifier(TypeObservedData)
 		assert.NoError(err)
+		id := NewIdentifier(TypeObservedData)
 		rel, err := obj.AddBasedOn(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -226,8 +225,8 @@ func TestIndicatorBasedOn(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewIndicator(pattern, patternType, indType, ts)
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddBasedOn(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)

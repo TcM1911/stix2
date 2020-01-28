@@ -153,10 +153,7 @@ func NewThreatActor(name string, types []string, opts ...ThreatActorOption) (*Th
 	if name == "" || len(types) == 0 {
 		return nil, ErrPropertyMissing
 	}
-	base, err := newSTIXDomainObject(TypeThreatActor)
-	if err != nil {
-		return nil, err
-	}
+	base := newSTIXDomainObject(TypeThreatActor)
 	obj := &ThreatActor{
 		STIXDomainObject: base,
 		Name:             name,

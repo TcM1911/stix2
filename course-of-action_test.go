@@ -32,8 +32,7 @@ func TestCourseOfAction(t *testing.T) {
 		conf := 50
 		desc := "My description"
 		ts := &Timestamp{time.Now()}
-		createdBy, err := NewIdentifier(TypeIdentity)
-		assert.NoError(err)
+		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
 		lables := []string{"tag1", "tag2"}
@@ -157,8 +156,8 @@ func TestCourseOfActionMitigates(t *testing.T) {
 
 	t.Run("attack-pattern", func(t *testing.T) {
 		obj, err := NewCourseOfAction("name")
-		id, err := NewIdentifier(TypeAttackPattern)
 		assert.NoError(err)
+		id := NewIdentifier(TypeAttackPattern)
 		rel, err := obj.AddMitigates(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -167,8 +166,8 @@ func TestCourseOfActionMitigates(t *testing.T) {
 
 	t.Run("indicator", func(t *testing.T) {
 		obj, err := NewCourseOfAction("name")
-		id, err := NewIdentifier(TypeIndicator)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIndicator)
 		rel, err := obj.AddMitigates(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -177,8 +176,8 @@ func TestCourseOfActionMitigates(t *testing.T) {
 
 	t.Run("malware", func(t *testing.T) {
 		obj, err := NewCourseOfAction("name")
-		id, err := NewIdentifier(TypeMalware)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMalware)
 		rel, err := obj.AddMitigates(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -187,8 +186,8 @@ func TestCourseOfActionMitigates(t *testing.T) {
 
 	t.Run("tool", func(t *testing.T) {
 		obj, err := NewCourseOfAction("name")
-		id, err := NewIdentifier(TypeTool)
 		assert.NoError(err)
+		id := NewIdentifier(TypeTool)
 		rel, err := obj.AddMitigates(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -197,8 +196,8 @@ func TestCourseOfActionMitigates(t *testing.T) {
 
 	t.Run("vulnerability", func(t *testing.T) {
 		obj, err := NewCourseOfAction("name")
-		id, err := NewIdentifier(TypeVulnerability)
 		assert.NoError(err)
+		id := NewIdentifier(TypeVulnerability)
 		rel, err := obj.AddMitigates(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -207,8 +206,8 @@ func TestCourseOfActionMitigates(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewCourseOfAction("name")
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddMitigates(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -220,8 +219,8 @@ func TestCourseOfActionRemediates(t *testing.T) {
 
 	t.Run("malware", func(t *testing.T) {
 		obj, err := NewCourseOfAction("name")
-		id, err := NewIdentifier(TypeMalware)
 		assert.NoError(err)
+		id := NewIdentifier(TypeMalware)
 		rel, err := obj.AddRemediates(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -230,8 +229,8 @@ func TestCourseOfActionRemediates(t *testing.T) {
 
 	t.Run("vulnerability", func(t *testing.T) {
 		obj, err := NewCourseOfAction("name")
-		id, err := NewIdentifier(TypeVulnerability)
 		assert.NoError(err)
+		id := NewIdentifier(TypeVulnerability)
 		rel, err := obj.AddRemediates(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -240,8 +239,8 @@ func TestCourseOfActionRemediates(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewCourseOfAction("name")
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddRemediates(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
@@ -253,8 +252,8 @@ func TestCourseOfActionAddInvestigates(t *testing.T) {
 
 	t.Run("location", func(t *testing.T) {
 		obj, err := NewCourseOfAction("name")
-		id, err := NewIdentifier(TypeIndicator)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIndicator)
 		rel, err := obj.AddInvestigates(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -263,8 +262,8 @@ func TestCourseOfActionAddInvestigates(t *testing.T) {
 
 	t.Run("invalid_type", func(t *testing.T) {
 		obj, err := NewCourseOfAction("name")
-		id, err := NewIdentifier(TypeIPv4Addr)
 		assert.NoError(err)
+		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddInvestigates(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)

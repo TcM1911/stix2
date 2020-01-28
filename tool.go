@@ -90,10 +90,7 @@ func NewTool(name string, types []string, opts ...ToolOption) (*Tool, error) {
 	if name == "" || len(types) == 0 {
 		return nil, ErrPropertyMissing
 	}
-	base, err := newSTIXDomainObject(TypeTool)
-	if err != nil {
-		return nil, err
-	}
+	base := newSTIXDomainObject(TypeTool)
 	obj := &Tool{
 		STIXDomainObject: base,
 		Name:             name,

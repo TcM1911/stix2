@@ -40,10 +40,7 @@ func NewReport(name string, reportType []string, published *Timestamp, objects [
 	if name == "" || len(reportType) == 0 || published == nil || len(objects) == 0 {
 		return nil, ErrPropertyMissing
 	}
-	base, err := newSTIXDomainObject(TypeReport)
-	if err != nil {
-		return nil, err
-	}
+	base := newSTIXDomainObject(TypeReport)
 	obj := &Report{
 		STIXDomainObject: base,
 		Name:             name,

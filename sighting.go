@@ -105,10 +105,7 @@ func NewSighting(s Identifier, opts ...SightingOption) (*Sighting, error) {
 	if s == "" {
 		return nil, ErrPropertyMissing
 	}
-	id, err := NewIdentifier(TypeSighting)
-	if err != nil {
-		return nil, err
-	}
+	id := NewIdentifier(TypeSighting)
 	ts := &Timestamp{time.Now()}
 	obj := &Sighting{
 		STIXRelationshipObject: &STIXRelationshipObject{

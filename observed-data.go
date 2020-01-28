@@ -84,10 +84,7 @@ func NewObservedData(firstObserved, lastObserved *Timestamp, numberObserved int6
 	if len(objectsRef) == 0 || firstObserved == nil || lastObserved == nil || numberObserved < 1 {
 		return nil, ErrPropertyMissing
 	}
-	base, err := newSTIXDomainObject(TypeObservedData)
-	if err != nil {
-		return nil, err
-	}
+	base := newSTIXDomainObject(TypeObservedData)
 	obj := &ObservedData{
 		STIXDomainObject: base,
 		FirstObserved:    firstObserved,

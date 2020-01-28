@@ -39,10 +39,7 @@ func NewGrouping(context string, objects []Identifier, opts ...GroupingOption) (
 	if context == "" || len(objects) < 1 {
 		return nil, ErrPropertyMissing
 	}
-	base, err := newSTIXDomainObject(TypeGrouping)
-	if err != nil {
-		return nil, err
-	}
+	base := newSTIXDomainObject(TypeGrouping)
 	obj := &Grouping{STIXDomainObject: base, Context: context, Objects: objects}
 
 	for _, opt := range opts {

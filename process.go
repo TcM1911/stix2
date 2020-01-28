@@ -74,10 +74,7 @@ func NewProcess(opts ...ProcessOption) (*Process, error) {
 	if len(opts) < 1 {
 		return nil, ErrPropertyMissing
 	}
-	id, err := NewIdentifier(TypeProcess)
-	if err != nil {
-		return nil, err
-	}
+	id := NewIdentifier(TypeProcess)
 	base := newSTIXCyberObservableObject(TypeProcess)
 	base.ID = id
 	obj := &Process{

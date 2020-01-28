@@ -158,8 +158,7 @@ func TestIdentifier(t *testing.T) {
 	})
 
 	t.Run("NewRandomID", func(t *testing.T) {
-		id, err := NewIdentifier(TypeIndicator)
-		assert.NoError(err)
+		id := NewIdentifier(TypeIndicator)
 		assert.True(IsValidIdentifier(id))
 		assert.Contains(id, "indicator--")
 	})

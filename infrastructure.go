@@ -113,10 +113,7 @@ func NewInfrastructure(name string, typs []string, opts ...InfrastructureOption)
 	if name == "" || len(typs) == 0 {
 		return nil, ErrPropertyMissing
 	}
-	base, err := newSTIXDomainObject(TypeInfrastructure)
-	if err != nil {
-		return nil, err
-	}
+	base := newSTIXDomainObject(TypeInfrastructure)
 	obj := &Infrastructure{STIXDomainObject: base, Name: name, InfrastructureTypes: typs}
 
 	for _, opt := range opts {

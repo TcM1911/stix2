@@ -14,10 +14,8 @@ import (
 func TestRelationship(t *testing.T) {
 	assert := assert.New(t)
 
-	source, err := NewIdentifier(TypeIPv4Addr)
-	assert.NoError(err)
-	target, err := NewIdentifier(TypeIndicator)
-	assert.NoError(err)
+	source := NewIdentifier(TypeIPv4Addr)
+	target := NewIdentifier(TypeIndicator)
 	typ := RelationshipTypeRelatedTo
 
 	t.Run("stringer", func(t *testing.T) {
@@ -40,8 +38,7 @@ func TestRelationship(t *testing.T) {
 		conf := 50
 		desc := "My description"
 		ts := &Timestamp{time.Now()}
-		createdBy, err := NewIdentifier(TypeIdentity)
-		assert.NoError(err)
+		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
 		lables := []string{"tag1", "tag2"}
