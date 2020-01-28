@@ -126,7 +126,7 @@ func NewSighting(s Identifier, opts ...SightingOption) (*Sighting, error) {
 	}
 
 	// Validation
-	if obj.Count < 0 || obj.Count > 999_999_999 {
+	if obj.Count < 0 || obj.Count > 999999999 {
 		return nil, fmt.Errorf("%w: Count %d out of bounds", ErrInvalidProperty, obj.Count)
 	}
 	if (obj.FirstSeen != nil && obj.LastSeen != nil) && obj.FirstSeen.After(obj.LastSeen.Time) {

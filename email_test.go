@@ -1,5 +1,5 @@
-// Copyright 2020 Joakim Kennedy. All rights reserved. Use of
-// this source code is governed by the included BSD license.
+// Copyright 2020 Joakim Kennedy. All rights reserved. Use of this source code
+// is governed by the included BSD license.
 
 package stix2
 
