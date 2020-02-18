@@ -44,3 +44,18 @@ func TestBundle(t *testing.T) {
 	assert.NoError(err)
 	assert.Equal("Poison Ivy Malware", typ.Name)
 }
+
+func TestCreateBundle(t *testing.T) {
+	assert := assert.New(t)
+	ipStr := "10.0.0.1"
+	ip, err := NewIPv4Address(ipStr)
+	assert.NoError(err)
+
+	b, err := NewBundle(ip)
+	assert.NoError(err)
+	assert.NotNil(b)
+
+	data, err := json.Marshal(b)
+	assert.NoError(err)
+	assert.Contains(string(data), `"type":"ipv4-addr","id":"ipv4-addr--8e9dc7c8-b845-5cfb-9c37-cff3a18e08d6","spec_version":"2.1","value":"10.0.0.1"`)
+}

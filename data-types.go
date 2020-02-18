@@ -226,6 +226,8 @@ const (
 	TypeArtifact StixType = "artifact"
 	// TypeAttackPattern is used for attack-pattern type.
 	TypeAttackPattern StixType = "attack-pattern"
+	// TypeBundle is used for the bundle type.
+	TypeBundle StixType = "bundle"
 	// TypeCampaign is used for campaign type.
 	TypeCampaign StixType = "campaign"
 	// TypeCourseOfAction is used for course of action type.
