@@ -4,6 +4,8 @@
 package stix2_test
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 
 	"github.com/TcM1911/stix2"
@@ -69,4 +71,30 @@ func ExampleFromJSON() {
 	// Output:
 	// example.com
 	// IMDDOS
+}
+
+func ExampleStixCollection_ToBundle() {
+	c := &stix2.StixCollection{}
+	ip, err := stix2.NewIPv4Address("10.0.0.1")
+	if err != nil {
+		fmt.Println(err)
+	}
+	c.Add(ip)
+	ip, err = stix2.NewIPv4Address("10.0.0.2")
+	if err != nil {
+		fmt.Println(err)
+	}
+	c.Add(ip)
+	b, err := c.ToBundle()
+	if err != nil {
+		fmt.Println(err)
+	}
+	data, err := json.Marshal(b)
+	if err != nil {
+		fmt.Println(err)
+	}
+	if !bytes.Contains(data, []byte("10.0.0.2")) {
+		fmt.Println("IP not in bundle")
+	}
+	// Output:
 }
