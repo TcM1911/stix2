@@ -98,3 +98,56 @@ func ExampleStixCollection_ToBundle() {
 	}
 	// Output:
 }
+
+func Example() {
+	// Taken from: https://docs.oasis-open.org/cti/stix/v2.1/csprd02/stix-v2.1-csprd02.html#_Toc26789941
+	collection := &stix2.StixCollection{}
+	domain, err := stix2.NewDomain("example.com")
+	if err != nil {
+		fmt.Println(err)
+	}
+	collection.Add(domain)
+
+	mal, err := stix2.NewMalware(
+		[]string{stix2.MalwareTypeBot},
+		false,
+		stix2.MalwareOptionName("IMDDOS"),
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+	collection.Add(mal)
+
+	infra, err := stix2.NewInfrastructure(
+		"Example Target List Host",
+		[]string{stix2.InfrastructureTypeHostingTargetLists},
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+	collection.Add(infra)
+
+	ref, err := mal.AddUses(infra.ID)
+	if err != nil {
+		fmt.Println(err)
+	}
+	collection.Add(ref)
+
+	ref, err = infra.AddConsistsOf(domain.ID)
+	if err != nil {
+		fmt.Println(err)
+	}
+	collection.Add(ref)
+
+	b, err := collection.ToBundle()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	data, err := json.MarshalIndent(b, "", "\t")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(data))
+}

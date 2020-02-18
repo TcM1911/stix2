@@ -36,6 +36,38 @@ b, err := c.ToBundle()
 data, err := json.Marshal(b)
 ```
 
+
+## Example of a malware using an infrastructure
+Taken from: https://docs.oasis-open.org/cti/stix/v2.1/csprd02/stix-v2.1-csprd02.html#_Toc26789941
+
+```go
+collection := &stix2.StixCollection{}
+domain, err := stix2.NewDomain("example.com")
+collection.Add(domain)
+
+mal, err := stix2.NewMalware(
+	[]string{stix2.MalwareTypeBot},
+	false,
+	stix2.MalwareOptionName("IMDDOS"),
+)
+collection.Add(mal)
+
+infra, err := stix2.NewInfrastructure(
+	"Example Target List Host",
+	[]string{stix2.InfrastructureTypeHostingTargetLists},
+)
+collection.Add(infra)
+
+ref, err := mal.AddUses(infra.ID)
+collection.Add(ref)
+
+ref, err = infra.AddConsistsOf(domain.ID)
+collection.Add(ref)
+
+b, err := collection.ToBundle()
+data, err := json.MarshalIndent(b, "", "\t")
+```
+
 ## To-do
 
 - [x] Provide a solution to create a bundle from the collection object.
