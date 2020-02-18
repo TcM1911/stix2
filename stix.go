@@ -49,6 +49,12 @@ func (c *StixCollection) AllObjects() []StixObject {
 	return result
 }
 
+// ToBundle returns a STIX bundle with all the StixObjects in the
+// StixCollection.
+func (c *StixCollection) ToBundle() (*Bundle, error) {
+	return NewBundle(c.AllObjects()...)
+}
+
 // AS returns the AS with the identifier id.
 func (c *StixCollection) AS(id Identifier) *AS {
 	obj := c.getObject(TypeAS, id)

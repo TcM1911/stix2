@@ -263,7 +263,7 @@ func TestTimestamp(t *testing.T) {
 		assert.Equal(2016, s.Created.Year())
 		data, err := json.Marshal(&s)
 		assert.NoError(err)
-		assert.Contains(string(data), "2016-01-20T12:31:12Z")
+		assert.Contains(string(data), "2016-01-20T12:31:12.000Z")
 	})
 }
 

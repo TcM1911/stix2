@@ -70,7 +70,7 @@ type IntrusionSet struct {
 	// additional context. The position in the list has no significance. This
 	// is an open vocabulary and values SHOULD come from the AttackMotivation
 	// vocabulary.
-	SecondaryMotivation string `json:"secondary_motivations"`
+	SecondaryMotivation []string `json:"secondary_motivations,omitempty"`
 }
 
 // AddAttributedTo describes that the related Threat Actor is involved in
@@ -293,7 +293,7 @@ func IntrusionSetOptionPrimaryMotivation(s string) IntrusionSetOption {
 }
 
 // IntrusionSetOptionSecondaryMotivation sets the secondary motivation attribute.
-func IntrusionSetOptionSecondaryMotivation(s string) IntrusionSetOption {
+func IntrusionSetOptionSecondaryMotivation(s []string) IntrusionSetOption {
 	return func(obj *IntrusionSet) {
 		obj.SecondaryMotivation = s
 	}

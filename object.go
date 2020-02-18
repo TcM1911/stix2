@@ -242,7 +242,7 @@ type STIXCyberObservableObject struct {
 	// identified by its modified property.
 	ID Identifier `json:"id"`
 	// The version of the STIX specification used to represent this object.
-	SpecVersion string `json:"spec_version"`
+	SpecVersion string `json:"spec_version,omitempty"`
 	// The object_marking_refs property specifies a list of id properties of
 	// marking-definition objects that apply to this object. In some cases,
 	// though uncommon, marking definitions themselves may be marked with

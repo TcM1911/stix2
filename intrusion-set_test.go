@@ -44,7 +44,7 @@ func TestIntrusionSet(t *testing.T) {
 		goals := []string{"goal1", "goal2"}
 		rl := AttackResourceLevelIndividual
 		pm := AttackMotivationIdeology
-		sm := AttackMotivationPersonalGain
+		sm := []string{AttackMotivationPersonalGain}
 
 		opts := []IntrusionSetOption{
 			IntrusionSetOptionConfidence(conf),
