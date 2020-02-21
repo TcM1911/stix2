@@ -21,6 +21,10 @@ import (
 
 func TestStixCollectionToBundle(t *testing.T) {
 	sloader := gojsonschema.NewReferenceLoader("http://raw.githubusercontent.com/TcM1911/cti-stix2-json-schemas/stix2.1/schemas/common/bundle.json")
+	schema, err := gojsonschema.NewSchema(sloader)
+	if err != nil {
+		t.Fatalf("Failed to load schema: %s\n", err)
+	}
 
 	t.Run("create_from_collection", func(t *testing.T) {
 		assert := assert.New(t)
@@ -41,21 +45,21 @@ func TestStixCollectionToBundle(t *testing.T) {
 		assert.NotNil(data)
 
 		docloader := gojsonschema.NewBytesLoader(data)
-		result, err := gojsonschema.Validate(sloader, docloader)
+		result, err := schema.Validate(docloader)
 		assert.NoError(err)
 		assert.True(result.Valid())
 	})
 
 	t.Run("examples", func(t *testing.T) {
-		runFolder(t, sloader, "examples")
+		runFolder(t, schema, "examples")
 	})
 
 	t.Run("threat-reports", func(t *testing.T) {
-		runFolder(t, sloader, filepath.Join("examples", "threat-reports"))
+		runFolder(t, schema, filepath.Join("examples", "threat-reports"))
 	})
 }
 
-func runFolder(t *testing.T, sloader gojsonschema.JSONLoader, path string) {
+func runFolder(t *testing.T, schema *gojsonschema.Schema, path string) {
 	assert := assert.New(t)
 	pth, err := filepath.Abs(filepath.Join("testresources", path))
 	if err != nil {
@@ -90,7 +94,7 @@ func runFolder(t *testing.T, sloader gojsonschema.JSONLoader, path string) {
 		assert.NotNil(outData)
 
 		docloader := gojsonschema.NewBytesLoader(outData)
-		result, err := gojsonschema.Validate(sloader, docloader)
+		result, err := schema.Validate(docloader)
 		assert.NoError(err)
 		assert.True(result.Valid(), f.Name()+" failed to validate")
 		if !result.Valid() {
