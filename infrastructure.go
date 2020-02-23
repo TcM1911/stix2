@@ -39,7 +39,13 @@ type Infrastructure struct {
 // infrastructure instance, such as ipv4-addr, ipv6-addr, domain-name, url. An
 // infrastructure instance consists of zero or more objects.
 func (c *Infrastructure) AddConsistsOf(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
-	if !IsValidIdentifier(id) || !id.ForTypes(TypeInfrastructure, TypeObservedData) {
+	// According to the specification, "All STIX Cyber-observable Objects" are
+	// valid for this reference. "While not all SCO types will make sense as
+	// infrastructure, allowing any type of SCO prevents artificially
+	// restricting what could be used." Since it's not possible to check for all
+	// SCO types and also support custom objects, this check will only check for
+	// a valid identifier.
+	if !IsValidIdentifier(id) {
 		return nil, ErrInvalidParameter
 	}
 	return NewRelationship(RelationshipTypeConsistsOf, c.ID, id, opts...)

@@ -209,10 +209,10 @@ func TestInfrastructureConsistsOf(t *testing.T) {
 		assert.Equal(RelationshipTypeConsistsOf, rel.RelationshipType)
 	})
 
-	t.Run("invalid_type", func(t *testing.T) {
+	t.Run("invalid-identifier", func(t *testing.T) {
 		obj, err := NewInfrastructure(name, typs)
 		assert.NoError(err)
-		id := NewIdentifier(TypeAttackPattern)
+		id := Identifier("invalid")
 		rel, err := obj.AddConsistsOf(id)
 		assert.Equal(err, ErrInvalidParameter)
 		assert.Nil(rel)
