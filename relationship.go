@@ -269,10 +269,10 @@ func RelationshipOptionConfidence(confidence int) RelationshipOption {
 	}
 }
 
-// RelationshipOptionLables sets the lables attribute.
-func RelationshipOptionLables(lables []string) RelationshipOption {
+// RelationshipOptionLabels sets the labels attribute.
+func RelationshipOptionLabels(labels []string) RelationshipOption {
 	return func(r *Relationship) {
-		r.Lables = lables
+		r.Labels = labels
 	}
 }
 

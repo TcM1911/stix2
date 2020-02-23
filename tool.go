@@ -156,10 +156,10 @@ func ToolOptionConfidence(confidence int) ToolOption {
 	}
 }
 
-// ToolOptionLables sets the lables attribute.
-func ToolOptionLables(lables []string) ToolOption {
+// ToolOptionLabels sets the labels attribute.
+func ToolOptionLabels(labels []string) ToolOption {
 	return func(obj *Tool) {
-		obj.Lables = lables
+		obj.Labels = labels
 	}
 }
 

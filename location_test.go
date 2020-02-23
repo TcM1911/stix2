@@ -38,7 +38,7 @@ func TestLocation(t *testing.T) {
 		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
-		lables := []string{"tag1", "tag2"}
+		labels := []string{"tag1", "tag2"}
 		lang := "en"
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
@@ -57,7 +57,7 @@ func TestLocation(t *testing.T) {
 			LocationOptionCreatedBy(createdBy),
 			LocationOptionExternalReferences([]*ExternalReference{ref}),
 			LocationOptionGranularMarking(marking),
-			LocationOptionLables(lables),
+			LocationOptionLabels(labels),
 			LocationOptionLang(lang),
 			LocationOptionObjectMarking(objmark),
 			LocationOptionRevoked(true),
@@ -80,7 +80,7 @@ func TestLocation(t *testing.T) {
 		assert.Equal(createdBy, obj.CreatedBy)
 		assert.Contains(obj.ExternalReferences, ref)
 		assert.Equal(marking, obj.GranularMarking)
-		assert.Equal(lables, obj.Lables)
+		assert.Equal(labels, obj.Labels)
 		assert.Equal(lang, obj.Lang)
 		assert.Equal(objmark, obj.ObjectMarking)
 		assert.True(obj.Revoked)

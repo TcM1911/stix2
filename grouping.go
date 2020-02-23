@@ -114,10 +114,10 @@ func GroupingOptionConfidence(confidence int) GroupingOption {
 	}
 }
 
-// GroupingOptionLables sets the lables attribute.
-func GroupingOptionLables(lables []string) GroupingOption {
+// GroupingOptionLabels sets the labels attribute.
+func GroupingOptionLabels(labels []string) GroupingOption {
 	return func(obj *Grouping) {
-		obj.Lables = lables
+		obj.Labels = labels
 	}
 }
 

@@ -108,10 +108,10 @@ func ReportOptionConfidence(confidence int) ReportOption {
 	}
 }
 
-// ReportOptionLables sets the lables attribute.
-func ReportOptionLables(lables []string) ReportOption {
+// ReportOptionLabels sets the labels attribute.
+func ReportOptionLabels(labels []string) ReportOption {
 	return func(obj *Report) {
-		obj.Lables = lables
+		obj.Labels = labels
 	}
 }
 

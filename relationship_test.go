@@ -41,7 +41,7 @@ func TestRelationship(t *testing.T) {
 		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
-		lables := []string{"tag1", "tag2"}
+		labels := []string{"tag1", "tag2"}
 		lang := "en"
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
@@ -54,7 +54,7 @@ func TestRelationship(t *testing.T) {
 			RelationshipOptionCreatedBy(createdBy),
 			RelationshipOptionExternalReferences([]*ExternalReference{ref}),
 			RelationshipOptionGranularMarking(marking),
-			RelationshipOptionLables(lables),
+			RelationshipOptionLabels(labels),
 			RelationshipOptionLang(lang),
 			RelationshipOptionObjectMarking(objmark),
 			RelationshipOptionRevoked(true),
@@ -74,7 +74,7 @@ func TestRelationship(t *testing.T) {
 		assert.Equal(createdBy, r.CreatedBy)
 		assert.Contains(r.ExternalReferences, ref)
 		assert.Equal(marking, r.GranularMarking)
-		assert.Equal(lables, r.Lables)
+		assert.Equal(labels, r.Labels)
 		assert.Equal(lang, r.Lang)
 		assert.Equal(objmark, r.ObjectMarking)
 		assert.True(r.Revoked)

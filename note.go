@@ -98,10 +98,10 @@ func NoteOptionConfidence(confidence int) NoteOption {
 	}
 }
 
-// NoteOptionLables sets the lables attribute.
-func NoteOptionLables(lables []string) NoteOption {
+// NoteOptionLabels sets the labels attribute.
+func NoteOptionLabels(labels []string) NoteOption {
 	return func(obj *Note) {
-		obj.Lables = lables
+		obj.Labels = labels
 	}
 }
 

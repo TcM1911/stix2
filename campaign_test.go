@@ -35,7 +35,7 @@ func TestCampaign(t *testing.T) {
 		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
-		lables := []string{"tag1", "tag2"}
+		labels := []string{"tag1", "tag2"}
 		lang := "en"
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
@@ -50,7 +50,7 @@ func TestCampaign(t *testing.T) {
 			CampaignOptionCreatedBy(createdBy),
 			CampaignOptionExternalReferences([]*ExternalReference{ref}),
 			CampaignOptionGranularMarking(marking),
-			CampaignOptionLables(lables),
+			CampaignOptionLabels(labels),
 			CampaignOptionLang(lang),
 			CampaignOptionObjectMarking(objmark),
 			CampaignOptionRevoked(true),
@@ -71,7 +71,7 @@ func TestCampaign(t *testing.T) {
 		assert.Equal(createdBy, obj.CreatedBy)
 		assert.Contains(obj.ExternalReferences, ref)
 		assert.Equal(marking, obj.GranularMarking)
-		assert.Equal(lables, obj.Lables)
+		assert.Equal(labels, obj.Labels)
 		assert.Equal(lang, obj.Lang)
 		assert.Equal(objmark, obj.ObjectMarking)
 		assert.True(obj.Revoked)

@@ -83,7 +83,7 @@ type STIXRelationshipObject struct {
 	// malware_types that contains a list of Malware subtypes (dropper, RAT,
 	// etc.). In this example, the labels property cannot be used to describe
 	// these Malware subtypes.
-	Lables []string `json:"labels,omitempty"`
+	Labels []string `json:"labels,omitempty"`
 	// The confidence property identifies the confidence that the creator has
 	// in the correctness of their data. The confidence value MUST be a number
 	// in the range of 0-100.
@@ -188,7 +188,7 @@ type STIXDomainObject struct {
 	// malware_types that contains a list of Malware subtypes (dropper, RAT,
 	// etc.). In this example, the labels property cannot be used to describe
 	// these Malware subtypes.
-	Lables []string `json:"labels,omitempty"`
+	Labels []string `json:"labels,omitempty"`
 	// The confidence property identifies the confidence that the creator has
 	// in the correctness of their data. The confidence value MUST be a number
 	// in the range of 0-100.

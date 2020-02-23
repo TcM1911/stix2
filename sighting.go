@@ -190,10 +190,10 @@ func SightingOptionConfidence(confidence int) SightingOption {
 	}
 }
 
-// SightingOptionLables sets the lables attribute.
-func SightingOptionLables(lables []string) SightingOption {
+// SightingOptionLabels sets the labels attribute.
+func SightingOptionLabels(labels []string) SightingOption {
 	return func(r *Sighting) {
-		r.Lables = lables
+		r.Labels = labels
 	}
 }
 

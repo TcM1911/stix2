@@ -219,10 +219,10 @@ func ThreatActorOptionConfidence(confidence int) ThreatActorOption {
 	}
 }
 
-// ThreatActorOptionLables sets the lables attribute.
-func ThreatActorOptionLables(lables []string) ThreatActorOption {
+// ThreatActorOptionLabels sets the labels attribute.
+func ThreatActorOptionLabels(labels []string) ThreatActorOption {
 	return func(obj *ThreatActor) {
-		obj.Lables = lables
+		obj.Labels = labels
 	}
 }
 

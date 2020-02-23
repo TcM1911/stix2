@@ -156,10 +156,10 @@ func CampaignOptionConfidence(confidence int) CampaignOption {
 	}
 }
 
-// CampaignOptionLables sets the lables attribute.
-func CampaignOptionLables(lables []string) CampaignOption {
+// CampaignOptionLabels sets the labels attribute.
+func CampaignOptionLabels(labels []string) CampaignOption {
 	return func(obj *Campaign) {
-		obj.Lables = lables
+		obj.Labels = labels
 	}
 }
 

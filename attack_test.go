@@ -35,7 +35,7 @@ func TestAttackPattern(t *testing.T) {
 		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
-		lables := []string{"tag1", "tag2"}
+		labels := []string{"tag1", "tag2"}
 		lang := "en"
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
@@ -51,7 +51,7 @@ func TestAttackPattern(t *testing.T) {
 			AttackPatternOptionCreatedBy(createdBy),
 			AttackPatternOptionExternalReferences([]*ExternalReference{ref}),
 			AttackPatternOptionGranularMarking(marking),
-			AttackPatternOptionLables(lables),
+			AttackPatternOptionLabels(labels),
 			AttackPatternOptionLang(lang),
 			AttackPatternOptionObjectMarking(objmark),
 			AttackPatternOptionRevoked(true),
@@ -70,7 +70,7 @@ func TestAttackPattern(t *testing.T) {
 		assert.Equal(createdBy, a.CreatedBy)
 		assert.Contains(a.ExternalReferences, ref)
 		assert.Equal(marking, a.GranularMarking)
-		assert.Equal(lables, a.Lables)
+		assert.Equal(labels, a.Labels)
 		assert.Equal(lang, a.Lang)
 		assert.Equal(objmark, a.ObjectMarking)
 		assert.True(a.Revoked)

@@ -36,7 +36,7 @@ func TestSighting(t *testing.T) {
 		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
-		lables := []string{"tag1", "tag2"}
+		labels := []string{"tag1", "tag2"}
 		lang := "en"
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
@@ -53,7 +53,7 @@ func TestSighting(t *testing.T) {
 			SightingOptionCreatedBy(createdBy),
 			SightingOptionExternalReferences([]*ExternalReference{ref}),
 			SightingOptionGranularMarking(marking),
-			SightingOptionLables(lables),
+			SightingOptionLabels(labels),
 			SightingOptionLang(lang),
 			SightingOptionObjectMarking(objmark),
 			SightingOptionRevoked(true),
@@ -77,7 +77,7 @@ func TestSighting(t *testing.T) {
 		assert.Equal(createdBy, r.CreatedBy)
 		assert.Contains(r.ExternalReferences, ref)
 		assert.Equal(marking, r.GranularMarking)
-		assert.Equal(lables, r.Lables)
+		assert.Equal(labels, r.Labels)
 		assert.Equal(lang, r.Lang)
 		assert.Equal(objmark, r.ObjectMarking)
 		assert.True(r.Revoked)

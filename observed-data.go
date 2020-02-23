@@ -152,10 +152,10 @@ func ObservedDataOptionConfidence(confidence int) ObservedDataOption {
 	}
 }
 
-// ObservedDataOptionLables sets the lables attribute.
-func ObservedDataOptionLables(lables []string) ObservedDataOption {
+// ObservedDataOptionLabels sets the labels attribute.
+func ObservedDataOptionLabels(labels []string) ObservedDataOption {
 	return func(obj *ObservedData) {
-		obj.Lables = lables
+		obj.Labels = labels
 	}
 }
 

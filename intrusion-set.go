@@ -204,10 +204,10 @@ func IntrusionSetOptionConfidence(confidence int) IntrusionSetOption {
 	}
 }
 
-// IntrusionSetOptionLables sets the lables attribute.
-func IntrusionSetOptionLables(lables []string) IntrusionSetOption {
+// IntrusionSetOptionLabels sets the labels attribute.
+func IntrusionSetOptionLabels(labels []string) IntrusionSetOption {
 	return func(obj *IntrusionSet) {
-		obj.Lables = lables
+		obj.Labels = labels
 	}
 }
 

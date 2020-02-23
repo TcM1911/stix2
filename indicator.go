@@ -162,10 +162,10 @@ func IndicatorOptionConfidence(confidence int) IndicatorOption {
 	}
 }
 
-// IndicatorOptionLables sets the lables attribute.
-func IndicatorOptionLables(lables []string) IndicatorOption {
+// IndicatorOptionLabels sets the labels attribute.
+func IndicatorOptionLabels(labels []string) IndicatorOption {
 	return func(obj *Indicator) {
-		obj.Lables = lables
+		obj.Labels = labels
 	}
 }
 

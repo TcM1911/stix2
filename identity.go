@@ -187,10 +187,10 @@ func IdentityOptionConfidence(confidence int) IdentityOption {
 	}
 }
 
-// IdentityOptionLables sets the lables attribute.
-func IdentityOptionLables(lables []string) IdentityOption {
+// IdentityOptionLabels sets the labels attribute.
+func IdentityOptionLabels(labels []string) IdentityOption {
 	return func(obj *Identity) {
-		obj.Lables = lables
+		obj.Labels = labels
 	}
 }
 

@@ -123,10 +123,10 @@ func AttackPatternOptionConfidence(confidence int) AttackPatternOption {
 	}
 }
 
-// AttackPatternOptionLables sets the lables attribute.
-func AttackPatternOptionLables(lables []string) AttackPatternOption {
+// AttackPatternOptionLabels sets the labels attribute.
+func AttackPatternOptionLabels(labels []string) AttackPatternOption {
 	return func(obj *AttackPattern) {
-		obj.Lables = lables
+		obj.Labels = labels
 	}
 }
 

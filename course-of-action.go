@@ -163,10 +163,10 @@ func CourseOfActionOptionConfidence(confidence int) CourseOfActionOption {
 	}
 }
 
-// CourseOfActionOptionLables sets the lables attribute.
-func CourseOfActionOptionLables(lables []string) CourseOfActionOption {
+// CourseOfActionOptionLabels sets the labels attribute.
+func CourseOfActionOptionLabels(labels []string) CourseOfActionOption {
 	return func(obj *CourseOfAction) {
-		obj.Lables = lables
+		obj.Labels = labels
 	}
 }
 

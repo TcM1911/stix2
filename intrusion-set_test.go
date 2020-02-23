@@ -35,7 +35,7 @@ func TestIntrusionSet(t *testing.T) {
 		createdBy := NewIdentifier(TypeIntrusionSet)
 		ref := &ExternalReference{}
 		marking := &GranularMarking{}
-		lables := []string{"tag1", "tag2"}
+		labels := []string{"tag1", "tag2"}
 		lang := "en"
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
@@ -53,7 +53,7 @@ func TestIntrusionSet(t *testing.T) {
 			IntrusionSetOptionCreatedBy(createdBy),
 			IntrusionSetOptionExternalReferences([]*ExternalReference{ref}),
 			IntrusionSetOptionGranularMarking(marking),
-			IntrusionSetOptionLables(lables),
+			IntrusionSetOptionLabels(labels),
 			IntrusionSetOptionLang(lang),
 			IntrusionSetOptionObjectMarking(objmark),
 			IntrusionSetOptionRevoked(true),
@@ -77,7 +77,7 @@ func TestIntrusionSet(t *testing.T) {
 		assert.Equal(createdBy, obj.CreatedBy)
 		assert.Contains(obj.ExternalReferences, ref)
 		assert.Equal(marking, obj.GranularMarking)
-		assert.Equal(lables, obj.Lables)
+		assert.Equal(labels, obj.Labels)
 		assert.Equal(lang, obj.Lang)
 		assert.Equal(objmark, obj.ObjectMarking)
 		assert.True(obj.Revoked)

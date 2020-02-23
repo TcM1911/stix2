@@ -159,10 +159,10 @@ func LocationOptionConfidence(confidence int) LocationOption {
 	}
 }
 
-// LocationOptionLables sets the lables attribute.
-func LocationOptionLables(lables []string) LocationOption {
+// LocationOptionLabels sets the labels attribute.
+func LocationOptionLabels(labels []string) LocationOption {
 	return func(obj *Location) {
-		obj.Lables = lables
+		obj.Labels = labels
 	}
 }
 

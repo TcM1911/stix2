@@ -112,10 +112,10 @@ func OpinionOptionConfidence(confidence int) OpinionOption {
 	}
 }
 
-// OpinionOptionLables sets the lables attribute.
-func OpinionOptionLables(lables []string) OpinionOption {
+// OpinionOptionLabels sets the labels attribute.
+func OpinionOptionLabels(labels []string) OpinionOption {
 	return func(obj *Opinion) {
-		obj.Lables = lables
+		obj.Labels = labels
 	}
 }
 

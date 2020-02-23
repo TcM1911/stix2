@@ -62,7 +62,7 @@ type LanguageContent struct {
 	// malware_types that contains a list of Malware subtypes (dropper, RAT,
 	// etc.). In this example, the labels property cannot be used to describe
 	// these Malware subtypes.
-	Lables []string `json:"labels,omitempty"`
+	Labels []string `json:"labels,omitempty"`
 	// The confidence property identifies the confidence that the creator has
 	// in the correctness of their data. The confidence value MUST be a number
 	// in the range of 0-100.
@@ -208,10 +208,10 @@ func LanguageContentOptionConfidence(confidence int) LanguageContentOption {
 	}
 }
 
-// LanguageContentOptionLables sets the lables attribute.
-func LanguageContentOptionLables(lables []string) LanguageContentOption {
+// LanguageContentOptionLabels sets the labels attribute.
+func LanguageContentOptionLabels(labels []string) LanguageContentOption {
 	return func(obj *LanguageContent) {
-		obj.Lables = lables
+		obj.Labels = labels
 	}
 }
 

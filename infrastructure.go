@@ -211,10 +211,10 @@ func InfrastructureOptionConfidence(confidence int) InfrastructureOption {
 	}
 }
 
-// InfrastructureOptionLables sets the lables attribute.
-func InfrastructureOptionLables(lables []string) InfrastructureOption {
+// InfrastructureOptionLabels sets the labels attribute.
+func InfrastructureOptionLabels(labels []string) InfrastructureOption {
 	return func(obj *Infrastructure) {
-		obj.Lables = lables
+		obj.Labels = labels
 	}
 }
 
