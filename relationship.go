@@ -3,10 +3,6 @@
 
 package stix2
 
-import (
-	"fmt"
-)
-
 // Relationship object is used to link together two SDOs or SCOs in order to
 // describe how they are related to each other. If SDOs and SCOs are considered
 // "nodes" or "vertices" in the graph, the Relationship Objects (SROs)
@@ -66,7 +62,7 @@ type Relationship struct {
 
 // NewRelationship creates a new Relationship object.
 func NewRelationship(relType RelationshipType, source, target Identifier, opts ...RelationshipOption) (*Relationship, error) {
-	if relType == 0 || source == "" || target == "" {
+	if relType == "" || source == "" || target == "" {
 		return nil, ErrPropertyMissing
 	}
 	base := newSTIXRelationshipObject(TypeRelationship)
@@ -88,136 +84,72 @@ func NewRelationship(relType RelationshipType, source, target Identifier, opts .
 }
 
 // RelationshipType describes how the source and the target are related.
-type RelationshipType uint16
-
-// String returns a string representation of the relationship type.
-func (r RelationshipType) String() string {
-	return relationshipTypeMap[r]
-}
-
-// MarshalJSON serializes the value to JSON.
-func (r RelationshipType) MarshalJSON() ([]byte, error) {
-	return []byte(fmt.Sprintf(`"%s"`, r.String())), nil
-}
-
-// UnmarshalJSON deserializes the type from the json data.
-func (r *RelationshipType) UnmarshalJSON(b []byte) error {
-	if len(b) < 3 {
-		*r = RelationshipTypeUnknown
-		return nil
-	}
-	t := string(b[1 : len(b)-1])
-	for k, v := range relationshipTypeMap {
-		if v == t {
-			*r = k
-			return nil
-		}
-	}
-	*r = RelationshipTypeUnknown
-	return nil
-}
+type RelationshipType string
 
 const (
-	// RelationshipTypeUnknown is an unknown relationship.
-	RelationshipTypeUnknown RelationshipType = iota
-	// RelationshipTypeRelatedTo is a related to relationship.
-	RelationshipTypeRelatedTo
-	// RelationshipTypeDelivers is a delivers relationship.
-	RelationshipTypeDelivers
-	// RelationshipTypeTargets is a targets relationship.
-	RelationshipTypeTargets
-	// RelationshipTypeUses is a uses relationship.
-	RelationshipTypeUses
-	// RelationshipTypeIndicates is an indicates relationship.
-	RelationshipTypeIndicates
-	// RelationshipTypeMitigates is a mitigates relationship.
-	RelationshipTypeMitigates
-	// RelationshipTypeBasedOn is a based on relationship.
-	RelationshipTypeBasedOn
-	// RelationshipTypeLocatedAt is a located at relationship.
-	RelationshipTypeLocatedAt
-	// RelationshipTypeCommunicatesWith is a communicates with relationship.
-	RelationshipTypeCommunicatesWith
-	// RelationshipTypeConsistsOf is a consists of relationship.
-	RelationshipTypeConsistsOf
-	// RelationshipTypeControls is a controls relationship.
-	RelationshipTypeControls
-	// RelationshipTypeHas is a has relationship.
-	RelationshipTypeHas
-	// RelationshipTypeHosts is a hosts relationship.
-	RelationshipTypeHosts
-	// RelationshipTypeAttrubutedTo is an attributed to relationship.
-	RelationshipTypeAttrubutedTo
-	// RelationshipTypeCompromises is a compromises relationship.
-	RelationshipTypeCompromises
-	// RelationshipTypeOwns is an owns relationship.
-	RelationshipTypeOwns
-	// RelationshipTypeOriginatesFrom is an originates from relationship.
-	RelationshipTypeOriginatesFrom
-	// RelationshipTypeAuthoredBy is an authored by relationship.
-	RelationshipTypeAuthoredBy
-	// RelationshipTypeBeaconsTo is a beacons to relationship.
-	RelationshipTypeBeaconsTo
-	// RelationshipTypeExfiltratesTo is an exfiltrates to relationship.
-	RelationshipTypeExfiltratesTo
-	// RelationshipTypeDownloads is a downloads relationship.
-	RelationshipTypeDownloads
-	// RelationshipTypeDrops is a drops relationship.
-	RelationshipTypeDrops
-	// RelationshipTypeExploits is a exploits relationship.
-	RelationshipTypeExploits
-	// RelationshipTypeVariantOf is a variant of relationship.
-	RelationshipTypeVariantOf
-	// RelationshipTypeCharacterizes is a characterizes relationship.
-	RelationshipTypeCharacterizes
 	// RelationshipTypeAVAnalysisOf is an AV analysis of relationship.
-	RelationshipTypeAVAnalysisOf
-	// RelationshipTypeStaticAnalysisOf is a static analysis of relationship.
-	RelationshipTypeStaticAnalysisOf
-	// RelationshipTypeDynamicAnalysisOf is a dynamic analysis of relationship.
-	RelationshipTypeDynamicAnalysisOf
-	// RelationshipTypeImpersonates is an impersonates relationship.
-	RelationshipTypeImpersonates
-	// RelationshipTypeResolvesTo is a resolves to relationship.
-	RelationshipTypeResolvesTo
+	RelationshipTypeAVAnalysisOf RelationshipType = "av-analysis-of"
+	// RelationshipTypeAttrubutedTo is an attributed to relationship.
+	RelationshipTypeAttrubutedTo RelationshipType = "attributed-to"
+	// RelationshipTypeAuthoredBy is an authored by relationship.
+	RelationshipTypeAuthoredBy RelationshipType = "authored-by"
+	// RelationshipTypeBasedOn is a based on relationship.
+	RelationshipTypeBasedOn RelationshipType = "based-on"
+	// RelationshipTypeBeaconsTo is a beacons to relationship.
+	RelationshipTypeBeaconsTo RelationshipType = "beacons-to"
 	// RelationshipTypeBelongsTo is a belongs to relationship.
-	RelationshipTypeBelongsTo
+	RelationshipTypeBelongsTo RelationshipType = "belongs-to"
+	// RelationshipTypeCharacterizes is a characterizes relationship.
+	RelationshipTypeCharacterizes RelationshipType = "characterizes"
+	// RelationshipTypeCommunicatesWith is a communicates with relationship.
+	RelationshipTypeCommunicatesWith RelationshipType = "communicates-with"
+	// RelationshipTypeCompromises is a compromises relationship.
+	RelationshipTypeCompromises RelationshipType = "compromises"
+	// RelationshipTypeConsistsOf is a consists of relationship.
+	RelationshipTypeConsistsOf RelationshipType = "consists-of"
+	// RelationshipTypeControls is a controls relationship.
+	RelationshipTypeControls RelationshipType = "controls"
+	// RelationshipTypeDelivers is a delivers relationship.
+	RelationshipTypeDelivers RelationshipType = "delivers"
+	// RelationshipTypeDownloads is a downloads relationship.
+	RelationshipTypeDownloads RelationshipType = "downloads"
+	// RelationshipTypeDrops is a drops relationship.
+	RelationshipTypeDrops RelationshipType = "drops"
+	// RelationshipTypeDynamicAnalysisOf is a dynamic analysis of relationship.
+	RelationshipTypeDynamicAnalysisOf RelationshipType = "dynamic-analysis-of"
+	// RelationshipTypeExfiltratesTo is an exfiltrates to relationship.
+	RelationshipTypeExfiltratesTo RelationshipType = "exfiltrates-to"
+	// RelationshipTypeExploits is a exploits relationship.
+	RelationshipTypeExploits RelationshipType = "exploits"
+	// RelationshipTypeHas is a has relationship.
+	RelationshipTypeHas RelationshipType = "has"
+	// RelationshipTypeHosts is a hosts relationship.
+	RelationshipTypeHosts RelationshipType = "hosts"
+	// RelationshipTypeImpersonates is an impersonates relationship.
+	RelationshipTypeImpersonates RelationshipType = "impersonates"
+	// RelationshipTypeIndicates is an indicates relationship.
+	RelationshipTypeIndicates RelationshipType = "indicates"
+	// RelationshipTypeLocatedAt is a located at relationship.
+	RelationshipTypeLocatedAt RelationshipType = "located-at"
+	// RelationshipTypeMitigates is a mitigates relationship.
+	RelationshipTypeMitigates RelationshipType = "mitigates"
+	// RelationshipTypeOriginatesFrom is an originates from relationship.
+	RelationshipTypeOriginatesFrom RelationshipType = "originates-from"
+	// RelationshipTypeOwns is an owns relationship.
+	RelationshipTypeOwns RelationshipType = "owns"
+	// RelationshipTypeRelatedTo is a related to relationship.
+	RelationshipTypeRelatedTo RelationshipType = "related-to"
+	// RelationshipTypeResolvesTo is a resolves to relationship.
+	RelationshipTypeResolvesTo RelationshipType = "resolves-to"
+	// RelationshipTypeStaticAnalysisOf is a static analysis of relationship.
+	RelationshipTypeStaticAnalysisOf RelationshipType = "static-analysis-of"
+	// RelationshipTypeTargets is a targets relationship.
+	RelationshipTypeTargets RelationshipType = "targets"
+	// RelationshipTypeUses is a uses relationship.
+	RelationshipTypeUses RelationshipType = "uses"
+	// RelationshipTypeVariantOf is a variant of relationship.
+	RelationshipTypeVariantOf RelationshipType = "variant-of"
 )
-
-var relationshipTypeMap = map[RelationshipType]string{
-	RelationshipTypeUnknown:           "",
-	RelationshipTypeRelatedTo:         "related-to",
-	RelationshipTypeDelivers:          "delivers",
-	RelationshipTypeIndicates:         "indicates",
-	RelationshipTypeMitigates:         "mitigates",
-	RelationshipTypeUses:              "uses",
-	RelationshipTypeTargets:           "targets",
-	RelationshipTypeBasedOn:           "based-on",
-	RelationshipTypeLocatedAt:         "located-at",
-	RelationshipTypeCommunicatesWith:  "communicates-with",
-	RelationshipTypeConsistsOf:        "consists-of",
-	RelationshipTypeControls:          "controls",
-	RelationshipTypeHas:               "has",
-	RelationshipTypeHosts:             "hosts",
-	RelationshipTypeAttrubutedTo:      "attributed-to",
-	RelationshipTypeCompromises:       "compromises",
-	RelationshipTypeOwns:              "owns",
-	RelationshipTypeOriginatesFrom:    "originates-from",
-	RelationshipTypeAuthoredBy:        "authored-by",
-	RelationshipTypeBeaconsTo:         "beacons-to",
-	RelationshipTypeExfiltratesTo:     "exfiltrates-to",
-	RelationshipTypeDownloads:         "downloads",
-	RelationshipTypeDrops:             "drops",
-	RelationshipTypeExploits:          "exploits",
-	RelationshipTypeVariantOf:         "variant-of",
-	RelationshipTypeCharacterizes:     "characterizes",
-	RelationshipTypeAVAnalysisOf:      "av-analysis-of",
-	RelationshipTypeStaticAnalysisOf:  "static-analysis-of",
-	RelationshipTypeDynamicAnalysisOf: "dynamic-analysis-of",
-	RelationshipTypeImpersonates:      "impersonates",
-	RelationshipTypeResolvesTo:        "resolves-to",
-	RelationshipTypeBelongsTo:         "belongs-to",
-}
 
 /*
 	Base object options
