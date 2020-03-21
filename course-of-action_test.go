@@ -41,7 +41,7 @@ func TestCourseOfAction(t *testing.T) {
 		specVer := "2.0"
 
 		os := []string{"name1", "name2"}
-		actionBin := "aaabbbbffff"
+		actionBin := Binary([]byte("aaabbbbffff"))
 
 		opts := []CourseOfActionOption{
 			CourseOfActionOptionConfidence(conf),
@@ -92,14 +92,14 @@ func TestCourseOfAction(t *testing.T) {
 
 	t.Run("validate_action", func(t *testing.T) {
 		ref := &ExternalReference{}
-		bin := "aaaabbbbb"
+		bin := []byte("aaaabbbbb")
 		tests := []struct {
 			ref *ExternalReference
-			bin string
+			bin Binary
 			err bool
 		}{
 			{nil, bin, false},
-			{ref, "", false},
+			{ref, nil, false},
 			{ref, bin, true},
 		}
 		for _, test := range tests {

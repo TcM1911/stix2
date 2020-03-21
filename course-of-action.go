@@ -41,7 +41,7 @@ type CourseOfAction struct {
 	// ActionBin contains the base64 encoded "commands" that represent the
 	// action for this Course of Action. This property MUST NOT be present if
 	// ActionReference is provided.
-	ActionBin string `json:"action_bin,omitempty"`
+	ActionBin Binary `json:"action_bin,omitempty"`
 	// ActionReference is a valid external eference that resolves to the action
 	// content as defined by the action_type property. This property MUST NOT
 	// be present if action_bin is provided.
@@ -106,7 +106,7 @@ func NewCourseOfAction(name string, opts ...CourseOfActionOption) (*CourseOfActi
 	}
 
 	// Validate
-	if obj.ActionBin != "" && obj.ActionReference != nil {
+	if len(obj.ActionBin) != 0 && obj.ActionReference != nil {
 		return nil, fmt.Errorf("%w: both ActionBin and ActionReference must not be present at the same time", ErrInvalidParameter)
 	}
 
@@ -224,7 +224,7 @@ func CourseOfActionOptionOSExecutionEnvs(s []string) CourseOfActionOption {
 }
 
 // CourseOfActionOptionActionBin sets the action bin attribute.
-func CourseOfActionOptionActionBin(s string) CourseOfActionOption {
+func CourseOfActionOptionActionBin(s Binary) CourseOfActionOption {
 	return func(obj *CourseOfAction) {
 		obj.ActionBin = s
 	}
