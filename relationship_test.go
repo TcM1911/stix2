@@ -18,12 +18,8 @@ func TestRelationship(t *testing.T) {
 	target := NewIdentifier(TypeIndicator)
 	typ := RelationshipTypeRelatedTo
 
-	t.Run("stringer", func(t *testing.T) {
-		assert.Equal("related-to", RelationshipTypeRelatedTo.String())
-	})
-
 	t.Run("missing_property", func(t *testing.T) {
-		r, err := NewRelationship(0, "", "", nil)
+		r, err := NewRelationship("", "", "", nil)
 		assert.Nil(r)
 		assert.Equal(ErrPropertyMissing, err)
 	})
@@ -101,34 +97,5 @@ func TestRelationship(t *testing.T) {
 		err := json.Unmarshal(data, &rel)
 		assert.NoError(err)
 		assert.Equal(RelationshipTypeUses, rel.RelationshipType)
-	})
-}
-
-func TestRelationshipType(t *testing.T) {
-	assert := assert.New(t)
-	t.Run("valid", func(t *testing.T) {
-		data, err := RelationshipTypeBelongsTo.MarshalJSON()
-		assert.NoError(err)
-		assert.Equal(`"belongs-to"`, string(data))
-
-		var actual RelationshipType
-		ptr := &actual
-		err = ptr.UnmarshalJSON([]byte(`"belongs-to"`))
-		assert.NoError(err)
-		assert.Equal(RelationshipTypeBelongsTo, actual)
-	})
-	t.Run("invalid", func(t *testing.T) {
-		var actual RelationshipType
-		ptr := &actual
-		err := ptr.UnmarshalJSON([]byte(`"AAAAAA"`))
-		assert.NoError(err)
-		assert.Equal(RelationshipTypeUnknown, actual)
-	})
-	t.Run("invalid-short", func(t *testing.T) {
-		var actual RelationshipType
-		ptr := &actual
-		err := ptr.UnmarshalJSON([]byte(`A`))
-		assert.NoError(err)
-		assert.Equal(RelationshipTypeUnknown, actual)
 	})
 }
