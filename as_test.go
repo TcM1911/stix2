@@ -18,13 +18,13 @@ func TestAS(t *testing.T) {
 	rir := "RIPE"
 
 	t.Run("missing_property", func(t *testing.T) {
-		obj, err := NewAS(0)
+		obj, err := NewAutonomousSystem(0)
 		assert.Nil(obj)
 		assert.Equal(ErrInvalidParameter, err)
 	})
 
 	t.Run("with_property", func(t *testing.T) {
-		obj, err := NewAS(num, nil)
+		obj, err := NewAutonomousSystem(num, nil)
 		assert.NotNil(obj)
 		assert.NoError(err)
 	})
@@ -34,7 +34,7 @@ func TestAS(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []ASOption{
+		opts := []AutonomousSystemOption{
 			ASOptionGranularMarking(marking),
 			ASOptionObjectMarking(objmark),
 			ASOptionSpecVersion(specVer),
@@ -44,7 +44,7 @@ func TestAS(t *testing.T) {
 			ASOptionName(name),
 			ASOptionRIR(rir),
 		}
-		obj, err := NewAS(num, opts...)
+		obj, err := NewAutonomousSystem(num, opts...)
 		assert.NotNil(obj)
 		assert.NoError(err)
 		assert.Equal(marking, obj.GranularMarking)
@@ -65,7 +65,7 @@ func TestAS(t *testing.T) {
 			{int64(100), "autonomous-system--0a68995b-d4b2-5f3e-810d-1aeeeb0d4b88"},
 		}
 		for _, test := range tests {
-			obj, err := NewAS(test.number)
+			obj, err := NewAutonomousSystem(test.number)
 			assert.NoError(err)
 			assert.Equal(Identifier(test.id), obj.ID)
 		}
@@ -80,12 +80,12 @@ func TestAS(t *testing.T) {
   "name": "Slime Industries",
   "rir": "ARIN"
 }`)
-		var obj *AS
+		var obj *AutonomousSystem
 		err := json.Unmarshal(data, &obj)
 		assert.NoError(err)
 		assert.Equal(Identifier("autonomous-system--f720c34b-98ae-597f-ade5-27dc241e8c74"), obj.ID)
 		assert.Equal("2.1", obj.SpecVersion)
-		assert.Equal(TypeAS, obj.Type)
+		assert.Equal(TypeAutonomousSystem, obj.Type)
 		assert.Equal(int64(15139), obj.Number)
 		assert.Equal("Slime Industries", obj.Name)
 		assert.Equal("ARIN", obj.RIR)

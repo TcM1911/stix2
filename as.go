@@ -5,8 +5,8 @@ package stix2
 
 import "fmt"
 
-// AS object represents the properties of an Autonomous System (AS).
-type AS struct {
+// AutonomousSystem object represents the properties of an Autonomous System (AS).
+type AutonomousSystem struct {
 	STIXCyberObservableObject
 	// Number specifies the number assigned to the AS. Such assignments are
 	// typically performed by a Regional Internet Registry (RIR).
@@ -18,13 +18,13 @@ type AS struct {
 	RIR string `json:"rir,omitempty"`
 }
 
-// NewAS creates a new AS object.
-func NewAS(number int64, opts ...ASOption) (*AS, error) {
+// NewAutonomousSystem creates a new AutonomousSystem object.
+func NewAutonomousSystem(number int64, opts ...AutonomousSystemOption) (*AutonomousSystem, error) {
 	if number == 0 {
 		return nil, ErrInvalidParameter
 	}
-	base := newSTIXCyberObservableObject(TypeAS)
-	obj := &AS{
+	base := newSTIXCyberObservableObject(TypeAutonomousSystem)
+	obj := &AutonomousSystem{
 		STIXCyberObservableObject: base,
 		Number:                    number,
 	}
@@ -35,49 +35,49 @@ func NewAS(number int64, opts ...ASOption) (*AS, error) {
 		}
 		opt(obj)
 	}
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%d]", number), TypeAS)
+	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%d]", number), TypeAutonomousSystem)
 	return obj, nil
 }
 
-// ASOption is an optional parameter when constructing a
+// AutonomousSystemOption is an optional parameter when constructing a
 // AS object.
-type ASOption func(a *AS)
+type AutonomousSystemOption func(a *AutonomousSystem)
 
 /*
 	Base object options
 */
 
 // ASOptionSpecVersion sets the STIX spec version.
-func ASOptionSpecVersion(ver string) ASOption {
-	return func(obj *AS) {
+func ASOptionSpecVersion(ver string) AutonomousSystemOption {
+	return func(obj *AutonomousSystem) {
 		obj.SpecVersion = ver
 	}
 }
 
 // ASOptionObjectMarking sets the object marking attribute.
-func ASOptionObjectMarking(om []Identifier) ASOption {
-	return func(obj *AS) {
+func ASOptionObjectMarking(om []Identifier) AutonomousSystemOption {
+	return func(obj *AutonomousSystem) {
 		obj.ObjectMarking = om
 	}
 }
 
 // ASOptionGranularMarking sets the granular marking attribute.
-func ASOptionGranularMarking(gm *GranularMarking) ASOption {
-	return func(obj *AS) {
+func ASOptionGranularMarking(gm *GranularMarking) AutonomousSystemOption {
+	return func(obj *AutonomousSystem) {
 		obj.GranularMarking = gm
 	}
 }
 
 // ASOptionDefanged sets the defanged attribute.
-func ASOptionDefanged(b bool) ASOption {
-	return func(obj *AS) {
+func ASOptionDefanged(b bool) AutonomousSystemOption {
+	return func(obj *AutonomousSystem) {
 		obj.Defanged = b
 	}
 }
 
 // ASOptionExtension adds an extension.
-func ASOptionExtension(name string, value interface{}) ASOption {
-	return func(obj *AS) {
+func ASOptionExtension(name string, value interface{}) AutonomousSystemOption {
+	return func(obj *AutonomousSystem) {
 		// Ignoring the error.
 		obj.addExtension(name, value)
 	}
@@ -88,15 +88,15 @@ func ASOptionExtension(name string, value interface{}) ASOption {
 */
 
 // ASOptionName sets the name type attribute.
-func ASOptionName(s string) ASOption {
-	return func(obj *AS) {
+func ASOptionName(s string) AutonomousSystemOption {
+	return func(obj *AutonomousSystem) {
 		obj.Name = s
 	}
 }
 
 // ASOptionRIR sets the rir attribute.
-func ASOptionRIR(s string) ASOption {
-	return func(obj *AS) {
+func ASOptionRIR(s string) AutonomousSystemOption {
+	return func(obj *AutonomousSystem) {
 		obj.RIR = s
 	}
 }

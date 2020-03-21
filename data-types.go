@@ -220,8 +220,8 @@ func IsValidIdentifier(id Identifier) bool {
 type StixType string
 
 const (
-	// TypeAS is used for AS type.
-	TypeAS StixType = "autonomous-system"
+	// TypeAutonomousSystem is used for AS type.
+	TypeAutonomousSystem StixType = "autonomous-system"
 	// TypeArtifact is used for artifact type.
 	TypeArtifact StixType = "artifact"
 	// TypeAttackPattern is used for attack-pattern type.
@@ -308,7 +308,7 @@ const (
 
 // AllTypes is a list of all STIX types.
 var AllTypes = []StixType{
-	TypeAS,
+	TypeAutonomousSystem,
 	TypeArtifact,
 	TypeAttackPattern,
 	TypeCampaign,

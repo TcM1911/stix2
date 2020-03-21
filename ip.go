@@ -34,7 +34,7 @@ func (c *IPv4Address) AddResolvesTo(id Identifier, opts ...RelationshipOption) (
 // AddBelongsTo describes that this IPv4 Address belongs to one or more
 // autonomous systems (AS).
 func (c *IPv4Address) AddBelongsTo(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
-	if !IsValidIdentifier(id) || !id.ForType(TypeAS) {
+	if !IsValidIdentifier(id) || !id.ForType(TypeAutonomousSystem) {
 		return nil, ErrInvalidParameter
 	}
 	return NewRelationship(RelationshipTypeBelongsTo, c.ID, id, opts...)
@@ -134,7 +134,7 @@ func (c *IPv6Address) AddResolvesTo(id Identifier, opts ...RelationshipOption) (
 // AddBelongsTo describes that this IPv6 Address belongs to one or more
 // autonomous systems (AS).
 func (c *IPv6Address) AddBelongsTo(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
-	if !IsValidIdentifier(id) || !id.ForType(TypeAS) {
+	if !IsValidIdentifier(id) || !id.ForType(TypeAutonomousSystem) {
 		return nil, ErrInvalidParameter
 	}
 	return NewRelationship(RelationshipTypeBelongsTo, c.ID, id, opts...)
