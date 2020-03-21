@@ -164,19 +164,19 @@ func (c *StixCollection) Directories() []*Directory {
 }
 
 // DomainName returns the DomainName with the identifier id.
-func (c *StixCollection) DomainName(id Identifier) *Domain {
+func (c *StixCollection) DomainName(id Identifier) *DomainName {
 	obj := c.getObject(TypeDomainName, id)
 	if obj == nil {
 		return nil
 	}
-	return obj.(*Domain)
+	return obj.(*DomainName)
 }
 
 // DomainNames returns all the DomainNames in the collection.
-func (c *StixCollection) DomainNames() []*Domain {
-	data := make([]*Domain, 0, len(c.objects[TypeDomainName]))
+func (c *StixCollection) DomainNames() []*DomainName {
+	data := make([]*DomainName, 0, len(c.objects[TypeDomainName]))
 	for _, v := range c.objects[TypeDomainName] {
-		data = append(data, v.(*Domain))
+		data = append(data, v.(*DomainName))
 	}
 	return data
 }
@@ -1094,7 +1094,7 @@ func parseDirector(data []byte, collection *StixCollection) error {
 }
 
 func parseDomainName(data []byte, collection *StixCollection) error {
-	var v Domain
+	var v DomainName
 	err := json.Unmarshal(data, &v)
 	if err != nil {
 		return err

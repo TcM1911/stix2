@@ -16,13 +16,13 @@ func TestDomain(t *testing.T) {
 	name := "example.com"
 
 	t.Run("missing_property", func(t *testing.T) {
-		obj, err := NewDomain("")
+		obj, err := NewDomainName("")
 		assert.Nil(obj)
 		assert.Equal(ErrInvalidParameter, err)
 	})
 
 	t.Run("with_property", func(t *testing.T) {
-		obj, err := NewDomain(name, nil)
+		obj, err := NewDomainName(name, nil)
 		assert.NotNil(obj)
 		assert.NoError(err)
 	})
@@ -32,14 +32,14 @@ func TestDomain(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []DomainOption{
+		opts := []DomainNameOption{
 			DomainOptionGranularMarking(marking),
 			DomainOptionObjectMarking(objmark),
 			DomainOptionSpecVersion(specVer),
 			DomainOptionDefanged(true),
 			DomainOptionExtension("test", struct{}{}),
 		}
-		obj, err := NewDomain(name, opts...)
+		obj, err := NewDomainName(name, opts...)
 		assert.NotNil(obj)
 		assert.NoError(err)
 		assert.Equal(marking, obj.GranularMarking)
@@ -58,7 +58,7 @@ func TestDomain(t *testing.T) {
 			{"example.com", "domain-name--220a2699-5ebf-5b57-bf02-424964bb19c0"},
 		}
 		for _, test := range tests {
-			obj, err := NewDomain(test.name)
+			obj, err := NewDomainName(test.name)
 			assert.NoError(err)
 			assert.Equal(Identifier(test.id), obj.ID)
 		}
@@ -71,7 +71,7 @@ func TestDomain(t *testing.T) {
   "id": "domain-name--3c10e93f-798e-5a26-a0c1-08156efab7f5",
   "value": "example.com"
 }`)
-		var obj *Domain
+		var obj *DomainName
 		err := json.Unmarshal(data, &obj)
 		assert.NoError(err)
 		assert.Equal(Identifier("domain-name--3c10e93f-798e-5a26-a0c1-08156efab7f5"), obj.ID)
@@ -86,7 +86,7 @@ func TestDomainResolvesTo(t *testing.T) {
 	val := "example.com"
 
 	t.Run("domain", func(t *testing.T) {
-		obj, err := NewDomain(val)
+		obj, err := NewDomainName(val)
 		assert.NoError(err)
 		id := NewIdentifier(TypeDomainName)
 		rel, err := obj.AddResolvesTo(id)
@@ -96,7 +96,7 @@ func TestDomainResolvesTo(t *testing.T) {
 	})
 
 	t.Run("ip-v4", func(t *testing.T) {
-		obj, err := NewDomain(val)
+		obj, err := NewDomainName(val)
 		assert.NoError(err)
 		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddResolvesTo(id)
@@ -106,7 +106,7 @@ func TestDomainResolvesTo(t *testing.T) {
 	})
 
 	t.Run("ip-v6", func(t *testing.T) {
-		obj, err := NewDomain(val)
+		obj, err := NewDomainName(val)
 		assert.NoError(err)
 		id := NewIdentifier(TypeIPv6Addr)
 		rel, err := obj.AddResolvesTo(id)
@@ -116,7 +116,7 @@ func TestDomainResolvesTo(t *testing.T) {
 	})
 
 	t.Run("invalid_type", func(t *testing.T) {
-		obj, err := NewDomain(val)
+		obj, err := NewDomainName(val)
 		assert.NoError(err)
 		id := NewIdentifier(TypeMalware)
 		rel, err := obj.AddResolvesTo(id)

@@ -5,8 +5,8 @@ package stix2
 
 import "fmt"
 
-// Domain object represents the properties of a network domain name.
-type Domain struct {
+// DomainName object represents the properties of a network domain name.
+type DomainName struct {
 	STIXCyberObservableObject
 	// Value specifies the value of the domain name. The value of this property
 	// MUST conform to RFC1034, and each domain and sub-domain contained within
@@ -23,20 +23,20 @@ type Domain struct {
 
 // AddResolvesTo describes that this Domain Name resolves to one or more IP
 // addresses or domain names.
-func (c *Domain) AddResolvesTo(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *DomainName) AddResolvesTo(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForTypes(TypeDomainName, TypeIPv4Addr, TypeIPv6Addr) {
 		return nil, ErrInvalidParameter
 	}
 	return NewRelationship(RelationshipTypeResolvesTo, c.ID, id, opts...)
 }
 
-// NewDomain creates a new Domain object.
-func NewDomain(value string, opts ...DomainOption) (*Domain, error) {
+// NewDomainName creates a new DomainName object.
+func NewDomainName(value string, opts ...DomainNameOption) (*DomainName, error) {
 	if value == "" {
 		return nil, ErrInvalidParameter
 	}
 	base := newSTIXCyberObservableObject(TypeDomainName)
-	obj := &Domain{
+	obj := &DomainName{
 		STIXCyberObservableObject: base,
 		Value:                     value,
 	}
@@ -51,45 +51,45 @@ func NewDomain(value string, opts ...DomainOption) (*Domain, error) {
 	return obj, nil
 }
 
-// DomainOption is an optional parameter when constructing a
-// Domain object.
-type DomainOption func(a *Domain)
+// DomainNameOption is an optional parameter when constructing a
+// DomainName object.
+type DomainNameOption func(a *DomainName)
 
 /*
 	Base object options
 */
 
 // DomainOptionSpecVersion sets the STIX spec version.
-func DomainOptionSpecVersion(ver string) DomainOption {
-	return func(obj *Domain) {
+func DomainOptionSpecVersion(ver string) DomainNameOption {
+	return func(obj *DomainName) {
 		obj.SpecVersion = ver
 	}
 }
 
 // DomainOptionObjectMarking sets the object marking attribute.
-func DomainOptionObjectMarking(om []Identifier) DomainOption {
-	return func(obj *Domain) {
+func DomainOptionObjectMarking(om []Identifier) DomainNameOption {
+	return func(obj *DomainName) {
 		obj.ObjectMarking = om
 	}
 }
 
 // DomainOptionGranularMarking sets the granular marking attribute.
-func DomainOptionGranularMarking(gm *GranularMarking) DomainOption {
-	return func(obj *Domain) {
+func DomainOptionGranularMarking(gm *GranularMarking) DomainNameOption {
+	return func(obj *DomainName) {
 		obj.GranularMarking = gm
 	}
 }
 
 // DomainOptionDefanged sets the defanged attribute.
-func DomainOptionDefanged(b bool) DomainOption {
-	return func(obj *Domain) {
+func DomainOptionDefanged(b bool) DomainNameOption {
+	return func(obj *DomainName) {
 		obj.Defanged = b
 	}
 }
 
 // DomainOptionExtension adds an extension.
-func DomainOptionExtension(name string, value interface{}) DomainOption {
-	return func(obj *Domain) {
+func DomainOptionExtension(name string, value interface{}) DomainNameOption {
+	return func(obj *DomainName) {
 		// Ignoring the error.
 		obj.addExtension(name, value)
 	}

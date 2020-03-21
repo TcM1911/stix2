@@ -102,7 +102,7 @@ func ExampleStixCollection_ToBundle() {
 func Example() {
 	// Taken from: https://docs.oasis-open.org/cti/stix/v2.1/csprd02/stix-v2.1-csprd02.html#_Toc26789941
 	collection := &stix2.StixCollection{}
-	domain, err := stix2.NewDomain("example.com")
+	domain, err := stix2.NewDomainName("example.com")
 	if err != nil {
 		fmt.Println(err)
 	}
