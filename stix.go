@@ -56,19 +56,19 @@ func (c *StixCollection) ToBundle() (*Bundle, error) {
 }
 
 // AS returns the AS with the identifier id.
-func (c *StixCollection) AS(id Identifier) *AS {
-	obj := c.getObject(TypeAS, id)
+func (c *StixCollection) AS(id Identifier) *AutonomousSystem {
+	obj := c.getObject(TypeAutonomousSystem, id)
 	if obj == nil {
 		return nil
 	}
-	return obj.(*AS)
+	return obj.(*AutonomousSystem)
 }
 
 // ASs returns all the AS in the collection.
-func (c *StixCollection) ASs() []*AS {
-	data := make([]*AS, 0, len(c.objects[TypeAS]))
-	for _, v := range c.objects[TypeAS] {
-		data = append(data, v.(*AS))
+func (c *StixCollection) ASs() []*AutonomousSystem {
+	data := make([]*AutonomousSystem, 0, len(c.objects[TypeAutonomousSystem]))
+	for _, v := range c.objects[TypeAutonomousSystem] {
+		data = append(data, v.(*AutonomousSystem))
 	}
 	return data
 }
@@ -828,7 +828,7 @@ func processObjects(collection *StixCollection, objects []json.RawMessage) error
 			return err
 		}
 		switch peak.Type {
-		case TypeAS:
+		case TypeAutonomousSystem:
 			err = parseAS(data, collection)
 			if err != nil {
 				return fmt.Errorf("failed to parse an AS object: %w", err)
@@ -1034,7 +1034,7 @@ func processObjects(collection *StixCollection, objects []json.RawMessage) error
 }
 
 func parseAS(data []byte, collection *StixCollection) error {
-	var as AS
+	var as AutonomousSystem
 	err := json.Unmarshal(data, &as)
 	if err != nil {
 		return err

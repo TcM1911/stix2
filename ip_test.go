@@ -113,7 +113,7 @@ func TestIPv4AddressBelongsTo(t *testing.T) {
 	t.Run("as", func(t *testing.T) {
 		obj, err := NewIPv4Address(val)
 		assert.NoError(err)
-		id := NewIdentifier(TypeAS)
+		id := NewIdentifier(TypeAutonomousSystem)
 		rel, err := obj.AddBelongsTo(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
@@ -234,7 +234,7 @@ func TestIPv6AddressBelongsTo(t *testing.T) {
 	t.Run("as", func(t *testing.T) {
 		obj, err := NewIPv6Address(val)
 		assert.NoError(err)
-		id := NewIdentifier(TypeAS)
+		id := NewIdentifier(TypeAutonomousSystem)
 		rel, err := obj.AddBelongsTo(id)
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
