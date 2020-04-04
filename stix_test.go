@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -185,6 +186,48 @@ func TestAllObjectsStixCollection(t *testing.T) {
 
 	objs := c.AllObjects()
 	assert.Len(objs, 2)
+}
+
+func TestGetCreatedAndModified(t *testing.T) {
+	assert := assert.New(t)
+	ts := time.Now()
+
+	tests := []struct {
+		object     StixObject
+		tscreated  *time.Time
+		tsmodified *time.Time
+	}{
+		{&DomainName{Value: "example.com"}, nil, nil},
+		{&AttackPattern{}, nil, nil},
+		{&AttackPattern{
+			Name: "example",
+			STIXDomainObject: STIXDomainObject{
+				Created:  &Timestamp{ts},
+				Modified: &Timestamp{ts},
+			},
+		}, &ts, &ts},
+		{&Relationship{}, nil, nil},
+		{&Relationship{
+			STIXRelationshipObject: STIXRelationshipObject{
+				Created:  &Timestamp{ts},
+				Modified: &Timestamp{ts},
+			},
+		}, &ts, &ts},
+		{&LanguageContent{}, nil, nil},
+		{&LanguageContent{
+			Created:  &Timestamp{ts},
+			Modified: &Timestamp{ts},
+		}, &ts, &ts},
+		{&MarkingDefinition{}, nil, nil},
+		{&MarkingDefinition{
+			Created: &Timestamp{ts},
+		}, &ts, nil},
+	}
+
+	for _, test := range tests {
+		assert.Equal(test.tscreated, test.object.GetCreated())
+		assert.Equal(test.tsmodified, test.object.GetModified())
+	}
 }
 
 func getResource(file string) (*os.File, error) {

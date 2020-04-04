@@ -124,6 +124,24 @@ func (s *STIXRelationshipObject) GetType() StixType {
 	return s.Type
 }
 
+// GetCreated returns the created time for the STIX object. If the object
+// does not have a time defined, nil is returned.
+func (s *STIXRelationshipObject) GetCreated() *time.Time {
+	if s.Created == nil {
+		return nil
+	}
+	return &s.Created.Time
+}
+
+// GetModified returns the modified time for the STIX object. If the object
+// does not have a time defined, nil is returned.
+func (s *STIXRelationshipObject) GetModified() *time.Time {
+	if s.Modified == nil {
+		return nil
+	}
+	return &s.Modified.Time
+}
+
 func newSTIXDomainObject(typ StixType) STIXDomainObject {
 	id := NewIdentifier(typ)
 	t := time.Now()
@@ -229,6 +247,24 @@ func (s *STIXDomainObject) GetType() StixType {
 	return s.Type
 }
 
+// GetCreated returns the created time for the STIX object. If the object
+// does not have a time defined, nil is returned.
+func (s *STIXDomainObject) GetCreated() *time.Time {
+	if s.Created == nil {
+		return nil
+	}
+	return &s.Created.Time
+}
+
+// GetModified returns the modified time for the STIX object. If the object
+// does not have a time defined, nil is returned.
+func (s *STIXDomainObject) GetModified() *time.Time {
+	if s.Modified == nil {
+		return nil
+	}
+	return &s.Modified.Time
+}
+
 // STIXCyberObservableObject represent observed facts about a network or host
 // that may be used and related to higher level intelligence to form a more
 // complete understanding of the threat landscape.
@@ -272,6 +308,18 @@ func (o *STIXCyberObservableObject) GetID() Identifier {
 // GetType returns the object's type.
 func (o *STIXCyberObservableObject) GetType() StixType {
 	return o.Type
+}
+
+// GetCreated returns the created time for the STIX object. If the object
+// does not have a time defined, nil is returned.
+func (o *STIXCyberObservableObject) GetCreated() *time.Time {
+	return nil
+}
+
+// GetModified returns the modified time for the STIX object. If the object
+// does not have a time defined, nil is returned.
+func (o *STIXCyberObservableObject) GetModified() *time.Time {
+	return nil
 }
 
 func (o *STIXCyberObservableObject) addExtension(key string, val interface{}) {
