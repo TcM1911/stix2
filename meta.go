@@ -138,6 +138,24 @@ func (l *LanguageContent) GetType() StixType {
 	return l.Type
 }
 
+// GetCreated returns the created time for the STIX object. If the object
+// does not have a time defined, nil is returned.
+func (l *LanguageContent) GetCreated() *time.Time {
+	if l.Created == nil {
+		return nil
+	}
+	return &l.Created.Time
+}
+
+// GetModified returns the modified time for the STIX object. If the object
+// does not have a time defined, nil is returned.
+func (l *LanguageContent) GetModified() *time.Time {
+	if l.Modified == nil {
+		return nil
+	}
+	return &l.Modified.Time
+}
+
 // NewLanguageContent creates a new LanguageContent object.
 func NewLanguageContent(object Identifier, content map[string]map[string]interface{}, opts ...LanguageContentOption) (*LanguageContent, error) {
 	if object == "" || content == nil {
@@ -331,6 +349,21 @@ func (m *MarkingDefinition) GetID() Identifier {
 // GetType returns the object's type.
 func (m *MarkingDefinition) GetType() StixType {
 	return m.Type
+}
+
+// GetCreated returns the created time for the STIX object. If the object
+// does not have a time defined, nil is returned.
+func (m *MarkingDefinition) GetCreated() *time.Time {
+	if m.Created == nil {
+		return nil
+	}
+	return &m.Created.Time
+}
+
+// GetModified returns the modified time for the STIX object. If the object
+// does not have a time defined, nil is returned.
+func (m *MarkingDefinition) GetModified() *time.Time {
+	return nil
 }
 
 // NewMarkingDefinition creates a new MarkingDefinition object.

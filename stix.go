@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"sync"
+	"time"
 )
 
 // StixObject is a generic representation of a STIX object.
@@ -15,6 +16,12 @@ type StixObject interface {
 	GetID() Identifier
 	// GetType returns the object's type.
 	GetType() StixType
+	// GetCreated returns the created time for the STIX object. If the object
+	// does not have a time defined, nil is returned.
+	GetCreated() *time.Time
+	// GetModified returns the modified time for the STIX object. If the object
+	// does not have a time defined, nil is returned.
+	GetModified() *time.Time
 }
 
 // StixCollection is a collection of STIX objects.
