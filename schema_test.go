@@ -20,7 +20,7 @@ import (
 )
 
 func TestStixCollectionToBundle(t *testing.T) {
-	sloader := gojsonschema.NewReferenceLoader("http://raw.githubusercontent.com/TcM1911/cti-stix2-json-schemas/stix2.1/schemas/common/bundle.json")
+	sloader := gojsonschema.NewReferenceLoader("http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/bundle.json")
 	schema, err := gojsonschema.NewSchema(sloader)
 	if err != nil {
 		t.Fatalf("Failed to load schema: %s\n", err)
