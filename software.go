@@ -18,6 +18,10 @@ type Software struct {
 	// software, if available. The value for this property MUST be a CPE v2.3
 	// entry from the official NVD CPE Dictionary.
 	CPE string `json:"cpe,omitempty"`
+	// SWID specifies the Software Identification (SWID) Tags entry for the
+	// software, if available. The tag attribute, tagId, a globally unique
+	// identifier, SHOULD be used as a proxy identifier of the tagged product.
+	SWID string `json:"swid,omitempty"`
 	// Languages specifies the languages supported by the software. The value
 	// of each list member MUST be an ISO 639-2 language code.
 	Languages []string `json:"languages,omitempty"`
@@ -112,6 +116,13 @@ func SoftwareOptionExtension(name string, value interface{}) SoftwareOption {
 func SoftwareOptionCPE(s string) SoftwareOption {
 	return func(obj *Software) {
 		obj.CPE = s
+	}
+}
+
+// SoftwareOptionSWID sets the SWID attribute.
+func SoftwareOptionSWID(s string) SoftwareOption {
+	return func(obj *Software) {
+		obj.SWID = s
 	}
 }
 
