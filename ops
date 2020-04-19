@@ -1,1 +1,1 @@
-{"version":1,"ops":[{"type":1,"author":{"id":"d8a40578ebe214ebf1986a3eb11ec4442a271cfa"},"timestamp":1587296260,"metadata":{"github-id":"MDU6SXNzdWU2MDI2OTI4NzE=","github-url":"https://github.com/TcM1911/stix2/issues/13","origin":"github"},"title":"Add swid field to Software object","message":"A `swid` field has been added to the Software object.","files":null}]}
+{"version":1,"ops":[{"type":4,"author":{"id":"d8a40578ebe214ebf1986a3eb11ec4442a271cfa"},"timestamp":1587299754,"metadata":{"github-id":"MDExOkNsb3NlZEV2ZW50MzI0OTAwNDc2NQ=="},"status":2}]}
