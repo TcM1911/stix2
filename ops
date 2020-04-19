@@ -1,1 +1,1 @@
-{"version":1,"ops":[{"type":1,"author":{"id":"d8a40578ebe214ebf1986a3eb11ec4442a271cfa"},"timestamp":1587296136,"title":"Ensure STIX 2.0 is supported","message":"","files":null}]}
+{"version":1,"ops":[{"type":8,"author":{"id":"d8a40578ebe214ebf1986a3eb11ec4442a271cfa"},"timestamp":1587296261,"target":"56a04af4f350af9fdb576883fc87b21378b0694f472b5c0059ccf9a4cad9e3eb","new_metadata":{"github-id":"MDU6SXNzdWU2MDI2OTI4NzQ=","github-url":"https://github.com/TcM1911/stix2/issues/14"}}]}
