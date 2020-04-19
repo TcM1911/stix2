@@ -1,1 +1,1 @@
-{"version":1,"ops":[{"type":1,"author":{"id":"d8a40578ebe214ebf1986a3eb11ec4442a271cfa"},"timestamp":1587296211,"title":"Add support for custom fields","message":"To support custom objects, custom field support is required.","files":null}]}
+{"version":1,"ops":[{"type":8,"author":{"id":"d8a40578ebe214ebf1986a3eb11ec4442a271cfa"},"timestamp":1587296260,"target":"b80a759002bf782d0c011fd1638856962500003af40294f7498a682dcdee5ac2","new_metadata":{"github-id":"MDU6SXNzdWU2MDI2OTI4Njc=","github-url":"https://github.com/TcM1911/stix2/issues/12"}}]}
