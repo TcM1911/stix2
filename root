@@ -1,0 +1,1 @@
+{"version":1,"ops":[{"type":1,"author":{"id":"d8a40578ebe214ebf1986a3eb11ec4442a271cfa"},"timestamp":1582316073,"metadata":{"github-id":"MDU6SXNzdWU1NjkxNjIzNDY=","github-url":"https://github.com/TcM1911/stix2/issues/2","origin":"github"},"title":"Change CoA action type","message":"The CoA attribute action_bin needs to be changed to a `Binary` type.","files":null}]}
