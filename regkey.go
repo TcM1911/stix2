@@ -85,7 +85,7 @@ func RegistryKeyOptionObjectMarking(om []Identifier) RegistryKeyOption {
 }
 
 // RegistryKeyOptionGranularMarking sets the granular marking attribute.
-func RegistryKeyOptionGranularMarking(gm *GranularMarking) RegistryKeyOption {
+func RegistryKeyOptionGranularMarking(gm []*GranularMarking) RegistryKeyOption {
 	return func(obj *RegistryKey) {
 		obj.GranularMarking = gm
 	}

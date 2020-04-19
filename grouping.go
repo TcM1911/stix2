@@ -94,7 +94,7 @@ func GroupingOptionObjectMarking(om []Identifier) GroupingOption {
 }
 
 // GroupingOptionGranularMarking sets the granular marking attribute.
-func GroupingOptionGranularMarking(gm *GranularMarking) GroupingOption {
+func GroupingOptionGranularMarking(gm []*GranularMarking) GroupingOption {
 	return func(obj *Grouping) {
 		obj.GranularMarking = gm
 	}

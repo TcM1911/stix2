@@ -104,7 +104,7 @@ func X509CertificateOptionObjectMarking(om []Identifier) X509CertificateOption {
 }
 
 // X509CertificateOptionGranularMarking sets the granular marking attribute.
-func X509CertificateOptionGranularMarking(gm *GranularMarking) X509CertificateOption {
+func X509CertificateOptionGranularMarking(gm []*GranularMarking) X509CertificateOption {
 	return func(obj *X509Certificate) {
 		obj.GranularMarking = gm
 	}

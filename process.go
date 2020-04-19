@@ -112,7 +112,7 @@ func ProcessOptionObjectMarking(om []Identifier) ProcessOption {
 }
 
 // ProcessOptionGranularMarking sets the granular marking attribute.
-func ProcessOptionGranularMarking(gm *GranularMarking) ProcessOption {
+func ProcessOptionGranularMarking(gm []*GranularMarking) ProcessOption {
 	return func(obj *Process) {
 		obj.GranularMarking = gm
 	}

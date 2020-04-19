@@ -36,7 +36,7 @@ func TestReport(t *testing.T) {
 		conf := 50
 		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
-		marking := &GranularMarking{}
+		marking := make([]*GranularMarking, 0)
 		labels := []string{"tag1", "tag2"}
 		lang := "en"
 		objmark := []Identifier{Identifier("id")}

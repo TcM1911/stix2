@@ -197,7 +197,7 @@ func InfrastructureOptionObjectMarking(om []Identifier) InfrastructureOption {
 }
 
 // InfrastructureOptionGranularMarking sets the granular marking attribute.
-func InfrastructureOptionGranularMarking(gm *GranularMarking) InfrastructureOption {
+func InfrastructureOptionGranularMarking(gm []*GranularMarking) InfrastructureOption {
 	return func(obj *Infrastructure) {
 		obj.GranularMarking = gm
 	}

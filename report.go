@@ -88,7 +88,7 @@ func ReportOptionObjectMarking(om []Identifier) ReportOption {
 }
 
 // ReportOptionGranularMarking sets the granular marking attribute.
-func ReportOptionGranularMarking(gm *GranularMarking) ReportOption {
+func ReportOptionGranularMarking(gm []*GranularMarking) ReportOption {
 	return func(obj *Report) {
 		obj.GranularMarking = gm
 	}

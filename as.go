@@ -62,7 +62,7 @@ func ASOptionObjectMarking(om []Identifier) AutonomousSystemOption {
 }
 
 // ASOptionGranularMarking sets the granular marking attribute.
-func ASOptionGranularMarking(gm *GranularMarking) AutonomousSystemOption {
+func ASOptionGranularMarking(gm []*GranularMarking) AutonomousSystemOption {
 	return func(obj *AutonomousSystem) {
 		obj.GranularMarking = gm
 	}

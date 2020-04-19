@@ -142,7 +142,7 @@ func IndicatorOptionObjectMarking(om []Identifier) IndicatorOption {
 }
 
 // IndicatorOptionGranularMarking sets the granular marking attribute.
-func IndicatorOptionGranularMarking(gm *GranularMarking) IndicatorOption {
+func IndicatorOptionGranularMarking(gm []*GranularMarking) IndicatorOption {
 	return func(obj *Indicator) {
 		obj.GranularMarking = gm
 	}

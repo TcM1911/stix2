@@ -58,7 +58,7 @@ func URLOptionObjectMarking(om []Identifier) URLOption {
 }
 
 // URLOptionGranularMarking sets the granular marking attribute.
-func URLOptionGranularMarking(gm *GranularMarking) URLOption {
+func URLOptionGranularMarking(gm []*GranularMarking) URLOption {
 	return func(obj *URL) {
 		obj.GranularMarking = gm
 	}

@@ -181,7 +181,7 @@ func RelationshipOptionObjectMarking(om []Identifier) RelationshipOption {
 }
 
 // RelationshipOptionGranularMarking sets the granular marking attribute.
-func RelationshipOptionGranularMarking(gm *GranularMarking) RelationshipOption {
+func RelationshipOptionGranularMarking(gm []*GranularMarking) RelationshipOption {
 	return func(r *Relationship) {
 		r.GranularMarking = gm
 	}

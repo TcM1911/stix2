@@ -199,7 +199,7 @@ func ThreatActorOptionObjectMarking(om []Identifier) ThreatActorOption {
 }
 
 // ThreatActorOptionGranularMarking sets the granular marking attribute.
-func ThreatActorOptionGranularMarking(gm *GranularMarking) ThreatActorOption {
+func ThreatActorOptionGranularMarking(gm []*GranularMarking) ThreatActorOption {
 	return func(obj *ThreatActor) {
 		obj.GranularMarking = gm
 	}

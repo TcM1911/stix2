@@ -66,7 +66,7 @@ func EmailAddressOptionObjectMarking(om []Identifier) EmailAddressOption {
 }
 
 // EmailAddressOptionGranularMarking sets the granular marking attribute.
-func EmailAddressOptionGranularMarking(gm *GranularMarking) EmailAddressOption {
+func EmailAddressOptionGranularMarking(gm []*GranularMarking) EmailAddressOption {
 	return func(obj *EmailAddress) {
 		obj.GranularMarking = gm
 	}
@@ -217,7 +217,7 @@ func EmailMessageOptionObjectMarking(om []Identifier) EmailMessageOption {
 }
 
 // EmailMessageOptionGranularMarking sets the granular marking attribute.
-func EmailMessageOptionGranularMarking(gm *GranularMarking) EmailMessageOption {
+func EmailMessageOptionGranularMarking(gm []*GranularMarking) EmailMessageOption {
 	return func(obj *EmailMessage) {
 		obj.GranularMarking = gm
 	}

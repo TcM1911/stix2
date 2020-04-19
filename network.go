@@ -196,7 +196,7 @@ func NetworkTrafficOptionObjectMarking(om []Identifier) NetworkTrafficOption {
 }
 
 // NetworkTrafficOptionGranularMarking sets the granular marking attribute.
-func NetworkTrafficOptionGranularMarking(gm *GranularMarking) NetworkTrafficOption {
+func NetworkTrafficOptionGranularMarking(gm []*GranularMarking) NetworkTrafficOption {
 	return func(obj *NetworkTraffic) {
 		obj.GranularMarking = gm
 	}

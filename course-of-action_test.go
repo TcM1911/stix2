@@ -34,7 +34,7 @@ func TestCourseOfAction(t *testing.T) {
 		ts := &Timestamp{time.Now()}
 		createdBy := NewIdentifier(TypeIdentity)
 		ref := &ExternalReference{}
-		marking := &GranularMarking{}
+		marking := make([]*GranularMarking, 0)
 		labels := []string{"tag1", "tag2"}
 		lang := "en"
 		objmark := []Identifier{Identifier("id")}

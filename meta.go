@@ -84,7 +84,7 @@ type LanguageContent struct {
 	// In this case, this property MUST NOT contain any references to the same
 	// Marking Definition object (i.e., it cannot contain any circular
 	// references).
-	GranularMarking *GranularMarking `json:"granular_markings,omitempty"`
+	GranularMarking []*GranularMarking `json:"granular_markings,omitempty"`
 	// Object identifies the id of the object that this Language Content
 	// applies to. It MUST be the identifier for a STIX Object.
 	Object Identifier `json:"object_ref"`
@@ -213,7 +213,7 @@ func LanguageContentOptionObjectMarking(om []Identifier) LanguageContentOption {
 }
 
 // LanguageContentOptionGranularMarking sets the granular marking attribute.
-func LanguageContentOptionGranularMarking(gm *GranularMarking) LanguageContentOption {
+func LanguageContentOptionGranularMarking(gm []*GranularMarking) LanguageContentOption {
 	return func(obj *LanguageContent) {
 		obj.GranularMarking = gm
 	}
@@ -330,7 +330,7 @@ type MarkingDefinition struct {
 	// In this case, this property MUST NOT contain any references to the same
 	// Marking Definition object (i.e., it cannot contain any circular
 	// references).
-	GranularMarking *GranularMarking `json:"granular_markings,omitempty"`
+	GranularMarking []*GranularMarking `json:"granular_markings,omitempty"`
 	// Name is used to identify the Marking Definition.
 	Name string `json:"name,omitempty"`
 	// DefinitionType identifies the type of Marking Definition. The value of
@@ -422,7 +422,7 @@ func MarkingDefinitionOptionObjectMarking(om []Identifier) MarkingDefinitionOpti
 }
 
 // MarkingDefinitionOptionGranularMarking sets the granular marking attribute.
-func MarkingDefinitionOptionGranularMarking(gm *GranularMarking) MarkingDefinitionOption {
+func MarkingDefinitionOptionGranularMarking(gm []*GranularMarking) MarkingDefinitionOption {
 	return func(obj *MarkingDefinition) {
 		obj.GranularMarking = gm
 	}
