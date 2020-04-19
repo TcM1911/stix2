@@ -3,8 +3,6 @@
 
 package stix2
 
-import "fmt"
-
 // CourseOfAction (CoA) is a recommendation from a producer of intelligence to
 // a consumer on the actions that they might take in response to that
 // intelligence. The CoA may be preventative to deter exploitation or
@@ -22,30 +20,6 @@ type CourseOfAction struct {
 	// In some cases, this property may contain the actual course of action in
 	// prose text.
 	Description string `json:"description,omitempty"`
-	// ActionType is the type of action that is included in either the
-	// action_bin property or the dereferenced content from the
-	// action_reference property. For example: textual:text/plain
-	//
-	// This is an open vocabulary and values SHOULD come from the
-	// CourseOfActionTypes vocabulary.
-	ActionType string `json:"action_type,omitempty"`
-	// OSExecutionEnvs is a recommendation on the operating system(s) that this
-	// course of action can be applied to. If no OSExecutionEnvs are defined,
-	// the operating systems for the action specified by the ActionType
-	// property are undefined, or the specific operating system has no impact
-	// on the execution of the course of action (e.g., power off system). Each
-	// string value for this property SHOULD be a CPE v2.3 entry from the
-	// official NVD CPE Dictionary [NVD]. This property MAY include custom
-	// values including values taken from other standards such as SWID.
-	OSExecutionEnvs []string `json:"os_execution_envs,omitempty"`
-	// ActionBin contains the base64 encoded "commands" that represent the
-	// action for this Course of Action. This property MUST NOT be present if
-	// ActionReference is provided.
-	ActionBin Binary `json:"action_bin,omitempty"`
-	// ActionReference is a valid external eference that resolves to the action
-	// content as defined by the action_type property. This property MUST NOT
-	// be present if action_bin is provided.
-	ActionReference *ExternalReference `json:"action_reference,omitempty"`
 }
 
 // AddInvestigates creates an investigate relationship between the course of
@@ -75,21 +49,6 @@ func (c *CourseOfAction) AddRemediates(id Identifier, opts ...RelationshipOption
 	return NewRelationship(RelationshipTypeTargets, c.ID, id, opts...)
 }
 
-const (
-	// CourseOfActionTypePlain is unstructured textual/prose description of a
-	// course of action that does not conform to any standard language
-	CourseOfActionTypePlain = "textual:text/plain"
-	// CourseOfActionTypeHTML is prose description of a course of action
-	// defined in structured HTML content
-	CourseOfActionTypeHTML = "textual:text/html"
-	// CourseOfActionTypeMD is prose description of a course of action defined
-	// in structured markdown content
-	CourseOfActionTypeMD = "textual:text/md"
-	// CourseOfActionTypePDF is prose description of a course of action defined
-	// in structured PDF content
-	CourseOfActionTypePDF = "textual:pdf"
-)
-
 // NewCourseOfAction creates a new CourseOfAction object.
 func NewCourseOfAction(name string, opts ...CourseOfActionOption) (*CourseOfAction, error) {
 	if name == "" {
@@ -104,12 +63,6 @@ func NewCourseOfAction(name string, opts ...CourseOfActionOption) (*CourseOfActi
 		}
 		opt(obj)
 	}
-
-	// Validate
-	if len(obj.ActionBin) != 0 && obj.ActionReference != nil {
-		return nil, fmt.Errorf("%w: both ActionBin and ActionReference must not be present at the same time", ErrInvalidParameter)
-	}
-
 	return obj, nil
 }
 
@@ -206,33 +159,5 @@ func CourseOfActionOptionCreatedBy(id Identifier) CourseOfActionOption {
 func CourseOfActionOptionDesciption(des string) CourseOfActionOption {
 	return func(obj *CourseOfAction) {
 		obj.Description = des
-	}
-}
-
-// CourseOfActionOptionActionType sets the action type attribute.
-func CourseOfActionOptionActionType(s string) CourseOfActionOption {
-	return func(obj *CourseOfAction) {
-		obj.ActionType = s
-	}
-}
-
-// CourseOfActionOptionOSExecutionEnvs sets the OS execution envs attribute.
-func CourseOfActionOptionOSExecutionEnvs(s []string) CourseOfActionOption {
-	return func(obj *CourseOfAction) {
-		obj.OSExecutionEnvs = s
-	}
-}
-
-// CourseOfActionOptionActionBin sets the action bin attribute.
-func CourseOfActionOptionActionBin(s Binary) CourseOfActionOption {
-	return func(obj *CourseOfAction) {
-		obj.ActionBin = s
-	}
-}
-
-// CourseOfActionOptionActionReference sets the action reference attribute.
-func CourseOfActionOptionActionReference(r *ExternalReference) CourseOfActionOption {
-	return func(obj *CourseOfAction) {
-		obj.ActionReference = r
 	}
 }
