@@ -84,7 +84,7 @@ func IPv4AddressOptionObjectMarking(om []Identifier) IPv4AddressOption {
 }
 
 // IPv4AddressOptionGranularMarking sets the granular marking attribute.
-func IPv4AddressOptionGranularMarking(gm *GranularMarking) IPv4AddressOption {
+func IPv4AddressOptionGranularMarking(gm []*GranularMarking) IPv4AddressOption {
 	return func(obj *IPv4Address) {
 		obj.GranularMarking = gm
 	}
@@ -184,7 +184,7 @@ func IPv6AddressOptionObjectMarking(om []Identifier) IPv6AddressOption {
 }
 
 // IPv6AddressOptionGranularMarking sets the granular marking attribute.
-func IPv6AddressOptionGranularMarking(gm *GranularMarking) IPv6AddressOption {
+func IPv6AddressOptionGranularMarking(gm []*GranularMarking) IPv6AddressOption {
 	return func(obj *IPv6Address) {
 		obj.GranularMarking = gm
 	}

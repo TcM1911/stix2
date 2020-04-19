@@ -184,7 +184,7 @@ func IntrusionSetOptionObjectMarking(om []Identifier) IntrusionSetOption {
 }
 
 // IntrusionSetOptionGranularMarking sets the granular marking attribute.
-func IntrusionSetOptionGranularMarking(gm *GranularMarking) IntrusionSetOption {
+func IntrusionSetOptionGranularMarking(gm []*GranularMarking) IntrusionSetOption {
 	return func(obj *IntrusionSet) {
 		obj.GranularMarking = gm
 	}

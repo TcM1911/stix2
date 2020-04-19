@@ -78,7 +78,7 @@ func NoteOptionObjectMarking(om []Identifier) NoteOption {
 }
 
 // NoteOptionGranularMarking sets the granular marking attribute.
-func NoteOptionGranularMarking(gm *GranularMarking) NoteOption {
+func NoteOptionGranularMarking(gm []*GranularMarking) NoteOption {
 	return func(obj *Note) {
 		obj.GranularMarking = gm
 	}

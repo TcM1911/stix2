@@ -136,7 +136,7 @@ func CampaignOptionObjectMarking(om []Identifier) CampaignOption {
 }
 
 // CampaignOptionGranularMarking sets the granular marking attribute.
-func CampaignOptionGranularMarking(gm *GranularMarking) CampaignOption {
+func CampaignOptionGranularMarking(gm []*GranularMarking) CampaignOption {
 	return func(obj *Campaign) {
 		obj.GranularMarking = gm
 	}

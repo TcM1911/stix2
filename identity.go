@@ -167,7 +167,7 @@ func IdentityOptionObjectMarking(om []Identifier) IdentityOption {
 }
 
 // IdentityOptionGranularMarking sets the granular marking attribute.
-func IdentityOptionGranularMarking(gm *GranularMarking) IdentityOption {
+func IdentityOptionGranularMarking(gm []*GranularMarking) IdentityOption {
 	return func(obj *Identity) {
 		obj.GranularMarking = gm
 	}

@@ -136,7 +136,7 @@ func ToolOptionObjectMarking(om []Identifier) ToolOption {
 }
 
 // ToolOptionGranularMarking sets the granular marking attribute.
-func ToolOptionGranularMarking(gm *GranularMarking) ToolOption {
+func ToolOptionGranularMarking(gm []*GranularMarking) ToolOption {
 	return func(obj *Tool) {
 		obj.GranularMarking = gm
 	}

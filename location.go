@@ -139,7 +139,7 @@ func LocationOptionObjectMarking(om []Identifier) LocationOption {
 }
 
 // LocationOptionGranularMarking sets the granular marking attribute.
-func LocationOptionGranularMarking(gm *GranularMarking) LocationOption {
+func LocationOptionGranularMarking(gm []*GranularMarking) LocationOption {
 	return func(obj *Location) {
 		obj.GranularMarking = gm
 	}

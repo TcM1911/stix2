@@ -103,7 +103,7 @@ func AttackPatternOptionObjectMarking(om []Identifier) AttackPatternOption {
 }
 
 // AttackPatternOptionGranularMarking sets the granular marking attribute.
-func AttackPatternOptionGranularMarking(gm *GranularMarking) AttackPatternOption {
+func AttackPatternOptionGranularMarking(gm []*GranularMarking) AttackPatternOption {
 	return func(obj *AttackPattern) {
 		obj.GranularMarking = gm
 	}

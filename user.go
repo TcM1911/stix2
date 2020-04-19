@@ -130,7 +130,7 @@ func UserAccountOptionObjectMarking(om []Identifier) UserAccountOption {
 }
 
 // UserAccountOptionGranularMarking sets the granular marking attribute.
-func UserAccountOptionGranularMarking(gm *GranularMarking) UserAccountOption {
+func UserAccountOptionGranularMarking(gm []*GranularMarking) UserAccountOption {
 	return func(obj *UserAccount) {
 		obj.GranularMarking = gm
 	}

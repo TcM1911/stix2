@@ -75,7 +75,7 @@ func DirectoryOptionObjectMarking(om []Identifier) DirectoryOption {
 }
 
 // DirectoryOptionGranularMarking sets the granular marking attribute.
-func DirectoryOptionGranularMarking(gm *GranularMarking) DirectoryOption {
+func DirectoryOptionGranularMarking(gm []*GranularMarking) DirectoryOption {
 	return func(obj *Directory) {
 		obj.GranularMarking = gm
 	}

@@ -92,7 +92,7 @@ func OpinionOptionObjectMarking(om []Identifier) OpinionOption {
 }
 
 // OpinionOptionGranularMarking sets the granular marking attribute.
-func OpinionOptionGranularMarking(gm *GranularMarking) OpinionOption {
+func OpinionOptionGranularMarking(gm []*GranularMarking) OpinionOption {
 	return func(obj *Opinion) {
 		obj.GranularMarking = gm
 	}

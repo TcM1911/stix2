@@ -36,7 +36,7 @@ func TestFile(t *testing.T) {
 	})
 
 	t.Run("payload_with_options", func(t *testing.T) {
-		marking := &GranularMarking{}
+		marking := make([]*GranularMarking, 0)
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 

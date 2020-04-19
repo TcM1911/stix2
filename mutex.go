@@ -55,7 +55,7 @@ func MutexOptionObjectMarking(om []Identifier) MutexOption {
 }
 
 // MutexOptionGranularMarking sets the granular marking attribute.
-func MutexOptionGranularMarking(gm *GranularMarking) MutexOption {
+func MutexOptionGranularMarking(gm []*GranularMarking) MutexOption {
 	return func(obj *Mutex) {
 		obj.GranularMarking = gm
 	}

@@ -111,7 +111,7 @@ type STIXRelationshipObject struct {
 	// In this case, this property MUST NOT contain any references to the same
 	// Marking Definition object (i.e., it cannot contain any circular
 	// references).
-	GranularMarking *GranularMarking `json:"granular_markings,omitempty"`
+	GranularMarking []*GranularMarking `json:"granular_markings,omitempty"`
 }
 
 // GetID returns the identifier for the object.
@@ -234,7 +234,7 @@ type STIXDomainObject struct {
 	// In this case, this property MUST NOT contain any references to the same
 	// Marking Definition object (i.e., it cannot contain any circular
 	// references).
-	GranularMarking *GranularMarking `json:"granular_markings,omitempty"`
+	GranularMarking []*GranularMarking `json:"granular_markings,omitempty"`
 }
 
 // GetID returns the identifier for the object.
@@ -292,7 +292,7 @@ type STIXCyberObservableObject struct {
 	// In this case, this property MUST NOT contain any references to the same
 	// Marking Definition object (i.e., it cannot contain any circular
 	// references).
-	GranularMarking *GranularMarking `json:"granular_markings,omitempty"`
+	GranularMarking []*GranularMarking `json:"granular_markings,omitempty"`
 	// This property defines whether or not the data contained within the
 	// object has been defanged.
 	Defanged bool `json:"defanged,omitempty"`

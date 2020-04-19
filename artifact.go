@@ -94,7 +94,7 @@ func ArtifactOptionObjectMarking(om []Identifier) ArtifactOption {
 }
 
 // ArtifactOptionGranularMarking sets the granular marking attribute.
-func ArtifactOptionGranularMarking(gm *GranularMarking) ArtifactOption {
+func ArtifactOptionGranularMarking(gm []*GranularMarking) ArtifactOption {
 	return func(obj *Artifact) {
 		obj.GranularMarking = gm
 	}

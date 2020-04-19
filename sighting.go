@@ -170,7 +170,7 @@ func SightingOptionObjectMarking(om []Identifier) SightingOption {
 }
 
 // SightingOptionGranularMarking sets the granular marking attribute.
-func SightingOptionGranularMarking(gm *GranularMarking) SightingOption {
+func SightingOptionGranularMarking(gm []*GranularMarking) SightingOption {
 	return func(r *Sighting) {
 		r.GranularMarking = gm
 	}

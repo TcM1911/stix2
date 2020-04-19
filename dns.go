@@ -74,7 +74,7 @@ func DomainOptionObjectMarking(om []Identifier) DomainNameOption {
 }
 
 // DomainOptionGranularMarking sets the granular marking attribute.
-func DomainOptionGranularMarking(gm *GranularMarking) DomainNameOption {
+func DomainOptionGranularMarking(gm []*GranularMarking) DomainNameOption {
 	return func(obj *DomainName) {
 		obj.GranularMarking = gm
 	}

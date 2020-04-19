@@ -143,7 +143,7 @@ func CourseOfActionOptionObjectMarking(om []Identifier) CourseOfActionOption {
 }
 
 // CourseOfActionOptionGranularMarking sets the granular marking attribute.
-func CourseOfActionOptionGranularMarking(gm *GranularMarking) CourseOfActionOption {
+func CourseOfActionOptionGranularMarking(gm []*GranularMarking) CourseOfActionOption {
 	return func(obj *CourseOfAction) {
 		obj.GranularMarking = gm
 	}

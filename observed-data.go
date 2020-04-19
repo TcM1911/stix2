@@ -132,7 +132,7 @@ func ObservedDataOptionObjectMarking(om []Identifier) ObservedDataOption {
 }
 
 // ObservedDataOptionGranularMarking sets the granular marking attribute.
-func ObservedDataOptionGranularMarking(gm *GranularMarking) ObservedDataOption {
+func ObservedDataOptionGranularMarking(gm []*GranularMarking) ObservedDataOption {
 	return func(obj *ObservedData) {
 		obj.GranularMarking = gm
 	}

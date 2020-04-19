@@ -83,7 +83,7 @@ func SoftwareOptionObjectMarking(om []Identifier) SoftwareOption {
 }
 
 // SoftwareOptionGranularMarking sets the granular marking attribute.
-func SoftwareOptionGranularMarking(gm *GranularMarking) SoftwareOption {
+func SoftwareOptionGranularMarking(gm []*GranularMarking) SoftwareOption {
 	return func(obj *Software) {
 		obj.GranularMarking = gm
 	}

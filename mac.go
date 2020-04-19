@@ -56,7 +56,7 @@ func MACAddressOptionObjectMarking(om []Identifier) MACAddressOption {
 }
 
 // MACAddressOptionGranularMarking sets the granular marking attribute.
-func MACAddressOptionGranularMarking(gm *GranularMarking) MACAddressOption {
+func MACAddressOptionGranularMarking(gm []*GranularMarking) MACAddressOption {
 	return func(obj *MACAddress) {
 		obj.GranularMarking = gm
 	}

@@ -165,7 +165,7 @@ func FileOptionObjectMarking(om []Identifier) FileOption {
 }
 
 // FileOptionGranularMarking sets the granular marking attribute.
-func FileOptionGranularMarking(gm *GranularMarking) FileOption {
+func FileOptionGranularMarking(gm []*GranularMarking) FileOption {
 	return func(obj *File) {
 		obj.GranularMarking = gm
 	}
