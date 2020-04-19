@@ -235,3 +235,19 @@ func IndicatorOptionValidUntil(t *Timestamp) IndicatorOption {
 		obj.ValidUntil = t
 	}
 }
+
+const (
+	// PatternTypeSTIX specifies the STIX pattern language.
+	PatternTypeSTIX = "stix"
+	// PatternTypePCRE specifies the Perl Compatible Regular Expressions
+	// language.
+	PatternTypePCRE = "pcre"
+	// PatternTypeSigma specifies the SIGMA language.
+	PatternTypeSigma = "sigma"
+	// PatternTypeSnort specifies the SNORT language.
+	PatternTypeSnort = "snort"
+	// PatternTypeSuricata specifies the SURICATA language.
+	PatternTypeSuricata = "suricata"
+	// PatternTypeYara specifies the YARA language.
+	PatternTypeYara = "yara"
+)
