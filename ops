@@ -1,1 +1,1 @@
-{"version":1,"ops":[{"type":1,"author":{"id":"d8a40578ebe214ebf1986a3eb11ec4442a271cfa"},"timestamp":1587296236,"title":"Add support for custom objects","message":"","files":null}]}
+{"version":1,"ops":[{"type":8,"author":{"id":"d8a40578ebe214ebf1986a3eb11ec4442a271cfa"},"timestamp":1587296262,"target":"2497c4bc852ee5e7bb0070117c766b4707c289c9e473642074ab8bffac04bcf4","new_metadata":{"github-id":"MDU6SXNzdWU2MDI2OTI4Nzc=","github-url":"https://github.com/TcM1911/stix2/issues/15"}}]}
