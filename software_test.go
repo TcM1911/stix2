@@ -40,6 +40,7 @@ func TestSoftware(t *testing.T) {
 			SoftwareOptionExtension("test", struct{}{}),
 			//
 			SoftwareOptionCPE(testStr),
+			SoftwareOptionSWID(testStr),
 			SoftwareOptionLanguages([]string{testStr}),
 			SoftwareOptionVendor(testStr),
 			SoftwareOptionVersion(testStr),
@@ -54,6 +55,7 @@ func TestSoftware(t *testing.T) {
 
 		assert.Equal(val, obj.Name)
 		assert.Equal(testStr, obj.CPE)
+		assert.Equal(testStr, obj.SWID)
 		assert.Equal([]string{testStr}, obj.Languages)
 		assert.Equal(testStr, obj.Vendor)
 		assert.Equal(testStr, obj.Version)
