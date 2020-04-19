@@ -111,10 +111,14 @@ const (
 	RelationshipTypeControls RelationshipType = "controls"
 	// RelationshipTypeDelivers is a delivers relationship.
 	RelationshipTypeDelivers RelationshipType = "delivers"
+	// RelationshipTypeDerivedFrom is a derived from relationship.
+	RelationshipTypeDerivedFrom RelationshipType = "derived-from"
 	// RelationshipTypeDownloads is a downloads relationship.
 	RelationshipTypeDownloads RelationshipType = "downloads"
 	// RelationshipTypeDrops is a drops relationship.
 	RelationshipTypeDrops RelationshipType = "drops"
+	// RelationshipTypeDuplicateOf is a duplicate of relationship.
+	RelationshipTypeDuplicateOf RelationshipType = "duplicate-of"
 	// RelationshipTypeDynamicAnalysisOf is a dynamic analysis of relationship.
 	RelationshipTypeDynamicAnalysisOf RelationshipType = "dynamic-analysis-of"
 	// RelationshipTypeExfiltratesTo is an exfiltrates to relationship.

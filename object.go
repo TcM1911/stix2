@@ -237,6 +237,24 @@ type STIXDomainObject struct {
 	GranularMarking *GranularMarking `json:"granular_markings,omitempty"`
 }
 
+// AddDerivedFrom adds a relationship to an object that this object is derived
+// from.
+func (s *STIXDomainObject) AddDerivedFrom(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+	return NewRelationship(RelationshipTypeDerivedFrom, s.ID, id, opts...)
+}
+
+// AddDuplicateOf adds a relationship to an object that this object is a
+// duplicate of.
+func (s *STIXDomainObject) AddDuplicateOf(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+	return NewRelationship(RelationshipTypeDuplicateOf, s.ID, id, opts...)
+}
+
+// AddRelatedTo adds a relationship to an object that this object is related
+// to.
+func (s *STIXDomainObject) AddRelatedTo(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+	return NewRelationship(RelationshipTypeRelatedTo, s.ID, id, opts...)
+}
+
 // GetID returns the identifier for the object.
 func (s *STIXDomainObject) GetID() Identifier {
 	return s.ID
@@ -298,6 +316,24 @@ type STIXCyberObservableObject struct {
 	Defanged bool `json:"defanged,omitempty"`
 	// Specifies any extensions of the object, as a dictionary.
 	Extensions map[string]json.RawMessage `json:"extensions,omitempty"`
+}
+
+// AddDerivedFrom adds a relationship to an object that this object is derived
+// from.
+func (o *STIXCyberObservableObject) AddDerivedFrom(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+	return NewRelationship(RelationshipTypeDerivedFrom, o.ID, id, opts...)
+}
+
+// AddDuplicateOf adds a relationship to an object that this object is a
+// duplicate of.
+func (o *STIXCyberObservableObject) AddDuplicateOf(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+	return NewRelationship(RelationshipTypeDuplicateOf, o.ID, id, opts...)
+}
+
+// AddRelatedTo adds a relationship to an object that this object is related
+// to.
+func (o *STIXCyberObservableObject) AddRelatedTo(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+	return NewRelationship(RelationshipTypeRelatedTo, o.ID, id, opts...)
 }
 
 // GetID returns the identifier for the object.
