@@ -1,0 +1,1 @@
+{"version":1,"ops":[{"type":1,"author":{"id":"d8a40578ebe214ebf1986a3eb11ec4442a271cfa"},"timestamp":1588952693,"title":"Use code generation for some common code","message":"Some methods can be created by code generation, mainly the option functions\nfor SDO, SCO, etc.","files":null}]}
