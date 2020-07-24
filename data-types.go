@@ -192,6 +192,9 @@ func HasValidIdentifier(obj StixObject) bool {
 	if parts[0] != string(obj.GetType()) {
 		return false
 	}
+	if parts[0] == "" {
+		return false
+	}
 	_, err := uuid.Parse(parts[1])
 	return err == nil
 }
