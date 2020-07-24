@@ -314,3 +314,18 @@ func TestHashContributing(t *testing.T) {
 		assert.Equal(t, test.expected, actual)
 	}
 }
+
+func TestHasValidIdentifier(t *testing.T) {
+	assert := assert.New(t)
+
+	for _, v := range AllTypes {
+		for i := 0; i < 100; i++ {
+			id := NewIdentifier(v)
+			obj := &STIXDomainObject{
+				Type: v,
+				ID:   id,
+			}
+			assert.True(HasValidIdentifier(obj))
+		}
+	}
+}

@@ -183,6 +183,22 @@ func (i Identifier) ForTypes(typ ...StixType) bool {
 	return false
 }
 
+// HasValidIdentifier checks that the StixObject has a valid identifer.
+func HasValidIdentifier(obj StixObject) bool {
+	parts := strings.Split(string(obj.GetID()), "--")
+	if len(parts) != 2 {
+		return false
+	}
+	if parts[0] != string(obj.GetType()) {
+		return false
+	}
+	if parts[0] == "" {
+		return false
+	}
+	_, err := uuid.Parse(parts[1])
+	return err == nil
+}
+
 // CyberObservableNamespace is the UUIDv5 namespace for for STIX
 // Cyber-observable Object.
 var CyberObservableNamespace = uuid.MustParse("00abedb4-aa42-466c-9c01-fed23315a9b7")
