@@ -1,25 +1,4 @@
-[{
-      "type": "attack-pattern",
-      "spec_version": "2.1",
-      "id": "attack-pattern--7e33a43e-e34b-40ec-89da-36c9bb2cacd5",
-      "created": "2016-05-12T08:17:27.000Z",
-      "modified": "2016-05-12T08:17:27.000Z",
-      "name": "Spear Phishing as Practiced by Adversary X",
-      "description": "A particular form of spear phishing where the attacker claims that the target had won a contest, including personal details, to get them to click on a link.",
-      "external_references": [{
-         "source_name": "capec",
-         "external_id": "CAPEC-163"
-      }]
-   },
-   {
-      "type": "relationship",
-      "spec_version": "2.1",
-      "id": "relationship--57b56a43-b8b0-4cba-9deb-34e3e1faed9e",
-      "created": "2016-05-12T08:17:27.000Z",
-      "modified": "2016-05-12T08:17:27.000Z",
-      "relationship_type": "uses",
-      "source_ref": "intrusion-set--0c7e22ad-b099-4dc3-b0df-2ea3f49ae2e6",
-      "target_ref": "attack-pattern--7e33a43e-e34b-40ec-89da-36c9bb2cacd5"
+[{"":"","":"","":"","":"","":"","":"","":"","":[{"":"","":""}]},{"":"","":"","":"","":"","":"","":"","":"","":"33a43e-e34b-40ec-89da-36c9bb2cacd5"
    },
    {
       "type": "intrusion-set",
@@ -66,7 +45,7 @@
       "target_ref": "malware--31b940d4-6f7f-459a-80ea-9c1f17b5891b"
    },
    {
-      "type": "malware",
+      "typ": "malware",
       "spec_version": "2.1",
       "id": "malware--31b940d4-6f7f-459a-80ea-9c1f17b5891b",
       "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
@@ -524,7 +503,7 @@
    {
       "type": "ipv4-addr",
       "spec_version": "2.1",
-      "id": "ipv4-addr--4d22aae0-2bf9-5427-8819-e4f6abf20a53",
+      "id": "ipv4-addr--4d22aae0-2bf9-5427-8819-e4f6abf20a5300",
       "value": "198.51.100.2"
    }, {
       "type": "ipv4-addr",

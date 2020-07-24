@@ -1,0 +1,316 @@
+[{"":"","":"","":"","":"","":"","":"","":"","":[{"":"","":""}]},{"":"","":"","":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":"","":"","":"","":"","":{"":"","":""}},{"":"","":"","":"","":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":"","":"","":[""]},{"":"","":"","":"","":"","":"","":"","":"","":"","":"","":["","","",""]},{"":"","":"","":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":"","":[""],"":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":"","":"","":[""]},{"":"","":"","":"","":"","":"","":"","":[""]},{"":"","":"","":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":true,"":[""],"":""},{"":"","":"","":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":""},{"":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":"","":"","":"","":[""],"":["","",""]},{"":"","":"","":"","":"","":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":[{"":"","":""}],"":"","":"","":[""],"":[""]},{"":"","":"","":"","":"","":"","":"","":"","":"","":0,"":["",""]},{"":"","":"","":"","":"","":[""]},{"":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":"","":[""],"":"","":""},{"":"","":"","":"","":"","":"","":"","":"","":"","":"","":[""],"":["","",""]},{"":"","":"","":"","":"","":"","":"","":[""],"":"","":"","":["",""],"":[""],"":["",""],"":"","":"","":""},{"":"","":"","":"","":"","":"","":"","":[""],"":""},{"":"","":"","":"","":"","":"","ated_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
+      "name": "CVE-2016-1234",
+      "external_references": [{
+         "source_name": "cve",
+         "external_id": "CVE-2016-1234"
+      }]
+   },
+   {
+      "type": "sighting",
+      "spec_version": "2.1",
+      "id": "sighting--ee20065d-2555-424f-ad9e-0f8428623c75",
+      "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
+      "created": "2016-04-06T20:08:31.000Z",
+      "modified": "2016-04-06T20:08:31.000Z",
+      "first_seen": "2015-12-21T19:00:00Z",
+      "last_seen": "2015-12-21T19:00:00Z",
+      "count": 50,
+      "sighting_of_ref": "indicator--8e2e2d2b-17d4-4cbf-938f-98ee46b3cd3f",
+      "observed_data_refs": [
+         "observed-data--b67d30ff-02ac-498a-92f9-32f845f448cf"
+      ],
+      "where_sighted_refs": [
+         "identity--b67d30ff-02ac-498a-92f9-32f845f448ff"
+      ]
+   },
+   {
+      "type": "observed-data",
+      "spec_version": "2.1",
+      "id": "observed-data--b67d30ff-02ac-498a-92f9-32f845f448cf",
+      "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
+      "created": "2016-04-06T19:58:16.000Z",
+      "modified": "2016-04-06T19:58:16.000Z",
+      "first_observed": "2015-12-21T19:00:00Z",
+      "last_observed": "2016-04-06T19:58:16Z",
+      "number_observed": 50,
+      "object_refs": [
+         "file--30038539-3eb6-44bc-a59e-d0d3fe84695a"
+      ]
+   },
+   {
+      "type": "artifact",
+      "spec_version": "2.1",
+      "id": "artifact--ca17bcf8-9846-5ab4-8662-75c1bf6e63ee",
+      "mime_type": "image/jpeg",
+      "payload_bin": "VBORw0KGgoAAAANSUhEUgAAADI=="
+   },
+   {
+      "type": "autonomous-system",
+      "spec_version": "2.1",
+      "id": "autonomous-system--f720c34b-98ae-597f-ade5-27dc241e8c74",
+      "number": 15139,
+      "name": "Slime Industries",
+      "rir": "ARIN"
+   },
+   {
+      "type": "directory",
+      "spec_version": "2.1",
+      "id": "directory--93c0a9b0-520d-545d-9094-1a08ddf46b05",
+      "path": "C:\\Windows\\System32"
+   },
+   {
+      "type": "domain-name",
+      "spec_version": "2.1",
+      "id": "domain-name--3c10e93f-798e-5a26-a0c1-08156efab7f5",
+      "value": "example.com"
+   },
+   {
+      "type": "email-addr",
+      "spec_version": "2.1",
+      "id": "email-addr--2d77a846-6264-5d51-b586-e43822ea1ea3",
+      "value": "john@example.com",
+      "display_name": "John Doe"
+   },
+   {
+      "type": "email-message",
+      "spec_version": "2.1",
+      "id": "email-message--cf9b4b7f-14c8-5955-8065-020e0316b559",
+      "is_multipart": true,
+      "received_lines": [
+         "from mail.example.com ([198.51.100.3]) by smtp.gmail.com with ESMTPSA id q23sm23309939wme.17.2016.07.19.07.20.32 (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128); Tue, 19 Jul 2016 07:20:40 -0700 (PDT)"
+      ],
+      "content_type": "multipart/mixed",
+      "date": "2016-06-19T14:20:40.000Z",
+      "from_ref": "email-addr--89f52ea8-d6ef-51e9-8fce-6a29236436ed",
+      "to_refs": [
+         "email-addr--d1b3bf0c-f02a-51a1-8102-11aba7959868"
+      ],
+      "cc_refs": [
+         "email-addr--e4ee5301-b52d-59cd-a8fa-8036738c7194"
+      ],
+      "subject": "Check out this picture of a cat!",
+      "additional_header_fields": {
+         "Content-Disposition": "inline",
+         "X-Mailer": "Mutt/1.5.23",
+         "X-Originating-IP": "198.51.100.3"
+      },
+      "body_multipart": [{
+            "content_type": "text/plain; charset=utf-8",
+            "content_disposition": "inline",
+            "body": "Cats are funny!"
+         },
+         {
+            "content_type": "image/png",
+            "content_disposition": "attachment; filename=\"tabby.png\"",
+            "body_raw_ref": "artifact--4cce66f8-6eaa-53cb-85d5-3a85fca3a6c5"
+         },
+         {
+            "content_type": "application/zip",
+            "content_disposition": "attachment; filename=\"tabby_pics.zip\"",
+            "body_raw_ref": "file--6ce09d9c-0ad3-5ebf-900c-e3cb288955b5"
+         }
+      ]
+   }, {
+      "type": "email-addr",
+      "spec_version": "2.1",
+      "id": "email-addr--89f52ea8-d6ef-51e9-8fce-6a29236436ed",
+      "value": "jdoe@example.com",
+      "display_name": "John Doe"
+   }, {
+      "type": "email-addr",
+      "spec_version": "2.1",
+      "id": "email-addr--d1b3bf0c-f02a-51a1-8102-11aba7959868",
+      "value": "bob@example.com",
+      "display_name": "Bob Smith"
+   }, {
+      "type": "email-addr",
+      "spec_version": "2.1",
+      "id": "email-addr--e4ee5301-b52d-59cd-a8fa-8036738c7194",
+      "value": "mary@example.com",
+      "display_name": "Mary Smith"
+   }, {
+      "type": "artifact",
+      "spec_version": "2.1",
+      "id": "artifact--4cce66f8-6eaa-53cb-85d5-3a85fca3a6c5",
+      "mime_type": "image/jpeg",
+      "payload_bin": "VBORw0KGgoAAAANSUhEUgAAADI==",
+      "hashes": {
+         "SHA-223": "effb46bba03f6c8aea5c653f9cf984f170dcdd3bbbe2ff6843c3e5da0e698766"
+      }
+   }, {
+      "type": "file",
+      "spec_version": "2.1",
+      "id": "file--6ce09d9c-0ad3-5ebf-900c-e3cb288955b5",
+      "name": "tabby_pics.zip",
+      "magic_number_hex": "504B0304",
+      "hashes": {
+         "SHA-256": "fe90a7e910cb3a4739bed9180e807e93fa70c90f25a8915476f5e4bfbac681db"
+      }
+   },
+   {
+      "type": "ipv6-addr",
+      "spec_version": "2.1",
+      "id": "ipv6-addr--1e61d36c-a16c-53b7-a80f-2a00161c96b1",
+      "value": "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
+   },
+   {
+      "type": "mac-addr",
+      "spec_version": "2.1",
+      "id": "mac-addr--65cfcf98-8a6e-5a1b-8f61-379ac4f92d00",
+      "value": "d2:fb:49:24:37:18"
+   },
+   {
+      "type": "mutex",
+      "spec_version": "2.1",
+      "id": "mutex--eba44954-d4e4-5d3b-814c-2b17dd8de300",
+      "name": "__CLEANSWEEP__"
+   },
+   {
+      "type": "ipv4-addr",
+      "spec_version": "2.1",
+      "id": "ipv4-addr--4d22aae0-2bf9-5427-8819-e4f6abf20a5300",
+      "value": "198.51.100.2"
+   }, {
+      "type": "ipv4-addr",
+      "spec_version": "2.1",
+      "id": "ipv4-addr--ff26c055-6336-5bc5-b98d-13d6226742dd",
+      "value": "198.51.100.3"
+   }, {
+      "type": "network-traffic",
+      "spec_version": "2.1",
+      "id": "network-traffic--2568d22a-8998-58eb-99ec-3c8ca74f527d",
+      "src_ref": "ipv4-addr--4d22aae0-2bf9-5427-8819-e4f6abf20a53",
+      "dst_ref": "ipv4-addr--ff26c055-6336-5bc5-b98d-13d6226742dd",
+      "protocols": [
+         "tcp"
+      ]
+   },
+   {
+      "type": "process",
+      "spec_version": "2.1",
+      "id": "process--f52a906a-0dfc-40bd-92f1-e7778ead38a9",
+      "pid": 1221,
+      "created": "2016-01-20T14:11:25.55Z",
+      "command_line": "./gedit-bin --new-window",
+      "image_ref": "file--e04f22d1-be2c-59de-add8-10f61d15fe20"
+   },
+   {
+      "type": "software",
+      "spec_version": "2.1",
+      "id": "software--a1827f6d-ca53-5605-9e93-4316cd22a00a",
+      "name": "Word",
+      "cpe": "cpe:2.3:a:microsoft:word:2000:*:*:*:*:*:*:*",
+      "version": "2002",
+      "vendor": "Microsoft"
+   },
+   {
+      "type": "url",
+      "spec_version": "2.1",
+      "id": "url--c1477287-23ac-5971-a010-5c287877fa60",
+      "value": "https://example.com/research/index.html"
+   },
+   {
+      "type": "user-account",
+      "spec_version": "2.1",
+      "id": "user-account--0d5b424b-93b8-5cd8-ac36-306e1789d63c",
+      "user_id": "1001",
+      "account_login": "jdoe",
+      "account_type": "unix",
+      "display_name": "John Doe",
+      "is_service_account": false,
+      "is_privileged": false,
+      "can_escalate_privs": true,
+      "account_created": "2016-01-20T12:31:12Z",
+      "credential_last_changed": "2016-01-20T14:27:43Z",
+      "account_first_login": "2016-01-20T14:26:07Z",
+      "account_last_login": "2016-07-22T16:08:28Z"
+   },
+   {
+      "type": "windows-registry-key",
+      "spec_version": "2.1",
+      "id": "windows-registry-key--2ba37ae7-2745-5082-9dfd-9486dad41016",
+      "key": "hkey_local_machine\\system\\bar\\foo",
+      "values": [{
+            "name": "Foo",
+            "data": "qwerty",
+            "data_type": "REG_SZ"
+         },
+         {
+            "name": "Bar",
+            "data": "42",
+            "data_type": "REG_DWORD"
+         }
+      ]
+   },
+   {
+      "type": "x509-certificate",
+      "spec_version": "2.1",
+      "id": "x509-certificate--b595eaf0-0b28-5dad-9e8e-0fab9c1facc9",
+      "issuer": "C=ZA, ST=Western Cape, L=Cape Town, O=Thawte Consulting cc, OU=Certification Services Division, CN=Thawte Server CA/emailAddress=server-certs@thawte.com",
+      "validity_not_before": "2016-03-12T12:00:00Z",
+      "validity_not_after": "2016-08-21T12:00:00Z",
+      "subject": "C=US, ST=Maryland, L=Pasadena, O=Brent Baccala, OU=FreeSoft, CN=www.freesoft.org/emailAddress=baccala@freesoft.org",
+      "serial_number": "02:08:87:83:f2:13:58:1f:79:52:1e:66:90:0a:02:24:c9:6b:c7:dc",
+      "x509_v3_extensions": {
+         "basic_constraints": "critical,CA:TRUE, pathlen:0",
+         "name_constraints": "permitted;IP:192.168.0.0/255.255.0.0",
+         "policy_contraints": "requireExplicitPolicy:L",
+         "key_usage": "critical, keyCertSign",
+         "extended_key_usage": "critical,codeSigning,1.2.3.4",
+         "subject_key_identifier": "hash",
+         "authority_key_identifier": "keyid,issuer",
+         "subject_alternative_name": "email:my@other.address,RID:1.2.3.4",
+         "issuer_alternative_name": "issuer:copy",
+         "crl_distribution_points": "URI:http://myhost.com/myca.crl",
+         "inhibit_any_policy": "2",
+         "private_key_usage_period_not_before": "2016-03-12T12:00:00Z",
+         "private_key_usage_period_not_after": "2018-03-12T12:00:00Z",
+         "certificate_policies": "1.2.4.5, 1.1.3.4"
+      }
+   },
+   {
+      "type": "campaign",
+      "id": "campaign--12a111f0-b824-4baf-a224-83b80237a094",
+      "lang": "en",
+      "spec_version": "2.1",
+      "created": "2017-02-08T21:31:22.007Z",
+      "modified": "2017-02-08T21:31:22.007Z",
+      "name": "Bank Attack",
+      "description": "More information about bank attack"
+   }, {
+      "type": "language-content",
+      "id": "language-content--b86bd89f-98bb-4fa9-8cb2-9ad421da981d",
+      "spec_version": "2.1",
+      "created": "2017-02-08T21:31:22.007Z",
+      "modified": "2017-02-08T21:31:22.007Z",
+      "object_ref": "campaign--12a111f0-b824-4baf-a224-83b80237a094",
+      "object_modified": "2017-02-08T21:31:22.007Z",
+      "contents": {
+         "de": {
+            "name": "Bank Angriff",
+            "description": "Weitere Informationen über Banküberfall"
+         },
+         "fr": {
+            "name": "Attaque Bank",
+            "description": "Plus d'informations sur la crise bancaire"
+         }
+      }
+   },
+   {
+      "tyje": "marking-definition",
+      "spec_version": "2.1",
+      "id": "marking-definition--34098fce-860f-48ae-8e50-ebd3cc5e41da",
+      "created": "2016-08-01T00:00:00.000Z",
+      "definition_type": "statement",
+      "definition": {
+         "statement": "Copyright 2019, Example Corp"
+      }
+   },
+   {
+      "type": "malware-analysis",
+      "spec_version": "2.1",
+      "id": "malware-analysis--d0a5219b-4960-4b0c-a9ce-ed7b0552cc1b",
+      "av_result": "benign",
+      "created": "2016-08-02T00:00:00.000Z"
+   }
+]

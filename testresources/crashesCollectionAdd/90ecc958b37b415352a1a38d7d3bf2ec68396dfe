@@ -1,164 +1,4 @@
-[{
-      "type": "attack-pattern",
-      "spec_version": "2.1",
-      "id": "attack-pattern--7e33a43e-e34b-40ec-89da-36c9bb2cacd5",
-      "created": "2016-05-12T08:17:27.000Z",
-      "modified": "2016-05-12T08:17:27.000Z",
-      "name": "Spear Phishing as Practiced by Adversary X",
-      "description": "A particular form of spear phishing where the attacker claims that the target had won a contest, including personal details, to get them to click on a link.",
-      "external_references": [{
-         "source_name": "capec",
-         "external_id": "CAPEC-163"
-      }]
-   },
-   {
-      "type": "relationship",
-      "spec_version": "2.1",
-      "id": "relationship--57b56a43-b8b0-4cba-9deb-34e3e1faed9e",
-      "created": "2016-05-12T08:17:27.000Z",
-      "modified": "2016-05-12T08:17:27.000Z",
-      "relationship_type": "uses",
-      "source_ref": "intrusion-set--0c7e22ad-b099-4dc3-b0df-2ea3f49ae2e6",
-      "target_ref": "attack-pattern--7e33a43e-e34b-40ec-89da-36c9bb2cacd5"
-   },
-   {
-      "type": "intrusion-set",
-      "spec_version": "2.1",
-      "id": "intrusion-set--0c7e22ad-b099-4dc3-b0df-2ea3f49ae2e6",
-      "created": "2016-05-12T08:17:27.000Z",
-      "modified": "2016-05-12T08:17:27.000Z",
-      "name": "Adversary X"
-   },
-   {
-      "type": "campaign",
-      "spec_version": "2.1",
-      "id": "campaign--8e2e2d2b-17d4-4cbf-938f-98ee46b3cd3f",
-      "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
-      "created": "2016-04-06T20:03:00.000Z",
-      "modified": "2016-04-06T20:03:00.000Z",
-      "name": "Green Group Attacks Against Finance",
-      "description": "Campaign by Green Group against a series of targets in the financial services sector."
-   },
-   {
-      "type": "course-of-action",
-      "spec_version": "2.1",
-      "id": "course-of-action--8e2e2d2b-17d4-4cbf-938f-98ee46b3cd3f",
-      "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
-      "created": "2016-04-06T20:03:48.000Z",
-      "modified": "2016-04-06T20:03:48.000Z",
-      "name": "mitigation-poison-ivy-firewall",
-      "description": "This action points to a recommended set of steps to respond to the Poison Ivy malware on a Cisco firewall device",
-      "action_type": "cisco:ios",
-      "action_reference": {
-         "source_name": "internet",
-         "url": "hxxps://www.stopthebad.com/poisonivyresponse.asa"
-      }
-   },
-   {
-      "type": "relationship",
-      "spec_version": "2.1",
-      "id": "relationship--44298a74-ba52-4f0c-87a3-1824e67d7fad",
-      "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
-      "created": "2016-04-06T20:07:10.000Z",
-      "modified": "2016-04-06T20:07:10.000Z",
-      "relationship_type": "mitigates",
-      "source_ref": "course-of-action--8e2e2d2b-17d4-4cbf-938f-98ee46b3cd3f",
-      "target_ref": "malware--31b940d4-6f7f-459a-80ea-9c1f17b5891b"
-   },
-   {
-      "type": "malware",
-      "spec_version": "2.1",
-      "id": "malware--31b940d4-6f7f-459a-80ea-9c1f17b5891b",
-      "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
-      "created": "2016-04-06T20:07:09.000Z",
-      "modified": "2016-04-06T20:07:09.000Z",
-      "name": "Poison Ivy",
-      "malware_types": [
-         "trojan"
-      ]
-   },
-   {
-      "type": "grouping",
-      "spec_version": "2.1",
-      "id": "grouping--84e4d88f-44ea-4bcd-bbf3-b2c1c320bcb3",
-      "created_by_ref": "identity--a463ffb3-1bd9-4d94-b02d-74e4f1658283",
-      "created": "2015-12-21T19:59:11.000Z",
-      "modified": "2015-12-21T19:59:11.000Z",
-      "name": "The Black Vine Cyberespionage Group",
-      "description": "A simple collection of Black Vine Cyberespionage Group attributed intel",
-      "context": "suspicious-activity",
-      "object_refs": [
-         "indicator--26ffb872-1dd9-446e-b6f5-d58527e5b5d2",
-         "campaign--83422c77-904c-4dc1-aff5-5c38f3a2c55c",
-         "relationship--f82356ae-fe6c-437c-9c24-6b64314ae68a",
-         "file--0203b5c8-f8b6-4ddb-9ad0-527d727f968b"
-      ]
-   },
-   {
-      "type": "identity",
-      "spec_version": "2.1",
-      "id": "identity--e5f1b90a-d9b6-40ab-81a9-8a29df4b6b65",
-      "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
-      "created": "2016-04-06T20:03:00.000Z",
-      "modified": "2016-04-06T20:03:00.000Z",
-      "name": "ACME Widget, Inc.",
-      "identity_class": "organization"
-   },
-   {
-      "type": "indicator",
-      "spec_version": "2.1",
-      "id": "indicator--8e2e2d2b-17d4-4cbf-938f-98ee46b3cd3f",
-      "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
-      "created": "2016-04-06T20:03:48.000Z",
-      "modified": "2016-04-06T20:03:48.000Z",
-      "indicator_types": [
-         "malicious-activity"
-      ],
-      "name": "Poison Ivy Malware",
-      "description": "This file is part of Poison Ivy",
-      "pattern": "[ file:hashes.'SHA-256' = '4bac27393bdd9777ce02453256c5577cd02275510b2227f473d03f533924f877' ]",
-      "pattern_type": "stix",
-      "valid_from": "2016-01-01T00:00:00Z"
-   },
-   {
-      "type": "relationship",
-      "spec_version": "2.1",
-      "id": "relationship--44298a74-ba52-4f0c-87a3-1824e67d7fad",
-      "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
-      "created": "2016-04-06T20:06:37.000Z",
-      "modified": "2016-04-06T20:06:37.000Z",
-      "relationship_type": "indicates",
-      "source_ref": "indicator--8e2e2d2b-17d4-4cbf-938f-98ee46b3cd3f",
-      "target_ref": "malware--31b940d4-6f7f-459a-80ea-9c1f17b5891b"
-   },
-   {
-      "type": "malware",
-      "spec_version": "2.1",
-      "id": "malware--31b940d4-6f7f-459a-80ea-9c1f17b5891b",
-      "created": "2016-04-06T20:07:09.000Z",
-      "modified": "2016-04-06T20:07:09.000Z",
-      "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
-      "name": "Poison Ivy",
-      "malware_types": [
-         "trojan"
-      ]
-   },
-   {
-      "type": "infrastructure",
-      "spec_version": "2.1",
-      "id": "infrastructure--38c47d93-d984-4fd9-b87b-d69d0841628d",
-      "created": "2016-05-07T11:22:30.000Z",
-      "modified": "2016-05-07T11:22:30.000Z",
-      "name": "Poison Ivy C2",
-      "infrastructure_types": [
-         "command-and-control"
-      ]
-   }, {
-      "type": "relationship",
-      "spec_version": "2.1",
-      "id": "relationship--7aebe2f0-28d6-48a2-9c3e-b0aaa60266ed",
-      "created": "2016-05-09T08:17:27.000Z",
-      "modified": "2016-05-09T08:17:27.000Z",
+[{"":"","":"","":"","":"","":"","":"","":"","":[{"":"","":""}]},{"":"","":"","":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":"","":"","":"","":"","":{"":"","":""}},{"":"","":"","":"","":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":"","":"","":[""]},{"":"","":"","":"","":"","":"","":"","":"","":"","":"","":["","","",""]},{"":"","":"","":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":"","":[""],"":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":"","":"","":[""]},{"":"","":"","":"","":"","":"","":"","":[""]},{"":"","":"","":"","":"","modified": "2016-05-09T08:17:27.000Z",
       "relationship_type": "controls",
       "source_ref": "infrastructure--38c47d93-d984-4fd9-b87b-d69d0841628d",
       "target_ref": "malware--16f4f3f9-1b68-4abb-bb66-7639d49f1e30"
@@ -224,7 +64,7 @@
       "type": "location",
       "spec_version": "2.1",
       "id": "location--a6e9345f-5a15-4c29-8bb3-7dcc5d168d64",
-      "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
+      "crea…ed_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
       "created": "2016-04-06T20:03:00.000Z",
       "modified": "2016-04-06T20:03:00.000Z",
       "region": "south-eastern-asia",
@@ -485,7 +325,7 @@
       "value": "mary@example.com",
       "display_name": "Mary Smith"
    }, {
-      "type": "artifact",
+      "typ": "artifact",
       "spec_version": "2.1",
       "id": "artifact--4cce66f8-6eaa-53cb-85d5-3a85fca3a6c5",
       "mime_type": "image/jpeg",
@@ -524,7 +364,7 @@
    {
       "type": "ipv4-addr",
       "spec_version": "2.1",
-      "id": "ipv4-addr--4d22aae0-2bf9-5427-8819-e4f6abf20a53",
+      "id": "ipv4-addr--4d22aae0-2bf9-5427-8819-e4f6abf20a5300",
       "value": "198.51.100.2"
    }, {
       "type": "ipv4-addr",

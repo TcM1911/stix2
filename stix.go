@@ -31,12 +31,16 @@ type StixCollection struct {
 }
 
 // Add adds or updates an object in the collection.
-func (c *StixCollection) Add(obj StixObject) {
+func (c *StixCollection) Add(obj StixObject) error {
 	c.objinit.Do(func() {
 		objectInit(c)
 	})
+	if !HasValidIdentifier(obj) {
+		return fmt.Errorf("%s has an invalid identifier", obj.GetID())
+	}
 	bucket := c.objects[obj.GetType()]
 	bucket[obj.GetID()] = obj
+	return nil
 }
 
 // AllObjects returns a slice of all StixObjects that are in the collection.
@@ -1046,8 +1050,7 @@ func parseAS(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&as)
-	return nil
+	return collection.Add(&as)
 }
 
 func parseArtifact(data []byte, collection *StixCollection) error {
@@ -1056,8 +1059,7 @@ func parseArtifact(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseAttackPattern(data []byte, collection *StixCollection) error {
@@ -1066,8 +1068,7 @@ func parseAttackPattern(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseCampaign(data []byte, collection *StixCollection) error {
@@ -1076,8 +1077,7 @@ func parseCampaign(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseCourseOfAction(data []byte, collection *StixCollection) error {
@@ -1086,8 +1086,7 @@ func parseCourseOfAction(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseDirector(data []byte, collection *StixCollection) error {
@@ -1096,8 +1095,7 @@ func parseDirector(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseDomainName(data []byte, collection *StixCollection) error {
@@ -1106,8 +1104,7 @@ func parseDomainName(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseEmailAddress(data []byte, collection *StixCollection) error {
@@ -1116,8 +1113,7 @@ func parseEmailAddress(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseEmailMessage(data []byte, collection *StixCollection) error {
@@ -1126,8 +1122,7 @@ func parseEmailMessage(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseFile(data []byte, collection *StixCollection) error {
@@ -1136,8 +1131,7 @@ func parseFile(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseGrouping(data []byte, collection *StixCollection) error {
@@ -1146,8 +1140,7 @@ func parseGrouping(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseIPv4(data []byte, collection *StixCollection) error {
@@ -1156,8 +1149,7 @@ func parseIPv4(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseIPv6(data []byte, collection *StixCollection) error {
@@ -1166,8 +1158,7 @@ func parseIPv6(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseIdentity(data []byte, collection *StixCollection) error {
@@ -1176,8 +1167,7 @@ func parseIdentity(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseIndicator(data []byte, collection *StixCollection) error {
@@ -1186,8 +1176,7 @@ func parseIndicator(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseInfrastructure(data []byte, collection *StixCollection) error {
@@ -1196,8 +1185,7 @@ func parseInfrastructure(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseIntrusionSet(data []byte, collection *StixCollection) error {
@@ -1206,8 +1194,7 @@ func parseIntrusionSet(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseLanguageContent(data []byte, collection *StixCollection) error {
@@ -1216,8 +1203,7 @@ func parseLanguageContent(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseLocation(data []byte, collection *StixCollection) error {
@@ -1226,8 +1212,7 @@ func parseLocation(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseMAC(data []byte, collection *StixCollection) error {
@@ -1236,8 +1221,7 @@ func parseMAC(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseMalware(data []byte, collection *StixCollection) error {
@@ -1246,8 +1230,7 @@ func parseMalware(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseMalwareAnalysis(data []byte, collection *StixCollection) error {
@@ -1256,8 +1239,7 @@ func parseMalwareAnalysis(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseMarkingDefinition(data []byte, collection *StixCollection) error {
@@ -1266,8 +1248,7 @@ func parseMarkingDefinition(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseMutex(data []byte, collection *StixCollection) error {
@@ -1276,8 +1257,7 @@ func parseMutex(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseNetworkTraffic(data []byte, collection *StixCollection) error {
@@ -1286,8 +1266,7 @@ func parseNetworkTraffic(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseNote(data []byte, collection *StixCollection) error {
@@ -1296,8 +1275,7 @@ func parseNote(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseObservedData(data []byte, collection *StixCollection) error {
@@ -1306,8 +1284,7 @@ func parseObservedData(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseOpinion(data []byte, collection *StixCollection) error {
@@ -1316,8 +1293,7 @@ func parseOpinion(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseProcess(data []byte, collection *StixCollection) error {
@@ -1326,8 +1302,7 @@ func parseProcess(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseRegistryKey(data []byte, collection *StixCollection) error {
@@ -1336,8 +1311,7 @@ func parseRegistryKey(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseRelationship(data []byte, collection *StixCollection) error {
@@ -1346,8 +1320,7 @@ func parseRelationship(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseReport(data []byte, collection *StixCollection) error {
@@ -1356,8 +1329,7 @@ func parseReport(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseSighting(data []byte, collection *StixCollection) error {
@@ -1366,8 +1338,7 @@ func parseSighting(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseSoftware(data []byte, collection *StixCollection) error {
@@ -1376,8 +1347,7 @@ func parseSoftware(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseThreatActor(data []byte, collection *StixCollection) error {
@@ -1386,8 +1356,7 @@ func parseThreatActor(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseTool(data []byte, collection *StixCollection) error {
@@ -1396,8 +1365,7 @@ func parseTool(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseURL(data []byte, collection *StixCollection) error {
@@ -1406,8 +1374,7 @@ func parseURL(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseUseAccount(data []byte, collection *StixCollection) error {
@@ -1416,8 +1383,7 @@ func parseUseAccount(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseVulnerability(data []byte, collection *StixCollection) error {
@@ -1426,8 +1392,7 @@ func parseVulnerability(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 func parseX509(data []byte, collection *StixCollection) error {
@@ -1436,8 +1401,7 @@ func parseX509(data []byte, collection *StixCollection) error {
 	if err != nil {
 		return err
 	}
-	collection.Add(&v)
-	return nil
+	return collection.Add(&v)
 }
 
 type peakObject struct {

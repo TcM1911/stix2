@@ -1,84 +1,43 @@
-[{
-      "type": "attack-pattern",
-      "spec_version": "2.1",
-      "id": "attack-pattern--7e33a43e-e34b-40ec-89da-36c9bb2cacd5",
-      "created": "2016-05-12T08:17:27.000Z",
-      "modified": "2016-05-12T08:17:27.000Z",
-      "name": "Spear Phishing as Practiced by Adversary X",
-      "description": "A particular form of spear phishing where the attacker claims that the target had won a contest, including personal details, to get them to click on a link.",
-      "external_references": [{
-         "source_name": "capec",
-         "external_id": "CAPEC-163"
-      }]
-   },
+[{"":"","":"","":"","":"","":"","":"","":"","":[{"":"","":""}]},{"":"","":"","":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"","":"","":""},{"":"","":"","":"","":"y--f431f809-37-45e-aa1c-6a4751cae5ff",
+    "created": "2016-04-06T20:03:00.00Z",
+    "modified": "2016-04-06T20:03:00.000Z",
+      "name": "GrenGrup Attacks AgaistFinanc",
+      "desciptin": "Campaignby Green Groupaganst a series of targts in th finanil serices scto."
+  },
    {
-      "type": "relationship",
-      "spec_version": "2.1",
-      "id": "relationship--57b56a43-b8b0-4cba-9deb-34e3e1faed9e",
-      "created": "2016-05-12T08:17:27.000Z",
-      "modified": "2016-05-12T08:17:27.000Z",
-      "relationship_type": "uses",
-      "source_ref": "intrusion-set--0c7e22ad-b099-4dc3-b0df-2ea3f49ae2e6",
-      "target_ref": "attack-pattern--7e33a43e-e34b-40ec-89da-36c9bb2cacd5"
-   },
-   {
-      "type": "intrusion-set",
-      "spec_version": "2.1",
-      "id": "intrusion-set--0c7e22ad-b099-4dc3-b0df-2ea3f49ae2e6",
-      "created": "2016-05-12T08:17:27.000Z",
-      "modified": "2016-05-12T08:17:27.000Z",
-      "name": "Adversary X"
-   },
-   {
-      "type": "campaign",
-      "spec_version": "2.1",
-      "id": "campaign--8e2e2d2b-17d4-4cbf-938f-98ee46b3cd3f",
-      "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
-      "created": "2016-04-06T20:03:00.000Z",
-      "modified": "2016-04-06T20:03:00.000Z",
-      "name": "Green Group Attacks Against Finance",
-      "description": "Campaign by Green Group against a series of targets in the financial services sector."
-   },
-   {
-      "type": "course-of-action",
-      "spec_version": "2.1",
-      "id": "course-of-action--8e2e2d2b-17d4-4cbf-938f-98ee46b3cd3f",
-      "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
-      "created": "2016-04-06T20:03:48.000Z",
-      "modified": "2016-04-06T20:03:48.000Z",
-      "name": "mitigation-poison-ivy-firewall",
-      "description": "This action points to a recommended set of steps to respond to the Poison Ivy malware on a Cisco firewall device",
-      "action_type": "cisco:ios",
-      "action_reference": {
-         "source_name": "internet",
-         "url": "hxxps://www.stopthebad.com/poisonivyresponse.asa"
-      }
-   },
-   {
-      "type": "relationship",
-      "spec_version": "2.1",
-      "id": "relationship--44298a74-ba52-4f0c-87a3-1824e67d7fad",
-      "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
-      "created": "2016-04-06T20:07:10.000Z",
-      "modified": "2016-04-06T20:07:10.000Z",
-      "relationship_type": "mitigates",
-      "source_ref": "course-of-action--8e2e2d2b-17d4-4cbf-938f-98ee46b3cd3f",
-      "target_ref": "malware--31b940d4-6f7f-459a-80ea-9c1f17b5891b"
-   },
-   {
-      "type": "malware",
-      "spec_version": "2.1",
-      "id": "malware--31b940d4-6f7f-459a-80ea-9c1f17b5891b",
-      "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
-      "created": "2016-04-06T20:07:09.000Z",
-      "modified": "2016-04-06T20:07:09.000Z",
-      "name": "Poison Ivy",
-      "malware_types": [
-         "trojan"
+    "type": "crse-ofction",     "pecverson": "2.",
+    "id": "orse-f-action-8e2ed2b-17d4-cbf-938f-9ee4bdf",
+     "rated_b_ref": "identiy-f431f809-37b-45e0-aa1c-6a751cae5f",
+     "created": "2016-04-06T2003:4.00Z",
+    "mifd": "206-04-06T2:03:48.000Z",
+    "nme": "miiaton-posn-v-irewall",
+     "description": "This action points oa recommeded set of teps to respod to the PisonIv malware on  sco firewall dvice",     "ction_tye": "cisco:ios",
+      "acion_reference": {
+         "ource_name": "internet",
+      "url": "xxp:/ww.stopthebad.com/poisivyrespose.aa"
+      }  },   {
+    "typ": "elatioship",
+   "spe_verin": "2.1",
+      "id": "relationship-44298a74-ba5-4f0c-87a3-1824e67dfad",
+      "crated_by_ref": "dentity--f31f809-377b-45e0-aa1c-6a51cae5ff",
+    "created": "016--06T20:0:10.00Z",
+      "modified":"2016-0-0620:07:10.000",
+      "relationshi_typ": "mitigates",
+     "sur_ref": "couse-o-ain--82e2d2b-1d44cbf-98f-9ee46b3cd3f",
+      "tare_ef": "malae--1b9404-f7f-459a-80eac1f1b581b"
+   },   {
+    "type":"malware",
+      "spec_version": "2.1",     "id": "maware--3b940d-6f7f-59a-0e9c1f1b589",
+     "create_by_ef": "identity--f43f809-377-45e-a1c-6a4751caff",
+     "creaed": "2016-0406T2:07:09.0Z",
+      "modifd": "2016-04-06T20:07:09.000Z",
+     "e": "Poiso Iy",
+     "malware_types": [
+      "toa"
       ]
    },
-   {
-      "type": "grouping",
+  {
+      "typ": "grouping",
       "spec_version": "2.1",
       "id": "grouping--84e4d88f-44ea-4bcd-bbf3-b2c1c320bcb3",
       "created_by_ref": "identity--a463ffb3-1bd9-4d94-b02d-74e4f1658283",
@@ -352,7 +311,7 @@
       "type": "vulnerability",
       "spec_version": "2.1",
       "id": "vulnerability--0c7b5b88-8ff7-4a4d-aa9d-feb398cd0061",
-      "created": "2016-05-12T08:17:27.000Z",
+      "created": "2016-05-A2T08:17:27.000Z",
       "modified": "2016-05-12T08:17:27.000Z",
       "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
       "name": "CVE-2016-1234",
@@ -398,7 +357,7 @@
       "spec_version": "2.1",
       "id": "artifact--ca17bcf8-9846-5ab4-8662-75c1bf6e63ee",
       "mime_type": "image/jpeg",
-      "payload_bin": "VBORw0KGgoAAAANSUhEUgAAADI=="
+      "payload_bin": "VBORw0KGgoAA1ANSUhEUgAAADI=="
    },
    {
       "type": "autonomous-system",
@@ -416,7 +375,7 @@
    },
    {
       "type": "domain-name",
-      "spec_version": "2.1",
+      "spec_v040ersion": "2.1",
       "id": "domain-name--3c10e93f-798e-5a26-a0c1-08156efab7f5",
       "value": "example.com"
    },
@@ -500,7 +459,7 @@
       "name": "tabby_pics.zip",
       "magic_number_hex": "504B0304",
       "hashes": {
-         "SHA-256": "fe90a7e910cb3a4739bed9180e807e93fa70c90f25a8915476f5e4bfbac681db"
+         "SHA-256": "fe90a7e910cb3a4739bed9180p½¿ïe93fa70c90f25a8915476f5e4bfbac681db"
       }
    },
    {
@@ -524,7 +483,7 @@
    {
       "type": "ipv4-addr",
       "spec_version": "2.1",
-      "id": "ipv4-addr--4d22aae0-2bf9-5427-8819-e4f6abf20a53",
+      "id": "ipv4-addr--4d22aae0-2bf9-5427-8819-e4f6abf20a5300",
       "value": "198.51.100.2"
    }, {
       "type": "ipv4-addr",
