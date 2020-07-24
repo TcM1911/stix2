@@ -11,7 +11,7 @@ import (
 )
 
 func TestCrashCollectionAdd(t *testing.T) {
-	runFolder(t, "crashesCollectionAdd", func(a *assert.Assertions, testData []byte) {
+	runFolderTest(t, "crashesCollectionAdd", func(a *assert.Assertions, testData []byte) {
 		a.NotPanics(func() {
 			col, err := stix2.FromJSON(testData)
 			a.Error(err)
@@ -22,7 +22,7 @@ func TestCrashCollectionAdd(t *testing.T) {
 
 type testFunc func(a *assert.Assertions, testData []byte)
 
-func runFolder(t *testing.T, path string, fn testFunc) {
+func runFolderTest(t *testing.T, path string, fn testFunc) {
 	assert := assert.New(t)
 	pth, err := filepath.Abs(filepath.Join("testresources", path))
 	if err != nil {
