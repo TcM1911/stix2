@@ -18,16 +18,15 @@ func TestReport(t *testing.T) {
 	desc := "Report content"
 	objects := []Identifier{Identifier("something")}
 	name := "Report name"
-	typs := []string{ReportTypeAttackPattern}
 
 	t.Run("missing_property", func(t *testing.T) {
-		obj, err := NewReport("", []string{}, nil, []Identifier{}, nil)
+		obj, err := NewReport("", nil, []Identifier{}, nil)
 		assert.Nil(obj)
 		assert.Equal(ErrPropertyMissing, err)
 	})
 
 	t.Run("no_optional", func(t *testing.T) {
-		obj, err := NewReport(name, typs, ts, objects, nil)
+		obj, err := NewReport(name, ts, objects, nil)
 		assert.NotNil(obj)
 		assert.NoError(err)
 	})
@@ -41,6 +40,8 @@ func TestReport(t *testing.T) {
 		lang := "en"
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
+
+		typs := []string{ReportTypeAttackPattern}
 
 		opts := []ReportOption{
 			ReportOptionConfidence(conf),
@@ -56,8 +57,9 @@ func TestReport(t *testing.T) {
 			ReportOptionSpecVersion(specVer),
 			//
 			ReportOptionDescription(desc),
+			ReportOptionTypes(typs),
 		}
-		obj, err := NewReport(name, typs, ts, objects, opts...)
+		obj, err := NewReport(name, ts, objects, opts...)
 		assert.NotNil(obj)
 		assert.NoError(err)
 		assert.Equal(conf, obj.Confidence)

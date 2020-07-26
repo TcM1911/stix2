@@ -15,16 +15,15 @@ func TestIdentity(t *testing.T) {
 	assert := assert.New(t)
 
 	name := "New campaign"
-	class := IdentityClassUnspecified
 
 	t.Run("missing_property", func(t *testing.T) {
-		obj, err := NewIdentity("", "")
+		obj, err := NewIdentity("")
 		assert.Nil(obj)
 		assert.Equal(ErrPropertyMissing, err)
 	})
 
 	t.Run("no_optional", func(t *testing.T) {
-		obj, err := NewIdentity(name, class, nil)
+		obj, err := NewIdentity(name, nil)
 		assert.NotNil(obj)
 		assert.NoError(err)
 	})
@@ -42,6 +41,7 @@ func TestIdentity(t *testing.T) {
 		specVer := "2.0"
 
 		roles := []string{"CEO", "Retailer"}
+		class := IdentityClassUnspecified
 		sectors := []string{IdentitySectorDefence, IdentitySectorEntertainment}
 		contact := "123 Main ST"
 
@@ -59,11 +59,12 @@ func TestIdentity(t *testing.T) {
 			IdentityOptionSpecVersion(specVer),
 			//
 			IdentityOptionDescription(desc),
+			IdentityOptionClass(class),
 			IdentityOptionRoles(roles),
 			IdentityOptionSectors(sectors),
 			IdentityOptionContactInformation(contact),
 		}
-		obj, err := NewIdentity(name, class, opts...)
+		obj, err := NewIdentity(name, opts...)
 		assert.NotNil(obj)
 		assert.NoError(err)
 		assert.Equal(conf, obj.Confidence)
@@ -78,6 +79,8 @@ func TestIdentity(t *testing.T) {
 		assert.True(obj.Revoked)
 		assert.Equal(specVer, obj.SpecVersion)
 
+		assert.Equal(name, obj.Name)
+		assert.Equal(class, obj.IdentityClass)
 		assert.Equal(desc, obj.Description)
 		assert.Equal(roles, obj.Roles)
 		assert.Equal(sectors, obj.Sectors)
@@ -114,7 +117,7 @@ func TestIdentityMitigates(t *testing.T) {
 	assert := assert.New(t)
 
 	t.Run("vulnerability", func(t *testing.T) {
-		obj, err := NewIdentity("name", "class")
+		obj, err := NewIdentity("name")
 		assert.NoError(err)
 		id := NewIdentifier(TypeLocation)
 		rel, err := obj.AddLocatedAt(id)
@@ -124,7 +127,7 @@ func TestIdentityMitigates(t *testing.T) {
 	})
 
 	t.Run("invalid_type", func(t *testing.T) {
-		obj, err := NewIdentity("name", "class")
+		obj, err := NewIdentity("name")
 		assert.NoError(err)
 		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddLocatedAt(id)

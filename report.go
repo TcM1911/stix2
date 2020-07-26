@@ -36,15 +36,14 @@ type Report struct {
 }
 
 // NewReport creates a new Report object.
-func NewReport(name string, reportType []string, published *Timestamp, objects []Identifier, opts ...ReportOption) (*Report, error) {
-	if name == "" || len(reportType) == 0 || published == nil || len(objects) == 0 {
+func NewReport(name string, published *Timestamp, objects []Identifier, opts ...ReportOption) (*Report, error) {
+	if name == "" || published == nil || len(objects) == 0 {
 		return nil, ErrPropertyMissing
 	}
 	base := newSTIXDomainObject(TypeReport)
 	obj := &Report{
 		STIXDomainObject: base,
 		Name:             name,
-		Types:            reportType,
 		Published:        published,
 		Objects:          objects,
 	}
@@ -151,6 +150,13 @@ func ReportOptionCreatedBy(id Identifier) ReportOption {
 func ReportOptionDescription(s string) ReportOption {
 	return func(obj *Report) {
 		obj.Description = s
+	}
+}
+
+// ReportOptionTypes sets the types attribute.
+func ReportOptionTypes(s []string) ReportOption {
+	return func(obj *Report) {
+		obj.Types = s
 	}
 }
 

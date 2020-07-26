@@ -149,15 +149,14 @@ func (a *ThreatActor) AddUses(id Identifier, opts ...RelationshipOption) (*Relat
 }
 
 // NewThreatActor creates a new ThreatActor object.
-func NewThreatActor(name string, types []string, opts ...ThreatActorOption) (*ThreatActor, error) {
-	if name == "" || len(types) == 0 {
+func NewThreatActor(name string, opts ...ThreatActorOption) (*ThreatActor, error) {
+	if name == "" {
 		return nil, ErrPropertyMissing
 	}
 	base := newSTIXDomainObject(TypeThreatActor)
 	obj := &ThreatActor{
 		STIXDomainObject: base,
 		Name:             name,
-		Types:            types,
 	}
 
 	for _, opt := range opts {
@@ -262,6 +261,13 @@ func ThreatActorOptionCreatedBy(id Identifier) ThreatActorOption {
 func ThreatActorOptionDescription(s string) ThreatActorOption {
 	return func(obj *ThreatActor) {
 		obj.Description = s
+	}
+}
+
+// ThreatActorOptionTypes sets the threat actor types attribute.
+func ThreatActorOptionTypes(s []string) ThreatActorOption {
+	return func(obj *ThreatActor) {
+		obj.Types = s
 	}
 }
 

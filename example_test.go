@@ -109,9 +109,9 @@ func Example() {
 	collection.Add(domain)
 
 	mal, err := stix2.NewMalware(
-		[]string{stix2.MalwareTypeBot},
 		false,
 		stix2.MalwareOptionName("IMDDOS"),
+		stix2.MalwareOptionTypes([]string{stix2.MalwareTypeBot}),
 	)
 	if err != nil {
 		fmt.Println(err)
@@ -120,7 +120,6 @@ func Example() {
 
 	infra, err := stix2.NewInfrastructure(
 		"Example Target List Host",
-		[]string{stix2.InfrastructureTypeHostingTargetLists},
 	)
 	if err != nil {
 		fmt.Println(err)

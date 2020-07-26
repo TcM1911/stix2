@@ -115,12 +115,12 @@ func (c *Infrastructure) AddUses(id Identifier, opts ...RelationshipOption) (*Re
 }
 
 // NewInfrastructure creates a new Infrastructure object.
-func NewInfrastructure(name string, typs []string, opts ...InfrastructureOption) (*Infrastructure, error) {
-	if name == "" || len(typs) == 0 {
+func NewInfrastructure(name string, opts ...InfrastructureOption) (*Infrastructure, error) {
+	if name == "" {
 		return nil, ErrPropertyMissing
 	}
 	base := newSTIXDomainObject(TypeInfrastructure)
-	obj := &Infrastructure{STIXDomainObject: base, Name: name, InfrastructureTypes: typs}
+	obj := &Infrastructure{STIXDomainObject: base, Name: name}
 
 	for _, opt := range opts {
 		if opt == nil {
@@ -260,6 +260,13 @@ func InfrastructureOptionCreatedBy(id Identifier) InfrastructureOption {
 func InfrastructureOptionDescription(des string) InfrastructureOption {
 	return func(obj *Infrastructure) {
 		obj.Description = des
+	}
+}
+
+// InfrastructureOptionTypes sets the infrastructure types attribute.
+func InfrastructureOptionTypes(s []string) InfrastructureOption {
+	return func(obj *Infrastructure) {
+		obj.InfrastructureTypes = s
 	}
 }
 
