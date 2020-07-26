@@ -58,7 +58,7 @@ func TestIdentity(t *testing.T) {
 			IdentityOptionRevoked(true),
 			IdentityOptionSpecVersion(specVer),
 			//
-			IdentityOptionDesciption(desc),
+			IdentityOptionDescription(desc),
 			IdentityOptionRoles(roles),
 			IdentityOptionSectors(sectors),
 			IdentityOptionContactInformation(contact),

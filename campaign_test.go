@@ -56,7 +56,7 @@ func TestCampaign(t *testing.T) {
 			CampaignOptionRevoked(true),
 			CampaignOptionSpecVersion(specVer),
 			//
-			CampaignOptionDesciption(desc),
+			CampaignOptionDescription(desc),
 			CampaignOptionAliases(aliases),
 			CampaignOptionFirstSeen(ts),
 			CampaignOptionLastSeen(ts),

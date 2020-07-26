@@ -198,8 +198,8 @@ func LocationOptionCreatedBy(id Identifier) LocationOption {
 	Location object options
 */
 
-// LocationOptionDesciption sets the description attribute.
-func LocationOptionDesciption(des string) LocationOption {
+// LocationOptionDescription sets the description attribute.
+func LocationOptionDescription(des string) LocationOption {
 	return func(obj *Location) {
 		obj.Description = des
 	}

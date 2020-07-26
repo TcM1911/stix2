@@ -63,7 +63,7 @@ func TestLocation(t *testing.T) {
 			LocationOptionRevoked(true),
 			LocationOptionSpecVersion(specVer),
 			//
-			LocationOptionDesciption(desc),
+			LocationOptionDescription(desc),
 			LocationOptionName(name),
 			LocationOptionPrecision(precision),
 			LocationOptionAdministrativeArea(adminArea),

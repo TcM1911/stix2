@@ -226,8 +226,8 @@ func IdentityOptionCreatedBy(id Identifier) IdentityOption {
 	Identity object options
 */
 
-// IdentityOptionDesciption sets the description attribute.
-func IdentityOptionDesciption(des string) IdentityOption {
+// IdentityOptionDescription sets the description attribute.
+func IdentityOptionDescription(des string) IdentityOption {
 	return func(obj *Identity) {
 		obj.Description = des
 	}

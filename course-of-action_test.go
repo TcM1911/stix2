@@ -53,7 +53,7 @@ func TestCourseOfAction(t *testing.T) {
 			CourseOfActionOptionRevoked(true),
 			CourseOfActionOptionSpecVersion(specVer),
 			//
-			CourseOfActionOptionDesciption(desc),
+			CourseOfActionOptionDescription(desc),
 		}
 		obj, err := NewCourseOfAction(name, opts...)
 		assert.NotNil(obj)

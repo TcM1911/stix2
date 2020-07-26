@@ -243,8 +243,8 @@ func IntrusionSetOptionCreatedBy(id Identifier) IntrusionSetOption {
 	IntrusionSet object options
 */
 
-// IntrusionSetOptionDesciption sets the description attribute.
-func IntrusionSetOptionDesciption(des string) IntrusionSetOption {
+// IntrusionSetOptionDescription sets the description attribute.
+func IntrusionSetOptionDescription(des string) IntrusionSetOption {
 	return func(obj *IntrusionSet) {
 		obj.Description = des
 	}

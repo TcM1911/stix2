@@ -229,8 +229,8 @@ func SightingOptionCreatedBy(id Identifier) SightingOption {
 	Sighting object options
 */
 
-// SightingOptionDesciption sets the description attribute.
-func SightingOptionDesciption(des string) SightingOption {
+// SightingOptionDescription sets the description attribute.
+func SightingOptionDescription(des string) SightingOption {
 	return func(r *Sighting) {
 		r.Description = des
 	}

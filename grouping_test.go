@@ -56,7 +56,7 @@ func TestGrouping(t *testing.T) {
 			GroupingOptionRevoked(true),
 			GroupingOptionSpecVersion(specVer),
 			//
-			GroupingOptionDesciption(desc),
+			GroupingOptionDescription(desc),
 			GroupingOptionName(name),
 		}
 		obj, err := NewGrouping(context, objects, opts...)

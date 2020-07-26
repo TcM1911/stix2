@@ -153,8 +153,8 @@ func GroupingOptionCreatedBy(id Identifier) GroupingOption {
 	Grouping object options
 */
 
-// GroupingOptionDesciption sets the description attribute.
-func GroupingOptionDesciption(des string) GroupingOption {
+// GroupingOptionDescription sets the description attribute.
+func GroupingOptionDescription(des string) GroupingOption {
 	return func(obj *Grouping) {
 		obj.Description = des
 	}

@@ -60,7 +60,7 @@ func TestIndicator(t *testing.T) {
 			IndicatorOptionRevoked(true),
 			IndicatorOptionSpecVersion(specVer),
 			//
-			IndicatorOptionDesciption(desc),
+			IndicatorOptionDescription(desc),
 			IndicatorOptionName(name),
 			IndicatorOptionKillChainPhase(kchain),
 			IndicatorOptionPatternVersion(patVer),

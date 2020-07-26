@@ -244,8 +244,8 @@ func RelationshipOptionCreatedBy(id Identifier) RelationshipOption {
 	Relationship object options
 */
 
-// RelationshipOptionDesciption sets the description attribute.
-func RelationshipOptionDesciption(des string) RelationshipOption {
+// RelationshipOptionDescription sets the description attribute.
+func RelationshipOptionDescription(des string) RelationshipOption {
 	return func(r *Relationship) {
 		r.Description = des
 	}

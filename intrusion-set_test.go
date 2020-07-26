@@ -59,7 +59,7 @@ func TestIntrusionSet(t *testing.T) {
 			IntrusionSetOptionRevoked(true),
 			IntrusionSetOptionSpecVersion(specVer),
 			//
-			IntrusionSetOptionDesciption(desc),
+			IntrusionSetOptionDescription(desc),
 			IntrusionSetOptionGoals(goals),
 			IntrusionSetOptionAliases(aliases),
 			IntrusionSetOptionFirstSeen(ts),

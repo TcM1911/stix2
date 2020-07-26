@@ -256,8 +256,8 @@ func InfrastructureOptionCreatedBy(id Identifier) InfrastructureOption {
 	Infrastructure object options
 */
 
-// InfrastructureOptionDesciption sets the description attribute.
-func InfrastructureOptionDesciption(des string) InfrastructureOption {
+// InfrastructureOptionDescription sets the description attribute.
+func InfrastructureOptionDescription(des string) InfrastructureOption {
 	return func(obj *Infrastructure) {
 		obj.Description = des
 	}

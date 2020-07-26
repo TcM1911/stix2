@@ -45,7 +45,7 @@ func TestAttackPattern(t *testing.T) {
 
 		opts := []AttackPatternOption{
 			AttackPatternOptionConfidence(conf),
-			AttackPatternOptionDesciption(desc),
+			AttackPatternOptionDescription(desc),
 			AttackPatternOptionCreated(ts),
 			AttackPatternOptionModified(ts),
 			AttackPatternOptionCreatedBy(createdBy),

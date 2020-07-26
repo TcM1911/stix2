@@ -201,8 +201,8 @@ func IndicatorOptionCreatedBy(id Identifier) IndicatorOption {
 	Indicator object options
 */
 
-// IndicatorOptionDesciption sets the description attribute.
-func IndicatorOptionDesciption(des string) IndicatorOption {
+// IndicatorOptionDescription sets the description attribute.
+func IndicatorOptionDescription(des string) IndicatorOption {
 	return func(obj *Indicator) {
 		obj.Description = des
 	}

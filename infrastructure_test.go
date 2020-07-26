@@ -58,7 +58,7 @@ func TestInfrastructure(t *testing.T) {
 			InfrastructureOptionRevoked(true),
 			InfrastructureOptionSpecVersion(specVer),
 			//
-			InfrastructureOptionDesciption(desc),
+			InfrastructureOptionDescription(desc),
 			InfrastructureOptionKillChainPhase(kchain),
 			InfrastructureOptionAliases(aliases),
 			InfrastructureOptionFirstSeen(ts),

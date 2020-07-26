@@ -44,7 +44,7 @@ func TestRelationship(t *testing.T) {
 
 		opts := []RelationshipOption{
 			RelationshipOptionConfidence(conf),
-			RelationshipOptionDesciption(desc),
+			RelationshipOptionDescription(desc),
 			RelationshipOptionCreated(ts),
 			RelationshipOptionModified(ts),
 			RelationshipOptionCreatedBy(createdBy),

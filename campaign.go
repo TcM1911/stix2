@@ -195,8 +195,8 @@ func CampaignOptionCreatedBy(id Identifier) CampaignOption {
 	Campaign object options
 */
 
-// CampaignOptionDesciption sets the description attribute.
-func CampaignOptionDesciption(des string) CampaignOption {
+// CampaignOptionDescription sets the description attribute.
+func CampaignOptionDescription(des string) CampaignOption {
 	return func(obj *Campaign) {
 		obj.Description = des
 	}

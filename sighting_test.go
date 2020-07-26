@@ -47,7 +47,7 @@ func TestSighting(t *testing.T) {
 
 		opts := []SightingOption{
 			SightingOptionConfidence(conf),
-			SightingOptionDesciption(desc),
+			SightingOptionDescription(desc),
 			SightingOptionCreated(ts),
 			SightingOptionModified(ts),
 			SightingOptionCreatedBy(createdBy),

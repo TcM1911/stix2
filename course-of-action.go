@@ -155,8 +155,8 @@ func CourseOfActionOptionCreatedBy(id Identifier) CourseOfActionOption {
 	CourseOfAction object options
 */
 
-// CourseOfActionOptionDesciption sets the description attribute.
-func CourseOfActionOptionDesciption(des string) CourseOfActionOption {
+// CourseOfActionOptionDescription sets the description attribute.
+func CourseOfActionOptionDescription(des string) CourseOfActionOption {
 	return func(obj *CourseOfAction) {
 		obj.Description = des
 	}

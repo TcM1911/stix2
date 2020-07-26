@@ -162,8 +162,8 @@ func AttackPatternOptionCreatedBy(id Identifier) AttackPatternOption {
 	AttackPattern object options
 */
 
-// AttackPatternOptionDesciption sets the description attribute.
-func AttackPatternOptionDesciption(des string) AttackPatternOption {
+// AttackPatternOptionDescription sets the description attribute.
+func AttackPatternOptionDescription(des string) AttackPatternOption {
 	return func(obj *AttackPattern) {
 		obj.Description = des
 	}
