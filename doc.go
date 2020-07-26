@@ -30,9 +30,9 @@ https://docs.oasis-open.org/cti/stix/v2.1/csprd02/stix-v2.1-csprd02.html#_Toc267
 	collection.Add(domain)
 
 	mal, err := stix2.NewMalware(
-		[]string{stix2.MalwareTypeBot},
 		false,
 		stix2.MalwareOptionName("IMDDOS"),
+		stix2.MalwareOptionTypes([]string{stix2.MalwareTypeBot}),
 	)
 	collection.Add(mal)
 

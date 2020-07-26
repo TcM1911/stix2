@@ -46,9 +46,9 @@ domain, err := stix2.NewDomainName("example.com")
 collection.Add(domain)
 
 mal, err := stix2.NewMalware(
-	[]string{stix2.MalwareTypeBot},
 	false,
 	stix2.MalwareOptionName("IMDDOS"),
+	stix2.MalwareOptionTypes([]string{stix2.MalwareTypeBot}),
 )
 collection.Add(mal)
 
