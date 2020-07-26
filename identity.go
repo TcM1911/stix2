@@ -44,12 +44,12 @@ func (c *Identity) AddLocatedAt(id Identifier, opts ...RelationshipOption) (*Rel
 }
 
 // NewIdentity creates a new Identity object.
-func NewIdentity(name, class string, opts ...IdentityOption) (*Identity, error) {
-	if name == "" || class == "" {
+func NewIdentity(name string, opts ...IdentityOption) (*Identity, error) {
+	if name == "" {
 		return nil, ErrPropertyMissing
 	}
 	base := newSTIXDomainObject(TypeIdentity)
-	obj := &Identity{STIXDomainObject: base, Name: name, IdentityClass: class}
+	obj := &Identity{STIXDomainObject: base, Name: name}
 
 	for _, opt := range opts {
 		if opt == nil {
@@ -230,6 +230,13 @@ func IdentityOptionCreatedBy(id Identifier) IdentityOption {
 func IdentityOptionDescription(des string) IdentityOption {
 	return func(obj *Identity) {
 		obj.Description = des
+	}
+}
+
+// IdentityOptionClass sets the identity class attribute.
+func IdentityOptionClass(s string) IdentityOption {
+	return func(obj *Identity) {
+		obj.IdentityClass = s
 	}
 }
 

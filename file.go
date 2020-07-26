@@ -128,7 +128,7 @@ func NewFile(name string, hashes Hashes, opts ...FileOption) (*File, error) {
 		}
 		opt(obj)
 	}
-	idContri := make([]string, 0, 3)
+	idContri := make([]string, 0, 4)
 	if len(obj.Hashes) != 0 {
 		idContri = append(idContri, obj.Hashes.getIDContribution())
 	}
@@ -137,6 +137,9 @@ func NewFile(name string, hashes Hashes, opts ...FileOption) (*File, error) {
 	}
 	if len(obj.Extensions) != 0 {
 		idContri = append(idContri, obj.canonicalizeExtensions())
+	}
+	if obj.ParentDirectory != "" {
+		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.ParentDirectory))
 	}
 	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeFile)
 	return obj, nil

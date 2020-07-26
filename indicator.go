@@ -69,12 +69,12 @@ func (c *Indicator) AddBasedOn(id Identifier, opts ...RelationshipOption) (*Rela
 }
 
 // NewIndicator creates a new Indicator object.
-func NewIndicator(pattern, patternType string, indicatorTypes []string, validFrom *Timestamp, opts ...IndicatorOption) (*Indicator, error) {
-	if pattern == "" || patternType == "" || len(indicatorTypes) == 0 || validFrom == nil {
+func NewIndicator(pattern, patternType string, validFrom *Timestamp, opts ...IndicatorOption) (*Indicator, error) {
+	if pattern == "" || patternType == "" || validFrom == nil {
 		return nil, ErrPropertyMissing
 	}
 	base := newSTIXDomainObject(TypeIndicator)
-	obj := &Indicator{STIXDomainObject: base, Pattern: pattern, PatternType: patternType, IndicatorTypes: indicatorTypes, ValidFrom: validFrom}
+	obj := &Indicator{STIXDomainObject: base, Pattern: pattern, PatternType: patternType, ValidFrom: validFrom}
 
 	for _, opt := range opts {
 		if opt == nil {
@@ -219,6 +219,13 @@ func IndicatorOptionKillChainPhase(s []*KillChainPhase) IndicatorOption {
 func IndicatorOptionName(s string) IndicatorOption {
 	return func(obj *Indicator) {
 		obj.Name = s
+	}
+}
+
+// IndicatorOptionTypes sets the indicator types attribute.
+func IndicatorOptionTypes(s []string) IndicatorOption {
+	return func(obj *Indicator) {
+		obj.IndicatorTypes = s
 	}
 }
 

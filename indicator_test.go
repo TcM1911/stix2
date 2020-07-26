@@ -17,16 +17,15 @@ func TestIndicator(t *testing.T) {
 	pattern := "new pattern"
 	patternType := "stix"
 	ts := &Timestamp{time.Now()}
-	indType := []string{IndicatorTypeCompromised}
 
 	t.Run("missing_property", func(t *testing.T) {
-		obj, err := NewIndicator("", "", []string{}, nil)
+		obj, err := NewIndicator("", "", nil)
 		assert.Nil(obj)
 		assert.Equal(ErrPropertyMissing, err)
 	})
 
 	t.Run("no_optional", func(t *testing.T) {
-		obj, err := NewIndicator(pattern, patternType, indType, ts, nil)
+		obj, err := NewIndicator(pattern, patternType, ts, nil)
 		assert.NotNil(obj)
 		assert.NoError(err)
 	})
@@ -44,6 +43,7 @@ func TestIndicator(t *testing.T) {
 		specVer := "2.0"
 
 		name := "Name"
+		indType := []string{IndicatorTypeCompromised}
 		patVer := "1.0"
 		kchain := []*KillChainPhase{{}}
 
@@ -62,11 +62,12 @@ func TestIndicator(t *testing.T) {
 			//
 			IndicatorOptionDescription(desc),
 			IndicatorOptionName(name),
+			IndicatorOptionTypes(indType),
 			IndicatorOptionKillChainPhase(kchain),
 			IndicatorOptionPatternVersion(patVer),
 			IndicatorOptionValidUntil(ts),
 		}
-		obj, err := NewIndicator(pattern, patternType, indType, ts, opts...)
+		obj, err := NewIndicator(pattern, patternType, ts, opts...)
 		assert.NotNil(obj)
 		assert.NoError(err)
 		assert.Equal(conf, obj.Confidence)
@@ -83,6 +84,7 @@ func TestIndicator(t *testing.T) {
 
 		assert.Equal(desc, obj.Description)
 		assert.Equal(name, obj.Name)
+		assert.Equal(indType, obj.IndicatorTypes)
 		assert.Equal(kchain, obj.KillChainPhases)
 		assert.Equal(ts, obj.ValidUntil)
 		assert.Equal(patVer, obj.PatternVersion)
@@ -124,10 +126,9 @@ func TestIndicatorIndicates(t *testing.T) {
 	pattern := "new pattern"
 	patternType := "stix"
 	ts := &Timestamp{time.Now()}
-	indType := []string{IndicatorTypeCompromised}
 
 	t.Run("attack-pattern", func(t *testing.T) {
-		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		obj, err := NewIndicator(pattern, patternType, ts)
 		assert.NoError(err)
 		id := NewIdentifier(TypeAttackPattern)
 		rel, err := obj.AddIndicates(id)
@@ -137,7 +138,7 @@ func TestIndicatorIndicates(t *testing.T) {
 	})
 
 	t.Run("campaign", func(t *testing.T) {
-		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		obj, err := NewIndicator(pattern, patternType, ts)
 		assert.NoError(err)
 		id := NewIdentifier(TypeCampaign)
 		rel, err := obj.AddIndicates(id)
@@ -147,7 +148,7 @@ func TestIndicatorIndicates(t *testing.T) {
 	})
 
 	t.Run("infrastructure", func(t *testing.T) {
-		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		obj, err := NewIndicator(pattern, patternType, ts)
 		assert.NoError(err)
 		id := NewIdentifier(TypeInfrastructure)
 		rel, err := obj.AddIndicates(id)
@@ -157,7 +158,7 @@ func TestIndicatorIndicates(t *testing.T) {
 	})
 
 	t.Run("intrusion-set", func(t *testing.T) {
-		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		obj, err := NewIndicator(pattern, patternType, ts)
 		assert.NoError(err)
 		id := NewIdentifier(TypeIntrusionSet)
 		rel, err := obj.AddIndicates(id)
@@ -167,7 +168,7 @@ func TestIndicatorIndicates(t *testing.T) {
 	})
 
 	t.Run("malware", func(t *testing.T) {
-		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		obj, err := NewIndicator(pattern, patternType, ts)
 		assert.NoError(err)
 		id := NewIdentifier(TypeMalware)
 		rel, err := obj.AddIndicates(id)
@@ -177,7 +178,7 @@ func TestIndicatorIndicates(t *testing.T) {
 	})
 
 	t.Run("threat-actor", func(t *testing.T) {
-		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		obj, err := NewIndicator(pattern, patternType, ts)
 		assert.NoError(err)
 		id := NewIdentifier(TypeThreatActor)
 		rel, err := obj.AddIndicates(id)
@@ -187,7 +188,7 @@ func TestIndicatorIndicates(t *testing.T) {
 	})
 
 	t.Run("tool", func(t *testing.T) {
-		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		obj, err := NewIndicator(pattern, patternType, ts)
 		assert.NoError(err)
 		id := NewIdentifier(TypeTool)
 		rel, err := obj.AddIndicates(id)
@@ -197,7 +198,7 @@ func TestIndicatorIndicates(t *testing.T) {
 	})
 
 	t.Run("invalid_type", func(t *testing.T) {
-		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		obj, err := NewIndicator(pattern, patternType, ts)
 		assert.NoError(err)
 		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddIndicates(id)
@@ -211,10 +212,9 @@ func TestIndicatorBasedOn(t *testing.T) {
 	pattern := "new pattern"
 	patternType := "stix"
 	ts := &Timestamp{time.Now()}
-	indType := []string{IndicatorTypeCompromised}
 
 	t.Run("observed-data", func(t *testing.T) {
-		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		obj, err := NewIndicator(pattern, patternType, ts)
 		assert.NoError(err)
 		id := NewIdentifier(TypeObservedData)
 		rel, err := obj.AddBasedOn(id)
@@ -224,7 +224,7 @@ func TestIndicatorBasedOn(t *testing.T) {
 	})
 
 	t.Run("invalid_type", func(t *testing.T) {
-		obj, err := NewIndicator(pattern, patternType, indType, ts)
+		obj, err := NewIndicator(pattern, patternType, ts)
 		assert.NoError(err)
 		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := obj.AddBasedOn(id)

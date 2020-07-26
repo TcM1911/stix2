@@ -23,13 +23,13 @@ func TestTool(t *testing.T) {
 	toolVersion := "1.0"
 
 	t.Run("missing_property", func(t *testing.T) {
-		obj, err := NewTool("", []string{}, nil)
+		obj, err := NewTool("", nil)
 		assert.Nil(obj)
 		assert.Equal(ErrPropertyMissing, err)
 	})
 
 	t.Run("no_optional", func(t *testing.T) {
-		obj, err := NewTool(name, typs, nil)
+		obj, err := NewTool(name, nil)
 		assert.NotNil(obj)
 		assert.NoError(err)
 	})
@@ -58,11 +58,12 @@ func TestTool(t *testing.T) {
 			ToolOptionSpecVersion(specVer),
 			//
 			ToolOptionDescription(desc),
+			ToolOptionTypes(typs),
 			ToolOptionAliases(alias),
 			ToolOptionKillChainPhase(kcf),
 			ToolOptionToolVersion(toolVersion),
 		}
-		obj, err := NewTool(name, typs, opts...)
+		obj, err := NewTool(name, opts...)
 		assert.NotNil(obj)
 		assert.NoError(err)
 		assert.Equal(conf, obj.Confidence)
@@ -114,10 +115,9 @@ func TestTool(t *testing.T) {
 func TestToolDelivers(t *testing.T) {
 	assert := assert.New(t)
 	name := "Tool name"
-	typs := []string{ToolTypeExploitation}
 
 	t.Run("malware", func(t *testing.T) {
-		a, err := NewTool(name, typs)
+		a, err := NewTool(name)
 		assert.NoError(err)
 		id := NewIdentifier(TypeMalware)
 		rel, err := a.AddDelivers(id)
@@ -128,7 +128,7 @@ func TestToolDelivers(t *testing.T) {
 	})
 
 	t.Run("invalid_type", func(t *testing.T) {
-		a, err := NewTool(name, typs)
+		a, err := NewTool(name)
 		assert.NoError(err)
 		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddDelivers(id)
@@ -140,10 +140,9 @@ func TestToolDelivers(t *testing.T) {
 func TestToolDrops(t *testing.T) {
 	assert := assert.New(t)
 	name := "Tool name"
-	typs := []string{ToolTypeDenialOfService}
 
 	t.Run("Infrastructure", func(t *testing.T) {
-		a, err := NewTool(name, typs)
+		a, err := NewTool(name)
 		assert.NoError(err)
 		id := NewIdentifier(TypeMalware)
 		rel, err := a.AddDrops(id)
@@ -154,7 +153,7 @@ func TestToolDrops(t *testing.T) {
 	})
 
 	t.Run("invalid_type", func(t *testing.T) {
-		a, err := NewTool(name, typs)
+		a, err := NewTool(name)
 		assert.NoError(err)
 		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddDrops(id)
@@ -166,10 +165,9 @@ func TestToolDrops(t *testing.T) {
 func TestToolHas(t *testing.T) {
 	assert := assert.New(t)
 	name := "Tool name"
-	typs := []string{ToolTypeNetworkCapture}
 
 	t.Run("Infrastructure", func(t *testing.T) {
-		a, err := NewTool(name, typs)
+		a, err := NewTool(name)
 		assert.NoError(err)
 		id := NewIdentifier(TypeVulnerability)
 		rel, err := a.AddHas(id)
@@ -180,7 +178,7 @@ func TestToolHas(t *testing.T) {
 	})
 
 	t.Run("invalid_type", func(t *testing.T) {
-		a, err := NewTool(name, typs)
+		a, err := NewTool(name)
 		assert.NoError(err)
 		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddHas(id)
@@ -192,10 +190,9 @@ func TestToolHas(t *testing.T) {
 func TestToolTargets(t *testing.T) {
 	assert := assert.New(t)
 	name := "Tool name"
-	typs := []string{ToolTypeVulnerabilityScanning}
 
 	t.Run("identity", func(t *testing.T) {
-		a, err := NewTool(name, typs)
+		a, err := NewTool(name)
 		assert.NoError(err)
 		id := NewIdentifier(TypeIdentity)
 		rel, err := a.AddTargets(id)
@@ -206,7 +203,7 @@ func TestToolTargets(t *testing.T) {
 	})
 
 	t.Run("Infrastructure", func(t *testing.T) {
-		a, err := NewTool(name, typs)
+		a, err := NewTool(name)
 		assert.NoError(err)
 		id := NewIdentifier(TypeInfrastructure)
 		rel, err := a.AddTargets(id)
@@ -217,7 +214,7 @@ func TestToolTargets(t *testing.T) {
 	})
 
 	t.Run("location", func(t *testing.T) {
-		a, err := NewTool(name, typs)
+		a, err := NewTool(name)
 		assert.NoError(err)
 		id := NewIdentifier(TypeLocation)
 		rel, err := a.AddTargets(id)
@@ -228,7 +225,7 @@ func TestToolTargets(t *testing.T) {
 	})
 
 	t.Run("vulnerability", func(t *testing.T) {
-		a, err := NewTool(name, typs)
+		a, err := NewTool(name)
 		assert.NoError(err)
 		id := NewIdentifier(TypeVulnerability)
 		rel, err := a.AddTargets(id)
@@ -239,7 +236,7 @@ func TestToolTargets(t *testing.T) {
 	})
 
 	t.Run("invalid_type", func(t *testing.T) {
-		a, err := NewTool(name, typs)
+		a, err := NewTool(name)
 		assert.NoError(err)
 		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddTargets(id)
@@ -251,10 +248,9 @@ func TestToolTargets(t *testing.T) {
 func TestToolUses(t *testing.T) {
 	assert := assert.New(t)
 	name := "Tool name"
-	typs := []string{ToolTypeInformationGathering}
 
 	t.Run("Infrastructure", func(t *testing.T) {
-		a, err := NewTool(name, typs)
+		a, err := NewTool(name)
 		assert.NoError(err)
 		id := NewIdentifier(TypeInfrastructure)
 		rel, err := a.AddUses(id)
@@ -265,7 +261,7 @@ func TestToolUses(t *testing.T) {
 	})
 
 	t.Run("invalid_type", func(t *testing.T) {
-		a, err := NewTool(name, typs)
+		a, err := NewTool(name)
 		assert.NoError(err)
 		id := NewIdentifier(TypeIPv4Addr)
 		rel, err := a.AddUses(id)

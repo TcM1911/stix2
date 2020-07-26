@@ -86,18 +86,23 @@ func TestFile(t *testing.T) {
 			hash Hashes
 			name string
 			exts *ArchiveFileExtension
+			par  Identifier
 			id   string
 		}{
-			{nil, val, nil, "file--77fc2ec7-ef85-57fa-9d5e-9e77693fc739"},
-			{hash, val, nil, "file--7c5c7956-5343-5a06-9710-db90e1331cac"},
-			{hash, val, ext, "file--893f22f2-e09e-50b6-b481-b94ac9b51a94"},
+			{nil, val, nil, "", "file--77fc2ec7-ef85-57fa-9d5e-9e77693fc739"},
+			{hash, val, nil, "", "file--7c5c7956-5343-5a06-9710-db90e1331cac"},
+			{hash, val, ext, "", "file--893f22f2-e09e-50b6-b481-b94ac9b51a94"},
+			{hash, val, ext, ref, "file--d233087f-68da-5e20-b3cb-42ad9edb401c"},
 		}
 		for _, test := range tests {
-			var opt FileOption
+			opt := make([]FileOption, 0, 2)
 			if test.exts != nil {
-				opt = FileOptionExtension(ExtArchive, test.exts)
+				opt = append(opt, FileOptionExtension(ExtArchive, test.exts))
 			}
-			obj, err := NewFile(test.name, test.hash, opt)
+			if test.par != "" {
+				opt = append(opt, FileOptionParentDirectory(test.par))
+			}
+			obj, err := NewFile(test.name, test.hash, opt...)
 			assert.NoError(err)
 			assert.Equal(Identifier(test.id), obj.ID)
 		}
