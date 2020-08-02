@@ -6,6 +6,7 @@ package stix2
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 	"sync"
 	"time"
 )
@@ -28,6 +29,27 @@ type StixObject interface {
 type StixCollection struct {
 	objects map[StixType]map[Identifier]interface{}
 	objinit sync.Once
+}
+
+// Get returns the object with matching ID or nil if it does not exist in the
+// collection.
+func (c *StixCollection) Get(id Identifier) StixObject {
+	parts := strings.Split(string(id), "--")
+	if len(parts) != 2 {
+		// Incorrect format for the ID.
+		return nil
+	}
+	bucket, ok := c.objects[StixType(parts[0])]
+	if !ok {
+		// No objects for this type.
+		return nil
+	}
+	obj, ok := bucket[id]
+	if !ok {
+		// No object with the ID.
+		return nil
+	}
+	return obj.(StixObject)
 }
 
 // Add adds or updates an object in the collection.
