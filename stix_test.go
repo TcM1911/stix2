@@ -4,12 +4,14 @@
 package stix2
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -227,6 +229,33 @@ func TestGetCreatedAndModified(t *testing.T) {
 	for _, test := range tests {
 		assert.Equal(test.tscreated, test.object.GetCreated())
 		assert.Equal(test.tsmodified, test.object.GetModified())
+	}
+}
+
+func TestGetFromCollection(t *testing.T) {
+	c := &StixCollection{}
+	m, _ := NewMalware(true, MalwareOptionName("Test object"))
+	c.Add(m)
+
+	tests := []struct {
+		id      Identifier
+		noMatch bool
+	}{
+		{m.ID, false},
+		{Identifier("incorrect-id-format"), true},
+		{Identifier(fmt.Sprintf("type-not-in-bucket--%s", uuid.New())), true},
+		{Identifier(fmt.Sprintf("malware--%s", uuid.New())), true},
+	}
+
+	for i, test := range tests {
+		t.Run(fmt.Sprintf("Case %d", i+1), func(t *testing.T) {
+			obj := c.Get(test.id)
+			if test.noMatch {
+				assert.Nil(t, obj)
+			} else {
+				assert.NotNil(t, obj)
+			}
+		})
 	}
 }
 

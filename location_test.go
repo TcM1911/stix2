@@ -89,7 +89,7 @@ func TestLocation(t *testing.T) {
 		assert.Equal(desc, obj.Description)
 		assert.Equal(name, obj.Name)
 		assert.Equal(precision, obj.Precision)
-		assert.Equal(adminArea, obj.AdminstrativeArea)
+		assert.Equal(adminArea, obj.AdministrativeArea)
 		assert.Equal(city, obj.City)
 		assert.Equal(address, obj.StreetAddress)
 		assert.Equal(postal, obj.PostalCode)

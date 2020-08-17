@@ -86,15 +86,14 @@ func (a *Tool) AddUses(id Identifier, opts ...RelationshipOption) (*Relationship
 }
 
 // NewTool creates a new Tool object.
-func NewTool(name string, types []string, opts ...ToolOption) (*Tool, error) {
-	if name == "" || len(types) == 0 {
+func NewTool(name string, opts ...ToolOption) (*Tool, error) {
+	if name == "" {
 		return nil, ErrPropertyMissing
 	}
 	base := newSTIXDomainObject(TypeTool)
 	obj := &Tool{
 		STIXDomainObject: base,
 		Name:             name,
-		Types:            types,
 	}
 
 	for _, opt := range opts {
@@ -199,6 +198,13 @@ func ToolOptionCreatedBy(id Identifier) ToolOption {
 func ToolOptionDescription(s string) ToolOption {
 	return func(obj *Tool) {
 		obj.Description = s
+	}
+}
+
+// ToolOptionTypes sets the tool types attribute.
+func ToolOptionTypes(s []string) ToolOption {
+	return func(obj *Tool) {
+		obj.Types = s
 	}
 }
 

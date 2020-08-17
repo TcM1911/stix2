@@ -67,7 +67,7 @@ type Location struct {
 	Country string `json:"country,omitempty"`
 	// AdminstrativeArea is the state, province, or other sub-national
 	// administrative area that this Location describes.
-	AdminstrativeArea string `json:"administrative_area,omitempty"`
+	AdministrativeArea string `json:"administrative_area,omitempty"`
 	// City that this Location describes.
 	City string `json:"city,omitempty"`
 	// StreetAddress that this Location describes. This property includes all
@@ -222,7 +222,7 @@ func LocationOptionPrecision(p float64) LocationOption {
 // LocationOptionAdministrativeArea sets the administrative area attribute.
 func LocationOptionAdministrativeArea(a string) LocationOption {
 	return func(obj *Location) {
-		obj.AdminstrativeArea = a
+		obj.AdministrativeArea = a
 	}
 }
 
