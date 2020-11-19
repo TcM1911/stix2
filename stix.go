@@ -860,570 +860,105 @@ func processObjects(collection *StixCollection, objects []json.RawMessage) error
 		if err != nil {
 			return err
 		}
+
+		var obj interface{}
+
 		switch peak.Type {
 		case TypeAutonomousSystem:
-			err = parseAS(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse an AS object: %w", err)
-			}
+			obj = &AutonomousSystem{}
 		case TypeArtifact:
-			err = parseArtifact(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse an artifact object: %w", err)
-			}
+			obj = &Artifact{}
 		case TypeAttackPattern:
-			err = parseAttackPattern(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse an attack-pattern object: %w", err)
-			}
+			obj = &AttackPattern{}
 		case TypeCampaign:
-			err = parseCampaign(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a campaign object: %w", err)
-			}
+			obj = &Campaign{}
 		case TypeCourseOfAction:
-			err = parseCourseOfAction(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a course-of-action object: %w", err)
-			}
+			obj = &CourseOfAction{}
 		case TypeDirectory:
-			err = parseDirector(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a directory object: %w", err)
-			}
+			obj = &Directory{}
 		case TypeDomainName:
-			err = parseDomainName(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a domain name object: %w", err)
-			}
+			obj = &DomainName{}
 		case TypeEmailAddress:
-			err = parseEmailAddress(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse an email address object: %w", err)
-			}
+			obj = &EmailAddress{}
 		case TypeEmailMessage:
-			err = parseEmailMessage(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse an email message object: %w", err)
-			}
+			obj = &EmailMessage{}
 		case TypeFile:
-			err = parseFile(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a file object: %w", err)
-			}
+			obj = &File{}
 		case TypeGrouping:
-			err = parseGrouping(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a grouping object: %w", err)
-			}
+			obj = &Grouping{}
 		case TypeIPv4Addr:
-			err = parseIPv4(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse an IPv4 object: %w", err)
-			}
+			obj = &IPv4Address{}
 		case TypeIPv6Addr:
-			err = parseIPv6(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse an IPv6 object: %w", err)
-			}
+			obj = &IPv6Address{}
 		case TypeIdentity:
-			err = parseIdentity(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse an identity object: %w", err)
-			}
+			obj = &Identity{}
 		case TypeIndicator:
-			err = parseIndicator(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse an indicator object: %w", err)
-			}
+			obj = &Indicator{}
 		case TypeInfrastructure:
-			err = parseInfrastructure(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse an infrastructure object: %w", err)
-			}
+			obj = &Infrastructure{}
 		case TypeIntrusionSet:
-			err = parseIntrusionSet(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse an intrusion-set object: %w", err)
-			}
+			obj = &IntrusionSet{}
 		case TypeLanguageContent:
-			err = parseLanguageContent(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a language content object: %w", err)
-			}
+			obj = &LanguageContent{}
 		case TypeLocation:
-			err = parseLocation(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a location object: %w", err)
-			}
+			obj = &Location{}
 		case TypeMACAddress:
-			err = parseMAC(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a MAC object: %w", err)
-			}
+			obj = &MACAddress{}
 		case TypeMalware:
-			err = parseMalware(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a malware object: %w", err)
-			}
+			obj = &Malware{}
 		case TypeMalwareAnalysis:
-			err = parseMalwareAnalysis(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a malware analysis object: %w", err)
-			}
+			obj = &MalwareAnalysis{}
 		case TypeMarkingDefinition:
-			err = parseMarkingDefinition(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a marking definition object: %w", err)
-			}
+			obj = &MarkingDefinition{}
 		case TypeMutex:
-			err = parseMutex(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a mutex object: %w", err)
-			}
+			obj = &Mutex{}
 		case TypeNetworkTraffic:
-			err = parseNetworkTraffic(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a network traffic object: %w", err)
-			}
+			obj = &NetworkTraffic{}
 		case TypeNote:
-			err = parseNote(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a note object: %w", err)
-			}
+			obj = &Note{}
 		case TypeObservedData:
-			err = parseObservedData(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse an observed data object: %w", err)
-			}
+			obj = &ObservedData{}
 		case TypeOpinion:
-			err = parseOpinion(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse an opinion object: %w", err)
-			}
+			obj = &Opinion{}
 		case TypeProcess:
-			err = parseProcess(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a process object: %w", err)
-			}
+			obj = &Process{}
 		case TypeRegistryKey:
-			err = parseRegistryKey(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a registry key object: %w", err)
-			}
+			obj = &RegistryKey{}
 		case TypeRelationship:
-			err = parseRelationship(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a relationship object: %w", err)
-			}
+			obj = &Relationship{}
 		case TypeReport:
-			err = parseReport(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a report object: %w", err)
-			}
+			obj = &Report{}
 		case TypeSighting:
-			err = parseSighting(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a sighting object: %w", err)
-			}
+			obj = &Sighting{}
 		case TypeSoftware:
-			err = parseSoftware(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a software object: %w", err)
-			}
+			obj = &Software{}
 		case TypeThreatActor:
-			err = parseThreatActor(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a threat actor object: %w", err)
-			}
+			obj = &ThreatActor{}
 		case TypeTool:
-			err = parseTool(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a tool object: %w", err)
-			}
+			obj = &Tool{}
 		case TypeURL:
-			err = parseURL(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a URL object: %w", err)
-			}
+			obj = &URL{}
 		case TypeUserAccount:
-			err = parseUseAccount(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a user account object: %w", err)
-			}
+			obj = &UserAccount{}
 		case TypeVulnerability:
-			err = parseVulnerability(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a vulnerability object: %w", err)
-			}
+			obj = &Vulnerability{}
 		case TypeX509Certificate:
-			err = parseX509(data, collection)
-			if err != nil {
-				return fmt.Errorf("failed to parse a x509 certificate object: %w", err)
-			}
+			obj = &X509Certificate{}
+		default:
+			return fmt.Errorf("%s is not a supported type", peak.Type)
+		}
+
+		err := json.Unmarshal(data, &obj)
+		if err != nil {
+			return fmt.Errorf("bad json data: %s", err)
+		}
+
+		err = collection.Add(obj.(StixObject))
+		if err != nil {
+			return fmt.Errorf("failed to add %s object to collection: %s", peak.Type, err)
 		}
 	}
 	return nil
-}
-
-func parseAS(data []byte, collection *StixCollection) error {
-	var as AutonomousSystem
-	err := json.Unmarshal(data, &as)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&as)
-}
-
-func parseArtifact(data []byte, collection *StixCollection) error {
-	var v Artifact
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseAttackPattern(data []byte, collection *StixCollection) error {
-	var v AttackPattern
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseCampaign(data []byte, collection *StixCollection) error {
-	var v Campaign
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseCourseOfAction(data []byte, collection *StixCollection) error {
-	var v CourseOfAction
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseDirector(data []byte, collection *StixCollection) error {
-	var v Directory
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseDomainName(data []byte, collection *StixCollection) error {
-	var v DomainName
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseEmailAddress(data []byte, collection *StixCollection) error {
-	var v EmailAddress
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseEmailMessage(data []byte, collection *StixCollection) error {
-	var v EmailMessage
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseFile(data []byte, collection *StixCollection) error {
-	var v File
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseGrouping(data []byte, collection *StixCollection) error {
-	var v Grouping
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseIPv4(data []byte, collection *StixCollection) error {
-	var v IPv4Address
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseIPv6(data []byte, collection *StixCollection) error {
-	var v IPv6Address
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseIdentity(data []byte, collection *StixCollection) error {
-	var v Identity
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseIndicator(data []byte, collection *StixCollection) error {
-	var v Indicator
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseInfrastructure(data []byte, collection *StixCollection) error {
-	var v Infrastructure
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseIntrusionSet(data []byte, collection *StixCollection) error {
-	var v IntrusionSet
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseLanguageContent(data []byte, collection *StixCollection) error {
-	var v LanguageContent
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseLocation(data []byte, collection *StixCollection) error {
-	var v Location
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseMAC(data []byte, collection *StixCollection) error {
-	var v MACAddress
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseMalware(data []byte, collection *StixCollection) error {
-	var v Malware
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseMalwareAnalysis(data []byte, collection *StixCollection) error {
-	var v MalwareAnalysis
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseMarkingDefinition(data []byte, collection *StixCollection) error {
-	var v MarkingDefinition
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseMutex(data []byte, collection *StixCollection) error {
-	var v Mutex
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseNetworkTraffic(data []byte, collection *StixCollection) error {
-	var v NetworkTraffic
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseNote(data []byte, collection *StixCollection) error {
-	var v Note
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseObservedData(data []byte, collection *StixCollection) error {
-	var v ObservedData
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseOpinion(data []byte, collection *StixCollection) error {
-	var v Opinion
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseProcess(data []byte, collection *StixCollection) error {
-	var v Process
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseRegistryKey(data []byte, collection *StixCollection) error {
-	var v RegistryKey
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseRelationship(data []byte, collection *StixCollection) error {
-	var v Relationship
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseReport(data []byte, collection *StixCollection) error {
-	var v Report
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseSighting(data []byte, collection *StixCollection) error {
-	var v Sighting
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseSoftware(data []byte, collection *StixCollection) error {
-	var v Software
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseThreatActor(data []byte, collection *StixCollection) error {
-	var v ThreatActor
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseTool(data []byte, collection *StixCollection) error {
-	var v Tool
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseURL(data []byte, collection *StixCollection) error {
-	var v URL
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseUseAccount(data []byte, collection *StixCollection) error {
-	var v UserAccount
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseVulnerability(data []byte, collection *StixCollection) error {
-	var v Vulnerability
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
-}
-
-func parseX509(data []byte, collection *StixCollection) error {
-	var v X509Certificate
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	return collection.Add(&v)
 }
 
 type peakObject struct {
