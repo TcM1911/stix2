@@ -167,7 +167,7 @@ func (h Hashes) getIDContribution() string {
 // exact same identifier value.
 type Identifier string
 
-// ForType checks if the identifier is for the StixType.
+// ForType checks if the identifier is for the STIXType.
 func (i Identifier) ForType(typ STIXType) bool {
 	return strings.Index(string(i), string(typ)) == 0
 }
@@ -183,7 +183,7 @@ func (i Identifier) ForTypes(typ ...STIXType) bool {
 	return false
 }
 
-// HasValidIdentifier checks that the StixObject has a valid identifer.
+// HasValidIdentifier checks that the STIXObject has a valid identifer.
 func HasValidIdentifier(obj STIXObject) bool {
 	parts := strings.Split(string(obj.GetID()), "--")
 	if len(parts) != 2 {
@@ -203,7 +203,7 @@ func HasValidIdentifier(obj STIXObject) bool {
 // Cyber-observable Object.
 var CyberObservableNamespace = uuid.MustParse("00abedb4-aa42-466c-9c01-fed23315a9b7")
 
-// NewIdentifier creates a new Identifier. The Identifier uses the StixType and
+// NewIdentifier creates a new Identifier. The Identifier uses the STIXType and
 // a UUIDv4 to produce a random ID. This function should be used when
 // generating identifiers for TIX Domain Objects, STIX Relationship Objects,
 // STIX Meta Objects, and STIX Bundle Object.
@@ -232,7 +232,7 @@ func IsValidIdentifier(id Identifier) bool {
 	return true
 }
 
-// STIXType is type strings used in Stix objects.
+// STIXType is type strings used in STIX objects.
 type STIXType string
 
 const (

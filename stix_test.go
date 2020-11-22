@@ -176,7 +176,7 @@ func TestFromJSONAll(t *testing.T) {
 	assert.Nil(c.X509Certificate(Identifier("")))
 }
 
-func TestAllObjectsStixCollection(t *testing.T) {
+func TestAllObjectsCollection(t *testing.T) {
 	assert := assert.New(t)
 	c := &Collection{}
 	ip, err := NewIPv4Address("10.0.0.1")

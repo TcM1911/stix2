@@ -13,7 +13,7 @@ A pure Go library for working with Structured Threat Information Expression
 
 The library provides a helper function to parse STIX JSON. It can handle
 both the bundle object and JSON objects as a JSON array. The function returns
-a `StixCollection` object that holds all the extracted STIX objects.
+a `Collection` object that holds all the extracted STIX objects.
 
 ```go
 collection, err := stix2.FromJSON(jsonData)
@@ -22,12 +22,12 @@ collection, err := stix2.FromJSON(jsonData)
 ## Creating a STIX Bundle
 
 Creating a STIX Bundle, is as easy as creating a set of STIX objects and add
-them to the StixCollection. The Bundle can be created by calling the `ToBundle`
-method on the StixCollection object. The Bundle can be serialized to `JSON`
+them to the Collection. The Bundle can be created by calling the `ToBundle`
+method on the Collection object. The Bundle can be serialized to `JSON`
 using the `JSON` encoder in the standard library.
 
 ```go
-c := &stix2.StixCollection{}
+c := &stix2.Collection{}
 ip, err := stix2.NewIPv4Address("10.0.0.1")
 c.Add(ip)
 ip, err = stix2.NewIPv4Address("10.0.0.2")
@@ -41,7 +41,7 @@ data, err := json.Marshal(b)
 Taken from: https://docs.oasis-open.org/cti/stix/v2.1/csprd02/stix-v2.1-csprd02.html#_Toc26789941
 
 ```go
-collection := &stix2.StixCollection{}
+collection := &stix2.Collection{}
 domain, err := stix2.NewDomainName("example.com")
 collection.Add(domain)
 

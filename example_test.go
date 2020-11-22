@@ -73,7 +73,7 @@ func ExampleFromJSON() {
 	// IMDDOS
 }
 
-func ExampleStixCollection_ToBundle() {
+func ExampleCollection_ToBundle() {
 	c := &stix2.Collection{}
 	ip, err := stix2.NewIPv4Address("10.0.0.1")
 	if err != nil {

@@ -66,7 +66,7 @@ func (c *Collection) Add(obj STIXObject) error {
 	return nil
 }
 
-// AllObjects returns a slice of all StixObjects that are in the collection.
+// AllObjects returns a slice of all STIXObjects that are in the collection.
 func (c *Collection) AllObjects() []STIXObject {
 	// Calculate the size of the array.
 	size := 0
@@ -83,8 +83,7 @@ func (c *Collection) AllObjects() []STIXObject {
 	return result
 }
 
-// ToBundle returns a STIX bundle with all the StixObjects in the
-// StixCollection.
+// ToBundle returns a STIX bundle with all the STIXObjects in the Collection.
 func (c *Collection) ToBundle() (*Bundle, error) {
 	return NewBundle(c.AllObjects()...)
 }
@@ -820,7 +819,7 @@ func objectInit(c *Collection) {
 	}
 }
 
-// FromJSON parses JSON data and returns a StixCollection with the extracted
+// FromJSON parses JSON data and returns a Collection with the extracted
 // objects.
 func FromJSON(data []byte) (*Collection, error) {
 	collection := &Collection{}

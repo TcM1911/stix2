@@ -19,7 +19,7 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
-func TestStixCollectionToBundle(t *testing.T) {
+func TestCollectionToBundle(t *testing.T) {
 	sloader := gojsonschema.NewReferenceLoader("http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/bundle.json")
 	schema, err := gojsonschema.NewSchema(sloader)
 	if err != nil {
@@ -28,7 +28,7 @@ func TestStixCollectionToBundle(t *testing.T) {
 
 	t.Run("create_from_collection", func(t *testing.T) {
 		assert := assert.New(t)
-		c := &stix2.StixCollection{}
+		c := &stix2.Collection{}
 		ip, err := stix2.NewIPv4Address("10.0.0.1")
 		assert.NoError(err)
 		c.Add(ip)
