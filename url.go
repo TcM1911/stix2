@@ -15,7 +15,7 @@ type URL struct {
 }
 
 // NewURL creates a new URL object.
-func NewURL(value string, opts ...URLOption) (*URL, error) {
+func NewURL(value string, opts ...STIXOption) (*URL, error) {
 	if value == "" {
 		return nil, ErrInvalidParameter
 	}
@@ -25,56 +25,7 @@ func NewURL(value string, opts ...URLOption) (*URL, error) {
 		Value:                     value,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
+	err := applyOptions(obj, opts)
 	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", value), TypeURL)
-	return obj, nil
-}
-
-// URLOption is an optional parameter when constructing a
-// URL object.
-type URLOption func(a *URL)
-
-/*
-	Base object options
-*/
-
-// URLOptionSpecVersion sets the STIX spec version.
-func URLOptionSpecVersion(ver string) URLOption {
-	return func(obj *URL) {
-		obj.SpecVersion = ver
-	}
-}
-
-// URLOptionObjectMarking sets the object marking attribute.
-func URLOptionObjectMarking(om []Identifier) URLOption {
-	return func(obj *URL) {
-		obj.ObjectMarking = om
-	}
-}
-
-// URLOptionGranularMarking sets the granular marking attribute.
-func URLOptionGranularMarking(gm []*GranularMarking) URLOption {
-	return func(obj *URL) {
-		obj.GranularMarking = gm
-	}
-}
-
-// URLOptionDefanged sets the defanged attribute.
-func URLOptionDefanged(b bool) URLOption {
-	return func(obj *URL) {
-		obj.Defanged = b
-	}
-}
-
-// URLOptionExtension adds an extension.
-func URLOptionExtension(name string, value interface{}) URLOption {
-	return func(obj *URL) {
-		// Ignoring the error.
-		obj.addExtension(name, value)
-	}
+	return obj, err
 }

@@ -34,27 +34,27 @@ func TestUserAccount(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []UserAccountOption{
-			UserAccountOptionGranularMarking(marking),
-			UserAccountOptionObjectMarking(objmark),
-			UserAccountOptionSpecVersion(specVer),
-			UserAccountOptionDefanged(true),
-			UserAccountOptionExtension("test", struct{}{}),
+		opts := []STIXOption{
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
+			OptionDefanged(true),
+			OptionExtension("test", struct{}{}),
 			//
-			UserAccountOptionUserID(testStr),
-			UserAccountOptionCredential(testStr),
-			UserAccountOptionAccountLogin(testStr),
-			UserAccountOptionAccountType(AccountWindowsLocal),
-			UserAccountOptionDisplayName(testStr),
-			UserAccountOptionIsServiceAccount(true),
-			UserAccountOptionIsPrivileged(true),
-			UserAccountOptionCanEscalatePrivs(true),
-			UserAccountOptionIsDisabled(true),
-			UserAccountOptionAccountCreated(ts),
-			UserAccountOptionAccountExpires(ts),
-			UserAccountOptionCredentialLastChanged(ts),
-			UserAccountOptionAccountFirstLogin(ts),
-			UserAccountOptionAccountLastLogin(ts),
+			OptionUserID(testStr),
+			OptionCredential(testStr),
+			OptionAccountLogin(testStr),
+			OptionAccountType(AccountWindowsLocal),
+			OptionDisplayName(testStr),
+			OptionIsServiceAccount(true),
+			OptionIsPrivileged(true),
+			OptionCanEscalatePrivs(true),
+			OptionIsDisabled(true),
+			OptionAccountCreated(ts),
+			OptionAccountExpires(ts),
+			OptionCredentialLastChanged(ts),
+			OptionAccountFirstLogin(ts),
+			OptionAccountLastLogin(ts),
 		}
 		obj, err := NewUserAccount(opts...)
 		assert.NotNil(obj)
@@ -82,7 +82,7 @@ func TestUserAccount(t *testing.T) {
 
 	t.Run("id-generation", func(t *testing.T) {
 		tests := []struct {
-			typ   AccountType
+			typ   string
 			uid   string
 			login string
 			id    string
@@ -107,15 +107,15 @@ func TestUserAccount(t *testing.T) {
 			},
 		}
 		for _, test := range tests {
-			opts := make([]UserAccountOption, 0, 3)
+			opts := make([]STIXOption, 0, 3)
 			if test.uid != "" {
-				opts = append(opts, UserAccountOptionUserID(test.uid))
+				opts = append(opts, OptionUserID(test.uid))
 			}
 			if test.typ != "" {
-				opts = append(opts, UserAccountOptionAccountType(test.typ))
+				opts = append(opts, OptionAccountType(test.typ))
 			}
 			if test.login != "" {
-				opts = append(opts, UserAccountOptionAccountLogin(test.login))
+				opts = append(opts, OptionAccountLogin(test.login))
 			}
 			obj, err := NewUserAccount(opts...)
 			assert.NoError(err)
@@ -125,7 +125,7 @@ func TestUserAccount(t *testing.T) {
 
 	t.Run("unix-extension", func(t *testing.T) {
 		ext := &UNIXAccountExtension{GID: int64(1)}
-		f, _ := NewUserAccount(UserAccountOptionExtension(ExtUnixAccount, ext))
+		f, _ := NewUserAccount(OptionExtension(ExtUnixAccount, ext))
 		assert.Len(f.Extensions, 1)
 		stored := f.UNIXAccountExtension()
 		assert.Equal(ext, stored)

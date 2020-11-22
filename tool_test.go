@@ -44,24 +44,24 @@ func TestTool(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []ToolOption{
-			ToolOptionConfidence(conf),
-			ToolOptionCreated(ts),
-			ToolOptionModified(ts),
-			ToolOptionCreatedBy(createdBy),
-			ToolOptionExternalReferences([]*ExternalReference{ref}),
-			ToolOptionGranularMarking(marking),
-			ToolOptionLabels(labels),
-			ToolOptionLang(lang),
-			ToolOptionObjectMarking(objmark),
-			ToolOptionRevoked(true),
-			ToolOptionSpecVersion(specVer),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionLang(lang),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
 			//
-			ToolOptionDescription(desc),
-			ToolOptionTypes(typs),
-			ToolOptionAliases(alias),
-			ToolOptionKillChainPhase(kcf),
-			ToolOptionToolVersion(toolVersion),
+			OptionDescription(desc),
+			OptionTypes(typs),
+			OptionAliases(alias),
+			OptionKillChainPhase(kcf),
+			OptionVersion(toolVersion),
 		}
 		obj, err := NewTool(name, opts...)
 		assert.NotNil(obj)
@@ -83,7 +83,7 @@ func TestTool(t *testing.T) {
 		assert.Equal(typs, obj.Types)
 		assert.Equal(alias, obj.Aliases)
 		assert.Equal(kcf, obj.KillChainPhase)
-		assert.Equal(toolVersion, obj.ToolVersion)
+		assert.Equal(toolVersion, obj.Version)
 	})
 
 	t.Run("parse_json", func(t *testing.T) {

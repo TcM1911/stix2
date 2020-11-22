@@ -35,20 +35,15 @@ type Grouping struct {
 }
 
 // NewGrouping creates a new Grouping object.
-func NewGrouping(context string, objects []Identifier, opts ...GroupingOption) (*Grouping, error) {
+func NewGrouping(context string, objects []Identifier, opts ...STIXOption) (*Grouping, error) {
 	if context == "" || len(objects) < 1 {
 		return nil, ErrPropertyMissing
 	}
 	base := newSTIXDomainObject(TypeGrouping)
 	obj := &Grouping{STIXDomainObject: base, Context: context, Objects: objects}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
-	return obj, nil
+	err := applyOptions(obj, opts)
+	return obj, err
 }
 
 const (
@@ -63,106 +58,3 @@ const (
 	// between the objects.
 	GroupingContextUnspecified = "unspecified"
 )
-
-// GroupingOption is an optional parameter when constructing a
-// Grouping object.
-type GroupingOption func(a *Grouping)
-
-/*
-	Base object options
-*/
-
-// GroupingOptionSpecVersion sets the STIX spec version.
-func GroupingOptionSpecVersion(ver string) GroupingOption {
-	return func(obj *Grouping) {
-		obj.SpecVersion = ver
-	}
-}
-
-// GroupingOptionExternalReferences sets the external references attribute.
-func GroupingOptionExternalReferences(refs []*ExternalReference) GroupingOption {
-	return func(obj *Grouping) {
-		obj.ExternalReferences = refs
-	}
-}
-
-// GroupingOptionObjectMarking sets the object marking attribute.
-func GroupingOptionObjectMarking(om []Identifier) GroupingOption {
-	return func(obj *Grouping) {
-		obj.ObjectMarking = om
-	}
-}
-
-// GroupingOptionGranularMarking sets the granular marking attribute.
-func GroupingOptionGranularMarking(gm []*GranularMarking) GroupingOption {
-	return func(obj *Grouping) {
-		obj.GranularMarking = gm
-	}
-}
-
-// GroupingOptionLang sets the lang attribute.
-func GroupingOptionLang(lang string) GroupingOption {
-	return func(obj *Grouping) {
-		obj.Lang = lang
-	}
-}
-
-// GroupingOptionConfidence sets the confidence attribute.
-func GroupingOptionConfidence(confidence int) GroupingOption {
-	return func(obj *Grouping) {
-		obj.Confidence = confidence
-	}
-}
-
-// GroupingOptionLabels sets the labels attribute.
-func GroupingOptionLabels(labels []string) GroupingOption {
-	return func(obj *Grouping) {
-		obj.Labels = labels
-	}
-}
-
-// GroupingOptionRevoked sets the revoked attribute.
-func GroupingOptionRevoked(rev bool) GroupingOption {
-	return func(obj *Grouping) {
-		obj.Revoked = rev
-	}
-}
-
-// GroupingOptionModified sets the modified attribute.
-func GroupingOptionModified(t *Timestamp) GroupingOption {
-	return func(obj *Grouping) {
-		obj.Modified = t
-	}
-}
-
-// GroupingOptionCreated sets the created attribute.
-func GroupingOptionCreated(t *Timestamp) GroupingOption {
-	return func(obj *Grouping) {
-		obj.Created = t
-	}
-}
-
-// GroupingOptionCreatedBy sets the created by by attribute.
-func GroupingOptionCreatedBy(id Identifier) GroupingOption {
-	return func(obj *Grouping) {
-		obj.CreatedBy = id
-	}
-}
-
-/*
-	Grouping object options
-*/
-
-// GroupingOptionDescription sets the description attribute.
-func GroupingOptionDescription(des string) GroupingOption {
-	return func(obj *Grouping) {
-		obj.Description = des
-	}
-}
-
-// GroupingOptionName sets the name attribute.
-func GroupingOptionName(n string) GroupingOption {
-	return func(obj *Grouping) {
-		obj.Name = n
-	}
-}

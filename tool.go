@@ -35,13 +35,13 @@ type Tool struct {
 	// KillChainPhase is the list of kill chain phases for which this Tool can
 	// be used.
 	KillChainPhase []*KillChainPhase `json:"kill_chain_phases,omitempty"`
-	// ToolVersion is the version identifier associated with the Tool.
-	ToolVersion string `json:"tool_version,omitempty"`
+	// Version is the version identifier associated with the Tool.
+	Version string `json:"tool_version,omitempty"`
 }
 
 // AddDelivers creates a relationship that describes that this Tool is used to
 // deliver a malware instance (or family).
-func (a *Tool) AddDelivers(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (a *Tool) AddDelivers(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeMalware) {
 		return nil, ErrInvalidParameter
 	}
@@ -50,7 +50,7 @@ func (a *Tool) AddDelivers(id Identifier, opts ...RelationshipOption) (*Relation
 
 // AddDrops creates a relationship that documents that this Tool drops a
 // malware instance (or family).
-func (a *Tool) AddDrops(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (a *Tool) AddDrops(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeMalware) {
 		return nil, ErrInvalidParameter
 	}
@@ -59,7 +59,7 @@ func (a *Tool) AddDrops(id Identifier, opts ...RelationshipOption) (*Relationshi
 
 // AddHas creates a relationship that describes that this specific Tool has
 // this specific Vulnerability.
-func (a *Tool) AddHas(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (a *Tool) AddHas(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeVulnerability) {
 		return nil, ErrInvalidParameter
 	}
@@ -69,7 +69,7 @@ func (a *Tool) AddHas(id Identifier, opts ...RelationshipOption) (*Relationship,
 // AddTargets creates a relationship that documents that this Tool is being
 // used to target this Identity, Infrastructure, Location, or exploit the
 // Vulnerability.
-func (a *Tool) AddTargets(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (a *Tool) AddTargets(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForTypes(TypeIdentity, TypeInfrastructure, TypeLocation, TypeVulnerability) {
 		return nil, ErrInvalidParameter
 	}
@@ -78,7 +78,7 @@ func (a *Tool) AddTargets(id Identifier, opts ...RelationshipOption) (*Relations
 
 // AddUses creates a relationship that describes that this Tool uses the
 // related Infrastructure.
-func (a *Tool) AddUses(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (a *Tool) AddUses(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeInfrastructure) {
 		return nil, ErrInvalidParameter
 	}
@@ -86,7 +86,7 @@ func (a *Tool) AddUses(id Identifier, opts ...RelationshipOption) (*Relationship
 }
 
 // NewTool creates a new Tool object.
-func NewTool(name string, opts ...ToolOption) (*Tool, error) {
+func NewTool(name string, opts ...STIXOption) (*Tool, error) {
 	if name == "" {
 		return nil, ErrPropertyMissing
 	}
@@ -96,137 +96,8 @@ func NewTool(name string, opts ...ToolOption) (*Tool, error) {
 		Name:             name,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
-	return obj, nil
-}
-
-// ToolOption is an optional parameter when constructing a
-// Tool object.
-type ToolOption func(a *Tool)
-
-/*
-	Base object options
-*/
-
-// ToolOptionSpecVersion sets the STIX spec version.
-func ToolOptionSpecVersion(ver string) ToolOption {
-	return func(obj *Tool) {
-		obj.SpecVersion = ver
-	}
-}
-
-// ToolOptionExternalReferences sets the external references attribute.
-func ToolOptionExternalReferences(refs []*ExternalReference) ToolOption {
-	return func(obj *Tool) {
-		obj.ExternalReferences = refs
-	}
-}
-
-// ToolOptionObjectMarking sets the object marking attribute.
-func ToolOptionObjectMarking(om []Identifier) ToolOption {
-	return func(obj *Tool) {
-		obj.ObjectMarking = om
-	}
-}
-
-// ToolOptionGranularMarking sets the granular marking attribute.
-func ToolOptionGranularMarking(gm []*GranularMarking) ToolOption {
-	return func(obj *Tool) {
-		obj.GranularMarking = gm
-	}
-}
-
-// ToolOptionLang sets the lang attribute.
-func ToolOptionLang(lang string) ToolOption {
-	return func(obj *Tool) {
-		obj.Lang = lang
-	}
-}
-
-// ToolOptionConfidence sets the confidence attribute.
-func ToolOptionConfidence(confidence int) ToolOption {
-	return func(obj *Tool) {
-		obj.Confidence = confidence
-	}
-}
-
-// ToolOptionLabels sets the labels attribute.
-func ToolOptionLabels(labels []string) ToolOption {
-	return func(obj *Tool) {
-		obj.Labels = labels
-	}
-}
-
-// ToolOptionRevoked sets the revoked attribute.
-func ToolOptionRevoked(rev bool) ToolOption {
-	return func(obj *Tool) {
-		obj.Revoked = rev
-	}
-}
-
-// ToolOptionModified sets the modified attribute.
-func ToolOptionModified(t *Timestamp) ToolOption {
-	return func(obj *Tool) {
-		obj.Modified = t
-	}
-}
-
-// ToolOptionCreated sets the created attribute.
-func ToolOptionCreated(t *Timestamp) ToolOption {
-	return func(obj *Tool) {
-		obj.Created = t
-	}
-}
-
-// ToolOptionCreatedBy sets the created by by attribute.
-func ToolOptionCreatedBy(id Identifier) ToolOption {
-	return func(obj *Tool) {
-		obj.CreatedBy = id
-	}
-}
-
-/*
-	Tool object options
-*/
-
-// ToolOptionDescription sets the description attribute.
-func ToolOptionDescription(s string) ToolOption {
-	return func(obj *Tool) {
-		obj.Description = s
-	}
-}
-
-// ToolOptionTypes sets the tool types attribute.
-func ToolOptionTypes(s []string) ToolOption {
-	return func(obj *Tool) {
-		obj.Types = s
-	}
-}
-
-// ToolOptionAliases sets the aliases attribute.
-func ToolOptionAliases(s []string) ToolOption {
-	return func(obj *Tool) {
-		obj.Aliases = s
-	}
-}
-
-// ToolOptionKillChainPhase sets the kill chain phase attribute.
-func ToolOptionKillChainPhase(s []*KillChainPhase) ToolOption {
-	return func(obj *Tool) {
-		obj.KillChainPhase = s
-	}
-}
-
-// ToolOptionToolVersion sets the tool version attribute.
-func ToolOptionToolVersion(s string) ToolOption {
-	return func(obj *Tool) {
-		obj.ToolVersion = s
-	}
+	err := applyOptions(obj, opts)
+	return obj, err
 }
 
 const (

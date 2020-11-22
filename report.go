@@ -36,7 +36,7 @@ type Report struct {
 }
 
 // NewReport creates a new Report object.
-func NewReport(name string, published *Timestamp, objects []Identifier, opts ...ReportOption) (*Report, error) {
+func NewReport(name string, published *Timestamp, objects []Identifier, opts ...STIXOption) (*Report, error) {
 	if name == "" || published == nil || len(objects) == 0 {
 		return nil, ErrPropertyMissing
 	}
@@ -48,116 +48,8 @@ func NewReport(name string, published *Timestamp, objects []Identifier, opts ...
 		Objects:          objects,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
-	return obj, nil
-}
-
-// ReportOption is an optional parameter when constructing a
-// Report object.
-type ReportOption func(a *Report)
-
-/*
-	Base object options
-*/
-
-// ReportOptionSpecVersion sets the STIX spec version.
-func ReportOptionSpecVersion(ver string) ReportOption {
-	return func(obj *Report) {
-		obj.SpecVersion = ver
-	}
-}
-
-// ReportOptionExternalReferences sets the external references attribute.
-func ReportOptionExternalReferences(refs []*ExternalReference) ReportOption {
-	return func(obj *Report) {
-		obj.ExternalReferences = refs
-	}
-}
-
-// ReportOptionObjectMarking sets the object marking attribute.
-func ReportOptionObjectMarking(om []Identifier) ReportOption {
-	return func(obj *Report) {
-		obj.ObjectMarking = om
-	}
-}
-
-// ReportOptionGranularMarking sets the granular marking attribute.
-func ReportOptionGranularMarking(gm []*GranularMarking) ReportOption {
-	return func(obj *Report) {
-		obj.GranularMarking = gm
-	}
-}
-
-// ReportOptionLang sets the lang attribute.
-func ReportOptionLang(lang string) ReportOption {
-	return func(obj *Report) {
-		obj.Lang = lang
-	}
-}
-
-// ReportOptionConfidence sets the confidence attribute.
-func ReportOptionConfidence(confidence int) ReportOption {
-	return func(obj *Report) {
-		obj.Confidence = confidence
-	}
-}
-
-// ReportOptionLabels sets the labels attribute.
-func ReportOptionLabels(labels []string) ReportOption {
-	return func(obj *Report) {
-		obj.Labels = labels
-	}
-}
-
-// ReportOptionRevoked sets the revoked attribute.
-func ReportOptionRevoked(rev bool) ReportOption {
-	return func(obj *Report) {
-		obj.Revoked = rev
-	}
-}
-
-// ReportOptionModified sets the modified attribute.
-func ReportOptionModified(t *Timestamp) ReportOption {
-	return func(obj *Report) {
-		obj.Modified = t
-	}
-}
-
-// ReportOptionCreated sets the created attribute.
-func ReportOptionCreated(t *Timestamp) ReportOption {
-	return func(obj *Report) {
-		obj.Created = t
-	}
-}
-
-// ReportOptionCreatedBy sets the created by by attribute.
-func ReportOptionCreatedBy(id Identifier) ReportOption {
-	return func(obj *Report) {
-		obj.CreatedBy = id
-	}
-}
-
-/*
-	Report object options
-*/
-
-// ReportOptionDescription sets the description attribute.
-func ReportOptionDescription(s string) ReportOption {
-	return func(obj *Report) {
-		obj.Description = s
-	}
-}
-
-// ReportOptionTypes sets the types attribute.
-func ReportOptionTypes(s []string) ReportOption {
-	return func(obj *Report) {
-		obj.Types = s
-	}
+	err := applyOptions(obj, opts)
+	return obj, err
 }
 
 const (

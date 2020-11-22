@@ -42,18 +42,18 @@ func TestObservedData(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []ObservedDataOption{
-			ObservedDataOptionConfidence(conf),
-			ObservedDataOptionCreated(ts),
-			ObservedDataOptionModified(ts),
-			ObservedDataOptionCreatedBy(createdBy),
-			ObservedDataOptionExternalReferences([]*ExternalReference{ref}),
-			ObservedDataOptionGranularMarking(marking),
-			ObservedDataOptionLabels(labels),
-			ObservedDataOptionLang(lang),
-			ObservedDataOptionObjectMarking(objmark),
-			ObservedDataOptionRevoked(true),
-			ObservedDataOptionSpecVersion(specVer),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionLang(lang),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
 		}
 		obj, err := NewObservedData(first, last, count, objs, opts...)
 		assert.NotNil(obj)

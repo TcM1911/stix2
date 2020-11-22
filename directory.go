@@ -32,7 +32,7 @@ type Directory struct {
 }
 
 // NewDirectory creates a new Directory object.
-func NewDirectory(path string, opts ...DirectoryOption) (*Directory, error) {
+func NewDirectory(path string, opts ...STIXOption) (*Directory, error) {
 	if path == "" {
 		return nil, ErrInvalidParameter
 	}
@@ -42,95 +42,7 @@ func NewDirectory(path string, opts ...DirectoryOption) (*Directory, error) {
 		Path:                      path,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
+	err := applyOptions(obj, opts)
 	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", path), TypeDirectory)
-	return obj, nil
-}
-
-// DirectoryOption is an optional parameter when constructing a
-// Directory object.
-type DirectoryOption func(a *Directory)
-
-/*
-	Base object options
-*/
-
-// DirectoryOptionSpecVersion sets the STIX spec version.
-func DirectoryOptionSpecVersion(ver string) DirectoryOption {
-	return func(obj *Directory) {
-		obj.SpecVersion = ver
-	}
-}
-
-// DirectoryOptionObjectMarking sets the object marking attribute.
-func DirectoryOptionObjectMarking(om []Identifier) DirectoryOption {
-	return func(obj *Directory) {
-		obj.ObjectMarking = om
-	}
-}
-
-// DirectoryOptionGranularMarking sets the granular marking attribute.
-func DirectoryOptionGranularMarking(gm []*GranularMarking) DirectoryOption {
-	return func(obj *Directory) {
-		obj.GranularMarking = gm
-	}
-}
-
-// DirectoryOptionDefanged sets the defanged attribute.
-func DirectoryOptionDefanged(b bool) DirectoryOption {
-	return func(obj *Directory) {
-		obj.Defanged = b
-	}
-}
-
-// DirectoryOptionExtension adds an extension.
-func DirectoryOptionExtension(name string, value interface{}) DirectoryOption {
-	return func(obj *Directory) {
-		// Ignoring the error.
-		obj.addExtension(name, value)
-	}
-}
-
-/*
-	Directory object options
-*/
-
-// DirectoryOptionPathEncoding sets the path encoding attribute.
-func DirectoryOptionPathEncoding(s string) DirectoryOption {
-	return func(obj *Directory) {
-		obj.PathEnc = s
-	}
-}
-
-// DirectoryOptionCtime sets the ctime attribute.
-func DirectoryOptionCtime(s *Timestamp) DirectoryOption {
-	return func(obj *Directory) {
-		obj.Ctime = s
-	}
-}
-
-// DirectoryOptionMtime sets the mtime attribute.
-func DirectoryOptionMtime(s *Timestamp) DirectoryOption {
-	return func(obj *Directory) {
-		obj.Mtime = s
-	}
-}
-
-// DirectoryOptionAtime sets the atime attribute.
-func DirectoryOptionAtime(s *Timestamp) DirectoryOption {
-	return func(obj *Directory) {
-		obj.Atime = s
-	}
-}
-
-// DirectoryOptionContains sets the contains attribute.
-func DirectoryOptionContains(s []Identifier) DirectoryOption {
-	return func(obj *Directory) {
-		obj.Contains = s
-	}
+	return obj, err
 }

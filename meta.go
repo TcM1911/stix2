@@ -157,7 +157,7 @@ func (l *LanguageContent) GetModified() *time.Time {
 }
 
 // NewLanguageContent creates a new LanguageContent object.
-func NewLanguageContent(object Identifier, content map[string]map[string]interface{}, opts ...LanguageContentOption) (*LanguageContent, error) {
+func NewLanguageContent(object Identifier, content map[string]map[string]interface{}, opts ...STIXOption) (*LanguageContent, error) {
 	if object == "" || content == nil {
 		return nil, ErrPropertyMissing
 	}
@@ -173,103 +173,8 @@ func NewLanguageContent(object Identifier, content map[string]map[string]interfa
 		Contents:    content,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
-
-	return obj, nil
-}
-
-// LanguageContentOption is an optional parameter when constructing a
-// LanguageContent object.
-type LanguageContentOption func(a *LanguageContent)
-
-/*
-	Base object options
-*/
-
-// LanguageContentOptionSpecVersion sets the STIX spec version.
-func LanguageContentOptionSpecVersion(ver string) LanguageContentOption {
-	return func(obj *LanguageContent) {
-		obj.SpecVersion = ver
-	}
-}
-
-// LanguageContentOptionExternalReferences sets the external references attribute.
-func LanguageContentOptionExternalReferences(refs []*ExternalReference) LanguageContentOption {
-	return func(obj *LanguageContent) {
-		obj.ExternalReferences = refs
-	}
-}
-
-// LanguageContentOptionObjectMarking sets the object marking attribute.
-func LanguageContentOptionObjectMarking(om []Identifier) LanguageContentOption {
-	return func(obj *LanguageContent) {
-		obj.ObjectMarking = om
-	}
-}
-
-// LanguageContentOptionGranularMarking sets the granular marking attribute.
-func LanguageContentOptionGranularMarking(gm []*GranularMarking) LanguageContentOption {
-	return func(obj *LanguageContent) {
-		obj.GranularMarking = gm
-	}
-}
-
-// LanguageContentOptionConfidence sets the confidence attribute.
-func LanguageContentOptionConfidence(confidence int) LanguageContentOption {
-	return func(obj *LanguageContent) {
-		obj.Confidence = confidence
-	}
-}
-
-// LanguageContentOptionLabels sets the labels attribute.
-func LanguageContentOptionLabels(labels []string) LanguageContentOption {
-	return func(obj *LanguageContent) {
-		obj.Labels = labels
-	}
-}
-
-// LanguageContentOptionRevoked sets the revoked attribute.
-func LanguageContentOptionRevoked(rev bool) LanguageContentOption {
-	return func(obj *LanguageContent) {
-		obj.Revoked = rev
-	}
-}
-
-// LanguageContentOptionModified sets the modified attribute.
-func LanguageContentOptionModified(t *Timestamp) LanguageContentOption {
-	return func(obj *LanguageContent) {
-		obj.Modified = t
-	}
-}
-
-// LanguageContentOptionCreated sets the created attribute.
-func LanguageContentOptionCreated(t *Timestamp) LanguageContentOption {
-	return func(obj *LanguageContent) {
-		obj.Created = t
-	}
-}
-
-// LanguageContentOptionCreatedBy sets the created by by attribute.
-func LanguageContentOptionCreatedBy(id Identifier) LanguageContentOption {
-	return func(obj *LanguageContent) {
-		obj.CreatedBy = id
-	}
-}
-
-/*
-	LanguageContent object options
-*/
-
-// LanguageContentOptionObjectModified sets the object modified attribute.
-func LanguageContentOptionObjectModified(s *Timestamp) LanguageContentOption {
-	return func(obj *LanguageContent) {
-		obj.ObjectModified = s
-	}
+	err := applyOptions(obj, opts)
+	return obj, err
 }
 
 // MarkingDefinition represents a specific marking. Data markings typically
@@ -367,7 +272,7 @@ func (m *MarkingDefinition) GetModified() *time.Time {
 }
 
 // NewMarkingDefinition creates a new MarkingDefinition object.
-func NewMarkingDefinition(typ string, definition interface{}, opts ...MarkingDefinitionOption) (*MarkingDefinition, error) {
+func NewMarkingDefinition(typ string, definition interface{}, opts ...STIXOption) (*MarkingDefinition, error) {
 	if typ == "" || definition == nil {
 		return nil, ErrPropertyMissing
 	}
@@ -382,75 +287,8 @@ func NewMarkingDefinition(typ string, definition interface{}, opts ...MarkingDef
 		Definition:     definition,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
-
-	return obj, nil
-}
-
-// MarkingDefinitionOption is an optional parameter when constructing a
-// MarkingDefinition object.
-type MarkingDefinitionOption func(a *MarkingDefinition)
-
-/*
-	Base object options
-*/
-
-// MarkingDefinitionOptionSpecVersion sets the STIX spec version.
-func MarkingDefinitionOptionSpecVersion(ver string) MarkingDefinitionOption {
-	return func(obj *MarkingDefinition) {
-		obj.SpecVersion = ver
-	}
-}
-
-// MarkingDefinitionOptionExternalReferences sets the external references attribute.
-func MarkingDefinitionOptionExternalReferences(refs []*ExternalReference) MarkingDefinitionOption {
-	return func(obj *MarkingDefinition) {
-		obj.ExternalReferences = refs
-	}
-}
-
-// MarkingDefinitionOptionObjectMarking sets the object marking attribute.
-func MarkingDefinitionOptionObjectMarking(om []Identifier) MarkingDefinitionOption {
-	return func(obj *MarkingDefinition) {
-		obj.ObjectMarking = om
-	}
-}
-
-// MarkingDefinitionOptionGranularMarking sets the granular marking attribute.
-func MarkingDefinitionOptionGranularMarking(gm []*GranularMarking) MarkingDefinitionOption {
-	return func(obj *MarkingDefinition) {
-		obj.GranularMarking = gm
-	}
-}
-
-// MarkingDefinitionOptionCreated sets the created attribute.
-func MarkingDefinitionOptionCreated(t *Timestamp) MarkingDefinitionOption {
-	return func(obj *MarkingDefinition) {
-		obj.Created = t
-	}
-}
-
-// MarkingDefinitionOptionCreatedBy sets the created by by attribute.
-func MarkingDefinitionOptionCreatedBy(id Identifier) MarkingDefinitionOption {
-	return func(obj *MarkingDefinition) {
-		obj.CreatedBy = id
-	}
-}
-
-/*
-	MarkingDefinition object options
-*/
-
-// MarkingDefinitionOptionName sets the name attribute.
-func MarkingDefinitionOptionName(s string) MarkingDefinitionOption {
-	return func(obj *MarkingDefinition) {
-		obj.Name = s
-	}
+	err := applyOptions(obj, opts)
+	return obj, err
 }
 
 // GranularMarking defines how the marking-definition object referenced by the

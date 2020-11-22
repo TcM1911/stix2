@@ -79,7 +79,7 @@ type Location struct {
 }
 
 // NewLocation creates a new Location object.
-func NewLocation(region, country string, lat, long float64, opts ...LocationOption) (*Location, error) {
+func NewLocation(region, country string, lat, long float64, opts ...STIXOption) (*Location, error) {
 	if region == "" && country == "" && lat == float64(0) && long == float64(0) {
 		return nil, ErrPropertyMissing
 	}
@@ -96,155 +96,12 @@ func NewLocation(region, country string, lat, long float64, opts ...LocationOpti
 		Longitude:        long,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
+	err := applyOptions(obj, opts)
 	// Validate precision
 	if obj.Precision != float64(0) && (lat == float64(0) || long == float64(0)) {
 		return nil, ErrInvalidProperty
 	}
-	return obj, nil
-}
-
-// LocationOption is an optional parameter when constructing a
-// Location object.
-type LocationOption func(a *Location)
-
-/*
-	Base object options
-*/
-
-// LocationOptionSpecVersion sets the STIX spec version.
-func LocationOptionSpecVersion(ver string) LocationOption {
-	return func(obj *Location) {
-		obj.SpecVersion = ver
-	}
-}
-
-// LocationOptionExternalReferences sets the external references attribute.
-func LocationOptionExternalReferences(refs []*ExternalReference) LocationOption {
-	return func(obj *Location) {
-		obj.ExternalReferences = refs
-	}
-}
-
-// LocationOptionObjectMarking sets the object marking attribute.
-func LocationOptionObjectMarking(om []Identifier) LocationOption {
-	return func(obj *Location) {
-		obj.ObjectMarking = om
-	}
-}
-
-// LocationOptionGranularMarking sets the granular marking attribute.
-func LocationOptionGranularMarking(gm []*GranularMarking) LocationOption {
-	return func(obj *Location) {
-		obj.GranularMarking = gm
-	}
-}
-
-// LocationOptionLang sets the lang attribute.
-func LocationOptionLang(lang string) LocationOption {
-	return func(obj *Location) {
-		obj.Lang = lang
-	}
-}
-
-// LocationOptionConfidence sets the confidence attribute.
-func LocationOptionConfidence(confidence int) LocationOption {
-	return func(obj *Location) {
-		obj.Confidence = confidence
-	}
-}
-
-// LocationOptionLabels sets the labels attribute.
-func LocationOptionLabels(labels []string) LocationOption {
-	return func(obj *Location) {
-		obj.Labels = labels
-	}
-}
-
-// LocationOptionRevoked sets the revoked attribute.
-func LocationOptionRevoked(rev bool) LocationOption {
-	return func(obj *Location) {
-		obj.Revoked = rev
-	}
-}
-
-// LocationOptionModified sets the modified attribute.
-func LocationOptionModified(t *Timestamp) LocationOption {
-	return func(obj *Location) {
-		obj.Modified = t
-	}
-}
-
-// LocationOptionCreated sets the created attribute.
-func LocationOptionCreated(t *Timestamp) LocationOption {
-	return func(obj *Location) {
-		obj.Created = t
-	}
-}
-
-// LocationOptionCreatedBy sets the created by by attribute.
-func LocationOptionCreatedBy(id Identifier) LocationOption {
-	return func(obj *Location) {
-		obj.CreatedBy = id
-	}
-}
-
-/*
-	Location object options
-*/
-
-// LocationOptionDescription sets the description attribute.
-func LocationOptionDescription(des string) LocationOption {
-	return func(obj *Location) {
-		obj.Description = des
-	}
-}
-
-// LocationOptionName sets the name attribute.
-func LocationOptionName(s string) LocationOption {
-	return func(obj *Location) {
-		obj.Name = s
-	}
-}
-
-// LocationOptionPrecision sets the precision attribute.
-func LocationOptionPrecision(p float64) LocationOption {
-	return func(obj *Location) {
-		obj.Precision = p
-	}
-}
-
-// LocationOptionAdministrativeArea sets the administrative area attribute.
-func LocationOptionAdministrativeArea(a string) LocationOption {
-	return func(obj *Location) {
-		obj.AdministrativeArea = a
-	}
-}
-
-// LocationOptionCity sets the city attribute.
-func LocationOptionCity(c string) LocationOption {
-	return func(obj *Location) {
-		obj.City = c
-	}
-}
-
-// LocationOptionStreetAddress sets the street address attribute.
-func LocationOptionStreetAddress(s string) LocationOption {
-	return func(obj *Location) {
-		obj.StreetAddress = s
-	}
-}
-
-// LocationOptionPostalCode sets the postal code attribute.
-func LocationOptionPostalCode(s string) LocationOption {
-	return func(obj *Location) {
-		obj.PostalCode = s
-	}
+	return obj, err
 }
 
 const (

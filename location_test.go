@@ -50,26 +50,26 @@ func TestLocation(t *testing.T) {
 		address := "123 Main street"
 		postal := "12346"
 
-		opts := []LocationOption{
-			LocationOptionConfidence(conf),
-			LocationOptionCreated(ts),
-			LocationOptionModified(ts),
-			LocationOptionCreatedBy(createdBy),
-			LocationOptionExternalReferences([]*ExternalReference{ref}),
-			LocationOptionGranularMarking(marking),
-			LocationOptionLabels(labels),
-			LocationOptionLang(lang),
-			LocationOptionObjectMarking(objmark),
-			LocationOptionRevoked(true),
-			LocationOptionSpecVersion(specVer),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionLang(lang),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
 			//
-			LocationOptionDescription(desc),
-			LocationOptionName(name),
-			LocationOptionPrecision(precision),
-			LocationOptionAdministrativeArea(adminArea),
-			LocationOptionCity(city),
-			LocationOptionStreetAddress(address),
-			LocationOptionPostalCode(postal),
+			OptionDescription(desc),
+			OptionName(name),
+			OptionPrecision(precision),
+			OptionAdministrativeArea(adminArea),
+			OptionCity(city),
+			OptionStreetAddress(address),
+			OptionPostalCode(postal),
 		}
 		obj, err := NewLocation(region, country, lat, long, opts...)
 		assert.NotNil(obj)
@@ -116,7 +116,7 @@ func TestLocation(t *testing.T) {
 			{float64(0), float64(0), float64(10.1), ErrInvalidProperty},
 		}
 		for _, test := range tests {
-			_, err := NewLocation(region, country, test.lat, test.long, LocationOptionPrecision(test.precision))
+			_, err := NewLocation(region, country, test.lat, test.long, OptionPrecision(test.precision))
 			assert.Equal(test.err, err)
 		}
 	})

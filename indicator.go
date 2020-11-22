@@ -22,9 +22,9 @@ type Indicator struct {
 	// Description provides more details and context about the Indicator,
 	// potentially including its purpose and its key characteristics.
 	Description string `json:"description,omitempty"`
-	// IndicatorTypes is an open vocabulary that specifies a set of
+	// Types is an open vocabulary that specifies a set of
 	// categorizations for this indicator.
-	IndicatorTypes []string `json:"indicator_types"`
+	Types []string `json:"indicator_types"`
 	// Pattern is the detection pattern for this Indicator.
 	Pattern string `json:"pattern"`
 	// PatternType is the type of pattern used in this indicator. The property
@@ -44,7 +44,7 @@ type Indicator struct {
 	ValidUntil *Timestamp `json:"valid_until,omitempty"`
 	// KillChainPhases is the kill chain phase(s) to which this Indicator
 	// corresponds.
-	KillChainPhases []*KillChainPhase `json:"kill_chain_phases,omitempty"`
+	KillChainPhase []*KillChainPhase `json:"kill_chain_phases,omitempty"`
 }
 
 // AddIndicates creates a relationship that describes that the Indicator can
@@ -52,7 +52,7 @@ type Indicator struct {
 // Intrusion Set, Malware, Threat Actor, or Tool. This evidence may not be
 // direct: for example, the Indicator may detect secondary evidence of the
 // Campaign, such as malware or behavior commonly used by that Campaign.
-func (c *Indicator) AddIndicates(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *Indicator) AddIndicates(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForTypes(TypeAttackPattern, TypeCampaign, TypeInfrastructure, TypeIntrusionSet, TypeMalware, TypeThreatActor, TypeTool) {
 		return nil, ErrInvalidParameter
 	}
@@ -61,7 +61,7 @@ func (c *Indicator) AddIndicates(id Identifier, opts ...RelationshipOption) (*Re
 
 // AddBasedOn creates a relationship that describes hat the indicator was
 // created based on information from an observed-data object.
-func (c *Indicator) AddBasedOn(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *Indicator) AddBasedOn(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeObservedData) {
 		return nil, ErrInvalidParameter
 	}
@@ -69,20 +69,15 @@ func (c *Indicator) AddBasedOn(id Identifier, opts ...RelationshipOption) (*Rela
 }
 
 // NewIndicator creates a new Indicator object.
-func NewIndicator(pattern, patternType string, validFrom *Timestamp, opts ...IndicatorOption) (*Indicator, error) {
+func NewIndicator(pattern, patternType string, validFrom *Timestamp, opts ...STIXOption) (*Indicator, error) {
 	if pattern == "" || patternType == "" || validFrom == nil {
 		return nil, ErrPropertyMissing
 	}
 	base := newSTIXDomainObject(TypeIndicator)
 	obj := &Indicator{STIXDomainObject: base, Pattern: pattern, PatternType: patternType, ValidFrom: validFrom}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
-	return obj, nil
+	err := applyOptions(obj, opts)
+	return obj, err
 }
 
 const (
@@ -111,137 +106,6 @@ const (
 	// to determine the type of indicator.
 	IndicatorTypeUnknown = "unknown"
 )
-
-// IndicatorOption is an optional parameter when constructing a
-// Indicator object.
-type IndicatorOption func(a *Indicator)
-
-/*
-	Base object options
-*/
-
-// IndicatorOptionSpecVersion sets the STIX spec version.
-func IndicatorOptionSpecVersion(ver string) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.SpecVersion = ver
-	}
-}
-
-// IndicatorOptionExternalReferences sets the external references attribute.
-func IndicatorOptionExternalReferences(refs []*ExternalReference) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.ExternalReferences = refs
-	}
-}
-
-// IndicatorOptionObjectMarking sets the object marking attribute.
-func IndicatorOptionObjectMarking(om []Identifier) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.ObjectMarking = om
-	}
-}
-
-// IndicatorOptionGranularMarking sets the granular marking attribute.
-func IndicatorOptionGranularMarking(gm []*GranularMarking) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.GranularMarking = gm
-	}
-}
-
-// IndicatorOptionLang sets the lang attribute.
-func IndicatorOptionLang(lang string) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.Lang = lang
-	}
-}
-
-// IndicatorOptionConfidence sets the confidence attribute.
-func IndicatorOptionConfidence(confidence int) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.Confidence = confidence
-	}
-}
-
-// IndicatorOptionLabels sets the labels attribute.
-func IndicatorOptionLabels(labels []string) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.Labels = labels
-	}
-}
-
-// IndicatorOptionRevoked sets the revoked attribute.
-func IndicatorOptionRevoked(rev bool) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.Revoked = rev
-	}
-}
-
-// IndicatorOptionModified sets the modified attribute.
-func IndicatorOptionModified(t *Timestamp) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.Modified = t
-	}
-}
-
-// IndicatorOptionCreated sets the created attribute.
-func IndicatorOptionCreated(t *Timestamp) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.Created = t
-	}
-}
-
-// IndicatorOptionCreatedBy sets the created by by attribute.
-func IndicatorOptionCreatedBy(id Identifier) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.CreatedBy = id
-	}
-}
-
-/*
-	Indicator object options
-*/
-
-// IndicatorOptionDescription sets the description attribute.
-func IndicatorOptionDescription(des string) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.Description = des
-	}
-}
-
-// IndicatorOptionKillChainPhase sets the kill chain phase attribute.
-func IndicatorOptionKillChainPhase(s []*KillChainPhase) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.KillChainPhases = s
-	}
-}
-
-// IndicatorOptionName sets the name attribute.
-func IndicatorOptionName(s string) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.Name = s
-	}
-}
-
-// IndicatorOptionTypes sets the indicator types attribute.
-func IndicatorOptionTypes(s []string) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.IndicatorTypes = s
-	}
-}
-
-// IndicatorOptionPatternVersion sets the pattern version attribute.
-func IndicatorOptionPatternVersion(s string) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.PatternVersion = s
-	}
-}
-
-// IndicatorOptionValidUntil sets the valid until attribute.
-func IndicatorOptionValidUntil(t *Timestamp) IndicatorOption {
-	return func(obj *Indicator) {
-		obj.ValidUntil = t
-	}
-}
 
 const (
 	// PatternTypeSTIX specifies the STIX pattern language.

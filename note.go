@@ -28,7 +28,7 @@ type Note struct {
 }
 
 // NewNote creates a new Note object.
-func NewNote(content string, objects []Identifier, opts ...NoteOption) (*Note, error) {
+func NewNote(content string, objects []Identifier, opts ...STIXOption) (*Note, error) {
 	if len(objects) == 0 {
 		return nil, ErrPropertyMissing
 	}
@@ -39,114 +39,6 @@ func NewNote(content string, objects []Identifier, opts ...NoteOption) (*Note, e
 		Objects:          objects,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
-	return obj, nil
-}
-
-// NoteOption is an optional parameter when constructing a
-// Note object.
-type NoteOption func(a *Note)
-
-/*
-	Base object options
-*/
-
-// NoteOptionSpecVersion sets the STIX spec version.
-func NoteOptionSpecVersion(ver string) NoteOption {
-	return func(obj *Note) {
-		obj.SpecVersion = ver
-	}
-}
-
-// NoteOptionExternalReferences sets the external references attribute.
-func NoteOptionExternalReferences(refs []*ExternalReference) NoteOption {
-	return func(obj *Note) {
-		obj.ExternalReferences = refs
-	}
-}
-
-// NoteOptionObjectMarking sets the object marking attribute.
-func NoteOptionObjectMarking(om []Identifier) NoteOption {
-	return func(obj *Note) {
-		obj.ObjectMarking = om
-	}
-}
-
-// NoteOptionGranularMarking sets the granular marking attribute.
-func NoteOptionGranularMarking(gm []*GranularMarking) NoteOption {
-	return func(obj *Note) {
-		obj.GranularMarking = gm
-	}
-}
-
-// NoteOptionLang sets the lang attribute.
-func NoteOptionLang(lang string) NoteOption {
-	return func(obj *Note) {
-		obj.Lang = lang
-	}
-}
-
-// NoteOptionConfidence sets the confidence attribute.
-func NoteOptionConfidence(confidence int) NoteOption {
-	return func(obj *Note) {
-		obj.Confidence = confidence
-	}
-}
-
-// NoteOptionLabels sets the labels attribute.
-func NoteOptionLabels(labels []string) NoteOption {
-	return func(obj *Note) {
-		obj.Labels = labels
-	}
-}
-
-// NoteOptionRevoked sets the revoked attribute.
-func NoteOptionRevoked(rev bool) NoteOption {
-	return func(obj *Note) {
-		obj.Revoked = rev
-	}
-}
-
-// NoteOptionModified sets the modified attribute.
-func NoteOptionModified(t *Timestamp) NoteOption {
-	return func(obj *Note) {
-		obj.Modified = t
-	}
-}
-
-// NoteOptionCreated sets the created attribute.
-func NoteOptionCreated(t *Timestamp) NoteOption {
-	return func(obj *Note) {
-		obj.Created = t
-	}
-}
-
-// NoteOptionCreatedBy sets the created by by attribute.
-func NoteOptionCreatedBy(id Identifier) NoteOption {
-	return func(obj *Note) {
-		obj.CreatedBy = id
-	}
-}
-
-/*
-	Note object options
-*/
-
-// NoteOptionAbstract sets the abstract attribute.
-func NoteOptionAbstract(s string) NoteOption {
-	return func(obj *Note) {
-		obj.Abstract = s
-	}
-}
-
-// NoteOptionAuthors sets the authors attribute.
-func NoteOptionAuthors(s []string) NoteOption {
-	return func(obj *Note) {
-		obj.Authors = s
-	}
+	err := applyOptions(obj, opts)
+	return obj, err
 }

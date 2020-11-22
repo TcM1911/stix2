@@ -32,18 +32,18 @@ func TestSoftware(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []SoftwareOption{
-			SoftwareOptionGranularMarking(marking),
-			SoftwareOptionObjectMarking(objmark),
-			SoftwareOptionSpecVersion(specVer),
-			SoftwareOptionDefanged(true),
-			SoftwareOptionExtension("test", struct{}{}),
+		opts := []STIXOption{
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
+			OptionDefanged(true),
+			OptionExtension("test", struct{}{}),
 			//
-			SoftwareOptionCPE(testStr),
-			SoftwareOptionSWID(testStr),
-			SoftwareOptionLanguages([]string{testStr}),
-			SoftwareOptionVendor(testStr),
-			SoftwareOptionVersion(testStr),
+			OptionCPE(testStr),
+			OptionSWID(testStr),
+			OptionLanguages([]string{testStr}),
+			OptionVendor(testStr),
+			OptionVersion(testStr),
 		}
 		obj, err := NewSoftware(val, opts...)
 		assert.NotNil(obj)
@@ -99,15 +99,15 @@ func TestSoftware(t *testing.T) {
 			},
 		}
 		for _, test := range tests {
-			opts := make([]SoftwareOption, 0, 5)
+			opts := make([]STIXOption, 0, 5)
 			if test.cpe != "" {
-				opts = append(opts, SoftwareOptionCPE(test.cpe))
+				opts = append(opts, OptionCPE(test.cpe))
 			}
 			if test.vendor != "" {
-				opts = append(opts, SoftwareOptionVendor(test.vendor))
+				opts = append(opts, OptionVendor(test.vendor))
 			}
 			if test.version != "" {
-				opts = append(opts, SoftwareOptionVersion(test.version))
+				opts = append(opts, OptionVersion(test.version))
 			}
 			obj, err := NewSoftware(test.name, opts...)
 			assert.NoError(err)

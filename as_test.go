@@ -34,15 +34,15 @@ func TestAS(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []AutonomousSystemOption{
-			ASOptionGranularMarking(marking),
-			ASOptionObjectMarking(objmark),
-			ASOptionSpecVersion(specVer),
-			ASOptionDefanged(true),
-			ASOptionExtension("test", struct{}{}),
+		opts := []STIXOption{
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
+			OptionDefanged(true),
+			OptionExtension("test", struct{}{}),
 			//
-			ASOptionName(name),
-			ASOptionRIR(rir),
+			OptionName(name),
+			OptionRIR(rir),
 		}
 		obj, err := NewAutonomousSystem(num, opts...)
 		assert.NotNil(obj)

@@ -45,24 +45,24 @@ func TestIdentity(t *testing.T) {
 		sectors := []string{IdentitySectorDefence, IdentitySectorEntertainment}
 		contact := "123 Main ST"
 
-		opts := []IdentityOption{
-			IdentityOptionConfidence(conf),
-			IdentityOptionCreated(ts),
-			IdentityOptionModified(ts),
-			IdentityOptionCreatedBy(createdBy),
-			IdentityOptionExternalReferences([]*ExternalReference{ref}),
-			IdentityOptionGranularMarking(marking),
-			IdentityOptionLabels(labels),
-			IdentityOptionLang(lang),
-			IdentityOptionObjectMarking(objmark),
-			IdentityOptionRevoked(true),
-			IdentityOptionSpecVersion(specVer),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionLang(lang),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
 			//
-			IdentityOptionDescription(desc),
-			IdentityOptionClass(class),
-			IdentityOptionRoles(roles),
-			IdentityOptionSectors(sectors),
-			IdentityOptionContactInformation(contact),
+			OptionDescription(desc),
+			OptionClass(class),
+			OptionRoles(roles),
+			OptionSectors(sectors),
+			OptionContactInformation(contact),
 		}
 		obj, err := NewIdentity(name, opts...)
 		assert.NotNil(obj)
@@ -80,7 +80,7 @@ func TestIdentity(t *testing.T) {
 		assert.Equal(specVer, obj.SpecVersion)
 
 		assert.Equal(name, obj.Name)
-		assert.Equal(class, obj.IdentityClass)
+		assert.Equal(class, obj.Class)
 		assert.Equal(desc, obj.Description)
 		assert.Equal(roles, obj.Roles)
 		assert.Equal(sectors, obj.Sectors)
@@ -109,7 +109,7 @@ func TestIdentity(t *testing.T) {
 		assert.Equal("John Smith", obj.Name)
 		assert.Equal(ts, obj.Created.Time)
 		assert.Equal(ts, obj.Modified.Time)
-		assert.Equal(IdentityClassIndividual, obj.IdentityClass)
+		assert.Equal(IdentityClassIndividual, obj.Class)
 	})
 }
 

@@ -234,7 +234,7 @@ func TestGetCreatedAndModified(t *testing.T) {
 
 func TestGetFromCollection(t *testing.T) {
 	c := &StixCollection{}
-	m, _ := NewMalware(true, MalwareOptionName("Test object"))
+	m, _ := NewMalware(true, OptionName("Test object"))
 	c.Add(m)
 
 	tests := []struct {

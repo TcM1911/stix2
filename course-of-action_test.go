@@ -40,20 +40,20 @@ func TestCourseOfAction(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []CourseOfActionOption{
-			CourseOfActionOptionConfidence(conf),
-			CourseOfActionOptionCreated(ts),
-			CourseOfActionOptionModified(ts),
-			CourseOfActionOptionCreatedBy(createdBy),
-			CourseOfActionOptionExternalReferences([]*ExternalReference{ref}),
-			CourseOfActionOptionGranularMarking(marking),
-			CourseOfActionOptionLabels(labels),
-			CourseOfActionOptionLang(lang),
-			CourseOfActionOptionObjectMarking(objmark),
-			CourseOfActionOptionRevoked(true),
-			CourseOfActionOptionSpecVersion(specVer),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionLang(lang),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
 			//
-			CourseOfActionOptionDescription(desc),
+			OptionDescription(desc),
 		}
 		obj, err := NewCourseOfAction(name, opts...)
 		assert.NotNil(obj)

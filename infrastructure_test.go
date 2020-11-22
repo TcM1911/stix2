@@ -44,25 +44,25 @@ func TestInfrastructure(t *testing.T) {
 		typ := []string{InfrastructureTypeCommandAndControl}
 		aliases := []string{"1", "2"}
 
-		opts := []InfrastructureOption{
-			InfrastructureOptionConfidence(conf),
-			InfrastructureOptionCreated(ts),
-			InfrastructureOptionModified(ts),
-			InfrastructureOptionCreatedBy(createdBy),
-			InfrastructureOptionExternalReferences([]*ExternalReference{ref}),
-			InfrastructureOptionGranularMarking(marking),
-			InfrastructureOptionLabels(labels),
-			InfrastructureOptionLang(lang),
-			InfrastructureOptionObjectMarking(objmark),
-			InfrastructureOptionRevoked(true),
-			InfrastructureOptionSpecVersion(specVer),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionLang(lang),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
 			//
-			InfrastructureOptionDescription(desc),
-			InfrastructureOptionTypes(typ),
-			InfrastructureOptionKillChainPhase(kchain),
-			InfrastructureOptionAliases(aliases),
-			InfrastructureOptionFirstSeen(ts),
-			InfrastructureOptionLastSeen(ts),
+			OptionDescription(desc),
+			OptionTypes(typ),
+			OptionKillChainPhase(kchain),
+			OptionAliases(aliases),
+			OptionFirstSeen(ts),
+			OptionLastSeen(ts),
 		}
 		obj, err := NewInfrastructure(name, opts...)
 		assert.NotNil(obj)
@@ -81,8 +81,8 @@ func TestInfrastructure(t *testing.T) {
 		assert.Equal(name, obj.Name)
 
 		assert.Equal(desc, obj.Description)
-		assert.Equal(typ, obj.InfrastructureTypes)
-		assert.Equal(kchain, obj.KillChainPhases)
+		assert.Equal(typ, obj.Types)
+		assert.Equal(kchain, obj.KillChainPhase)
 		assert.Equal(ts, obj.FirstSeen)
 		assert.Equal(ts, obj.LastSeen)
 		assert.Equal(aliases, obj.Aliases)
@@ -109,7 +109,7 @@ func TestInfrastructure(t *testing.T) {
 		assert.Equal("Poison Ivy C2", obj.Name)
 		assert.Equal(ts, obj.Created.Time)
 		assert.Equal(ts, obj.Modified.Time)
-		assert.Contains(obj.InfrastructureTypes, InfrastructureTypeCommandAndControl)
+		assert.Contains(obj.Types, InfrastructureTypeCommandAndControl)
 	})
 }
 

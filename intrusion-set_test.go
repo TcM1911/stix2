@@ -46,27 +46,27 @@ func TestIntrusionSet(t *testing.T) {
 		pm := AttackMotivationIdeology
 		sm := []string{AttackMotivationPersonalGain}
 
-		opts := []IntrusionSetOption{
-			IntrusionSetOptionConfidence(conf),
-			IntrusionSetOptionCreated(ts),
-			IntrusionSetOptionModified(ts),
-			IntrusionSetOptionCreatedBy(createdBy),
-			IntrusionSetOptionExternalReferences([]*ExternalReference{ref}),
-			IntrusionSetOptionGranularMarking(marking),
-			IntrusionSetOptionLabels(labels),
-			IntrusionSetOptionLang(lang),
-			IntrusionSetOptionObjectMarking(objmark),
-			IntrusionSetOptionRevoked(true),
-			IntrusionSetOptionSpecVersion(specVer),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionLang(lang),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
 			//
-			IntrusionSetOptionDescription(desc),
-			IntrusionSetOptionGoals(goals),
-			IntrusionSetOptionAliases(aliases),
-			IntrusionSetOptionFirstSeen(ts),
-			IntrusionSetOptionLastSeen(ts),
-			IntrusionSetOptionResourceLevel(rl),
-			IntrusionSetOptionPrimaryMotivation(pm),
-			IntrusionSetOptionSecondaryMotivation(sm),
+			OptionDescription(desc),
+			OptionGoals(goals),
+			OptionAliases(aliases),
+			OptionFirstSeen(ts),
+			OptionLastSeen(ts),
+			OptionResourceLevel(rl),
+			OptionPrimaryMotivation(pm),
+			OptionSecondaryMotivations(sm),
 		}
 		obj, err := NewIntrusionSet(name, opts...)
 		assert.NotNil(obj)
@@ -91,7 +91,7 @@ func TestIntrusionSet(t *testing.T) {
 		assert.Equal(aliases, obj.Aliases)
 		assert.Equal(rl, obj.ResourceLevel)
 		assert.Equal(pm, obj.PrimaryMotivation)
-		assert.Equal(sm, obj.SecondaryMotivation)
+		assert.Equal(sm, obj.SecondaryMotivations)
 	})
 
 	t.Run("parse_json", func(t *testing.T) {

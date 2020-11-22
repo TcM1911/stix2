@@ -43,21 +43,21 @@ func TestGrouping(t *testing.T) {
 		desc := "My description"
 		name := "Group 1"
 
-		opts := []GroupingOption{
-			GroupingOptionConfidence(conf),
-			GroupingOptionCreated(ts),
-			GroupingOptionModified(ts),
-			GroupingOptionCreatedBy(createdBy),
-			GroupingOptionExternalReferences([]*ExternalReference{ref}),
-			GroupingOptionGranularMarking(marking),
-			GroupingOptionLabels(labels),
-			GroupingOptionLang(lang),
-			GroupingOptionObjectMarking(objmark),
-			GroupingOptionRevoked(true),
-			GroupingOptionSpecVersion(specVer),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionLang(lang),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
 			//
-			GroupingOptionDescription(desc),
-			GroupingOptionName(name),
+			OptionDescription(desc),
+			OptionName(name),
 		}
 		obj, err := NewGrouping(context, objects, opts...)
 		assert.NotNil(obj)

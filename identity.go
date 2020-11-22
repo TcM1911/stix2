@@ -23,9 +23,9 @@ type Identity struct {
 	// Administrators, Doctors, Hospital, or Retailer). No open vocabulary is
 	// yet defined for this property.
 	Roles []string `json:"roles,omitempty"`
-	// IdentityClass is the type of entity that this Identity describes, e.g.,
+	// Class is the type of entity that this Identity describes, e.g.,
 	// an individual or organization.
-	IdentityClass string `json:"identity_class"`
+	Class string `json:"identity_class"`
 	// Sectors is a list of industry sectors that this Identity belongs to.
 	Sectors []string `json:"sectors,omitempty"`
 	// ContactInformation is the contact information (e-mail, phone number,
@@ -36,7 +36,7 @@ type Identity struct {
 
 // AddLocatedAt creates a relationship to a location hat the Identity is
 // located at or in the related Location.
-func (c *Identity) AddLocatedAt(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *Identity) AddLocatedAt(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeLocation) {
 		return nil, ErrInvalidParameter
 	}
@@ -44,20 +44,15 @@ func (c *Identity) AddLocatedAt(id Identifier, opts ...RelationshipOption) (*Rel
 }
 
 // NewIdentity creates a new Identity object.
-func NewIdentity(name string, opts ...IdentityOption) (*Identity, error) {
+func NewIdentity(name string, opts ...STIXOption) (*Identity, error) {
 	if name == "" {
 		return nil, ErrPropertyMissing
 	}
 	base := newSTIXDomainObject(TypeIdentity)
 	obj := &Identity{STIXDomainObject: base, Name: name}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
-	return obj, nil
+	err := applyOptions(obj, opts)
+	return obj, err
 }
 
 const (
@@ -136,127 +131,3 @@ const (
 	// IdentitySectorUtilities represents the utilities sector.
 	IdentitySectorUtilities = "utilities"
 )
-
-// IdentityOption is an optional parameter when constructing a
-// Identity object.
-type IdentityOption func(a *Identity)
-
-/*
-	Base object options
-*/
-
-// IdentityOptionSpecVersion sets the STIX spec version.
-func IdentityOptionSpecVersion(ver string) IdentityOption {
-	return func(obj *Identity) {
-		obj.SpecVersion = ver
-	}
-}
-
-// IdentityOptionExternalReferences sets the external references attribute.
-func IdentityOptionExternalReferences(refs []*ExternalReference) IdentityOption {
-	return func(obj *Identity) {
-		obj.ExternalReferences = refs
-	}
-}
-
-// IdentityOptionObjectMarking sets the object marking attribute.
-func IdentityOptionObjectMarking(om []Identifier) IdentityOption {
-	return func(obj *Identity) {
-		obj.ObjectMarking = om
-	}
-}
-
-// IdentityOptionGranularMarking sets the granular marking attribute.
-func IdentityOptionGranularMarking(gm []*GranularMarking) IdentityOption {
-	return func(obj *Identity) {
-		obj.GranularMarking = gm
-	}
-}
-
-// IdentityOptionLang sets the lang attribute.
-func IdentityOptionLang(lang string) IdentityOption {
-	return func(obj *Identity) {
-		obj.Lang = lang
-	}
-}
-
-// IdentityOptionConfidence sets the confidence attribute.
-func IdentityOptionConfidence(confidence int) IdentityOption {
-	return func(obj *Identity) {
-		obj.Confidence = confidence
-	}
-}
-
-// IdentityOptionLabels sets the labels attribute.
-func IdentityOptionLabels(labels []string) IdentityOption {
-	return func(obj *Identity) {
-		obj.Labels = labels
-	}
-}
-
-// IdentityOptionRevoked sets the revoked attribute.
-func IdentityOptionRevoked(rev bool) IdentityOption {
-	return func(obj *Identity) {
-		obj.Revoked = rev
-	}
-}
-
-// IdentityOptionModified sets the modified attribute.
-func IdentityOptionModified(t *Timestamp) IdentityOption {
-	return func(obj *Identity) {
-		obj.Modified = t
-	}
-}
-
-// IdentityOptionCreated sets the created attribute.
-func IdentityOptionCreated(t *Timestamp) IdentityOption {
-	return func(obj *Identity) {
-		obj.Created = t
-	}
-}
-
-// IdentityOptionCreatedBy sets the created by by attribute.
-func IdentityOptionCreatedBy(id Identifier) IdentityOption {
-	return func(obj *Identity) {
-		obj.CreatedBy = id
-	}
-}
-
-/*
-	Identity object options
-*/
-
-// IdentityOptionDescription sets the description attribute.
-func IdentityOptionDescription(des string) IdentityOption {
-	return func(obj *Identity) {
-		obj.Description = des
-	}
-}
-
-// IdentityOptionClass sets the identity class attribute.
-func IdentityOptionClass(s string) IdentityOption {
-	return func(obj *Identity) {
-		obj.IdentityClass = s
-	}
-}
-
-// IdentityOptionRoles sets the roles attribute.
-func IdentityOptionRoles(s []string) IdentityOption {
-	return func(obj *Identity) {
-		obj.Roles = s
-	}
-}
-
-// IdentityOptionSectors sets the sectors attribute.
-func IdentityOptionSectors(s []string) IdentityOption {
-	return func(obj *Identity) {
-		obj.Sectors = s
-	}
-}
-
-// IdentityOptionContactInformation sets the contact information attribute.
-func IdentityOptionContactInformation(s string) IdentityOption {
-	return func(obj *Identity) {
-		obj.ContactInformation = s
-	}
-}

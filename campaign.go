@@ -40,7 +40,7 @@ type Campaign struct {
 
 // AddTargets creates a relationship to either an identity, location, or
 // vulnerability that is targeted by this campaign.
-func (c *Campaign) AddTargets(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *Campaign) AddTargets(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || (!id.ForType(TypeLocation) &&
 		!id.ForType(TypeIdentity)) && !id.ForType(TypeVulnerability) {
 		return nil, ErrInvalidParameter
@@ -50,7 +50,7 @@ func (c *Campaign) AddTargets(id Identifier, opts ...RelationshipOption) (*Relat
 
 // AddUses creates a relationship to either a malware or tool that is used by
 // the campaign
-func (c *Campaign) AddUses(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *Campaign) AddUses(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || (!id.ForType(TypeMalware) && !id.ForType(TypeTool)) {
 		return nil, ErrInvalidParameter
 	}
@@ -59,7 +59,7 @@ func (c *Campaign) AddUses(id Identifier, opts ...RelationshipOption) (*Relation
 
 // AddAttributedTo creates a relationship to either an intrusion set or a
 // threat actor that is attributed to the campaign.
-func (c *Campaign) AddAttributedTo(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *Campaign) AddAttributedTo(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || (!id.ForType(TypeIntrusionSet) && !id.ForType(TypeThreatActor)) {
 		return nil, ErrInvalidParameter
 	}
@@ -68,7 +68,7 @@ func (c *Campaign) AddAttributedTo(id Identifier, opts ...RelationshipOption) (*
 
 // AddCompromises creates a relationship to an infrastructure that is
 // compromised as part of the campaign.
-func (c *Campaign) AddCompromises(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *Campaign) AddCompromises(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeInfrastructure) {
 		return nil, ErrInvalidParameter
 	}
@@ -77,7 +77,7 @@ func (c *Campaign) AddCompromises(id Identifier, opts ...RelationshipOption) (*R
 
 // AddOriginatesFrom creates a relationship to a location that the campaign
 // originates from the related location.
-func (c *Campaign) AddOriginatesFrom(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *Campaign) AddOriginatesFrom(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeLocation) {
 		return nil, ErrInvalidParameter
 	}
@@ -85,147 +85,18 @@ func (c *Campaign) AddOriginatesFrom(id Identifier, opts ...RelationshipOption) 
 }
 
 // NewCampaign creates a new Campaign object.
-func NewCampaign(name string, opts ...CampaignOption) (*Campaign, error) {
+func NewCampaign(name string, opts ...STIXOption) (*Campaign, error) {
 	if name == "" {
 		return nil, ErrPropertyMissing
 	}
 	base := newSTIXDomainObject(TypeCampaign)
 	obj := &Campaign{STIXDomainObject: base, Name: name}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
+	err := applyOptions(obj, opts)
 
 	if (obj.FirstSeen != nil && obj.LastSeen != nil) && obj.FirstSeen.After(obj.LastSeen.Time) {
 		return nil, fmt.Errorf("%w: Last seen (%s) is before first seen (%s)", ErrInvalidProperty, obj.LastSeen, obj.FirstSeen)
 	}
 
-	return obj, nil
-}
-
-// CampaignOption is an optional parameter when constructing a
-// AttackPattern object.
-type CampaignOption func(a *Campaign)
-
-/*
-	Base object options
-*/
-
-// CampaignOptionSpecVersion sets the STIX spec version.
-func CampaignOptionSpecVersion(ver string) CampaignOption {
-	return func(obj *Campaign) {
-		obj.SpecVersion = ver
-	}
-}
-
-// CampaignOptionExternalReferences sets the external references attribute.
-func CampaignOptionExternalReferences(refs []*ExternalReference) CampaignOption {
-	return func(obj *Campaign) {
-		obj.ExternalReferences = refs
-	}
-}
-
-// CampaignOptionObjectMarking sets the object marking attribute.
-func CampaignOptionObjectMarking(om []Identifier) CampaignOption {
-	return func(obj *Campaign) {
-		obj.ObjectMarking = om
-	}
-}
-
-// CampaignOptionGranularMarking sets the granular marking attribute.
-func CampaignOptionGranularMarking(gm []*GranularMarking) CampaignOption {
-	return func(obj *Campaign) {
-		obj.GranularMarking = gm
-	}
-}
-
-// CampaignOptionLang sets the lang attribute.
-func CampaignOptionLang(lang string) CampaignOption {
-	return func(obj *Campaign) {
-		obj.Lang = lang
-	}
-}
-
-// CampaignOptionConfidence sets the confidence attribute.
-func CampaignOptionConfidence(confidence int) CampaignOption {
-	return func(obj *Campaign) {
-		obj.Confidence = confidence
-	}
-}
-
-// CampaignOptionLabels sets the labels attribute.
-func CampaignOptionLabels(labels []string) CampaignOption {
-	return func(obj *Campaign) {
-		obj.Labels = labels
-	}
-}
-
-// CampaignOptionRevoked sets the revoked attribute.
-func CampaignOptionRevoked(rev bool) CampaignOption {
-	return func(obj *Campaign) {
-		obj.Revoked = rev
-	}
-}
-
-// CampaignOptionModified sets the modified attribute.
-func CampaignOptionModified(t *Timestamp) CampaignOption {
-	return func(obj *Campaign) {
-		obj.Modified = t
-	}
-}
-
-// CampaignOptionCreated sets the created attribute.
-func CampaignOptionCreated(t *Timestamp) CampaignOption {
-	return func(obj *Campaign) {
-		obj.Created = t
-	}
-}
-
-// CampaignOptionCreatedBy sets the created by by attribute.
-func CampaignOptionCreatedBy(id Identifier) CampaignOption {
-	return func(obj *Campaign) {
-		obj.CreatedBy = id
-	}
-}
-
-/*
-	Campaign object options
-*/
-
-// CampaignOptionDescription sets the description attribute.
-func CampaignOptionDescription(des string) CampaignOption {
-	return func(obj *Campaign) {
-		obj.Description = des
-	}
-}
-
-// CampaignOptionAliases sets the aliases attribute.
-func CampaignOptionAliases(a []string) CampaignOption {
-	return func(obj *Campaign) {
-		obj.Aliases = a
-	}
-}
-
-// CampaignOptionFirstSeen sets the first seen attribute.
-func CampaignOptionFirstSeen(t *Timestamp) CampaignOption {
-	return func(obj *Campaign) {
-		obj.FirstSeen = t
-	}
-}
-
-// CampaignOptionLastSeen sets the last seen attribute.
-func CampaignOptionLastSeen(t *Timestamp) CampaignOption {
-	return func(obj *Campaign) {
-		obj.LastSeen = t
-	}
-}
-
-// CampaignOptionObjective sets the objective attribute.
-func CampaignOptionObjective(o string) CampaignOption {
-	return func(obj *Campaign) {
-		obj.Objective = o
-	}
+	return obj, err
 }

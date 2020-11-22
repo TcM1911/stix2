@@ -43,22 +43,22 @@ func TestAttackPattern(t *testing.T) {
 		aliases := []string{"name1", "name2"}
 		killChain := []*KillChainPhase{{}}
 
-		opts := []AttackPatternOption{
-			AttackPatternOptionConfidence(conf),
-			AttackPatternOptionDescription(desc),
-			AttackPatternOptionCreated(ts),
-			AttackPatternOptionModified(ts),
-			AttackPatternOptionCreatedBy(createdBy),
-			AttackPatternOptionExternalReferences([]*ExternalReference{ref}),
-			AttackPatternOptionGranularMarking(marking),
-			AttackPatternOptionLabels(labels),
-			AttackPatternOptionLang(lang),
-			AttackPatternOptionObjectMarking(objmark),
-			AttackPatternOptionRevoked(true),
-			AttackPatternOptionSpecVersion(specVer),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionDescription(desc),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionLang(lang),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
 			//
-			AttackPatternOptionAliases(aliases),
-			AttackPatternOptionKillChainPhase(killChain),
+			OptionAliases(aliases),
+			OptionKillChainPhase(killChain),
 		}
 		a, err := NewAttackPattern(name, opts...)
 		assert.NotNil(a)

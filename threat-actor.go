@@ -74,7 +74,7 @@ type ThreatActor struct {
 }
 
 // AddAttributedTo creates a relationship to the ThreatActor's real identity.
-func (a *ThreatActor) AddAttributedTo(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (a *ThreatActor) AddAttributedTo(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeIdentity) {
 		return nil, ErrInvalidParameter
 	}
@@ -83,7 +83,7 @@ func (a *ThreatActor) AddAttributedTo(id Identifier, opts ...RelationshipOption)
 
 // AddCompromises creates a relationship that describes that the Threat Actor
 // compromises the related Infrastructure.
-func (a *ThreatActor) AddCompromises(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (a *ThreatActor) AddCompromises(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeInfrastructure) {
 		return nil, ErrInvalidParameter
 	}
@@ -93,7 +93,7 @@ func (a *ThreatActor) AddCompromises(id Identifier, opts ...RelationshipOption) 
 // AddHosts creates a relationship that describes that the Threat Actor hosts
 // the related Infrastructure (e.g. an actor that rents botnets to other threat
 // actors).
-func (a *ThreatActor) AddHosts(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (a *ThreatActor) AddHosts(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeInfrastructure) {
 		return nil, ErrInvalidParameter
 	}
@@ -103,7 +103,7 @@ func (a *ThreatActor) AddHosts(id Identifier, opts ...RelationshipOption) (*Rela
 // AddOwns creates a relationship that describes that the Threat Actor owns
 // the related Infrastructure (e.g. an actor that rents botnets to other threat
 // actors).
-func (a *ThreatActor) AddOwns(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (a *ThreatActor) AddOwns(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeInfrastructure) {
 		return nil, ErrInvalidParameter
 	}
@@ -112,7 +112,7 @@ func (a *ThreatActor) AddOwns(id Identifier, opts ...RelationshipOption) (*Relat
 
 // AddImpersonates creates a relationship that describes that the Threat Actor
 // impersonates the related Identity.
-func (a *ThreatActor) AddImpersonates(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (a *ThreatActor) AddImpersonates(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeIdentity) {
 		return nil, ErrInvalidParameter
 	}
@@ -121,7 +121,7 @@ func (a *ThreatActor) AddImpersonates(id Identifier, opts ...RelationshipOption)
 
 // AddLocatedAt creates a relationship that describes that the Threat Actor is
 // located at or in the related Location.
-func (a *ThreatActor) AddLocatedAt(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (a *ThreatActor) AddLocatedAt(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeLocation) {
 		return nil, ErrInvalidParameter
 	}
@@ -131,7 +131,7 @@ func (a *ThreatActor) AddLocatedAt(id Identifier, opts ...RelationshipOption) (*
 // AddTargets creates a relationship that describes that the Threat Actor uses
 // exploits of the related Vulnerability or targets the type of victims
 // described by the related Identity or Location.
-func (a *ThreatActor) AddTargets(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (a *ThreatActor) AddTargets(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForTypes(TypeIdentity, TypeLocation, TypeVulnerability) {
 		return nil, ErrInvalidParameter
 	}
@@ -141,7 +141,7 @@ func (a *ThreatActor) AddTargets(id Identifier, opts ...RelationshipOption) (*Re
 // AddUses creates a relationship that describes that attacks carried out as
 // part of the Threat Actor typically use the related Attack Pattern,
 // Infrastructure,  Malware, or Tool.
-func (a *ThreatActor) AddUses(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (a *ThreatActor) AddUses(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForTypes(TypeAttackPattern, TypeInfrastructure, TypeMalware, TypeTool) {
 		return nil, ErrInvalidParameter
 	}
@@ -149,7 +149,7 @@ func (a *ThreatActor) AddUses(id Identifier, opts ...RelationshipOption) (*Relat
 }
 
 // NewThreatActor creates a new ThreatActor object.
-func NewThreatActor(name string, opts ...ThreatActorOption) (*ThreatActor, error) {
+func NewThreatActor(name string, opts ...STIXOption) (*ThreatActor, error) {
 	if name == "" {
 		return nil, ErrPropertyMissing
 	}
@@ -159,186 +159,8 @@ func NewThreatActor(name string, opts ...ThreatActorOption) (*ThreatActor, error
 		Name:             name,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
-	return obj, nil
-}
-
-// ThreatActorOption is an optional parameter when constructing a
-// ThreatActor object.
-type ThreatActorOption func(a *ThreatActor)
-
-/*
-	Base object options
-*/
-
-// ThreatActorOptionSpecVersion sets the STIX spec version.
-func ThreatActorOptionSpecVersion(ver string) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.SpecVersion = ver
-	}
-}
-
-// ThreatActorOptionExternalReferences sets the external references attribute.
-func ThreatActorOptionExternalReferences(refs []*ExternalReference) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.ExternalReferences = refs
-	}
-}
-
-// ThreatActorOptionObjectMarking sets the object marking attribute.
-func ThreatActorOptionObjectMarking(om []Identifier) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.ObjectMarking = om
-	}
-}
-
-// ThreatActorOptionGranularMarking sets the granular marking attribute.
-func ThreatActorOptionGranularMarking(gm []*GranularMarking) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.GranularMarking = gm
-	}
-}
-
-// ThreatActorOptionLang sets the lang attribute.
-func ThreatActorOptionLang(lang string) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.Lang = lang
-	}
-}
-
-// ThreatActorOptionConfidence sets the confidence attribute.
-func ThreatActorOptionConfidence(confidence int) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.Confidence = confidence
-	}
-}
-
-// ThreatActorOptionLabels sets the labels attribute.
-func ThreatActorOptionLabels(labels []string) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.Labels = labels
-	}
-}
-
-// ThreatActorOptionRevoked sets the revoked attribute.
-func ThreatActorOptionRevoked(rev bool) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.Revoked = rev
-	}
-}
-
-// ThreatActorOptionModified sets the modified attribute.
-func ThreatActorOptionModified(t *Timestamp) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.Modified = t
-	}
-}
-
-// ThreatActorOptionCreated sets the created attribute.
-func ThreatActorOptionCreated(t *Timestamp) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.Created = t
-	}
-}
-
-// ThreatActorOptionCreatedBy sets the created by by attribute.
-func ThreatActorOptionCreatedBy(id Identifier) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.CreatedBy = id
-	}
-}
-
-/*
-	ThreatActor object options
-*/
-
-// ThreatActorOptionDescription sets the description attribute.
-func ThreatActorOptionDescription(s string) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.Description = s
-	}
-}
-
-// ThreatActorOptionTypes sets the threat actor types attribute.
-func ThreatActorOptionTypes(s []string) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.Types = s
-	}
-}
-
-// ThreatActorOptionAliases sets the aliases attribute.
-func ThreatActorOptionAliases(s []string) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.Aliases = s
-	}
-}
-
-// ThreatActorOptionFirstSeen sets the first seen attribute.
-func ThreatActorOptionFirstSeen(s *Timestamp) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.FirstSeen = s
-	}
-}
-
-// ThreatActorOptionLastSeen sets the last seen attribute.
-func ThreatActorOptionLastSeen(s *Timestamp) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.LastSeen = s
-	}
-}
-
-// ThreatActorOptionRoles sets the roles attribute.
-func ThreatActorOptionRoles(s []string) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.Roles = s
-	}
-}
-
-// ThreatActorOptionGoals sets the goals attribute.
-func ThreatActorOptionGoals(s []string) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.Goals = s
-	}
-}
-
-// ThreatActorOptionSophistication sets the sophistication attribute.
-func ThreatActorOptionSophistication(s string) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.Sophistication = s
-	}
-}
-
-// ThreatActorOptionResourceLevel sets the resource level attribute.
-func ThreatActorOptionResourceLevel(s string) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.ResourceLevel = s
-	}
-}
-
-// ThreatActorOptionPrimaryMotivation sets the primary motivation attribute.
-func ThreatActorOptionPrimaryMotivation(s string) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.PrimaryMotivation = s
-	}
-}
-
-// ThreatActorOptionSecondaryMotivations sets the secondary motivations attribute.
-func ThreatActorOptionSecondaryMotivations(s []string) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.SecondaryMotivations = s
-	}
-}
-
-// ThreatActorOptionPersonalMotivations sets the personal motivations attribute.
-func ThreatActorOptionPersonalMotivations(s []string) ThreatActorOption {
-	return func(obj *ThreatActor) {
-		obj.PersonalMotivations = s
-	}
+	err := applyOptions(obj, opts)
+	return obj, err
 }
 
 const (

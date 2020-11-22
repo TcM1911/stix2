@@ -20,13 +20,13 @@ type Infrastructure struct {
 	// to other intelligence activities captured in related objects, and its
 	// key characteristics.
 	Description string `json:"description,omitempty"`
-	// InfrastructureTypes is the type of infrastructure being described.
-	InfrastructureTypes []string `json:"infrastructure_types,omitempty"`
+	// Types is the type of infrastructure being described.
+	Types []string `json:"infrastructure_types,omitempty"`
 	// Aliases are alternative names used to identify this Infrastructure.
 	Aliases []string `json:"aliases,omitempty"`
 	// KillChainPhase is a list of Kill Chain Phases for which this
 	// Infrastructure is used.
-	KillChainPhases []*KillChainPhase `json:"kill_chain_phases,omitempty"`
+	KillChainPhase []*KillChainPhase `json:"kill_chain_phases,omitempty"`
 	// FirstSeen is the time that this Infrastructure was first seen performing
 	// malicious activities.
 	FirstSeen *Timestamp `json:"first_seen,omitempty"`
@@ -38,7 +38,7 @@ type Infrastructure struct {
 // AddConsistsOf documents the objects that are used to make up an
 // infrastructure instance, such as ipv4-addr, ipv6-addr, domain-name, url. An
 // infrastructure instance consists of zero or more objects.
-func (c *Infrastructure) AddConsistsOf(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *Infrastructure) AddConsistsOf(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	// According to the specification, "All STIX Cyber-observable Objects" are
 	// valid for this reference. "While not all SCO types will make sense as
 	// infrastructure, allowing any type of SCO prevents artificially
@@ -53,7 +53,7 @@ func (c *Infrastructure) AddConsistsOf(id Identifier, opts ...RelationshipOption
 
 // AddControls describes that this infrastructure controls some other
 // infrastructure or a malware instance (or family).
-func (c *Infrastructure) AddControls(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *Infrastructure) AddControls(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForTypes(TypeInfrastructure, TypeMalware) {
 		return nil, ErrInvalidParameter
 	}
@@ -62,7 +62,7 @@ func (c *Infrastructure) AddControls(id Identifier, opts ...RelationshipOption) 
 
 // AddCommunicatesWith documents that this infrastructure instance communicates
 // with the defined network addressable resource.
-func (c *Infrastructure) AddCommunicatesWith(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *Infrastructure) AddCommunicatesWith(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForTypes(TypeInfrastructure, TypeIPv4Addr, TypeIPv6Addr, TypeDomainName, TypeURL) {
 		return nil, ErrInvalidParameter
 	}
@@ -71,7 +71,7 @@ func (c *Infrastructure) AddCommunicatesWith(id Identifier, opts ...Relationship
 
 // AddDelivers describes that this infrastructure controls some other
 // infrastructure or a malware instance (or family).
-func (c *Infrastructure) AddDelivers(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *Infrastructure) AddDelivers(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeMalware) {
 		return nil, ErrInvalidParameter
 	}
@@ -80,7 +80,7 @@ func (c *Infrastructure) AddDelivers(id Identifier, opts ...RelationshipOption) 
 
 // AddHas describes that this specific Infrastructure has this specific
 // Vulnerability.
-func (c *Infrastructure) AddHas(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *Infrastructure) AddHas(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeVulnerability) {
 		return nil, ErrInvalidParameter
 	}
@@ -89,7 +89,7 @@ func (c *Infrastructure) AddHas(id Identifier, opts ...RelationshipOption) (*Rel
 
 // AddHosts describes that this infrastructure has a tool running on it or is
 // used to passively host the tool / malware.
-func (c *Infrastructure) AddHosts(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *Infrastructure) AddHosts(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForTypes(TypeMalware, TypeTool) {
 		return nil, ErrInvalidParameter
 	}
@@ -98,7 +98,7 @@ func (c *Infrastructure) AddHosts(id Identifier, opts ...RelationshipOption) (*R
 
 // AddLocatedAt describes that the infrastructure originates from the related
 // location.
-func (c *Infrastructure) AddLocatedAt(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *Infrastructure) AddLocatedAt(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeLocation) {
 		return nil, ErrInvalidParameter
 	}
@@ -107,7 +107,7 @@ func (c *Infrastructure) AddLocatedAt(id Identifier, opts ...RelationshipOption)
 
 // AddUses describes that this infrastructure uses this other infrastructure to
 // achieve its objectives.
-func (c *Infrastructure) AddUses(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *Infrastructure) AddUses(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeInfrastructure) {
 		return nil, ErrInvalidParameter
 	}
@@ -115,20 +115,15 @@ func (c *Infrastructure) AddUses(id Identifier, opts ...RelationshipOption) (*Re
 }
 
 // NewInfrastructure creates a new Infrastructure object.
-func NewInfrastructure(name string, opts ...InfrastructureOption) (*Infrastructure, error) {
+func NewInfrastructure(name string, opts ...STIXOption) (*Infrastructure, error) {
 	if name == "" {
 		return nil, ErrPropertyMissing
 	}
 	base := newSTIXDomainObject(TypeInfrastructure)
 	obj := &Infrastructure{STIXDomainObject: base, Name: name}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
-	return obj, nil
+	err := applyOptions(obj, opts)
+	return obj, err
 }
 
 const (
@@ -166,134 +161,3 @@ const (
 	// undefined type.
 	InfrastructureTypeUndefined = "undefined"
 )
-
-// InfrastructureOption is an optional parameter when constructing a
-// Infrastructure object.
-type InfrastructureOption func(a *Infrastructure)
-
-/*
-	Base object options
-*/
-
-// InfrastructureOptionSpecVersion sets the STIX spec version.
-func InfrastructureOptionSpecVersion(ver string) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.SpecVersion = ver
-	}
-}
-
-// InfrastructureOptionExternalReferences sets the external references attribute.
-func InfrastructureOptionExternalReferences(refs []*ExternalReference) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.ExternalReferences = refs
-	}
-}
-
-// InfrastructureOptionObjectMarking sets the object marking attribute.
-func InfrastructureOptionObjectMarking(om []Identifier) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.ObjectMarking = om
-	}
-}
-
-// InfrastructureOptionGranularMarking sets the granular marking attribute.
-func InfrastructureOptionGranularMarking(gm []*GranularMarking) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.GranularMarking = gm
-	}
-}
-
-// InfrastructureOptionLang sets the lang attribute.
-func InfrastructureOptionLang(lang string) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.Lang = lang
-	}
-}
-
-// InfrastructureOptionConfidence sets the confidence attribute.
-func InfrastructureOptionConfidence(confidence int) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.Confidence = confidence
-	}
-}
-
-// InfrastructureOptionLabels sets the labels attribute.
-func InfrastructureOptionLabels(labels []string) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.Labels = labels
-	}
-}
-
-// InfrastructureOptionRevoked sets the revoked attribute.
-func InfrastructureOptionRevoked(rev bool) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.Revoked = rev
-	}
-}
-
-// InfrastructureOptionModified sets the modified attribute.
-func InfrastructureOptionModified(t *Timestamp) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.Modified = t
-	}
-}
-
-// InfrastructureOptionCreated sets the created attribute.
-func InfrastructureOptionCreated(t *Timestamp) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.Created = t
-	}
-}
-
-// InfrastructureOptionCreatedBy sets the created by by attribute.
-func InfrastructureOptionCreatedBy(id Identifier) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.CreatedBy = id
-	}
-}
-
-/*
-	Infrastructure object options
-*/
-
-// InfrastructureOptionDescription sets the description attribute.
-func InfrastructureOptionDescription(des string) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.Description = des
-	}
-}
-
-// InfrastructureOptionTypes sets the infrastructure types attribute.
-func InfrastructureOptionTypes(s []string) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.InfrastructureTypes = s
-	}
-}
-
-// InfrastructureOptionKillChainPhase sets the kill chain phase attribute.
-func InfrastructureOptionKillChainPhase(s []*KillChainPhase) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.KillChainPhases = s
-	}
-}
-
-// InfrastructureOptionAliases sets the aliases attribute.
-func InfrastructureOptionAliases(s []string) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.Aliases = s
-	}
-}
-
-// InfrastructureOptionFirstSeen sets the fist seen attribute.
-func InfrastructureOptionFirstSeen(t *Timestamp) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.FirstSeen = t
-	}
-}
-
-// InfrastructureOptionLastSeen sets the last seen attribute.
-func InfrastructureOptionLastSeen(t *Timestamp) InfrastructureOption {
-	return func(obj *Infrastructure) {
-		obj.LastSeen = t
-	}
-}

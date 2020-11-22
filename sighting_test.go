@@ -45,25 +45,25 @@ func TestSighting(t *testing.T) {
 		obsData := []Identifier{data}
 		ws := []Identifier{createdBy}
 
-		opts := []SightingOption{
-			SightingOptionConfidence(conf),
-			SightingOptionDescription(desc),
-			SightingOptionCreated(ts),
-			SightingOptionModified(ts),
-			SightingOptionCreatedBy(createdBy),
-			SightingOptionExternalReferences([]*ExternalReference{ref}),
-			SightingOptionGranularMarking(marking),
-			SightingOptionLabels(labels),
-			SightingOptionLang(lang),
-			SightingOptionObjectMarking(objmark),
-			SightingOptionRevoked(true),
-			SightingOptionSpecVersion(specVer),
-			SightingOptionFirstSeen(ts),
-			SightingOptionLastSeen(ts),
-			SightingOptionCount(count),
-			SightingOptionObservedData(obsData),
-			SightingOptionWhereSighted(ws),
-			SightingOptionSummary(true),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionDescription(desc),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionLang(lang),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
+			OptionFirstSeen(ts),
+			OptionLastSeen(ts),
+			OptionCount(count),
+			OptionObservedData(obsData),
+			OptionWhereSighted(ws),
+			OptionSummary(true),
 		}
 		r, err := NewSighting(indicator, opts...)
 		assert.NotNil(r)
@@ -101,7 +101,7 @@ func TestSighting(t *testing.T) {
 			{int64(999999999 + 1), true},
 		}
 		for _, test := range tests {
-			obj, err := NewSighting(indicator, SightingOptionCount(test.count))
+			obj, err := NewSighting(indicator, OptionCount(test.count))
 			if test.err {
 				assert.Error(err)
 				assert.Nil(obj)
@@ -125,7 +125,7 @@ func TestSighting(t *testing.T) {
 			{later, early, true},
 		}
 		for _, test := range tests {
-			obj, err := NewSighting(indicator, SightingOptionFirstSeen(test.before), SightingOptionLastSeen(test.after))
+			obj, err := NewSighting(indicator, OptionFirstSeen(test.before), OptionLastSeen(test.after))
 			if test.err {
 				assert.Error(err)
 				assert.Nil(obj)

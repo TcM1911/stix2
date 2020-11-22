@@ -43,21 +43,21 @@ func TestReport(t *testing.T) {
 
 		typs := []string{ReportTypeAttackPattern}
 
-		opts := []ReportOption{
-			ReportOptionConfidence(conf),
-			ReportOptionCreated(ts),
-			ReportOptionModified(ts),
-			ReportOptionCreatedBy(createdBy),
-			ReportOptionExternalReferences([]*ExternalReference{ref}),
-			ReportOptionGranularMarking(marking),
-			ReportOptionLabels(labels),
-			ReportOptionLang(lang),
-			ReportOptionObjectMarking(objmark),
-			ReportOptionRevoked(true),
-			ReportOptionSpecVersion(specVer),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionLang(lang),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
 			//
-			ReportOptionDescription(desc),
-			ReportOptionTypes(typs),
+			OptionDescription(desc),
+			OptionTypes(typs),
 		}
 		obj, err := NewReport(name, ts, objects, opts...)
 		assert.NotNil(obj)

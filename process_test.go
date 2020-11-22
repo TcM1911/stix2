@@ -31,24 +31,24 @@ func TestProcess(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []ProcessOption{
-			ProcessOptionGranularMarking(marking),
-			ProcessOptionObjectMarking(objmark),
-			ProcessOptionSpecVersion(specVer),
-			ProcessOptionDefanged(true),
-			ProcessOptionExtension("test", struct{}{}),
+		opts := []STIXOption{
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
+			OptionDefanged(true),
+			OptionExtension("test", struct{}{}),
 			//
-			ProcessOptionIsHidden(true),
-			ProcessOptionPID(testInt),
-			ProcessOptionCreatedTime(ts),
-			ProcessOptionCwd(testStr),
-			ProcessOptionCommandLine(testStr),
-			ProcessOptionEnvVars(env),
-			ProcessOptionOpenedConnections([]Identifier{ref}),
-			ProcessOptionCreatorUser(ref),
-			ProcessOptionImage(ref),
-			ProcessOptionParent(ref),
-			ProcessOptionChild([]Identifier{ref}),
+			OptionIsHidden(true),
+			OptionPID(testInt),
+			OptionCreatedTime(ts),
+			OptionCwd(testStr),
+			OptionCommandLine(testStr),
+			OptionEnvVars(env),
+			OptionOpenedConnections([]Identifier{ref}),
+			OptionCreatorUser(ref),
+			OptionImage(ref),
+			OptionParent(ref),
+			OptionChild([]Identifier{ref}),
 			nil, // test for nil to be passed in.
 		}
 		obj, err := NewProcess(opts...)
@@ -77,14 +77,14 @@ func TestProcess(t *testing.T) {
 			ASLR:          true,
 			InterityLevel: IntegrityLevelMedium,
 		}
-		f, _ := NewProcess(ProcessOptionExtension(ExtWindowsProcess, ext))
+		f, _ := NewProcess(OptionExtension(ExtWindowsProcess, ext))
 		assert.Len(f.Extensions, 1)
 		stored := f.WindowsProcessExtension()
 		assert.Equal(ext, stored)
 	})
 
 	t.Run("process-extension-nil", func(t *testing.T) {
-		f, _ := NewProcess(ProcessOptionIsHidden(true))
+		f, _ := NewProcess(OptionIsHidden(true))
 		assert.Len(f.Extensions, 0)
 		stored := f.WindowsProcessExtension()
 		assert.Nil(stored)
@@ -97,14 +97,14 @@ func TestProcess(t *testing.T) {
 			ServiceType:   ServiceFileSystemDriver,
 			ServiceStatus: ServiceStatusPausePending,
 		}
-		f, _ := NewProcess(ProcessOptionExtension(ExtWindowsService, ext))
+		f, _ := NewProcess(OptionExtension(ExtWindowsService, ext))
 		assert.Len(f.Extensions, 1)
 		stored := f.WindowsServiceExtension()
 		assert.Equal(ext, stored)
 	})
 
 	t.Run("service-extension-nil", func(t *testing.T) {
-		f, _ := NewProcess(ProcessOptionIsHidden(true))
+		f, _ := NewProcess(OptionIsHidden(true))
 		assert.Len(f.Extensions, 0)
 		stored := f.WindowsServiceExtension()
 		assert.Nil(stored)

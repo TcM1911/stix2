@@ -70,7 +70,7 @@ func (n *Process) WindowsServiceExtension() *WindowsServiceExtension {
 }
 
 // NewProcess creates a new Process object.
-func NewProcess(opts ...ProcessOption) (*Process, error) {
+func NewProcess(opts ...STIXOption) (*Process, error) {
 	if len(opts) < 1 {
 		return nil, ErrPropertyMissing
 	}
@@ -80,138 +80,8 @@ func NewProcess(opts ...ProcessOption) (*Process, error) {
 	obj := &Process{
 		STIXCyberObservableObject: base,
 	}
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
-	return obj, nil
-}
-
-// ProcessOption is an optional parameter when constructing a
-// Process object.
-type ProcessOption func(a *Process)
-
-/*
-	Base object options
-*/
-
-// ProcessOptionSpecVersion sets the STIX spec version.
-func ProcessOptionSpecVersion(ver string) ProcessOption {
-	return func(obj *Process) {
-		obj.SpecVersion = ver
-	}
-}
-
-// ProcessOptionObjectMarking sets the object marking attribute.
-func ProcessOptionObjectMarking(om []Identifier) ProcessOption {
-	return func(obj *Process) {
-		obj.ObjectMarking = om
-	}
-}
-
-// ProcessOptionGranularMarking sets the granular marking attribute.
-func ProcessOptionGranularMarking(gm []*GranularMarking) ProcessOption {
-	return func(obj *Process) {
-		obj.GranularMarking = gm
-	}
-}
-
-// ProcessOptionDefanged sets the defanged attribute.
-func ProcessOptionDefanged(b bool) ProcessOption {
-	return func(obj *Process) {
-		obj.Defanged = b
-	}
-}
-
-// ProcessOptionExtension adds an extension.
-func ProcessOptionExtension(name string, value interface{}) ProcessOption {
-	return func(obj *Process) {
-		// Ignoring the error.
-		obj.addExtension(name, value)
-	}
-}
-
-/*
-	Process object options
-*/
-
-// ProcessOptionIsHidden sets the is hidden attribute.
-func ProcessOptionIsHidden(s bool) ProcessOption {
-	return func(obj *Process) {
-		obj.IsHidden = s
-	}
-}
-
-// ProcessOptionPID sets the PID attribute.
-func ProcessOptionPID(s int64) ProcessOption {
-	return func(obj *Process) {
-		obj.PID = s
-	}
-}
-
-// ProcessOptionCreatedTime sets the created time attribute.
-func ProcessOptionCreatedTime(s *Timestamp) ProcessOption {
-	return func(obj *Process) {
-		obj.CreatedTime = s
-	}
-}
-
-// ProcessOptionCwd sets the cwd attribute.
-func ProcessOptionCwd(s string) ProcessOption {
-	return func(obj *Process) {
-		obj.Cwd = s
-	}
-}
-
-// ProcessOptionCommandLine sets the command line attribute.
-func ProcessOptionCommandLine(s string) ProcessOption {
-	return func(obj *Process) {
-		obj.CommandLine = s
-	}
-}
-
-// ProcessOptionEnvVars sets the environment variables attribute.
-func ProcessOptionEnvVars(s map[string]string) ProcessOption {
-	return func(obj *Process) {
-		obj.EnvVars = s
-	}
-}
-
-// ProcessOptionOpenedConnections sets the opened connections attribute.
-func ProcessOptionOpenedConnections(s []Identifier) ProcessOption {
-	return func(obj *Process) {
-		obj.OpenedConnections = s
-	}
-}
-
-// ProcessOptionCreatorUser sets the creator user attribute.
-func ProcessOptionCreatorUser(s Identifier) ProcessOption {
-	return func(obj *Process) {
-		obj.CreatorUser = s
-	}
-}
-
-// ProcessOptionImage sets the image attribute.
-func ProcessOptionImage(s Identifier) ProcessOption {
-	return func(obj *Process) {
-		obj.Image = s
-	}
-}
-
-// ProcessOptionParent sets the parent attribute.
-func ProcessOptionParent(s Identifier) ProcessOption {
-	return func(obj *Process) {
-		obj.Parent = s
-	}
-}
-
-// ProcessOptionChild sets the child attribute.
-func ProcessOptionChild(s []Identifier) ProcessOption {
-	return func(obj *Process) {
-		obj.Child = s
-	}
+	err := applyOptions(obj, opts)
+	return obj, err
 }
 
 // WindowsProcessExtension specifies a default extension for capturing properties

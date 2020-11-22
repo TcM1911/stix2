@@ -55,7 +55,7 @@ type X509Certificate struct {
 }
 
 // NewX509Certificate creates a new X509Certificate object.
-func NewX509Certificate(opts ...X509CertificateOption) (*X509Certificate, error) {
+func NewX509Certificate(opts ...STIXOption) (*X509Certificate, error) {
 	if len(opts) == 0 {
 		return nil, ErrPropertyMissing
 	}
@@ -63,12 +63,8 @@ func NewX509Certificate(opts ...X509CertificateOption) (*X509Certificate, error)
 	obj := &X509Certificate{
 		STIXCyberObservableObject: base,
 	}
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
+
+	err := applyOptions(obj, opts)
 
 	idContri := make([]string, 0, 2)
 	if len(obj.Hashes) != 0 {
@@ -78,151 +74,7 @@ func NewX509Certificate(opts ...X509CertificateOption) (*X509Certificate, error)
 		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.SerialNumber))
 	}
 	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeX509Certificate)
-	return obj, nil
-}
-
-// X509CertificateOption is an optional parameter when constructing a
-// X509Certificate object.
-type X509CertificateOption func(a *X509Certificate)
-
-/*
-	Base object options
-*/
-
-// X509CertificateOptionSpecVersion sets the STIX spec version.
-func X509CertificateOptionSpecVersion(ver string) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.SpecVersion = ver
-	}
-}
-
-// X509CertificateOptionObjectMarking sets the object marking attribute.
-func X509CertificateOptionObjectMarking(om []Identifier) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.ObjectMarking = om
-	}
-}
-
-// X509CertificateOptionGranularMarking sets the granular marking attribute.
-func X509CertificateOptionGranularMarking(gm []*GranularMarking) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.GranularMarking = gm
-	}
-}
-
-// X509CertificateOptionDefanged sets the defanged attribute.
-func X509CertificateOptionDefanged(b bool) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.Defanged = b
-	}
-}
-
-// X509CertificateOptionExtension adds an extension.
-func X509CertificateOptionExtension(name string, value interface{}) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		// Ignoring the error.
-		obj.addExtension(name, value)
-	}
-}
-
-/*
-	X509Certificate object options
-*/
-
-// X509CertificateOptionSelfSigned sets the self-signed attribute.
-func X509CertificateOptionSelfSigned(s bool) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.SelfSigned = s
-	}
-}
-
-// X509CertificateOptionHashes sets the hashes attribute.
-func X509CertificateOptionHashes(s Hashes) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.Hashes = s
-	}
-}
-
-// X509CertificateOptionVersion sets the version attribute.
-func X509CertificateOptionVersion(s string) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.Version = s
-	}
-}
-
-// X509CertificateOptionSerialNumber sets the serial number attribute.
-func X509CertificateOptionSerialNumber(s string) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.SerialNumber = s
-	}
-}
-
-// X509CertificateOptionSignatureAlgorithm sets the signature algorithm attribute.
-func X509CertificateOptionSignatureAlgorithm(s string) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.SignatureAlgorithm = s
-	}
-}
-
-// X509CertificateOptionIssuer sets the issuer attribute.
-func X509CertificateOptionIssuer(s string) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.Issuer = s
-	}
-}
-
-// X509CertificateOptionValidityNotBefore sets the validity not before
-// attribute.
-func X509CertificateOptionValidityNotBefore(s *Timestamp) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.ValidityNotBefore = s
-	}
-}
-
-// X509CertificateOptionValidityNotAfter sets the validity not after
-// attribute.
-func X509CertificateOptionValidityNotAfter(s *Timestamp) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.ValidityNotAfter = s
-	}
-}
-
-// X509CertificateOptionSubject sets the subject attribute.
-func X509CertificateOptionSubject(s string) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.Subject = s
-	}
-}
-
-// X509CertificateOptionSubjectPublicKeyAlgorithm sets the subject public key
-// algorithm attribute.
-func X509CertificateOptionSubjectPublicKeyAlgorithm(s string) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.SubjectPublicKeyAlghorithm = s
-	}
-}
-
-// X509CertificateOptionSubjectPublicKeyModulus sets the subject public key
-// modulus attribute.
-func X509CertificateOptionSubjectPublicKeyModulus(s string) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.SubjectPublicKeyModulus = s
-	}
-}
-
-// X509CertificateOptionSubjectPublicKeyExponent sets the subject public key
-// exponent attribute.
-func X509CertificateOptionSubjectPublicKeyExponent(s int64) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.SubjectPublicKeyExponent = s
-	}
-}
-
-// X509CertificateOptionV3Extensions sets the x.509v3 extensions attribute.
-func X509CertificateOptionV3Extensions(s X509v3Extension) X509CertificateOption {
-	return func(obj *X509Certificate) {
-		obj.X509v3Extensions = s
-	}
+	return obj, err
 }
 
 // X509v3Extension captures properties associated with X.509 v3 extensions,
