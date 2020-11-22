@@ -47,25 +47,25 @@ func TestIndicator(t *testing.T) {
 		patVer := "1.0"
 		kchain := []*KillChainPhase{{}}
 
-		opts := []IndicatorOption{
-			IndicatorOptionConfidence(conf),
-			IndicatorOptionCreated(ts),
-			IndicatorOptionModified(ts),
-			IndicatorOptionCreatedBy(createdBy),
-			IndicatorOptionExternalReferences([]*ExternalReference{ref}),
-			IndicatorOptionGranularMarking(marking),
-			IndicatorOptionLabels(labels),
-			IndicatorOptionLang(lang),
-			IndicatorOptionObjectMarking(objmark),
-			IndicatorOptionRevoked(true),
-			IndicatorOptionSpecVersion(specVer),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionLang(lang),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
 			//
-			IndicatorOptionDescription(desc),
-			IndicatorOptionName(name),
-			IndicatorOptionTypes(indType),
-			IndicatorOptionKillChainPhase(kchain),
-			IndicatorOptionPatternVersion(patVer),
-			IndicatorOptionValidUntil(ts),
+			OptionDescription(desc),
+			OptionName(name),
+			OptionTypes(indType),
+			OptionKillChainPhase(kchain),
+			OptionPatternVersion(patVer),
+			OptionValidUntil(ts),
 		}
 		obj, err := NewIndicator(pattern, patternType, ts, opts...)
 		assert.NotNil(obj)
@@ -84,8 +84,8 @@ func TestIndicator(t *testing.T) {
 
 		assert.Equal(desc, obj.Description)
 		assert.Equal(name, obj.Name)
-		assert.Equal(indType, obj.IndicatorTypes)
-		assert.Equal(kchain, obj.KillChainPhases)
+		assert.Equal(indType, obj.Types)
+		assert.Equal(kchain, obj.KillChainPhase)
 		assert.Equal(ts, obj.ValidUntil)
 		assert.Equal(patVer, obj.PatternVersion)
 	})
@@ -117,7 +117,7 @@ func TestIndicator(t *testing.T) {
 		assert.Equal(ts, obj.Modified.Time)
 		assert.Equal("This file is part of Poison Ivy", obj.Description)
 		assert.Equal("[ file:hashes.'SHA-256' = '4bac27393bdd9777ce02453256c5577cd02275510b2227f473d03f533924f877' ]", obj.Pattern)
-		assert.Contains(obj.IndicatorTypes, IndicatorTypeMaliciousActivity)
+		assert.Contains(obj.Types, IndicatorTypeMaliciousActivity)
 	})
 }
 

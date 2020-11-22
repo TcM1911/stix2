@@ -33,7 +33,7 @@ type Software struct {
 
 // NewSoftware creates a new Software object. A Software object MUST contain at least one
 // of hashes or name.
-func NewSoftware(name string, opts ...SoftwareOption) (*Software, error) {
+func NewSoftware(name string, opts ...STIXOption) (*Software, error) {
 	if name == "" {
 		return nil, ErrInvalidParameter
 	}
@@ -43,12 +43,7 @@ func NewSoftware(name string, opts ...SoftwareOption) (*Software, error) {
 		Name:                      name,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
+	err := applyOptions(obj, opts)
 	idContri := make([]string, 0, 4)
 	idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.Name))
 	if obj.CPE != "" {
@@ -61,88 +56,5 @@ func NewSoftware(name string, opts ...SoftwareOption) (*Software, error) {
 		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.Version))
 	}
 	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeSoftware)
-	return obj, nil
-}
-
-// SoftwareOption is an optional parameter when constructing a
-// Software object.
-type SoftwareOption func(a *Software)
-
-/*
-	Base object options
-*/
-
-// SoftwareOptionSpecVersion sets the STIX spec version.
-func SoftwareOptionSpecVersion(ver string) SoftwareOption {
-	return func(obj *Software) {
-		obj.SpecVersion = ver
-	}
-}
-
-// SoftwareOptionObjectMarking sets the object marking attribute.
-func SoftwareOptionObjectMarking(om []Identifier) SoftwareOption {
-	return func(obj *Software) {
-		obj.ObjectMarking = om
-	}
-}
-
-// SoftwareOptionGranularMarking sets the granular marking attribute.
-func SoftwareOptionGranularMarking(gm []*GranularMarking) SoftwareOption {
-	return func(obj *Software) {
-		obj.GranularMarking = gm
-	}
-}
-
-// SoftwareOptionDefanged sets the defanged attribute.
-func SoftwareOptionDefanged(b bool) SoftwareOption {
-	return func(obj *Software) {
-		obj.Defanged = b
-	}
-}
-
-// SoftwareOptionExtension adds an extension.
-func SoftwareOptionExtension(name string, value interface{}) SoftwareOption {
-	return func(obj *Software) {
-		// Ignoring the error.
-		obj.addExtension(name, value)
-	}
-}
-
-/*
-	Software object options
-*/
-
-// SoftwareOptionCPE sets the CPE attribute.
-func SoftwareOptionCPE(s string) SoftwareOption {
-	return func(obj *Software) {
-		obj.CPE = s
-	}
-}
-
-// SoftwareOptionSWID sets the SWID attribute.
-func SoftwareOptionSWID(s string) SoftwareOption {
-	return func(obj *Software) {
-		obj.SWID = s
-	}
-}
-
-// SoftwareOptionLanguages sets the languages attribute.
-func SoftwareOptionLanguages(s []string) SoftwareOption {
-	return func(obj *Software) {
-		obj.Languages = s
-	}
-}
-
-// SoftwareOptionVendor sets the vendor attribute.
-func SoftwareOptionVendor(s string) SoftwareOption {
-	return func(obj *Software) {
-		obj.Vendor = s
-	}
-}
-
-// SoftwareOptionVersion sets the version attribute.
-func SoftwareOptionVersion(s string) SoftwareOption {
-	return func(obj *Software) {
-		obj.Version = s
-	}
+	return obj, err
 }

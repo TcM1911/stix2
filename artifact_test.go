@@ -26,19 +26,19 @@ func TestArtifact(t *testing.T) {
 	})
 
 	t.Run("url_and_payload", func(t *testing.T) {
-		obj, err := NewArtifact(ArtifactOptionURL(url), ArtifactOptionPayload(payload))
+		obj, err := NewArtifact(OptionURL(url), OptionPayload(payload))
 		assert.Nil(obj)
 		assert.Equal(err, ErrInvalidParameter)
 	})
 
 	t.Run("url_and_no_hash", func(t *testing.T) {
-		obj, err := NewArtifact(ArtifactOptionURL(url))
+		obj, err := NewArtifact(OptionURL(url))
 		assert.Nil(obj)
 		assert.Equal(err, ErrPropertyMissing)
 	})
 
 	t.Run("url_and_hash", func(t *testing.T) {
-		obj, err := NewArtifact(ArtifactOptionURL(url), ArtifactOptionHashes(hashes))
+		obj, err := NewArtifact(OptionURL(url), OptionHashes(hashes))
 		assert.NoError(err)
 		assert.Equal(url, obj.URL)
 	})
@@ -48,18 +48,18 @@ func TestArtifact(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []ArtifactOption{
-			ArtifactOptionGranularMarking(marking),
-			ArtifactOptionObjectMarking(objmark),
-			ArtifactOptionSpecVersion(specVer),
-			ArtifactOptionDefanged(true),
-			ArtifactOptionExtension("test", struct{}{}),
+		opts := []STIXOption{
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
+			OptionDefanged(true),
+			OptionExtension("test", struct{}{}),
 			//
-			ArtifactOptionMimeType(mime),
-			ArtifactOptionPayload(payload),
-			ArtifactOptionHashes(hashes),
-			ArtifactOptionEncryption(EncryptionAlgorithmAES256GCM),
-			ArtifactOptionKey(key),
+			OptionMimeType(mime),
+			OptionPayload(payload),
+			OptionHashes(hashes),
+			OptionEncryption(EncryptionAlgorithmAES256GCM),
+			OptionKey(key),
 		}
 		obj, err := NewArtifact(opts...)
 		assert.NotNil(obj)
@@ -87,15 +87,15 @@ func TestArtifact(t *testing.T) {
 			{nil, hashes, "artifact--e9ad4fc1-2f44-538d-98c5-5e226ea95501"},
 		}
 		for _, test := range tests {
-			var arg ArtifactOption
+			var arg STIXOption
 			if test.payload == nil {
-				arg = ArtifactOptionURL(url)
+				arg = OptionURL(url)
 			} else {
-				arg = ArtifactOptionPayload(test.payload)
+				arg = OptionPayload(test.payload)
 			}
 			obj, err := NewArtifact(
 				arg,
-				ArtifactOptionHashes(test.hashes),
+				OptionHashes(test.hashes),
 			)
 			assert.NoError(err)
 			assert.Equal(Identifier(test.id), obj.ID)

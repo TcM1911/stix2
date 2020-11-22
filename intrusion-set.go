@@ -70,12 +70,12 @@ type IntrusionSet struct {
 	// additional context. The position in the list has no significance. This
 	// is an open vocabulary and values SHOULD come from the AttackMotivation
 	// vocabulary.
-	SecondaryMotivation []string `json:"secondary_motivations,omitempty"`
+	SecondaryMotivations []string `json:"secondary_motivations,omitempty"`
 }
 
 // AddAttributedTo describes that the related Threat Actor is involved in
 // carrying out the Intrusion Set.
-func (c *IntrusionSet) AddAttributedTo(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *IntrusionSet) AddAttributedTo(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeThreatActor) {
 		return nil, ErrInvalidParameter
 	}
@@ -84,7 +84,7 @@ func (c *IntrusionSet) AddAttributedTo(id Identifier, opts ...RelationshipOption
 
 // AddCompromises describes that the Intrusion Set compromises the related
 // Infrastructure.
-func (c *IntrusionSet) AddCompromises(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *IntrusionSet) AddCompromises(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeInfrastructure) {
 		return nil, ErrInvalidParameter
 	}
@@ -93,7 +93,7 @@ func (c *IntrusionSet) AddCompromises(id Identifier, opts ...RelationshipOption)
 
 // AddHosts describes that the Intrusion Set hosts the related Infrastructure
 // (e.g. an actor that rents botnets to other threat actors).
-func (c *IntrusionSet) AddHosts(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *IntrusionSet) AddHosts(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeInfrastructure) {
 		return nil, ErrInvalidParameter
 	}
@@ -102,7 +102,7 @@ func (c *IntrusionSet) AddHosts(id Identifier, opts ...RelationshipOption) (*Rel
 
 // AddOwns describes that the Intrusion Set owns the related Infrastructure
 // (e.g. an actor that rents botnets to other threat actors).
-func (c *IntrusionSet) AddOwns(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *IntrusionSet) AddOwns(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeInfrastructure) {
 		return nil, ErrInvalidParameter
 	}
@@ -111,7 +111,7 @@ func (c *IntrusionSet) AddOwns(id Identifier, opts ...RelationshipOption) (*Rela
 
 // AddOriginatesFrom describes that the Intrusion Set originates from the
 // related location and SHOULD NOT be used to define attribution.
-func (c *IntrusionSet) AddOriginatesFrom(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *IntrusionSet) AddOriginatesFrom(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeLocation) {
 		return nil, ErrInvalidParameter
 	}
@@ -121,7 +121,7 @@ func (c *IntrusionSet) AddOriginatesFrom(id Identifier, opts ...RelationshipOpti
 // AddTargets describes that the Intrusion Set uses exploits of the related
 // Vulnerability or targets the type of victims described by the related
 // Identity or Location.
-func (c *IntrusionSet) AddTargets(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *IntrusionSet) AddTargets(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForTypes(TypeLocation, TypeIdentity, TypeVulnerability) {
 		return nil, ErrInvalidParameter
 	}
@@ -130,7 +130,7 @@ func (c *IntrusionSet) AddTargets(id Identifier, opts ...RelationshipOption) (*R
 
 // AddUses describes that attacks carried out as part of the Intrusion Set
 // typically use the related Attack Pattern, Infrastructure, Malware, or Tool.
-func (c *IntrusionSet) AddUses(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (c *IntrusionSet) AddUses(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForTypes(TypeAttackPattern, TypeInfrastructure, TypeMalware, TypeTool) {
 		return nil, ErrInvalidParameter
 	}
@@ -138,165 +138,15 @@ func (c *IntrusionSet) AddUses(id Identifier, opts ...RelationshipOption) (*Rela
 }
 
 // NewIntrusionSet creates a new IntrusionSet object.
-func NewIntrusionSet(name string, opts ...IntrusionSetOption) (*IntrusionSet, error) {
+func NewIntrusionSet(name string, opts ...STIXOption) (*IntrusionSet, error) {
 	if name == "" {
 		return nil, ErrPropertyMissing
 	}
 	base := newSTIXDomainObject(TypeIntrusionSet)
 	obj := &IntrusionSet{STIXDomainObject: base, Name: name}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
-	return obj, nil
-}
-
-// IntrusionSetOption is an optional parameter when constructing a
-// IntrusionSet object.
-type IntrusionSetOption func(a *IntrusionSet)
-
-/*
-	Base object options
-*/
-
-// IntrusionSetOptionSpecVersion sets the STIX spec version.
-func IntrusionSetOptionSpecVersion(ver string) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.SpecVersion = ver
-	}
-}
-
-// IntrusionSetOptionExternalReferences sets the external references attribute.
-func IntrusionSetOptionExternalReferences(refs []*ExternalReference) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.ExternalReferences = refs
-	}
-}
-
-// IntrusionSetOptionObjectMarking sets the object marking attribute.
-func IntrusionSetOptionObjectMarking(om []Identifier) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.ObjectMarking = om
-	}
-}
-
-// IntrusionSetOptionGranularMarking sets the granular marking attribute.
-func IntrusionSetOptionGranularMarking(gm []*GranularMarking) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.GranularMarking = gm
-	}
-}
-
-// IntrusionSetOptionLang sets the lang attribute.
-func IntrusionSetOptionLang(lang string) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.Lang = lang
-	}
-}
-
-// IntrusionSetOptionConfidence sets the confidence attribute.
-func IntrusionSetOptionConfidence(confidence int) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.Confidence = confidence
-	}
-}
-
-// IntrusionSetOptionLabels sets the labels attribute.
-func IntrusionSetOptionLabels(labels []string) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.Labels = labels
-	}
-}
-
-// IntrusionSetOptionRevoked sets the revoked attribute.
-func IntrusionSetOptionRevoked(rev bool) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.Revoked = rev
-	}
-}
-
-// IntrusionSetOptionModified sets the modified attribute.
-func IntrusionSetOptionModified(t *Timestamp) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.Modified = t
-	}
-}
-
-// IntrusionSetOptionCreated sets the created attribute.
-func IntrusionSetOptionCreated(t *Timestamp) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.Created = t
-	}
-}
-
-// IntrusionSetOptionCreatedBy sets the created by by attribute.
-func IntrusionSetOptionCreatedBy(id Identifier) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.CreatedBy = id
-	}
-}
-
-/*
-	IntrusionSet object options
-*/
-
-// IntrusionSetOptionDescription sets the description attribute.
-func IntrusionSetOptionDescription(des string) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.Description = des
-	}
-}
-
-// IntrusionSetOptionGoals sets the goals attribute.
-func IntrusionSetOptionGoals(s []string) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.Goals = s
-	}
-}
-
-// IntrusionSetOptionAliases sets the aliases attribute.
-func IntrusionSetOptionAliases(s []string) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.Aliases = s
-	}
-}
-
-// IntrusionSetOptionFirstSeen sets the fist seen attribute.
-func IntrusionSetOptionFirstSeen(t *Timestamp) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.FirstSeen = t
-	}
-}
-
-// IntrusionSetOptionLastSeen sets the last seen attribute.
-func IntrusionSetOptionLastSeen(t *Timestamp) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.LastSeen = t
-	}
-}
-
-// IntrusionSetOptionResourceLevel sets the resource level attribute.
-func IntrusionSetOptionResourceLevel(s string) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.ResourceLevel = s
-	}
-}
-
-// IntrusionSetOptionPrimaryMotivation sets the primary motivation attribute.
-func IntrusionSetOptionPrimaryMotivation(s string) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.PrimaryMotivation = s
-	}
-}
-
-// IntrusionSetOptionSecondaryMotivation sets the secondary motivation attribute.
-func IntrusionSetOptionSecondaryMotivation(s []string) IntrusionSetOption {
-	return func(obj *IntrusionSet) {
-		obj.SecondaryMotivation = s
-	}
+	err := applyOptions(obj, opts)
+	return obj, err
 }
 
 const (

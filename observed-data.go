@@ -80,7 +80,7 @@ type ObservedData struct {
 }
 
 // NewObservedData creates a new ObservedData object.
-func NewObservedData(firstObserved, lastObserved *Timestamp, numberObserved int64, objectsRef []Identifier, opts ...ObservedDataOption) (*ObservedData, error) {
+func NewObservedData(firstObserved, lastObserved *Timestamp, numberObserved int64, objectsRef []Identifier, opts ...STIXOption) (*ObservedData, error) {
 	if len(objectsRef) == 0 || firstObserved == nil || lastObserved == nil || numberObserved < 1 {
 		return nil, ErrPropertyMissing
 	}
@@ -93,96 +93,6 @@ func NewObservedData(firstObserved, lastObserved *Timestamp, numberObserved int6
 		ObjectRefs:       objectsRef,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
-	return obj, nil
-}
-
-// ObservedDataOption is an optional parameter when constructing a
-// ObservedData object.
-type ObservedDataOption func(a *ObservedData)
-
-/*
-	Base object options
-*/
-
-// ObservedDataOptionSpecVersion sets the STIX spec version.
-func ObservedDataOptionSpecVersion(ver string) ObservedDataOption {
-	return func(obj *ObservedData) {
-		obj.SpecVersion = ver
-	}
-}
-
-// ObservedDataOptionExternalReferences sets the external references attribute.
-func ObservedDataOptionExternalReferences(refs []*ExternalReference) ObservedDataOption {
-	return func(obj *ObservedData) {
-		obj.ExternalReferences = refs
-	}
-}
-
-// ObservedDataOptionObjectMarking sets the object marking attribute.
-func ObservedDataOptionObjectMarking(om []Identifier) ObservedDataOption {
-	return func(obj *ObservedData) {
-		obj.ObjectMarking = om
-	}
-}
-
-// ObservedDataOptionGranularMarking sets the granular marking attribute.
-func ObservedDataOptionGranularMarking(gm []*GranularMarking) ObservedDataOption {
-	return func(obj *ObservedData) {
-		obj.GranularMarking = gm
-	}
-}
-
-// ObservedDataOptionLang sets the lang attribute.
-func ObservedDataOptionLang(lang string) ObservedDataOption {
-	return func(obj *ObservedData) {
-		obj.Lang = lang
-	}
-}
-
-// ObservedDataOptionConfidence sets the confidence attribute.
-func ObservedDataOptionConfidence(confidence int) ObservedDataOption {
-	return func(obj *ObservedData) {
-		obj.Confidence = confidence
-	}
-}
-
-// ObservedDataOptionLabels sets the labels attribute.
-func ObservedDataOptionLabels(labels []string) ObservedDataOption {
-	return func(obj *ObservedData) {
-		obj.Labels = labels
-	}
-}
-
-// ObservedDataOptionRevoked sets the revoked attribute.
-func ObservedDataOptionRevoked(rev bool) ObservedDataOption {
-	return func(obj *ObservedData) {
-		obj.Revoked = rev
-	}
-}
-
-// ObservedDataOptionModified sets the modified attribute.
-func ObservedDataOptionModified(t *Timestamp) ObservedDataOption {
-	return func(obj *ObservedData) {
-		obj.Modified = t
-	}
-}
-
-// ObservedDataOptionCreated sets the created attribute.
-func ObservedDataOptionCreated(t *Timestamp) ObservedDataOption {
-	return func(obj *ObservedData) {
-		obj.Created = t
-	}
-}
-
-// ObservedDataOptionCreatedBy sets the created by by attribute.
-func ObservedDataOptionCreatedBy(id Identifier) ObservedDataOption {
-	return func(obj *ObservedData) {
-		obj.CreatedBy = id
-	}
+	err := applyOptions(obj, opts)
+	return obj, err
 }

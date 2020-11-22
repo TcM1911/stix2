@@ -36,18 +36,18 @@ func TestDirectory(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []DirectoryOption{
-			DirectoryOptionGranularMarking(marking),
-			DirectoryOptionObjectMarking(objmark),
-			DirectoryOptionSpecVersion(specVer),
-			DirectoryOptionDefanged(true),
-			DirectoryOptionExtension("test", struct{}{}),
+		opts := []STIXOption{
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
+			OptionDefanged(true),
+			OptionExtension("test", struct{}{}),
 			//
-			DirectoryOptionPathEncoding(pthEnc),
-			DirectoryOptionCtime(ts),
-			DirectoryOptionMtime(ts),
-			DirectoryOptionAtime(ts),
-			DirectoryOptionContains(contains),
+			OptionPathEncoding(pthEnc),
+			OptionCtime(ts),
+			OptionMtime(ts),
+			OptionAtime(ts),
+			OptionContains(contains),
 		}
 		obj, err := NewDirectory(pth, opts...)
 		assert.NotNil(obj)

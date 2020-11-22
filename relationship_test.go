@@ -42,21 +42,21 @@ func TestRelationship(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []RelationshipOption{
-			RelationshipOptionConfidence(conf),
-			RelationshipOptionDescription(desc),
-			RelationshipOptionCreated(ts),
-			RelationshipOptionModified(ts),
-			RelationshipOptionCreatedBy(createdBy),
-			RelationshipOptionExternalReferences([]*ExternalReference{ref}),
-			RelationshipOptionGranularMarking(marking),
-			RelationshipOptionLabels(labels),
-			RelationshipOptionLang(lang),
-			RelationshipOptionObjectMarking(objmark),
-			RelationshipOptionRevoked(true),
-			RelationshipOptionSpecVersion(specVer),
-			RelationshipOptionStartTime(ts),
-			RelationshipOptionStopTime(ts),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionDescription(desc),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionLang(lang),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
+			OptionStartTime(ts),
+			OptionStopTime(ts),
 		}
 		r, err := NewRelationship(typ, source, target, opts...)
 		assert.NotNil(r)

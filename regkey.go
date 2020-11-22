@@ -32,7 +32,7 @@ type RegistryKey struct {
 }
 
 // NewRegistryKey creates a new RegistryKey object.
-func NewRegistryKey(opts ...RegistryKeyOption) (*RegistryKey, error) {
+func NewRegistryKey(opts ...STIXOption) (*RegistryKey, error) {
 	if len(opts) == 0 {
 		return nil, ErrPropertyMissing
 	}
@@ -40,12 +40,8 @@ func NewRegistryKey(opts ...RegistryKeyOption) (*RegistryKey, error) {
 	obj := &RegistryKey{
 		STIXCyberObservableObject: base,
 	}
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
+
+	err := applyOptions(obj, opts)
 
 	idContri := make([]string, 0, 2)
 	if obj.Key != "" {
@@ -59,90 +55,7 @@ func NewRegistryKey(opts ...RegistryKeyOption) (*RegistryKey, error) {
 		idContri = append(idContri, fmt.Sprintf(`%s`, strings.Join(a, ",")))
 	}
 	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeRegistryKey)
-	return obj, nil
-}
-
-// RegistryKeyOption is an optional parameter when constructing a
-// RegistryKey object.
-type RegistryKeyOption func(a *RegistryKey)
-
-/*
-	Base object options
-*/
-
-// RegistryKeyOptionSpecVersion sets the STIX spec version.
-func RegistryKeyOptionSpecVersion(ver string) RegistryKeyOption {
-	return func(obj *RegistryKey) {
-		obj.SpecVersion = ver
-	}
-}
-
-// RegistryKeyOptionObjectMarking sets the object marking attribute.
-func RegistryKeyOptionObjectMarking(om []Identifier) RegistryKeyOption {
-	return func(obj *RegistryKey) {
-		obj.ObjectMarking = om
-	}
-}
-
-// RegistryKeyOptionGranularMarking sets the granular marking attribute.
-func RegistryKeyOptionGranularMarking(gm []*GranularMarking) RegistryKeyOption {
-	return func(obj *RegistryKey) {
-		obj.GranularMarking = gm
-	}
-}
-
-// RegistryKeyOptionDefanged sets the defanged attribute.
-func RegistryKeyOptionDefanged(b bool) RegistryKeyOption {
-	return func(obj *RegistryKey) {
-		obj.Defanged = b
-	}
-}
-
-// RegistryKeyOptionExtension adds an extension.
-func RegistryKeyOptionExtension(name string, value interface{}) RegistryKeyOption {
-	return func(obj *RegistryKey) {
-		// Ignoring the error.
-		obj.addExtension(name, value)
-	}
-}
-
-/*
-	RegistryKey object options
-*/
-
-// RegistryKeyOptionKey sets the key attribute.
-func RegistryKeyOptionKey(s string) RegistryKeyOption {
-	return func(obj *RegistryKey) {
-		obj.Key = s
-	}
-}
-
-// RegistryKeyOptionValues sets the values attribute.
-func RegistryKeyOptionValues(s []*RegistryValue) RegistryKeyOption {
-	return func(obj *RegistryKey) {
-		obj.Values = s
-	}
-}
-
-// RegistryKeyOptionModifiedTime sets the modified time attribute.
-func RegistryKeyOptionModifiedTime(s *Timestamp) RegistryKeyOption {
-	return func(obj *RegistryKey) {
-		obj.ModifiedTime = s
-	}
-}
-
-// RegistryKeyOptionCreatorUser sets the creator user attribute.
-func RegistryKeyOptionCreatorUser(s Identifier) RegistryKeyOption {
-	return func(obj *RegistryKey) {
-		obj.CreatorUser = s
-	}
-}
-
-// RegistryKeyOptionNumberOfSubkeys sets the number of subkeys attribute.
-func RegistryKeyOptionNumberOfSubkeys(s int64) RegistryKeyOption {
-	return func(obj *RegistryKey) {
-		obj.NumberOfSubkeys = s
-	}
+	return obj, err
 }
 
 // RegistryValue captures the properties of a Windows Registry Key Value. As

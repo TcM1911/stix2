@@ -111,7 +111,7 @@ func (f *File) WindowsPEBinaryExtension() *WindowsPEBinaryExtension {
 
 // NewFile creates a new File object. A File object MUST contain at least one
 // of hashes or name.
-func NewFile(name string, hashes Hashes, opts ...FileOption) (*File, error) {
+func NewFile(name string, hashes Hashes, opts ...STIXOption) (*File, error) {
 	if name == "" && hashes == nil {
 		return nil, ErrInvalidParameter
 	}
@@ -122,12 +122,7 @@ func NewFile(name string, hashes Hashes, opts ...FileOption) (*File, error) {
 		Hashes:                    hashes,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
+	err := applyOptions(obj, opts)
 	idContri := make([]string, 0, 4)
 	if len(obj.Hashes) != 0 {
 		idContri = append(idContri, obj.Hashes.getIDContribution())
@@ -142,125 +137,7 @@ func NewFile(name string, hashes Hashes, opts ...FileOption) (*File, error) {
 		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.ParentDirectory))
 	}
 	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeFile)
-	return obj, nil
-}
-
-// FileOption is an optional parameter when constructing a
-// File object.
-type FileOption func(a *File)
-
-/*
-	Base object options
-*/
-
-// FileOptionSpecVersion sets the STIX spec version.
-func FileOptionSpecVersion(ver string) FileOption {
-	return func(obj *File) {
-		obj.SpecVersion = ver
-	}
-}
-
-// FileOptionObjectMarking sets the object marking attribute.
-func FileOptionObjectMarking(om []Identifier) FileOption {
-	return func(obj *File) {
-		obj.ObjectMarking = om
-	}
-}
-
-// FileOptionGranularMarking sets the granular marking attribute.
-func FileOptionGranularMarking(gm []*GranularMarking) FileOption {
-	return func(obj *File) {
-		obj.GranularMarking = gm
-	}
-}
-
-// FileOptionDefanged sets the defanged attribute.
-func FileOptionDefanged(b bool) FileOption {
-	return func(obj *File) {
-		obj.Defanged = b
-	}
-}
-
-// FileOptionExtension adds an extension.
-func FileOptionExtension(name string, value interface{}) FileOption {
-	return func(obj *File) {
-		// Ignoring the error.
-		obj.addExtension(name, value)
-	}
-}
-
-/*
-	File object options
-*/
-
-// FileOptionSize sets the size attribute.
-func FileOptionSize(s int64) FileOption {
-	return func(obj *File) {
-		obj.Size = s
-	}
-}
-
-// FileOptionNameEnc sets the name encoding attribute.
-func FileOptionNameEnc(s string) FileOption {
-	return func(obj *File) {
-		obj.NameEnc = s
-	}
-}
-
-// FileOptionMagicNumber sets the magic number attribute.
-func FileOptionMagicNumber(s Hex) FileOption {
-	return func(obj *File) {
-		obj.MagicNumber = s
-	}
-}
-
-// FileOptionMimeType sets the MIME type attribute.
-func FileOptionMimeType(s string) FileOption {
-	return func(obj *File) {
-		obj.MimeType = s
-	}
-}
-
-// FileOptionCtime sets the ctime attribute.
-func FileOptionCtime(s *Timestamp) FileOption {
-	return func(obj *File) {
-		obj.Ctime = s
-	}
-}
-
-// FileOptionMtime sets the mtime attribute.
-func FileOptionMtime(s *Timestamp) FileOption {
-	return func(obj *File) {
-		obj.Mtime = s
-	}
-}
-
-// FileOptionAtime sets the atime attribute.
-func FileOptionAtime(s *Timestamp) FileOption {
-	return func(obj *File) {
-		obj.Atime = s
-	}
-}
-
-// FileOptionParentDirectory sets the parent directory attribute.
-func FileOptionParentDirectory(s Identifier) FileOption {
-	return func(obj *File) {
-		obj.ParentDirectory = s
-	}
-}
-
-// FileOptionContains sets the contains attribute.
-func FileOptionContains(s []Identifier) FileOption {
-	return func(obj *File) {
-		obj.Contains = s
-	}
-}
-
-// FileOptionContent sets the content attribute.
-func FileOptionContent(s Identifier) FileOption {
-	return func(obj *File) {
-		obj.Content = s
-	}
+	return obj, err
 }
 
 // ArchiveFileExtension specifies a default extension for capturing properties

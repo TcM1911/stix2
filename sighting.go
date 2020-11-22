@@ -101,7 +101,7 @@ type Sighting struct {
 // NewSighting creates a new Sighting of seen (s) Identifier.  Function returns
 // a wrapped error if ErrInvalidProperty if an optional property's value is
 // invalid according to the spec.
-func NewSighting(s Identifier, opts ...SightingOption) (*Sighting, error) {
+func NewSighting(s Identifier, opts ...STIXOption) (*Sighting, error) {
 	if s == "" {
 		return nil, ErrPropertyMissing
 	}
@@ -118,11 +118,9 @@ func NewSighting(s Identifier, opts ...SightingOption) (*Sighting, error) {
 		SightingOf: s,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
+	err := applyOptions(obj, opts)
+	if err != nil {
+		return nil, err
 	}
 
 	// Validation
@@ -138,142 +136,4 @@ func NewSighting(s Identifier, opts ...SightingOption) (*Sighting, error) {
 	// TODO: add check that WhereSighted points to Identity or Location SDOs.
 
 	return obj, nil
-}
-
-/*
-	Base object options
-*/
-
-// SightingOption is an optional parameter when constructing a
-// Sighting object.
-type SightingOption func(r *Sighting)
-
-// SightingOptionSpecVersion sets the STIX spec version.
-func SightingOptionSpecVersion(ver string) SightingOption {
-	return func(r *Sighting) {
-		r.SpecVersion = ver
-	}
-}
-
-// SightingOptionExternalReferences sets the external references attribute.
-func SightingOptionExternalReferences(refs []*ExternalReference) SightingOption {
-	return func(r *Sighting) {
-		r.ExternalReferences = refs
-	}
-}
-
-// SightingOptionObjectMarking sets the object marking attribute.
-func SightingOptionObjectMarking(om []Identifier) SightingOption {
-	return func(r *Sighting) {
-		r.ObjectMarking = om
-	}
-}
-
-// SightingOptionGranularMarking sets the granular marking attribute.
-func SightingOptionGranularMarking(gm []*GranularMarking) SightingOption {
-	return func(r *Sighting) {
-		r.GranularMarking = gm
-	}
-}
-
-// SightingOptionLang sets the lang attribute.
-func SightingOptionLang(lang string) SightingOption {
-	return func(r *Sighting) {
-		r.Lang = lang
-	}
-}
-
-// SightingOptionConfidence sets the confidence attribute.
-func SightingOptionConfidence(confidence int) SightingOption {
-	return func(r *Sighting) {
-		r.Confidence = confidence
-	}
-}
-
-// SightingOptionLabels sets the labels attribute.
-func SightingOptionLabels(labels []string) SightingOption {
-	return func(r *Sighting) {
-		r.Labels = labels
-	}
-}
-
-// SightingOptionRevoked sets the revoked attribute.
-func SightingOptionRevoked(rev bool) SightingOption {
-	return func(r *Sighting) {
-		r.Revoked = rev
-	}
-}
-
-// SightingOptionModified sets the modified attribute.
-func SightingOptionModified(t *Timestamp) SightingOption {
-	return func(r *Sighting) {
-		r.Modified = t
-	}
-}
-
-// SightingOptionCreated sets the created attribute.
-func SightingOptionCreated(t *Timestamp) SightingOption {
-	return func(r *Sighting) {
-		r.Created = t
-	}
-}
-
-// SightingOptionCreatedBy sets the created by by attribute.
-func SightingOptionCreatedBy(id Identifier) SightingOption {
-	return func(r *Sighting) {
-		r.CreatedBy = id
-	}
-}
-
-/*
-	Sighting object options
-*/
-
-// SightingOptionDescription sets the description attribute.
-func SightingOptionDescription(des string) SightingOption {
-	return func(r *Sighting) {
-		r.Description = des
-	}
-}
-
-// SightingOptionFirstSeen sets the first seen attribute.
-func SightingOptionFirstSeen(t *Timestamp) SightingOption {
-	return func(r *Sighting) {
-		r.FirstSeen = t
-	}
-}
-
-// SightingOptionLastSeen sets the last seen attribute.
-func SightingOptionLastSeen(t *Timestamp) SightingOption {
-	return func(r *Sighting) {
-		r.LastSeen = t
-	}
-}
-
-// SightingOptionCount sets the count attribute.
-func SightingOptionCount(c int64) SightingOption {
-	return func(r *Sighting) {
-		r.Count = c
-	}
-}
-
-// SightingOptionObservedData sets the ObservedData attribute.
-func SightingOptionObservedData(d []Identifier) SightingOption {
-	return func(r *Sighting) {
-		r.ObservedData = d
-	}
-}
-
-// SightingOptionWhereSighted sets the WhereSighted attribute.
-func SightingOptionWhereSighted(i []Identifier) SightingOption {
-	return func(r *Sighting) {
-		r.WhereSighted = i
-	}
-}
-
-// SightingOptionSummary sets the summary attribute.
-func SightingOptionSummary(b bool) SightingOption {
-	return func(r *Sighting) {
-		r.Summary = b
-	}
 }

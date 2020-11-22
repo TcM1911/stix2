@@ -19,7 +19,7 @@ type AutonomousSystem struct {
 }
 
 // NewAutonomousSystem creates a new AutonomousSystem object.
-func NewAutonomousSystem(number int64, opts ...AutonomousSystemOption) (*AutonomousSystem, error) {
+func NewAutonomousSystem(number int64, opts ...STIXOption) (*AutonomousSystem, error) {
 	if number == 0 {
 		return nil, ErrInvalidParameter
 	}
@@ -29,74 +29,7 @@ func NewAutonomousSystem(number int64, opts ...AutonomousSystemOption) (*Autonom
 		Number:                    number,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
+	err := applyOptions(obj, opts)
 	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%d]", number), TypeAutonomousSystem)
-	return obj, nil
-}
-
-// AutonomousSystemOption is an optional parameter when constructing a
-// AS object.
-type AutonomousSystemOption func(a *AutonomousSystem)
-
-/*
-	Base object options
-*/
-
-// ASOptionSpecVersion sets the STIX spec version.
-func ASOptionSpecVersion(ver string) AutonomousSystemOption {
-	return func(obj *AutonomousSystem) {
-		obj.SpecVersion = ver
-	}
-}
-
-// ASOptionObjectMarking sets the object marking attribute.
-func ASOptionObjectMarking(om []Identifier) AutonomousSystemOption {
-	return func(obj *AutonomousSystem) {
-		obj.ObjectMarking = om
-	}
-}
-
-// ASOptionGranularMarking sets the granular marking attribute.
-func ASOptionGranularMarking(gm []*GranularMarking) AutonomousSystemOption {
-	return func(obj *AutonomousSystem) {
-		obj.GranularMarking = gm
-	}
-}
-
-// ASOptionDefanged sets the defanged attribute.
-func ASOptionDefanged(b bool) AutonomousSystemOption {
-	return func(obj *AutonomousSystem) {
-		obj.Defanged = b
-	}
-}
-
-// ASOptionExtension adds an extension.
-func ASOptionExtension(name string, value interface{}) AutonomousSystemOption {
-	return func(obj *AutonomousSystem) {
-		// Ignoring the error.
-		obj.addExtension(name, value)
-	}
-}
-
-/*
-	AS object options
-*/
-
-// ASOptionName sets the name type attribute.
-func ASOptionName(s string) AutonomousSystemOption {
-	return func(obj *AutonomousSystem) {
-		obj.Name = s
-	}
-}
-
-// ASOptionRIR sets the rir attribute.
-func ASOptionRIR(s string) AutonomousSystemOption {
-	return func(obj *AutonomousSystem) {
-		obj.RIR = s
-	}
+	return obj, err
 }

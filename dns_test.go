@@ -14,6 +14,7 @@ func TestDomain(t *testing.T) {
 	assert := assert.New(t)
 
 	name := "example.com"
+	resolve := Identifier("test")
 
 	t.Run("missing_property", func(t *testing.T) {
 		obj, err := NewDomainName("")
@@ -32,12 +33,13 @@ func TestDomain(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []DomainNameOption{
-			DomainOptionGranularMarking(marking),
-			DomainOptionObjectMarking(objmark),
-			DomainOptionSpecVersion(specVer),
-			DomainOptionDefanged(true),
-			DomainOptionExtension("test", struct{}{}),
+		opts := []STIXOption{
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
+			OptionDefanged(true),
+			OptionExtension("test", struct{}{}),
+			OptionResolvesTo([]Identifier{resolve}),
 		}
 		obj, err := NewDomainName(name, opts...)
 		assert.NotNil(obj)
@@ -48,6 +50,7 @@ func TestDomain(t *testing.T) {
 		assert.True(obj.Defanged)
 
 		assert.Equal(name, obj.Value)
+		assert.Contains(obj.ResolvesTo, resolve)
 	})
 
 	t.Run("id-generation", func(t *testing.T) {

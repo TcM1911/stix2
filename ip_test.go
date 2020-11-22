@@ -32,12 +32,12 @@ func TestIPv4Address(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []IPv4AddressOption{
-			IPv4AddressOptionGranularMarking(marking),
-			IPv4AddressOptionObjectMarking(objmark),
-			IPv4AddressOptionSpecVersion(specVer),
-			IPv4AddressOptionDefanged(true),
-			IPv4AddressOptionExtension("test", struct{}{}),
+		opts := []STIXOption{
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
+			OptionDefanged(true),
+			OptionExtension("test", struct{}{}),
 		}
 		obj, err := NewIPv4Address(val, opts...)
 		assert.NotNil(obj)
@@ -153,12 +153,12 @@ func TestIPv6Address(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []IPv6AddressOption{
-			IPv6AddressOptionGranularMarking(marking),
-			IPv6AddressOptionObjectMarking(objmark),
-			IPv6AddressOptionSpecVersion(specVer),
-			IPv6AddressOptionDefanged(true),
-			IPv6AddressOptionExtension("test", struct{}{}),
+		opts := []STIXOption{
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
+			OptionDefanged(true),
+			OptionExtension("test", struct{}{}),
 		}
 		obj, err := NewIPv6Address(val, opts...)
 		assert.NotNil(obj)

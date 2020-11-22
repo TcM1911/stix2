@@ -136,7 +136,7 @@ func (n *NetworkTraffic) TCPExtension() *TCPExtension {
 
 // NewNetworkTraffic creates a new NetworkTraffic object. A NetworkTraffic object MUST contain at least one
 // of hashes or name.
-func NewNetworkTraffic(proto []string, opts ...NetworkTrafficOption) (*NetworkTraffic, error) {
+func NewNetworkTraffic(proto []string, opts ...STIXOption) (*NetworkTraffic, error) {
 	if len(proto) == 0 {
 		return nil, ErrInvalidParameter
 	}
@@ -146,12 +146,7 @@ func NewNetworkTraffic(proto []string, opts ...NetworkTrafficOption) (*NetworkTr
 		Protocols:                 proto,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
+	err := applyOptions(obj, opts)
 	idContri := make([]string, 0, 5)
 	if obj.Start != nil {
 		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.Start.String()))
@@ -170,167 +165,7 @@ func NewNetworkTraffic(proto []string, opts ...NetworkTrafficOption) (*NetworkTr
 	}
 	idContri = append(idContri, fmt.Sprintf(`["%s"]`, strings.Join(obj.Protocols, `","`)))
 	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeNetworkTraffic)
-	return obj, nil
-}
-
-// NetworkTrafficOption is an optional parameter when constructing a
-// NetworkTraffic object.
-type NetworkTrafficOption func(a *NetworkTraffic)
-
-/*
-	Base object options
-*/
-
-// NetworkTrafficOptionSpecVersion sets the STIX spec version.
-func NetworkTrafficOptionSpecVersion(ver string) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.SpecVersion = ver
-	}
-}
-
-// NetworkTrafficOptionObjectMarking sets the object marking attribute.
-func NetworkTrafficOptionObjectMarking(om []Identifier) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.ObjectMarking = om
-	}
-}
-
-// NetworkTrafficOptionGranularMarking sets the granular marking attribute.
-func NetworkTrafficOptionGranularMarking(gm []*GranularMarking) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.GranularMarking = gm
-	}
-}
-
-// NetworkTrafficOptionDefanged sets the defanged attribute.
-func NetworkTrafficOptionDefanged(b bool) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.Defanged = b
-	}
-}
-
-// NetworkTrafficOptionExtension adds an extension.
-func NetworkTrafficOptionExtension(name string, value interface{}) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		// Ignoring the error.
-		obj.addExtension(name, value)
-	}
-}
-
-/*
-	NetworkTraffic object options
-*/
-
-// NetworkTrafficOptionStart sets the start attribute.
-func NetworkTrafficOptionStart(s *Timestamp) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.Start = s
-	}
-}
-
-// NetworkTrafficOptionEnd sets the end attribute.
-func NetworkTrafficOptionEnd(s *Timestamp) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.End = s
-	}
-}
-
-// NetworkTrafficOptionIsActive sets the is active attribute.
-func NetworkTrafficOptionIsActive(s bool) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.IsActive = s
-	}
-}
-
-// NetworkTrafficOptionSrc sets the src attribute.
-func NetworkTrafficOptionSrc(s Identifier) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.Src = s
-	}
-}
-
-// NetworkTrafficOptionDst sets the dst attribute.
-func NetworkTrafficOptionDst(s Identifier) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.Dst = s
-	}
-}
-
-// NetworkTrafficOptionSrcPort sets the src port attribute.
-func NetworkTrafficOptionSrcPort(s int64) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.SrcPort = s
-	}
-}
-
-// NetworkTrafficOptionDstPort sets the dst port attribute.
-func NetworkTrafficOptionDstPort(s int64) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.DstPort = s
-	}
-}
-
-// NetworkTrafficOptionSrcByteCount sets the src byte count attribute.
-func NetworkTrafficOptionSrcByteCount(s int64) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.SrcByteCount = s
-	}
-}
-
-// NetworkTrafficOptionDstByteCount sets the dst byte count attribute.
-func NetworkTrafficOptionDstByteCount(s int64) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.DstByteCount = s
-	}
-}
-
-// NetworkTrafficOptionSrcPackets sets the src packets attribute.
-func NetworkTrafficOptionSrcPackets(s int64) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.SrcPackets = s
-	}
-}
-
-// NetworkTrafficOptionDstPackets sets the dst packets attribute.
-func NetworkTrafficOptionDstPackets(s int64) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.DstPackets = s
-	}
-}
-
-// NetworkTrafficOptionIPFIX sets the IPFIX attribute.
-func NetworkTrafficOptionIPFIX(s map[string]interface{}) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.IPFIX = s
-	}
-}
-
-// NetworkTrafficOptionSrcPayload sets the src payload attribute.
-func NetworkTrafficOptionSrcPayload(s Identifier) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.SrcPayload = s
-	}
-}
-
-// NetworkTrafficOptionDstPayload sets the src payload attribute.
-func NetworkTrafficOptionDstPayload(s Identifier) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.DstPayload = s
-	}
-}
-
-// NetworkTrafficOptionEncapsulates sets the encapsulates attribute.
-func NetworkTrafficOptionEncapsulates(s []Identifier) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.Encapsulates = s
-	}
-}
-
-// NetworkTrafficOptionEncapsulated sets the encapsulated attribute.
-func NetworkTrafficOptionEncapsulated(s Identifier) NetworkTrafficOption {
-	return func(obj *NetworkTraffic) {
-		obj.Encapsulated = s
-	}
+	return obj, err
 }
 
 // HTTPRequestExtension specifies a default extension for capturing network

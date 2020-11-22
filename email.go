@@ -23,7 +23,7 @@ type EmailAddress struct {
 }
 
 // NewEmailAddress creates a new EmailAddress object.
-func NewEmailAddress(value string, opts ...EmailAddressOption) (*EmailAddress, error) {
+func NewEmailAddress(value string, opts ...STIXOption) (*EmailAddress, error) {
 	if value == "" {
 		return nil, ErrInvalidParameter
 	}
@@ -33,76 +33,9 @@ func NewEmailAddress(value string, opts ...EmailAddressOption) (*EmailAddress, e
 		Value:                     value,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
+	err := applyOptions(obj, opts)
 	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", value), TypeEmailAddress)
-	return obj, nil
-}
-
-// EmailAddressOption is an optional parameter when constructing a
-// EmailAddress object.
-type EmailAddressOption func(a *EmailAddress)
-
-/*
-	Base object options
-*/
-
-// EmailAddressOptionSpecVersion sets the STIX spec version.
-func EmailAddressOptionSpecVersion(ver string) EmailAddressOption {
-	return func(obj *EmailAddress) {
-		obj.SpecVersion = ver
-	}
-}
-
-// EmailAddressOptionObjectMarking sets the object marking attribute.
-func EmailAddressOptionObjectMarking(om []Identifier) EmailAddressOption {
-	return func(obj *EmailAddress) {
-		obj.ObjectMarking = om
-	}
-}
-
-// EmailAddressOptionGranularMarking sets the granular marking attribute.
-func EmailAddressOptionGranularMarking(gm []*GranularMarking) EmailAddressOption {
-	return func(obj *EmailAddress) {
-		obj.GranularMarking = gm
-	}
-}
-
-// EmailAddressOptionDefanged sets the defanged attribute.
-func EmailAddressOptionDefanged(b bool) EmailAddressOption {
-	return func(obj *EmailAddress) {
-		obj.Defanged = b
-	}
-}
-
-// EmailAddressOptionExtension adds an extension.
-func EmailAddressOptionExtension(name string, value interface{}) EmailAddressOption {
-	return func(obj *EmailAddress) {
-		// Ignoring the error.
-		obj.addExtension(name, value)
-	}
-}
-
-/*
-	EmailAddress object options
-*/
-
-// EmailAddressOptionDisplayName sets the display name attribute.
-func EmailAddressOptionDisplayName(s string) EmailAddressOption {
-	return func(obj *EmailAddress) {
-		obj.DisplayName = s
-	}
-}
-
-// EmailAddressOptionBelongsTo sets the belongs to attribute.
-func EmailAddressOptionBelongsTo(s Identifier) EmailAddressOption {
-	return func(obj *EmailAddress) {
-		obj.BelongsTo = s
-	}
+	return obj, err
 }
 
 // EmailMessage rrepresents an instance of an email message, corresponding to
@@ -167,19 +100,14 @@ type EmailMessage struct {
 }
 
 // NewEmailMessage creates a new EmailMessage object.
-func NewEmailMessage(multipart bool, opts ...EmailMessageOption) (*EmailMessage, error) {
+func NewEmailMessage(multipart bool, opts ...STIXOption) (*EmailMessage, error) {
 	base := newSTIXCyberObservableObject(TypeEmailMessage)
 	obj := &EmailMessage{
 		STIXCyberObservableObject: base,
 		IsMultipart:               multipart,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
+	err := applyOptions(obj, opts)
 	idContri := make([]string, 0, 3)
 	if obj.From != "" {
 		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.From))
@@ -191,154 +119,7 @@ func NewEmailMessage(multipart bool, opts ...EmailMessageOption) (*EmailMessage,
 		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.Body))
 	}
 	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeEmailMessage)
-	return obj, nil
-}
-
-// EmailMessageOption is an optional parameter when constructing a
-// EmailMessage object.
-type EmailMessageOption func(a *EmailMessage)
-
-/*
-	Base object options
-*/
-
-// EmailMessageOptionSpecVersion sets the STIX spec version.
-func EmailMessageOptionSpecVersion(ver string) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.SpecVersion = ver
-	}
-}
-
-// EmailMessageOptionObjectMarking sets the object marking attribute.
-func EmailMessageOptionObjectMarking(om []Identifier) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.ObjectMarking = om
-	}
-}
-
-// EmailMessageOptionGranularMarking sets the granular marking attribute.
-func EmailMessageOptionGranularMarking(gm []*GranularMarking) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.GranularMarking = gm
-	}
-}
-
-// EmailMessageOptionDefanged sets the defanged attribute.
-func EmailMessageOptionDefanged(b bool) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.Defanged = b
-	}
-}
-
-// EmailMessageOptionExtension adds an extension.
-func EmailMessageOptionExtension(name string, value interface{}) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		// Ignoring the error.
-		obj.addExtension(name, value)
-	}
-}
-
-/*
-	EmailMessage object options
-*/
-
-// EmailMessageOptionDate sets the date attribute.
-func EmailMessageOptionDate(s *Timestamp) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.Date = s
-	}
-}
-
-// EmailMessageOptionContentType sets the content type attribute.
-func EmailMessageOptionContentType(s string) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.ContentType = s
-	}
-}
-
-// EmailMessageOptionFrom sets the from attribute.
-func EmailMessageOptionFrom(s Identifier) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.From = s
-	}
-}
-
-// EmailMessageOptionSender sets the sender attribute.
-func EmailMessageOptionSender(s Identifier) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.Sender = s
-	}
-}
-
-// EmailMessageOptionTo sets the to attribute.
-func EmailMessageOptionTo(s []Identifier) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.To = s
-	}
-}
-
-// EmailMessageOptionCC sets the CC attribute.
-func EmailMessageOptionCC(s []Identifier) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.CC = s
-	}
-}
-
-// EmailMessageOptionBCC sets the BCC attribute.
-func EmailMessageOptionBCC(s []Identifier) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.BCC = s
-	}
-}
-
-// EmailMessageOptionMessageID sets the message ID attribute.
-func EmailMessageOptionMessageID(s string) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.MessageID = s
-	}
-}
-
-// EmailMessageOptionSubject sets the subject attribute.
-func EmailMessageOptionSubject(s string) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.Subject = s
-	}
-}
-
-// EmailMessageOptionReceivedLines sets the received lines attribute.
-func EmailMessageOptionReceivedLines(s []string) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.ReceivedLines = s
-	}
-}
-
-// EmailMessageOptionAdditionalHeaderFields sets the additional header fields
-// attribute.
-func EmailMessageOptionAdditionalHeaderFields(s map[string]string) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.AdditionalHeaderFields = s
-	}
-}
-
-// EmailMessageOptionBody sets the body attribute.
-func EmailMessageOptionBody(s string) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.Body = s
-	}
-}
-
-// EmailMessageOptionBodyMultipart sets the body multipart attribute.
-func EmailMessageOptionBodyMultipart(s []EmailMIME) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.BodyMultipart = s
-	}
-}
-
-// EmailMessageOptionRawEmail sets the raw email attribute.
-func EmailMessageOptionRawEmail(s Identifier) EmailMessageOption {
-	return func(obj *EmailMessage) {
-		obj.RawEmail = s
-	}
+	return obj, err
 }
 
 // EmailMIME specifies one component of a multi-part email body.

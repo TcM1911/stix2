@@ -42,21 +42,21 @@ func TestOpinion(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []OpinionOption{
-			OpinionOptionConfidence(conf),
-			OpinionOptionCreated(ts),
-			OpinionOptionModified(ts),
-			OpinionOptionCreatedBy(createdBy),
-			OpinionOptionExternalReferences([]*ExternalReference{ref}),
-			OpinionOptionGranularMarking(marking),
-			OpinionOptionLabels(labels),
-			OpinionOptionLang(lang),
-			OpinionOptionObjectMarking(objmark),
-			OpinionOptionRevoked(true),
-			OpinionOptionSpecVersion(specVer),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionLang(lang),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
 			//
-			OpinionOptionExplanation(expl),
-			OpinionOptionAuthors(authors),
+			OptionExplanation(expl),
+			OptionAuthors(authors),
 		}
 		obj, err := NewOpinion(val, objects, opts...)
 		assert.NotNil(obj)

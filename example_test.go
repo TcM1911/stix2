@@ -110,8 +110,8 @@ func Example() {
 
 	mal, err := stix2.NewMalware(
 		false,
-		stix2.MalwareOptionName("IMDDOS"),
-		stix2.MalwareOptionTypes([]string{stix2.MalwareTypeBot}),
+		stix2.OptionName("IMDDOS"),
+		stix2.OptionTypes([]string{stix2.MalwareTypeBot}),
 	)
 	if err != nil {
 		fmt.Println(err)

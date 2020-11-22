@@ -61,7 +61,7 @@ type Relationship struct {
 }
 
 // NewRelationship creates a new Relationship object.
-func NewRelationship(relType RelationshipType, source, target Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func NewRelationship(relType RelationshipType, source, target Identifier, opts ...STIXOption) (*Relationship, error) {
 	if relType == "" || source == "" || target == "" {
 		return nil, ErrPropertyMissing
 	}
@@ -74,13 +74,8 @@ func NewRelationship(relType RelationshipType, source, target Identifier, opts .
 	}
 
 	// Set all optional parameters.
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(r)
-	}
-	return r, nil
+	err := applyOptions(r, opts)
+	return r, err
 }
 
 // RelationshipType describes how the source and the target are related.
@@ -154,113 +149,3 @@ const (
 	// RelationshipTypeVariantOf is a variant of relationship.
 	RelationshipTypeVariantOf RelationshipType = "variant-of"
 )
-
-/*
-	Base object options
-*/
-
-// RelationshipOption is an optional parameter when constructing a
-// Relationship object.
-type RelationshipOption func(r *Relationship)
-
-// RelationshipOptionSpecVersion sets the STIX spec version.
-func RelationshipOptionSpecVersion(ver string) RelationshipOption {
-	return func(r *Relationship) {
-		r.SpecVersion = ver
-	}
-}
-
-// RelationshipOptionExternalReferences sets the external references attribute.
-func RelationshipOptionExternalReferences(refs []*ExternalReference) RelationshipOption {
-	return func(r *Relationship) {
-		r.ExternalReferences = refs
-	}
-}
-
-// RelationshipOptionObjectMarking sets the object marking attribute.
-func RelationshipOptionObjectMarking(om []Identifier) RelationshipOption {
-	return func(r *Relationship) {
-		r.ObjectMarking = om
-	}
-}
-
-// RelationshipOptionGranularMarking sets the granular marking attribute.
-func RelationshipOptionGranularMarking(gm []*GranularMarking) RelationshipOption {
-	return func(r *Relationship) {
-		r.GranularMarking = gm
-	}
-}
-
-// RelationshipOptionLang sets the lang attribute.
-func RelationshipOptionLang(lang string) RelationshipOption {
-	return func(r *Relationship) {
-		r.Lang = lang
-	}
-}
-
-// RelationshipOptionConfidence sets the confidence attribute.
-func RelationshipOptionConfidence(confidence int) RelationshipOption {
-	return func(r *Relationship) {
-		r.Confidence = confidence
-	}
-}
-
-// RelationshipOptionLabels sets the labels attribute.
-func RelationshipOptionLabels(labels []string) RelationshipOption {
-	return func(r *Relationship) {
-		r.Labels = labels
-	}
-}
-
-// RelationshipOptionRevoked sets the revoked attribute.
-func RelationshipOptionRevoked(rev bool) RelationshipOption {
-	return func(r *Relationship) {
-		r.Revoked = rev
-	}
-}
-
-// RelationshipOptionModified sets the modified attribute.
-func RelationshipOptionModified(t *Timestamp) RelationshipOption {
-	return func(r *Relationship) {
-		r.Modified = t
-	}
-}
-
-// RelationshipOptionCreated sets the created attribute.
-func RelationshipOptionCreated(t *Timestamp) RelationshipOption {
-	return func(r *Relationship) {
-		r.Created = t
-	}
-}
-
-// RelationshipOptionCreatedBy sets the created by by attribute.
-func RelationshipOptionCreatedBy(id Identifier) RelationshipOption {
-	return func(r *Relationship) {
-		r.CreatedBy = id
-	}
-}
-
-/*
-	Relationship object options
-*/
-
-// RelationshipOptionDescription sets the description attribute.
-func RelationshipOptionDescription(des string) RelationshipOption {
-	return func(r *Relationship) {
-		r.Description = des
-	}
-}
-
-// RelationshipOptionStartTime sets the start time attribute.
-func RelationshipOptionStartTime(t *Timestamp) RelationshipOption {
-	return func(r *Relationship) {
-		r.StartTime = t
-	}
-}
-
-// RelationshipOptionStopTime sets the stop time attribute.
-func RelationshipOptionStopTime(t *Timestamp) RelationshipOption {
-	return func(r *Relationship) {
-		r.StopTime = t
-	}
-}

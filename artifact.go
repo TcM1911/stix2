@@ -37,17 +37,15 @@ type Artifact struct {
 }
 
 // NewArtifact creates a new Artifact object.
-func NewArtifact(opts ...ArtifactOption) (*Artifact, error) {
+func NewArtifact(opts ...STIXOption) (*Artifact, error) {
 	base := newSTIXCyberObservableObject(TypeArtifact)
 	obj := &Artifact{
 		STIXCyberObservableObject: base,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
+	err := applyOptions(obj, opts)
+	if err != nil {
+		return nil, err
 	}
 
 	if obj.Payload == nil && obj.URL == "" {
@@ -69,96 +67,6 @@ func NewArtifact(opts ...ArtifactOption) (*Artifact, error) {
 	}
 	obj.ID = NewObservableIdenfier("["+strings.Join(contriStr, ",")+"]", TypeArtifact)
 	return obj, nil
-}
-
-// ArtifactOption is an optional parameter when constructing a
-// Artifact object.
-type ArtifactOption func(a *Artifact)
-
-/*
-	Base object options
-*/
-
-// ArtifactOptionSpecVersion sets the STIX spec version.
-func ArtifactOptionSpecVersion(ver string) ArtifactOption {
-	return func(obj *Artifact) {
-		obj.SpecVersion = ver
-	}
-}
-
-// ArtifactOptionObjectMarking sets the object marking attribute.
-func ArtifactOptionObjectMarking(om []Identifier) ArtifactOption {
-	return func(obj *Artifact) {
-		obj.ObjectMarking = om
-	}
-}
-
-// ArtifactOptionGranularMarking sets the granular marking attribute.
-func ArtifactOptionGranularMarking(gm []*GranularMarking) ArtifactOption {
-	return func(obj *Artifact) {
-		obj.GranularMarking = gm
-	}
-}
-
-// ArtifactOptionDefanged sets the defanged attribute.
-func ArtifactOptionDefanged(b bool) ArtifactOption {
-	return func(obj *Artifact) {
-		obj.Defanged = b
-	}
-}
-
-// ArtifactOptionExtension adds an extension.
-func ArtifactOptionExtension(name string, value interface{}) ArtifactOption {
-	return func(obj *Artifact) {
-		// Ignoring the error.
-		obj.addExtension(name, value)
-	}
-}
-
-/*
-	Artifact object options
-*/
-
-// ArtifactOptionMimeType sets the mime type attribute.
-func ArtifactOptionMimeType(s string) ArtifactOption {
-	return func(obj *Artifact) {
-		obj.MimeType = s
-	}
-}
-
-// ArtifactOptionPayload sets the payload attribute.
-func ArtifactOptionPayload(s Binary) ArtifactOption {
-	return func(obj *Artifact) {
-		obj.Payload = s
-	}
-}
-
-// ArtifactOptionURL sets the URL attribute.
-func ArtifactOptionURL(s string) ArtifactOption {
-	return func(obj *Artifact) {
-		obj.URL = s
-	}
-}
-
-// ArtifactOptionHashes sets the hashes attribute.
-func ArtifactOptionHashes(s Hashes) ArtifactOption {
-	return func(obj *Artifact) {
-		obj.Hashes = s
-	}
-}
-
-// ArtifactOptionEncryption sets the encryption algorithm attribute.
-func ArtifactOptionEncryption(s EncryptionAlgorithm) ArtifactOption {
-	return func(obj *Artifact) {
-		obj.Encryption = s
-	}
-}
-
-// ArtifactOptionKey sets the decryption key attribute.
-func ArtifactOptionKey(s string) ArtifactOption {
-	return func(obj *Artifact) {
-		obj.Key = s
-	}
 }
 
 // EncryptionAlgorithm is the encryption algorithms used for sharing defanged

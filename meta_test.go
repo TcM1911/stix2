@@ -44,19 +44,19 @@ func TestLanguageContent(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []LanguageContentOption{
-			LanguageContentOptionConfidence(conf),
-			LanguageContentOptionCreated(ts),
-			LanguageContentOptionModified(ts),
-			LanguageContentOptionCreatedBy(createdBy),
-			LanguageContentOptionExternalReferences([]*ExternalReference{ref}),
-			LanguageContentOptionGranularMarking(marking),
-			LanguageContentOptionLabels(labels),
-			LanguageContentOptionObjectMarking(objmark),
-			LanguageContentOptionRevoked(true),
-			LanguageContentOptionSpecVersion(specVer),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
 			//
-			LanguageContentOptionObjectModified(ts),
+			OptionObjectModified(ts),
 		}
 		obj, err := NewLanguageContent(object, content, opts...)
 		assert.NotNil(obj)
@@ -140,15 +140,15 @@ func TestMarkingDefinition(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []MarkingDefinitionOption{
-			MarkingDefinitionOptionCreated(ts),
-			MarkingDefinitionOptionCreatedBy(createdBy),
-			MarkingDefinitionOptionExternalReferences([]*ExternalReference{ref}),
-			MarkingDefinitionOptionGranularMarking(marking),
-			MarkingDefinitionOptionObjectMarking(objmark),
-			MarkingDefinitionOptionSpecVersion(specVer),
+		opts := []STIXOption{
+			OptionCreated(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
 			//
-			MarkingDefinitionOptionName(name),
+			OptionName(name),
 		}
 		obj, err := NewMarkingDefinition(typ, def, opts...)
 		assert.NotNil(obj)

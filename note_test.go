@@ -43,21 +43,21 @@ func TestNote(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []NoteOption{
-			NoteOptionConfidence(conf),
-			NoteOptionCreated(ts),
-			NoteOptionModified(ts),
-			NoteOptionCreatedBy(createdBy),
-			NoteOptionExternalReferences([]*ExternalReference{ref}),
-			NoteOptionGranularMarking(marking),
-			NoteOptionLabels(labels),
-			NoteOptionLang(lang),
-			NoteOptionObjectMarking(objmark),
-			NoteOptionRevoked(true),
-			NoteOptionSpecVersion(specVer),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionLang(lang),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
 			//
-			NoteOptionAbstract(abstract),
-			NoteOptionAuthors(authors),
+			OptionAbstract(abstract),
+			OptionAuthors(authors),
 		}
 		obj, err := NewNote(content, objects, opts...)
 		assert.NotNil(obj)

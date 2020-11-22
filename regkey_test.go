@@ -37,18 +37,18 @@ func TestRegistryKey(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []RegistryKeyOption{
-			RegistryKeyOptionGranularMarking(marking),
-			RegistryKeyOptionObjectMarking(objmark),
-			RegistryKeyOptionSpecVersion(specVer),
-			RegistryKeyOptionDefanged(true),
-			RegistryKeyOptionExtension("test", struct{}{}),
+		opts := []STIXOption{
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
+			OptionDefanged(true),
+			OptionExtension("test", struct{}{}),
 			//
-			RegistryKeyOptionKey(testStr),
-			RegistryKeyOptionValues(val),
-			RegistryKeyOptionModifiedTime(ts),
-			RegistryKeyOptionCreatorUser(ref),
-			RegistryKeyOptionNumberOfSubkeys(num),
+			OptionKey(testStr),
+			OptionValues(val),
+			OptionModifiedTime(ts),
+			OptionCreatorUser(ref),
+			OptionNumberOfSubkeys(num),
 		}
 		obj, err := NewRegistryKey(opts...)
 		assert.NotNil(obj)
@@ -83,12 +83,12 @@ func TestRegistryKey(t *testing.T) {
 			},
 		}
 		for _, test := range tests {
-			opts := make([]RegistryKeyOption, 0, 3)
+			opts := make([]STIXOption, 0, 3)
 			if test.key != "" {
-				opts = append(opts, RegistryKeyOptionKey(test.key))
+				opts = append(opts, OptionKey(test.key))
 			}
 			if test.values != nil {
-				opts = append(opts, RegistryKeyOptionValues(test.values))
+				opts = append(opts, OptionValues(test.values))
 			}
 			obj, err := NewRegistryKey(opts...)
 			assert.NoError(err)

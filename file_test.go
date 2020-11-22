@@ -40,23 +40,23 @@ func TestFile(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []FileOption{
-			FileOptionGranularMarking(marking),
-			FileOptionObjectMarking(objmark),
-			FileOptionSpecVersion(specVer),
-			FileOptionDefanged(true),
-			FileOptionExtension("test", struct{}{}),
+		opts := []STIXOption{
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
+			OptionDefanged(true),
+			OptionExtension("test", struct{}{}),
 			//
-			FileOptionSize(size),
-			FileOptionNameEnc(someString),
-			FileOptionMagicNumber(hex),
-			FileOptionMimeType(someString),
-			FileOptionCtime(ts),
-			FileOptionMtime(ts),
-			FileOptionAtime(ts),
-			FileOptionParentDirectory(ref),
-			FileOptionContains([]Identifier{ref}),
-			FileOptionContent(ref),
+			OptionSize(size),
+			OptionNameEnc(someString),
+			OptionMagicNumber(hex),
+			OptionMimeType(someString),
+			OptionCtime(ts),
+			OptionMtime(ts),
+			OptionAtime(ts),
+			OptionParentDirectory(ref),
+			OptionContains([]Identifier{ref}),
+			OptionContent(ref),
 		}
 		obj, err := NewFile(val, hash, opts...)
 		assert.NotNil(obj)
@@ -95,12 +95,12 @@ func TestFile(t *testing.T) {
 			{hash, val, ext, ref, "file--d233087f-68da-5e20-b3cb-42ad9edb401c"},
 		}
 		for _, test := range tests {
-			opt := make([]FileOption, 0, 2)
+			opt := make([]STIXOption, 0, 2)
 			if test.exts != nil {
-				opt = append(opt, FileOptionExtension(ExtArchive, test.exts))
+				opt = append(opt, OptionExtension(ExtArchive, test.exts))
 			}
 			if test.par != "" {
-				opt = append(opt, FileOptionParentDirectory(test.par))
+				opt = append(opt, OptionParentDirectory(test.par))
 			}
 			obj, err := NewFile(test.name, test.hash, opt...)
 			assert.NoError(err)
@@ -110,7 +110,7 @@ func TestFile(t *testing.T) {
 
 	t.Run("archive-extension", func(t *testing.T) {
 		ext := &ArchiveFileExtension{Contains: []Identifier{ref}, Comment: someString}
-		f, _ := NewFile(val, nil, FileOptionExtension(ExtArchive, ext))
+		f, _ := NewFile(val, nil, OptionExtension(ExtArchive, ext))
 		assert.Len(f.Extensions, 1)
 		stored := f.ArchiveExtension()
 		assert.Equal(ext, stored)
@@ -118,7 +118,7 @@ func TestFile(t *testing.T) {
 
 	t.Run("ntfs-extension", func(t *testing.T) {
 		ext := &NTFSFileExtension{SID: someString}
-		f, _ := NewFile(val, nil, FileOptionExtension(ExtNTFS, ext))
+		f, _ := NewFile(val, nil, OptionExtension(ExtNTFS, ext))
 		assert.Len(f.Extensions, 1)
 		stored := f.NTFSExtension()
 		assert.Equal(ext, stored)
@@ -126,7 +126,7 @@ func TestFile(t *testing.T) {
 
 	t.Run("pdf-extension", func(t *testing.T) {
 		ext := &PDFExtension{Version: someString}
-		f, _ := NewFile(val, nil, FileOptionExtension(ExtPDF, ext))
+		f, _ := NewFile(val, nil, OptionExtension(ExtPDF, ext))
 		assert.Len(f.Extensions, 1)
 		stored := f.PDFExtension()
 		assert.Equal(ext, stored)
@@ -134,7 +134,7 @@ func TestFile(t *testing.T) {
 
 	t.Run("raster-image-extension", func(t *testing.T) {
 		ext := &RasterImageExtension{Height: int64(42)}
-		f, _ := NewFile(val, nil, FileOptionExtension(ExtRasterImage, ext))
+		f, _ := NewFile(val, nil, OptionExtension(ExtRasterImage, ext))
 		assert.Len(f.Extensions, 1)
 		stored := f.RasterImageExtension()
 		assert.Equal(ext, stored)
@@ -142,7 +142,7 @@ func TestFile(t *testing.T) {
 
 	t.Run("pe-extension", func(t *testing.T) {
 		ext := &WindowsPEBinaryExtension{PEType: WindowsPEDLL, ImpHash: someString}
-		f, _ := NewFile(val, nil, FileOptionExtension(ExtWindowsPEBinary, ext))
+		f, _ := NewFile(val, nil, OptionExtension(ExtWindowsPEBinary, ext))
 		assert.Len(f.Extensions, 1)
 		stored := f.WindowsPEBinaryExtension()
 		assert.Equal(ext, stored)

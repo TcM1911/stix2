@@ -35,15 +35,15 @@ func TestEmailAddress(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []EmailAddressOption{
-			EmailAddressOptionGranularMarking(marking),
-			EmailAddressOptionObjectMarking(objmark),
-			EmailAddressOptionSpecVersion(specVer),
-			EmailAddressOptionDefanged(true),
-			EmailAddressOptionExtension("test", struct{}{}),
+		opts := []STIXOption{
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
+			OptionDefanged(true),
+			OptionExtension("test", struct{}{}),
 			//
-			EmailAddressOptionDisplayName(name),
-			EmailAddressOptionBelongsTo(belong),
+			OptionDisplayName(name),
+			OptionBelongsTo(belong),
 		}
 		obj, err := NewEmailAddress(val, opts...)
 		assert.NotNil(obj)
@@ -111,27 +111,27 @@ func TestEmailMessage(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []EmailMessageOption{
-			EmailMessageOptionGranularMarking(marking),
-			EmailMessageOptionObjectMarking(objmark),
-			EmailMessageOptionSpecVersion(specVer),
-			EmailMessageOptionDefanged(true),
-			EmailMessageOptionExtension("test", struct{}{}),
+		opts := []STIXOption{
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
+			OptionDefanged(true),
+			OptionExtension("test", struct{}{}),
 			//
-			EmailMessageOptionDate(ts),
-			EmailMessageOptionContentType(msg),
-			EmailMessageOptionFrom(ref),
-			EmailMessageOptionSender(ref),
-			EmailMessageOptionBCC([]Identifier{ref}),
-			EmailMessageOptionCC([]Identifier{ref}),
-			EmailMessageOptionTo([]Identifier{ref}),
-			EmailMessageOptionMessageID(msg),
-			EmailMessageOptionSubject(msg),
-			EmailMessageOptionReceivedLines([]string{msg}),
-			EmailMessageOptionAdditionalHeaderFields(headers),
-			EmailMessageOptionBody(msg),
-			EmailMessageOptionBodyMultipart(multi),
-			EmailMessageOptionRawEmail(ref),
+			OptionDate(ts),
+			OptionContentType(msg),
+			OptionFrom(ref),
+			OptionSender(ref),
+			OptionBCC([]Identifier{ref}),
+			OptionCC([]Identifier{ref}),
+			OptionTo([]Identifier{ref}),
+			OptionMessageID(msg),
+			OptionSubject(msg),
+			OptionReceivedLines([]string{msg}),
+			OptionAdditionalHeaderFields(headers),
+			OptionBody(msg),
+			OptionBodyMultipart(multi),
+			OptionRawEmail(ref),
 		}
 		obj, err := NewEmailMessage(false, opts...)
 		assert.NotNil(obj)
@@ -198,9 +198,9 @@ func TestEmailMessage(t *testing.T) {
 		for _, test := range tests {
 			obj, err := NewEmailMessage(
 				false,
-				EmailMessageOptionFrom(Identifier(test.from)),
-				EmailMessageOptionSubject(test.subject),
-				EmailMessageOptionBody(test.body),
+				OptionFrom(Identifier(test.from)),
+				OptionSubject(test.subject),
+				OptionBody(test.body),
 			)
 			assert.NoError(err)
 			assert.Equal(Identifier(test.id), obj.ID)

@@ -37,26 +37,26 @@ func TestX509Certificate(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []X509CertificateOption{
-			X509CertificateOptionGranularMarking(marking),
-			X509CertificateOptionObjectMarking(objmark),
-			X509CertificateOptionSpecVersion(specVer),
-			X509CertificateOptionDefanged(true),
-			X509CertificateOptionExtension("test", struct{}{}),
+		opts := []STIXOption{
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
+			OptionDefanged(true),
+			OptionExtension("test", struct{}{}),
 			//
-			X509CertificateOptionSelfSigned(true),
-			X509CertificateOptionHashes(hashes),
-			X509CertificateOptionSerialNumber(testStr),
-			X509CertificateOptionVersion(testStr),
-			X509CertificateOptionSignatureAlgorithm(testStr),
-			X509CertificateOptionIssuer(testStr),
-			X509CertificateOptionValidityNotBefore(ts),
-			X509CertificateOptionValidityNotAfter(ts),
-			X509CertificateOptionSubject(testStr),
-			X509CertificateOptionSubjectPublicKeyAlgorithm(testStr),
-			X509CertificateOptionSubjectPublicKeyModulus(testStr),
-			X509CertificateOptionSubjectPublicKeyExponent(num),
-			X509CertificateOptionV3Extensions(v3),
+			OptionSelfSigned(true),
+			OptionHashes(hashes),
+			OptionSerialNumber(testStr),
+			OptionVersion(testStr),
+			OptionSignatureAlgorithm(testStr),
+			OptionIssuer(testStr),
+			OptionValidityNotBefore(ts),
+			OptionValidityNotAfter(ts),
+			OptionSubject(testStr),
+			OptionSubjectPublicKeyAlgorithm(testStr),
+			OptionSubjectPublicKeyModulus(testStr),
+			OptionSubjectPublicKeyExponent(num),
+			OptionV3Extensions(v3),
 		}
 		obj, err := NewX509Certificate(opts...)
 		assert.NotNil(obj)
@@ -99,12 +99,12 @@ func TestX509Certificate(t *testing.T) {
 			},
 		}
 		for _, test := range tests {
-			opts := make([]X509CertificateOption, 0, 3)
+			opts := make([]STIXOption, 0, 3)
 			if test.serial != "" {
-				opts = append(opts, X509CertificateOptionSerialNumber(test.serial))
+				opts = append(opts, OptionSerialNumber(test.serial))
 			}
 			if test.hashes != nil {
-				opts = append(opts, X509CertificateOptionHashes(test.hashes))
+				opts = append(opts, OptionHashes(test.hashes))
 			}
 			obj, err := NewX509Certificate(opts...)
 			assert.NoError(err)

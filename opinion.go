@@ -42,7 +42,7 @@ type Opinion struct {
 }
 
 // NewOpinion creates a new Opinion object.
-func NewOpinion(val OpinionValue, objects []Identifier, opts ...OpinionOption) (*Opinion, error) {
+func NewOpinion(val OpinionValue, objects []Identifier, opts ...STIXOption) (*Opinion, error) {
 	if len(objects) == 0 {
 		return nil, ErrPropertyMissing
 	}
@@ -53,116 +53,8 @@ func NewOpinion(val OpinionValue, objects []Identifier, opts ...OpinionOption) (
 		Objects:          objects,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
-	return obj, nil
-}
-
-// OpinionOption is an optional parameter when constructing a
-// Opinion object.
-type OpinionOption func(a *Opinion)
-
-/*
-	Base object options
-*/
-
-// OpinionOptionSpecVersion sets the STIX spec version.
-func OpinionOptionSpecVersion(ver string) OpinionOption {
-	return func(obj *Opinion) {
-		obj.SpecVersion = ver
-	}
-}
-
-// OpinionOptionExternalReferences sets the external references attribute.
-func OpinionOptionExternalReferences(refs []*ExternalReference) OpinionOption {
-	return func(obj *Opinion) {
-		obj.ExternalReferences = refs
-	}
-}
-
-// OpinionOptionObjectMarking sets the object marking attribute.
-func OpinionOptionObjectMarking(om []Identifier) OpinionOption {
-	return func(obj *Opinion) {
-		obj.ObjectMarking = om
-	}
-}
-
-// OpinionOptionGranularMarking sets the granular marking attribute.
-func OpinionOptionGranularMarking(gm []*GranularMarking) OpinionOption {
-	return func(obj *Opinion) {
-		obj.GranularMarking = gm
-	}
-}
-
-// OpinionOptionLang sets the lang attribute.
-func OpinionOptionLang(lang string) OpinionOption {
-	return func(obj *Opinion) {
-		obj.Lang = lang
-	}
-}
-
-// OpinionOptionConfidence sets the confidence attribute.
-func OpinionOptionConfidence(confidence int) OpinionOption {
-	return func(obj *Opinion) {
-		obj.Confidence = confidence
-	}
-}
-
-// OpinionOptionLabels sets the labels attribute.
-func OpinionOptionLabels(labels []string) OpinionOption {
-	return func(obj *Opinion) {
-		obj.Labels = labels
-	}
-}
-
-// OpinionOptionRevoked sets the revoked attribute.
-func OpinionOptionRevoked(rev bool) OpinionOption {
-	return func(obj *Opinion) {
-		obj.Revoked = rev
-	}
-}
-
-// OpinionOptionModified sets the modified attribute.
-func OpinionOptionModified(t *Timestamp) OpinionOption {
-	return func(obj *Opinion) {
-		obj.Modified = t
-	}
-}
-
-// OpinionOptionCreated sets the created attribute.
-func OpinionOptionCreated(t *Timestamp) OpinionOption {
-	return func(obj *Opinion) {
-		obj.Created = t
-	}
-}
-
-// OpinionOptionCreatedBy sets the created by by attribute.
-func OpinionOptionCreatedBy(id Identifier) OpinionOption {
-	return func(obj *Opinion) {
-		obj.CreatedBy = id
-	}
-}
-
-/*
-	Opinion object options
-*/
-
-// OpinionOptionExplanation sets the explanation attribute.
-func OpinionOptionExplanation(s string) OpinionOption {
-	return func(obj *Opinion) {
-		obj.Explanation = s
-	}
-}
-
-// OpinionOptionAuthors sets the authors attribute.
-func OpinionOptionAuthors(s []string) OpinionOption {
-	return func(obj *Opinion) {
-		obj.Authors = s
-	}
+	err := applyOptions(obj, opts)
+	return obj, err
 }
 
 // OpinionValue aptures a degree of agreement with the information in a STIX

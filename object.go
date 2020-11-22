@@ -239,19 +239,19 @@ type STIXDomainObject struct {
 
 // AddDerivedFrom adds a relationship to an object that this object is derived
 // from.
-func (s *STIXDomainObject) AddDerivedFrom(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (s *STIXDomainObject) AddDerivedFrom(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	return NewRelationship(RelationshipTypeDerivedFrom, s.ID, id, opts...)
 }
 
 // AddDuplicateOf adds a relationship to an object that this object is a
 // duplicate of.
-func (s *STIXDomainObject) AddDuplicateOf(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (s *STIXDomainObject) AddDuplicateOf(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	return NewRelationship(RelationshipTypeDuplicateOf, s.ID, id, opts...)
 }
 
 // AddRelatedTo adds a relationship to an object that this object is related
 // to.
-func (s *STIXDomainObject) AddRelatedTo(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (s *STIXDomainObject) AddRelatedTo(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	return NewRelationship(RelationshipTypeRelatedTo, s.ID, id, opts...)
 }
 
@@ -320,19 +320,19 @@ type STIXCyberObservableObject struct {
 
 // AddDerivedFrom adds a relationship to an object that this object is derived
 // from.
-func (o *STIXCyberObservableObject) AddDerivedFrom(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (o *STIXCyberObservableObject) AddDerivedFrom(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	return NewRelationship(RelationshipTypeDerivedFrom, o.ID, id, opts...)
 }
 
 // AddDuplicateOf adds a relationship to an object that this object is a
 // duplicate of.
-func (o *STIXCyberObservableObject) AddDuplicateOf(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (o *STIXCyberObservableObject) AddDuplicateOf(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	return NewRelationship(RelationshipTypeDuplicateOf, o.ID, id, opts...)
 }
 
 // AddRelatedTo adds a relationship to an object that this object is related
 // to.
-func (o *STIXCyberObservableObject) AddRelatedTo(id Identifier, opts ...RelationshipOption) (*Relationship, error) {
+func (o *STIXCyberObservableObject) AddRelatedTo(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	return NewRelationship(RelationshipTypeRelatedTo, o.ID, id, opts...)
 }
 
@@ -356,20 +356,6 @@ func (o *STIXCyberObservableObject) GetCreated() *time.Time {
 // does not have a time defined, nil is returned.
 func (o *STIXCyberObservableObject) GetModified() *time.Time {
 	return nil
-}
-
-func (o *STIXCyberObservableObject) addExtension(key string, val interface{}) {
-	if o.Extensions == nil {
-		o.Extensions = make(map[string]json.RawMessage)
-	}
-	// If error drop the data.
-	buf := &bytes.Buffer{}
-	c := codec.NewEncoder(buf, &codec.JsonHandle{})
-	err := c.Encode(val)
-	if err != nil {
-		return
-	}
-	o.Extensions[key] = json.RawMessage(buf.Bytes())
 }
 
 func (o *STIXCyberObservableObject) canonicalizeExtensions() string {

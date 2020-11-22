@@ -13,7 +13,7 @@ type Mutex struct {
 }
 
 // NewMutex creates a new Mutex object.
-func NewMutex(value string, opts ...MutexOption) (*Mutex, error) {
+func NewMutex(value string, opts ...STIXOption) (*Mutex, error) {
 	if value == "" {
 		return nil, ErrInvalidParameter
 	}
@@ -23,55 +23,7 @@ func NewMutex(value string, opts ...MutexOption) (*Mutex, error) {
 		Name:                      value,
 	}
 
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
+	err := applyOptions(obj, opts)
 	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", value), TypeMutex)
-	return obj, nil
-}
-
-// MutexOption is an optional parameter when constructing a Mutex object.
-type MutexOption func(a *Mutex)
-
-/*
-	Base object options
-*/
-
-// MutexOptionSpecVersion sets the STIX spec version.
-func MutexOptionSpecVersion(ver string) MutexOption {
-	return func(obj *Mutex) {
-		obj.SpecVersion = ver
-	}
-}
-
-// MutexOptionObjectMarking sets the object marking attribute.
-func MutexOptionObjectMarking(om []Identifier) MutexOption {
-	return func(obj *Mutex) {
-		obj.ObjectMarking = om
-	}
-}
-
-// MutexOptionGranularMarking sets the granular marking attribute.
-func MutexOptionGranularMarking(gm []*GranularMarking) MutexOption {
-	return func(obj *Mutex) {
-		obj.GranularMarking = gm
-	}
-}
-
-// MutexOptionDefanged sets the defanged attribute.
-func MutexOptionDefanged(b bool) MutexOption {
-	return func(obj *Mutex) {
-		obj.Defanged = b
-	}
-}
-
-// MutexOptionExtension adds an extension.
-func MutexOptionExtension(name string, value interface{}) MutexOption {
-	return func(obj *Mutex) {
-		// Ignoring the error.
-		obj.addExtension(name, value)
-	}
+	return obj, err
 }

@@ -38,29 +38,29 @@ func TestNetworkTraffic(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []NetworkTrafficOption{
-			NetworkTrafficOptionGranularMarking(marking),
-			NetworkTrafficOptionObjectMarking(objmark),
-			NetworkTrafficOptionSpecVersion(specVer),
-			NetworkTrafficOptionDefanged(true),
-			NetworkTrafficOptionExtension("test", struct{}{}),
+		opts := []STIXOption{
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
+			OptionDefanged(true),
+			OptionExtension("test", struct{}{}),
 			//
-			NetworkTrafficOptionStart(ts),
-			NetworkTrafficOptionEnd(ts),
-			NetworkTrafficOptionIsActive(true),
-			NetworkTrafficOptionSrc(ref),
-			NetworkTrafficOptionDst(ref),
-			NetworkTrafficOptionSrcPort(testInt),
-			NetworkTrafficOptionDstPort(testInt),
-			NetworkTrafficOptionSrcByteCount(testInt),
-			NetworkTrafficOptionDstByteCount(testInt),
-			NetworkTrafficOptionSrcPackets(testInt),
-			NetworkTrafficOptionDstPackets(testInt),
-			NetworkTrafficOptionSrcPayload(ref),
-			NetworkTrafficOptionDstPayload(ref),
-			NetworkTrafficOptionEncapsulates([]Identifier{ref}),
-			NetworkTrafficOptionEncapsulated(ref),
-			NetworkTrafficOptionIPFIX(ipfix),
+			OptionStart(ts),
+			OptionEnd(ts),
+			OptionIsActive(true),
+			OptionSrc(ref),
+			OptionDst(ref),
+			OptionSrcPort(testInt),
+			OptionDstPort(testInt),
+			OptionSrcByteCount(testInt),
+			OptionDstByteCount(testInt),
+			OptionSrcPackets(testInt),
+			OptionDstPackets(testInt),
+			OptionSrcPayload(ref),
+			OptionDstPayload(ref),
+			OptionEncapsulates([]Identifier{ref}),
+			OptionEncapsulated(ref),
+			OptionIPFIX(ipfix),
 		}
 		obj, err := NewNetworkTraffic(val, opts...)
 		assert.NotNil(obj)
@@ -150,21 +150,21 @@ func TestNetworkTraffic(t *testing.T) {
 			// {nil, "", "", 0, 0, []string{}, ""},
 		}
 		for _, test := range tests {
-			opts := make([]NetworkTrafficOption, 0, 5)
+			opts := make([]STIXOption, 0, 5)
 			if test.start != nil {
-				opts = append(opts, NetworkTrafficOptionStart(test.start))
+				opts = append(opts, OptionStart(test.start))
 			}
 			if test.src != "" {
-				opts = append(opts, NetworkTrafficOptionSrc(Identifier(test.src)))
+				opts = append(opts, OptionSrc(Identifier(test.src)))
 			}
 			if test.dst != "" {
-				opts = append(opts, NetworkTrafficOptionDst(Identifier(test.dst)))
+				opts = append(opts, OptionDst(Identifier(test.dst)))
 			}
 			if test.srcPort != 0 {
-				opts = append(opts, NetworkTrafficOptionSrcPort(test.srcPort))
+				opts = append(opts, OptionSrcPort(test.srcPort))
 			}
 			if test.dstPort != 0 {
-				opts = append(opts, NetworkTrafficOptionDstPort(test.dstPort))
+				opts = append(opts, OptionDstPort(test.dstPort))
 			}
 			obj, err := NewNetworkTraffic(test.protocols, opts...)
 			assert.NoError(err)
@@ -174,7 +174,7 @@ func TestNetworkTraffic(t *testing.T) {
 
 	t.Run("http-extension", func(t *testing.T) {
 		ext := &HTTPRequestExtension{Method: "get", Value: "/", HTTPVersion: "1.1"}
-		f, _ := NewNetworkTraffic(val, NetworkTrafficOptionExtension(ExtHTTPRequest, ext))
+		f, _ := NewNetworkTraffic(val, OptionExtension(ExtHTTPRequest, ext))
 		assert.Len(f.Extensions, 1)
 		stored := f.HTTPRequestExtension()
 		assert.Equal(ext, stored)
@@ -189,7 +189,7 @@ func TestNetworkTraffic(t *testing.T) {
 
 	t.Run("icmp-extension", func(t *testing.T) {
 		ext := &ICMPExtension{Type: Hex("08"), Code: Hex("00")}
-		f, _ := NewNetworkTraffic(val, NetworkTrafficOptionExtension(ExtICMP, ext))
+		f, _ := NewNetworkTraffic(val, OptionExtension(ExtICMP, ext))
 		assert.Len(f.Extensions, 1)
 		stored := f.ICMPExtension()
 		assert.Equal(ext, stored)
@@ -204,7 +204,7 @@ func TestNetworkTraffic(t *testing.T) {
 
 	t.Run("socket-extension", func(t *testing.T) {
 		ext := &SocketExtension{AddressFamily: SocketFamilyINET, SocketType: SocketTypeRaw}
-		f, _ := NewNetworkTraffic(val, NetworkTrafficOptionExtension(ExtSocket, ext))
+		f, _ := NewNetworkTraffic(val, OptionExtension(ExtSocket, ext))
 		assert.Len(f.Extensions, 1)
 		stored := f.SocketExtension()
 		assert.Equal(ext, stored)
@@ -219,7 +219,7 @@ func TestNetworkTraffic(t *testing.T) {
 
 	t.Run("unknown-socket-family", func(t *testing.T) {
 		ext := &SocketExtension{AddressFamily: SocketFamilyUnknownValue, SocketType: SocketTypeUnknown}
-		f, err := NewNetworkTraffic(val, NetworkTrafficOptionExtension(ExtSocket, ext))
+		f, err := NewNetworkTraffic(val, OptionExtension(ExtSocket, ext))
 		assert.NoError(err)
 		assert.Len(f.Extensions, 1)
 		stored := f.SocketExtension()
@@ -242,7 +242,7 @@ func TestNetworkTraffic(t *testing.T) {
 
 	t.Run("tcp-extension", func(t *testing.T) {
 		ext := &TCPExtension{SrcFlags: Hex("FF")}
-		f, _ := NewNetworkTraffic(val, NetworkTrafficOptionExtension(ExtTCP, ext))
+		f, _ := NewNetworkTraffic(val, OptionExtension(ExtTCP, ext))
 		assert.Len(f.Extensions, 1)
 		stored := f.TCPExtension()
 		assert.Equal(ext, stored)

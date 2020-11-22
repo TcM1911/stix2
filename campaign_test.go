@@ -43,24 +43,24 @@ func TestCampaign(t *testing.T) {
 		aliases := []string{"name1", "name2"}
 		objective := "Campaign objective"
 
-		opts := []CampaignOption{
-			CampaignOptionConfidence(conf),
-			CampaignOptionCreated(ts),
-			CampaignOptionModified(ts),
-			CampaignOptionCreatedBy(createdBy),
-			CampaignOptionExternalReferences([]*ExternalReference{ref}),
-			CampaignOptionGranularMarking(marking),
-			CampaignOptionLabels(labels),
-			CampaignOptionLang(lang),
-			CampaignOptionObjectMarking(objmark),
-			CampaignOptionRevoked(true),
-			CampaignOptionSpecVersion(specVer),
+		opts := []STIXOption{
+			OptionConfidence(conf),
+			OptionCreated(ts),
+			OptionModified(ts),
+			OptionCreatedBy(createdBy),
+			OptionExternalReferences([]*ExternalReference{ref}),
+			OptionGranularMarking(marking),
+			OptionLabels(labels),
+			OptionLang(lang),
+			OptionObjectMarking(objmark),
+			OptionRevoked(true),
+			OptionSpecVersion(specVer),
 			//
-			CampaignOptionDescription(desc),
-			CampaignOptionAliases(aliases),
-			CampaignOptionFirstSeen(ts),
-			CampaignOptionLastSeen(ts),
-			CampaignOptionObjective(objective),
+			OptionDescription(desc),
+			OptionAliases(aliases),
+			OptionFirstSeen(ts),
+			OptionLastSeen(ts),
+			OptionObjective(objective),
 		}
 		obj, err := NewCampaign(name, opts...)
 		assert.NotNil(obj)
@@ -97,7 +97,7 @@ func TestCampaign(t *testing.T) {
 			{later, early, true},
 		}
 		for _, test := range tests {
-			obj, err := NewCampaign(name, CampaignOptionFirstSeen(test.before), CampaignOptionLastSeen(test.after))
+			obj, err := NewCampaign(name, OptionFirstSeen(test.before), OptionLastSeen(test.after))
 			if test.err {
 				assert.Error(err)
 				assert.Nil(obj)

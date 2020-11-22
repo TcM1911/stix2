@@ -36,7 +36,7 @@ type UserAccount struct {
 	// might be “root”.
 	AccountLogin string `json:"account_login,omitempty"`
 	// AccountType specifies the type of the account.
-	AccountType AccountType `json:"account_type,omitempty"`
+	AccountType string `json:"account_type,omitempty"`
 	// DisplayName specifies the display name of the account, to be shown in
 	// user interfaces, if applicable.
 	DisplayName string `json:"display_name,omitempty"`
@@ -78,7 +78,7 @@ func (n *UserAccount) UNIXAccountExtension() *UNIXAccountExtension {
 }
 
 // NewUserAccount creates a new UserAccount object.
-func NewUserAccount(opts ...UserAccountOption) (*UserAccount, error) {
+func NewUserAccount(opts ...STIXOption) (*UserAccount, error) {
 	if len(opts) == 0 {
 		return nil, ErrPropertyMissing
 	}
@@ -86,12 +86,8 @@ func NewUserAccount(opts ...UserAccountOption) (*UserAccount, error) {
 	obj := &UserAccount{
 		STIXCyberObservableObject: base,
 	}
-	for _, opt := range opts {
-		if opt == nil {
-			continue
-		}
-		opt(obj)
-	}
+
+	err := applyOptions(obj, opts)
 
 	idContri := make([]string, 0, 3)
 	if obj.AccountType != "" {
@@ -104,182 +100,32 @@ func NewUserAccount(opts ...UserAccountOption) (*UserAccount, error) {
 		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.AccountLogin))
 	}
 	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeUserAccount)
-	return obj, nil
+	return obj, err
 }
-
-// UserAccountOption is an optional parameter when constructing a
-// UserAccount object.
-type UserAccountOption func(a *UserAccount)
-
-/*
-	Base object options
-*/
-
-// UserAccountOptionSpecVersion sets the STIX spec version.
-func UserAccountOptionSpecVersion(ver string) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.SpecVersion = ver
-	}
-}
-
-// UserAccountOptionObjectMarking sets the object marking attribute.
-func UserAccountOptionObjectMarking(om []Identifier) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.ObjectMarking = om
-	}
-}
-
-// UserAccountOptionGranularMarking sets the granular marking attribute.
-func UserAccountOptionGranularMarking(gm []*GranularMarking) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.GranularMarking = gm
-	}
-}
-
-// UserAccountOptionDefanged sets the defanged attribute.
-func UserAccountOptionDefanged(b bool) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.Defanged = b
-	}
-}
-
-// UserAccountOptionExtension adds an extension.
-func UserAccountOptionExtension(name string, value interface{}) UserAccountOption {
-	return func(obj *UserAccount) {
-		// Ignoring the error.
-		obj.addExtension(name, value)
-	}
-}
-
-/*
-	UserAccount object options
-*/
-
-// UserAccountOptionUserID sets the user id attribute.
-func UserAccountOptionUserID(s string) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.UserID = s
-	}
-}
-
-// UserAccountOptionCredential sets the credential attribute.
-func UserAccountOptionCredential(s string) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.Credential = s
-	}
-}
-
-// UserAccountOptionAccountLogin sets the account login attribute.
-func UserAccountOptionAccountLogin(s string) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.AccountLogin = s
-	}
-}
-
-// UserAccountOptionAccountType sets the account type attribute.
-func UserAccountOptionAccountType(s AccountType) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.AccountType = s
-	}
-}
-
-// UserAccountOptionDisplayName sets the display name attribute.
-func UserAccountOptionDisplayName(s string) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.DisplayName = s
-	}
-}
-
-// UserAccountOptionIsServiceAccount sets the is service account attribute.
-func UserAccountOptionIsServiceAccount(s bool) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.IsServiceAccount = s
-	}
-}
-
-// UserAccountOptionIsPrivileged sets the is privileged attribute.
-func UserAccountOptionIsPrivileged(s bool) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.IsPrivileged = s
-	}
-}
-
-// UserAccountOptionCanEscalatePrivs sets the can escalate privs attribute.
-func UserAccountOptionCanEscalatePrivs(s bool) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.CanEscalatePrivs = s
-	}
-}
-
-// UserAccountOptionIsDisabled sets the is disabled attribute.
-func UserAccountOptionIsDisabled(s bool) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.IsDisabled = s
-	}
-}
-
-// UserAccountOptionAccountCreated sets the account created attribute.
-func UserAccountOptionAccountCreated(s *Timestamp) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.AccountCreated = s
-	}
-}
-
-// UserAccountOptionAccountExpires sets the account expires attribute.
-func UserAccountOptionAccountExpires(s *Timestamp) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.AccountExpires = s
-	}
-}
-
-// UserAccountOptionCredentialLastChanged sets the credential last changed
-// attribute.
-func UserAccountOptionCredentialLastChanged(s *Timestamp) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.CredentialLastChanged = s
-	}
-}
-
-// UserAccountOptionAccountFirstLogin sets the account first login attribute.
-func UserAccountOptionAccountFirstLogin(s *Timestamp) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.AccountFirstLogin = s
-	}
-}
-
-// UserAccountOptionAccountLastLogin sets the account last login attribute.
-func UserAccountOptionAccountLastLogin(s *Timestamp) UserAccountOption {
-	return func(obj *UserAccount) {
-		obj.AccountLastLogin = s
-	}
-}
-
-// AccountType is a specific user account type.
-type AccountType string
 
 const (
 	// AccountFacebook specifies a Facebook account.
-	AccountFacebook AccountType = "facebook"
+	AccountFacebook string = "facebook"
 	// AccountLdap specifies an LDAP account.
-	AccountLdap AccountType = "ldap"
+	AccountLdap string = "ldap"
 	// AccountNis specifies a NIS account
-	AccountNis AccountType = "nis"
+	AccountNis string = "nis"
 	// AccountOpenid specifies an OpenID account.
-	AccountOpenid AccountType = "openid"
+	AccountOpenid string = "openid"
 	// AccountRadius specifies a RADIUS account.
-	AccountRadius AccountType = "radius"
+	AccountRadius string = "radius"
 	// AccountSkype specifies a Skype account.
-	AccountSkype AccountType = "skype"
+	AccountSkype string = "skype"
 	// AccountTacacs specifies a TACACS account.
-	AccountTacacs AccountType = "tacacs"
+	AccountTacacs string = "tacacs"
 	// AccountTwitter specifies a Twitter account.
-	AccountTwitter AccountType = "twitter"
+	AccountTwitter string = "twitter"
 	// AccountUnix specifies a POSIX account.
-	AccountUnix AccountType = "unix"
+	AccountUnix string = "unix"
 	// AccountWindowsLocal specifies a Windows local account.
-	AccountWindowsLocal AccountType = "windows-local"
+	AccountWindowsLocal string = "windows-local"
 	// AccountWindowsDomain specifies a Windows domain account.
-	AccountWindowsDomain AccountType = "windows-domain"
+	AccountWindowsDomain string = "windows-domain"
 )
 
 // UNIXAccountExtension specifies a default extension for capturing the

@@ -32,12 +32,12 @@ func TestMACAddress(t *testing.T) {
 		objmark := []Identifier{Identifier("id")}
 		specVer := "2.0"
 
-		opts := []MACAddressOption{
-			MACAddressOptionGranularMarking(marking),
-			MACAddressOptionObjectMarking(objmark),
-			MACAddressOptionSpecVersion(specVer),
-			MACAddressOptionDefanged(true),
-			MACAddressOptionExtension("test", struct{}{}),
+		opts := []STIXOption{
+			OptionGranularMarking(marking),
+			OptionObjectMarking(objmark),
+			OptionSpecVersion(specVer),
+			OptionDefanged(true),
+			OptionExtension("test", struct{}{}),
 		}
 		obj, err := NewMACAddress(val, opts...)
 		assert.NotNil(obj)
