@@ -178,7 +178,7 @@ func TestFromJSONAll(t *testing.T) {
 
 func TestAllObjectsStixCollection(t *testing.T) {
 	assert := assert.New(t)
-	c := &StixCollection{}
+	c := &Collection{}
 	ip, err := NewIPv4Address("10.0.0.1")
 	assert.NoError(err)
 	c.Add(ip)
@@ -233,7 +233,7 @@ func TestGetCreatedAndModified(t *testing.T) {
 }
 
 func TestGetFromCollection(t *testing.T) {
-	c := &StixCollection{}
+	c := &Collection{}
 	m, _ := NewMalware(true, OptionName("Test object"))
 	c.Add(m)
 

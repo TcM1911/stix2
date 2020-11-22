@@ -25,15 +25,16 @@ type STIXObject interface {
 	GetModified() *time.Time
 }
 
-// StixCollection is a collection of STIX objects.
-type StixCollection struct {
+// Collection is a collection of STIX objects. This object is not part of the
+// STIX specification.
+type Collection struct {
 	objects map[STIXType]map[Identifier]interface{}
 	objinit sync.Once
 }
 
 // Get returns the object with matching ID or nil if it does not exist in the
 // collection.
-func (c *StixCollection) Get(id Identifier) STIXObject {
+func (c *Collection) Get(id Identifier) STIXObject {
 	parts := strings.Split(string(id), "--")
 	if len(parts) != 2 {
 		// Incorrect format for the ID.
@@ -53,7 +54,7 @@ func (c *StixCollection) Get(id Identifier) STIXObject {
 }
 
 // Add adds or updates an object in the collection.
-func (c *StixCollection) Add(obj STIXObject) error {
+func (c *Collection) Add(obj STIXObject) error {
 	c.objinit.Do(func() {
 		objectInit(c)
 	})
@@ -66,7 +67,7 @@ func (c *StixCollection) Add(obj STIXObject) error {
 }
 
 // AllObjects returns a slice of all StixObjects that are in the collection.
-func (c *StixCollection) AllObjects() []STIXObject {
+func (c *Collection) AllObjects() []STIXObject {
 	// Calculate the size of the array.
 	size := 0
 	for _, ar := range c.objects {
@@ -84,12 +85,12 @@ func (c *StixCollection) AllObjects() []STIXObject {
 
 // ToBundle returns a STIX bundle with all the StixObjects in the
 // StixCollection.
-func (c *StixCollection) ToBundle() (*Bundle, error) {
+func (c *Collection) ToBundle() (*Bundle, error) {
 	return NewBundle(c.AllObjects()...)
 }
 
 // AS returns the AS with the identifier id.
-func (c *StixCollection) AS(id Identifier) *AutonomousSystem {
+func (c *Collection) AS(id Identifier) *AutonomousSystem {
 	obj := c.getObject(TypeAutonomousSystem, id)
 	if obj == nil {
 		return nil
@@ -98,7 +99,7 @@ func (c *StixCollection) AS(id Identifier) *AutonomousSystem {
 }
 
 // ASs returns all the AS in the collection.
-func (c *StixCollection) ASs() []*AutonomousSystem {
+func (c *Collection) ASs() []*AutonomousSystem {
 	data := make([]*AutonomousSystem, 0, len(c.objects[TypeAutonomousSystem]))
 	for _, v := range c.objects[TypeAutonomousSystem] {
 		data = append(data, v.(*AutonomousSystem))
@@ -107,7 +108,7 @@ func (c *StixCollection) ASs() []*AutonomousSystem {
 }
 
 // Artifact returns the Artifact with the identifier id.
-func (c *StixCollection) Artifact(id Identifier) *Artifact {
+func (c *Collection) Artifact(id Identifier) *Artifact {
 	obj := c.getObject(TypeArtifact, id)
 	if obj == nil {
 		return nil
@@ -116,7 +117,7 @@ func (c *StixCollection) Artifact(id Identifier) *Artifact {
 }
 
 // Artifacts returns all the Artifacts in the collection.
-func (c *StixCollection) Artifacts() []*Artifact {
+func (c *Collection) Artifacts() []*Artifact {
 	data := make([]*Artifact, 0, len(c.objects[TypeArtifact]))
 	for _, v := range c.objects[TypeArtifact] {
 		data = append(data, v.(*Artifact))
@@ -125,7 +126,7 @@ func (c *StixCollection) Artifacts() []*Artifact {
 }
 
 // AttackPattern returns the AttackPattern with the identifier id.
-func (c *StixCollection) AttackPattern(id Identifier) *AttackPattern {
+func (c *Collection) AttackPattern(id Identifier) *AttackPattern {
 	obj := c.getObject(TypeAttackPattern, id)
 	if obj == nil {
 		return nil
@@ -134,7 +135,7 @@ func (c *StixCollection) AttackPattern(id Identifier) *AttackPattern {
 }
 
 // AttackPatterns returns all the AttackPatterns in the collection.
-func (c *StixCollection) AttackPatterns() []*AttackPattern {
+func (c *Collection) AttackPatterns() []*AttackPattern {
 	data := make([]*AttackPattern, 0, len(c.objects[TypeAttackPattern]))
 	for _, v := range c.objects[TypeAttackPattern] {
 		data = append(data, v.(*AttackPattern))
@@ -143,7 +144,7 @@ func (c *StixCollection) AttackPatterns() []*AttackPattern {
 }
 
 // Campaign returns the Campaign with the identifier id.
-func (c *StixCollection) Campaign(id Identifier) *Campaign {
+func (c *Collection) Campaign(id Identifier) *Campaign {
 	obj := c.getObject(TypeCampaign, id)
 	if obj == nil {
 		return nil
@@ -152,7 +153,7 @@ func (c *StixCollection) Campaign(id Identifier) *Campaign {
 }
 
 // Campaigns returns all the Campaigns in the collection.
-func (c *StixCollection) Campaigns() []*Campaign {
+func (c *Collection) Campaigns() []*Campaign {
 	data := make([]*Campaign, 0, len(c.objects[TypeCampaign]))
 	for _, v := range c.objects[TypeCampaign] {
 		data = append(data, v.(*Campaign))
@@ -161,7 +162,7 @@ func (c *StixCollection) Campaigns() []*Campaign {
 }
 
 // CourseOfAction returns the CourseOfAction with the identifier id.
-func (c *StixCollection) CourseOfAction(id Identifier) *CourseOfAction {
+func (c *Collection) CourseOfAction(id Identifier) *CourseOfAction {
 	obj := c.getObject(TypeCourseOfAction, id)
 	if obj == nil {
 		return nil
@@ -170,7 +171,7 @@ func (c *StixCollection) CourseOfAction(id Identifier) *CourseOfAction {
 }
 
 // CourseOfActions returns all the CourseOfActions in the collection.
-func (c *StixCollection) CourseOfActions() []*CourseOfAction {
+func (c *Collection) CourseOfActions() []*CourseOfAction {
 	data := make([]*CourseOfAction, 0, len(c.objects[TypeCourseOfAction]))
 	for _, v := range c.objects[TypeCourseOfAction] {
 		data = append(data, v.(*CourseOfAction))
@@ -179,7 +180,7 @@ func (c *StixCollection) CourseOfActions() []*CourseOfAction {
 }
 
 // Directory returns the Directory with the identifier id.
-func (c *StixCollection) Directory(id Identifier) *Directory {
+func (c *Collection) Directory(id Identifier) *Directory {
 	obj := c.getObject(TypeDirectory, id)
 	if obj == nil {
 		return nil
@@ -188,7 +189,7 @@ func (c *StixCollection) Directory(id Identifier) *Directory {
 }
 
 // Directories returns all the Directories in the collection.
-func (c *StixCollection) Directories() []*Directory {
+func (c *Collection) Directories() []*Directory {
 	data := make([]*Directory, 0, len(c.objects[TypeDirectory]))
 	for _, v := range c.objects[TypeDirectory] {
 		data = append(data, v.(*Directory))
@@ -197,7 +198,7 @@ func (c *StixCollection) Directories() []*Directory {
 }
 
 // DomainName returns the DomainName with the identifier id.
-func (c *StixCollection) DomainName(id Identifier) *DomainName {
+func (c *Collection) DomainName(id Identifier) *DomainName {
 	obj := c.getObject(TypeDomainName, id)
 	if obj == nil {
 		return nil
@@ -206,7 +207,7 @@ func (c *StixCollection) DomainName(id Identifier) *DomainName {
 }
 
 // DomainNames returns all the DomainNames in the collection.
-func (c *StixCollection) DomainNames() []*DomainName {
+func (c *Collection) DomainNames() []*DomainName {
 	data := make([]*DomainName, 0, len(c.objects[TypeDomainName]))
 	for _, v := range c.objects[TypeDomainName] {
 		data = append(data, v.(*DomainName))
@@ -215,7 +216,7 @@ func (c *StixCollection) DomainNames() []*DomainName {
 }
 
 // EmailAddress returns the EmailAddress with the identifier id.
-func (c *StixCollection) EmailAddress(id Identifier) *EmailAddress {
+func (c *Collection) EmailAddress(id Identifier) *EmailAddress {
 	obj := c.getObject(TypeEmailAddress, id)
 	if obj == nil {
 		return nil
@@ -224,7 +225,7 @@ func (c *StixCollection) EmailAddress(id Identifier) *EmailAddress {
 }
 
 // EmailAddresses returns all the EmailAddresses in the collection.
-func (c *StixCollection) EmailAddresses() []*EmailAddress {
+func (c *Collection) EmailAddresses() []*EmailAddress {
 	data := make([]*EmailAddress, 0, len(c.objects[TypeEmailAddress]))
 	for _, v := range c.objects[TypeEmailAddress] {
 		data = append(data, v.(*EmailAddress))
@@ -233,7 +234,7 @@ func (c *StixCollection) EmailAddresses() []*EmailAddress {
 }
 
 // EmailMessage returns the EmailMessage with the identifier id.
-func (c *StixCollection) EmailMessage(id Identifier) *EmailMessage {
+func (c *Collection) EmailMessage(id Identifier) *EmailMessage {
 	obj := c.getObject(TypeEmailMessage, id)
 	if obj == nil {
 		return nil
@@ -242,7 +243,7 @@ func (c *StixCollection) EmailMessage(id Identifier) *EmailMessage {
 }
 
 // EmailMessages returns all the EmailMessages in the collection.
-func (c *StixCollection) EmailMessages() []*EmailMessage {
+func (c *Collection) EmailMessages() []*EmailMessage {
 	data := make([]*EmailMessage, 0, len(c.objects[TypeEmailMessage]))
 	for _, v := range c.objects[TypeEmailMessage] {
 		data = append(data, v.(*EmailMessage))
@@ -251,7 +252,7 @@ func (c *StixCollection) EmailMessages() []*EmailMessage {
 }
 
 // File returns the File with the identifier id.
-func (c *StixCollection) File(id Identifier) *File {
+func (c *Collection) File(id Identifier) *File {
 	obj := c.getObject(TypeFile, id)
 	if obj == nil {
 		return nil
@@ -260,7 +261,7 @@ func (c *StixCollection) File(id Identifier) *File {
 }
 
 // Files returns all the Files in the collection.
-func (c *StixCollection) Files() []*File {
+func (c *Collection) Files() []*File {
 	data := make([]*File, 0, len(c.objects[TypeFile]))
 	for _, v := range c.objects[TypeFile] {
 		data = append(data, v.(*File))
@@ -269,7 +270,7 @@ func (c *StixCollection) Files() []*File {
 }
 
 // Group returns the Group with the identifier id.
-func (c *StixCollection) Group(id Identifier) *Grouping {
+func (c *Collection) Group(id Identifier) *Grouping {
 	obj := c.getObject(TypeGrouping, id)
 	if obj == nil {
 		return nil
@@ -278,7 +279,7 @@ func (c *StixCollection) Group(id Identifier) *Grouping {
 }
 
 // Groups returns all the Groups in the collection.
-func (c *StixCollection) Groups() []*Grouping {
+func (c *Collection) Groups() []*Grouping {
 	data := make([]*Grouping, 0, len(c.objects[TypeGrouping]))
 	for _, v := range c.objects[TypeGrouping] {
 		data = append(data, v.(*Grouping))
@@ -287,7 +288,7 @@ func (c *StixCollection) Groups() []*Grouping {
 }
 
 // IPv4Address returns the IPv4Address with the identifier id.
-func (c *StixCollection) IPv4Address(id Identifier) *IPv4Address {
+func (c *Collection) IPv4Address(id Identifier) *IPv4Address {
 	obj := c.getObject(TypeIPv4Addr, id)
 	if obj == nil {
 		return nil
@@ -296,7 +297,7 @@ func (c *StixCollection) IPv4Address(id Identifier) *IPv4Address {
 }
 
 // IPv4Addresses returns all the IPv4Addresses in the collection.
-func (c *StixCollection) IPv4Addresses() []*IPv4Address {
+func (c *Collection) IPv4Addresses() []*IPv4Address {
 	data := make([]*IPv4Address, 0, len(c.objects[TypeIPv4Addr]))
 	for _, v := range c.objects[TypeIPv4Addr] {
 		data = append(data, v.(*IPv4Address))
@@ -305,7 +306,7 @@ func (c *StixCollection) IPv4Addresses() []*IPv4Address {
 }
 
 // IPv6Address returns the IPv6Address with the identifier id.
-func (c *StixCollection) IPv6Address(id Identifier) *IPv6Address {
+func (c *Collection) IPv6Address(id Identifier) *IPv6Address {
 	obj := c.getObject(TypeIPv6Addr, id)
 	if obj == nil {
 		return nil
@@ -314,7 +315,7 @@ func (c *StixCollection) IPv6Address(id Identifier) *IPv6Address {
 }
 
 // IPv6Addresses returns all the IPv6Addresses in the collection.
-func (c *StixCollection) IPv6Addresses() []*IPv6Address {
+func (c *Collection) IPv6Addresses() []*IPv6Address {
 	data := make([]*IPv6Address, 0, len(c.objects[TypeIPv6Addr]))
 	for _, v := range c.objects[TypeIPv6Addr] {
 		data = append(data, v.(*IPv6Address))
@@ -323,7 +324,7 @@ func (c *StixCollection) IPv6Addresses() []*IPv6Address {
 }
 
 // Identity returns the Identity with the identifier id.
-func (c *StixCollection) Identity(id Identifier) *Identity {
+func (c *Collection) Identity(id Identifier) *Identity {
 	obj := c.getObject(TypeIdentity, id)
 	if obj == nil {
 		return nil
@@ -332,7 +333,7 @@ func (c *StixCollection) Identity(id Identifier) *Identity {
 }
 
 // Identities returns all the Identities in the collection.
-func (c *StixCollection) Identities() []*Identity {
+func (c *Collection) Identities() []*Identity {
 	data := make([]*Identity, 0, len(c.objects[TypeIdentity]))
 	for _, v := range c.objects[TypeIdentity] {
 		data = append(data, v.(*Identity))
@@ -341,7 +342,7 @@ func (c *StixCollection) Identities() []*Identity {
 }
 
 // Indicator returns the Indicator with the identifier id.
-func (c *StixCollection) Indicator(id Identifier) *Indicator {
+func (c *Collection) Indicator(id Identifier) *Indicator {
 	obj := c.getObject(TypeIndicator, id)
 	if obj == nil {
 		return nil
@@ -350,7 +351,7 @@ func (c *StixCollection) Indicator(id Identifier) *Indicator {
 }
 
 // Indicators returns all the Indicators in the collection.
-func (c *StixCollection) Indicators() []*Indicator {
+func (c *Collection) Indicators() []*Indicator {
 	data := make([]*Indicator, 0, len(c.objects[TypeIndicator]))
 	for _, v := range c.objects[TypeIndicator] {
 		data = append(data, v.(*Indicator))
@@ -359,7 +360,7 @@ func (c *StixCollection) Indicators() []*Indicator {
 }
 
 // Infrastructure returns the Infrastructure with the identifier id.
-func (c *StixCollection) Infrastructure(id Identifier) *Infrastructure {
+func (c *Collection) Infrastructure(id Identifier) *Infrastructure {
 	obj := c.getObject(TypeInfrastructure, id)
 	if obj == nil {
 		return nil
@@ -368,7 +369,7 @@ func (c *StixCollection) Infrastructure(id Identifier) *Infrastructure {
 }
 
 // Infrastructures returns all the Infrastructures in the collection.
-func (c *StixCollection) Infrastructures() []*Infrastructure {
+func (c *Collection) Infrastructures() []*Infrastructure {
 	data := make([]*Infrastructure, 0, len(c.objects[TypeInfrastructure]))
 	for _, v := range c.objects[TypeInfrastructure] {
 		data = append(data, v.(*Infrastructure))
@@ -377,7 +378,7 @@ func (c *StixCollection) Infrastructures() []*Infrastructure {
 }
 
 // IntrusionSet returns the IntrusionSet with the identifier id.
-func (c *StixCollection) IntrusionSet(id Identifier) *IntrusionSet {
+func (c *Collection) IntrusionSet(id Identifier) *IntrusionSet {
 	obj := c.getObject(TypeIntrusionSet, id)
 	if obj == nil {
 		return nil
@@ -386,7 +387,7 @@ func (c *StixCollection) IntrusionSet(id Identifier) *IntrusionSet {
 }
 
 // IntrusionSets returns all the IntrusionSets in the collection.
-func (c *StixCollection) IntrusionSets() []*IntrusionSet {
+func (c *Collection) IntrusionSets() []*IntrusionSet {
 	data := make([]*IntrusionSet, 0, len(c.objects[TypeIntrusionSet]))
 	for _, v := range c.objects[TypeIntrusionSet] {
 		data = append(data, v.(*IntrusionSet))
@@ -395,7 +396,7 @@ func (c *StixCollection) IntrusionSets() []*IntrusionSet {
 }
 
 // LanguageContent returns the LanguageContent with the identifier id.
-func (c *StixCollection) LanguageContent(id Identifier) *LanguageContent {
+func (c *Collection) LanguageContent(id Identifier) *LanguageContent {
 	obj := c.getObject(TypeLanguageContent, id)
 	if obj == nil {
 		return nil
@@ -404,7 +405,7 @@ func (c *StixCollection) LanguageContent(id Identifier) *LanguageContent {
 }
 
 // LanguageContents returns all the LanguageContents in the collection.
-func (c *StixCollection) LanguageContents() []*LanguageContent {
+func (c *Collection) LanguageContents() []*LanguageContent {
 	data := make([]*LanguageContent, 0, len(c.objects[TypeLanguageContent]))
 	for _, v := range c.objects[TypeLanguageContent] {
 		data = append(data, v.(*LanguageContent))
@@ -413,7 +414,7 @@ func (c *StixCollection) LanguageContents() []*LanguageContent {
 }
 
 // Location returns the Location with the identifier id.
-func (c *StixCollection) Location(id Identifier) *Location {
+func (c *Collection) Location(id Identifier) *Location {
 	obj := c.getObject(TypeLocation, id)
 	if obj == nil {
 		return nil
@@ -422,7 +423,7 @@ func (c *StixCollection) Location(id Identifier) *Location {
 }
 
 // Locations returns all the Locations in the collection.
-func (c *StixCollection) Locations() []*Location {
+func (c *Collection) Locations() []*Location {
 	data := make([]*Location, 0, len(c.objects[TypeLocation]))
 	for _, v := range c.objects[TypeLocation] {
 		data = append(data, v.(*Location))
@@ -431,7 +432,7 @@ func (c *StixCollection) Locations() []*Location {
 }
 
 // MAC returns the MAC with the identifier id.
-func (c *StixCollection) MAC(id Identifier) *MACAddress {
+func (c *Collection) MAC(id Identifier) *MACAddress {
 	obj := c.getObject(TypeMACAddress, id)
 	if obj == nil {
 		return nil
@@ -440,7 +441,7 @@ func (c *StixCollection) MAC(id Identifier) *MACAddress {
 }
 
 // MACs returns all the MACs in the collection.
-func (c *StixCollection) MACs() []*MACAddress {
+func (c *Collection) MACs() []*MACAddress {
 	data := make([]*MACAddress, 0, len(c.objects[TypeMACAddress]))
 	for _, v := range c.objects[TypeMACAddress] {
 		data = append(data, v.(*MACAddress))
@@ -449,7 +450,7 @@ func (c *StixCollection) MACs() []*MACAddress {
 }
 
 // Malware returns the Malware with the identifier id.
-func (c *StixCollection) Malware(id Identifier) *Malware {
+func (c *Collection) Malware(id Identifier) *Malware {
 	obj := c.getObject(TypeMalware, id)
 	if obj == nil {
 		return nil
@@ -458,7 +459,7 @@ func (c *StixCollection) Malware(id Identifier) *Malware {
 }
 
 // AllMalware returns all the Malware in the collection.
-func (c *StixCollection) AllMalware() []*Malware {
+func (c *Collection) AllMalware() []*Malware {
 	data := make([]*Malware, 0, len(c.objects[TypeMalware]))
 	for _, v := range c.objects[TypeMalware] {
 		data = append(data, v.(*Malware))
@@ -467,7 +468,7 @@ func (c *StixCollection) AllMalware() []*Malware {
 }
 
 // MalwareAnalysis returns the MalwareAnalysis with the identifier id.
-func (c *StixCollection) MalwareAnalysis(id Identifier) *MalwareAnalysis {
+func (c *Collection) MalwareAnalysis(id Identifier) *MalwareAnalysis {
 	obj := c.getObject(TypeMalwareAnalysis, id)
 	if obj == nil {
 		return nil
@@ -476,7 +477,7 @@ func (c *StixCollection) MalwareAnalysis(id Identifier) *MalwareAnalysis {
 }
 
 // MalwareAnalyses returns all the MalwareAnalyses in the collection.
-func (c *StixCollection) MalwareAnalyses() []*MalwareAnalysis {
+func (c *Collection) MalwareAnalyses() []*MalwareAnalysis {
 	data := make([]*MalwareAnalysis, 0, len(c.objects[TypeMalwareAnalysis]))
 	for _, v := range c.objects[TypeMalwareAnalysis] {
 		data = append(data, v.(*MalwareAnalysis))
@@ -485,7 +486,7 @@ func (c *StixCollection) MalwareAnalyses() []*MalwareAnalysis {
 }
 
 // MarkingDefinition returns the MarkingDefinition with the identifier id.
-func (c *StixCollection) MarkingDefinition(id Identifier) *MarkingDefinition {
+func (c *Collection) MarkingDefinition(id Identifier) *MarkingDefinition {
 	obj := c.getObject(TypeMarkingDefinition, id)
 	if obj == nil {
 		return nil
@@ -494,7 +495,7 @@ func (c *StixCollection) MarkingDefinition(id Identifier) *MarkingDefinition {
 }
 
 // MarkingDefinitions returns all the MarkingDefinitions in the collection.
-func (c *StixCollection) MarkingDefinitions() []*MarkingDefinition {
+func (c *Collection) MarkingDefinitions() []*MarkingDefinition {
 	data := make([]*MarkingDefinition, 0, len(c.objects[TypeMarkingDefinition]))
 	for _, v := range c.objects[TypeMarkingDefinition] {
 		data = append(data, v.(*MarkingDefinition))
@@ -503,7 +504,7 @@ func (c *StixCollection) MarkingDefinitions() []*MarkingDefinition {
 }
 
 // Mutex returns the Mutex with the identifier id.
-func (c *StixCollection) Mutex(id Identifier) *Mutex {
+func (c *Collection) Mutex(id Identifier) *Mutex {
 	obj := c.getObject(TypeMutex, id)
 	if obj == nil {
 		return nil
@@ -512,7 +513,7 @@ func (c *StixCollection) Mutex(id Identifier) *Mutex {
 }
 
 // Mutexes returns all the Mutexes in the collection.
-func (c *StixCollection) Mutexes() []*Mutex {
+func (c *Collection) Mutexes() []*Mutex {
 	data := make([]*Mutex, 0, len(c.objects[TypeMutex]))
 	for _, v := range c.objects[TypeMutex] {
 		data = append(data, v.(*Mutex))
@@ -521,7 +522,7 @@ func (c *StixCollection) Mutexes() []*Mutex {
 }
 
 // NetworkTraffic returns the NetworkTraffic with the identifier id.
-func (c *StixCollection) NetworkTraffic(id Identifier) *NetworkTraffic {
+func (c *Collection) NetworkTraffic(id Identifier) *NetworkTraffic {
 	obj := c.getObject(TypeNetworkTraffic, id)
 	if obj == nil {
 		return nil
@@ -530,7 +531,7 @@ func (c *StixCollection) NetworkTraffic(id Identifier) *NetworkTraffic {
 }
 
 // AllNetworkTraffic returns all the NetworkTraffic in the collection.
-func (c *StixCollection) AllNetworkTraffic() []*NetworkTraffic {
+func (c *Collection) AllNetworkTraffic() []*NetworkTraffic {
 	data := make([]*NetworkTraffic, 0, len(c.objects[TypeNetworkTraffic]))
 	for _, v := range c.objects[TypeNetworkTraffic] {
 		data = append(data, v.(*NetworkTraffic))
@@ -539,7 +540,7 @@ func (c *StixCollection) AllNetworkTraffic() []*NetworkTraffic {
 }
 
 // Note returns the Note with the identifier id.
-func (c *StixCollection) Note(id Identifier) *Note {
+func (c *Collection) Note(id Identifier) *Note {
 	obj := c.getObject(TypeNote, id)
 	if obj == nil {
 		return nil
@@ -548,7 +549,7 @@ func (c *StixCollection) Note(id Identifier) *Note {
 }
 
 // Notes returns all the Notes in the collection.
-func (c *StixCollection) Notes() []*Note {
+func (c *Collection) Notes() []*Note {
 	data := make([]*Note, 0, len(c.objects[TypeNote]))
 	for _, v := range c.objects[TypeNote] {
 		data = append(data, v.(*Note))
@@ -557,7 +558,7 @@ func (c *StixCollection) Notes() []*Note {
 }
 
 // ObservedData returns the ObservedData with the identifier id.
-func (c *StixCollection) ObservedData(id Identifier) *ObservedData {
+func (c *Collection) ObservedData(id Identifier) *ObservedData {
 	obj := c.getObject(TypeObservedData, id)
 	if obj == nil {
 		return nil
@@ -566,7 +567,7 @@ func (c *StixCollection) ObservedData(id Identifier) *ObservedData {
 }
 
 // AllObservedData returns all the ObservedData in the collection.
-func (c *StixCollection) AllObservedData() []*ObservedData {
+func (c *Collection) AllObservedData() []*ObservedData {
 	data := make([]*ObservedData, 0, len(c.objects[TypeObservedData]))
 	for _, v := range c.objects[TypeObservedData] {
 		data = append(data, v.(*ObservedData))
@@ -575,7 +576,7 @@ func (c *StixCollection) AllObservedData() []*ObservedData {
 }
 
 // Opinion returns the Opinion with the identifier id.
-func (c *StixCollection) Opinion(id Identifier) *Opinion {
+func (c *Collection) Opinion(id Identifier) *Opinion {
 	obj := c.getObject(TypeOpinion, id)
 	if obj == nil {
 		return nil
@@ -584,7 +585,7 @@ func (c *StixCollection) Opinion(id Identifier) *Opinion {
 }
 
 // Opinions returns all the Opinions in the collection.
-func (c *StixCollection) Opinions() []*Opinion {
+func (c *Collection) Opinions() []*Opinion {
 	data := make([]*Opinion, 0, len(c.objects[TypeOpinion]))
 	for _, v := range c.objects[TypeOpinion] {
 		data = append(data, v.(*Opinion))
@@ -593,7 +594,7 @@ func (c *StixCollection) Opinions() []*Opinion {
 }
 
 // Process returns the Process with the identifier id.
-func (c *StixCollection) Process(id Identifier) *Process {
+func (c *Collection) Process(id Identifier) *Process {
 	obj := c.getObject(TypeProcess, id)
 	if obj == nil {
 		return nil
@@ -602,7 +603,7 @@ func (c *StixCollection) Process(id Identifier) *Process {
 }
 
 // Processes returns all the Processes in the collection.
-func (c *StixCollection) Processes() []*Process {
+func (c *Collection) Processes() []*Process {
 	data := make([]*Process, 0, len(c.objects[TypeProcess]))
 	for _, v := range c.objects[TypeProcess] {
 		data = append(data, v.(*Process))
@@ -611,7 +612,7 @@ func (c *StixCollection) Processes() []*Process {
 }
 
 // RegistryKey returns the RegistryKey with the identifier id.
-func (c *StixCollection) RegistryKey(id Identifier) *RegistryKey {
+func (c *Collection) RegistryKey(id Identifier) *RegistryKey {
 	obj := c.getObject(TypeRegistryKey, id)
 	if obj == nil {
 		return nil
@@ -620,7 +621,7 @@ func (c *StixCollection) RegistryKey(id Identifier) *RegistryKey {
 }
 
 // RegistryKeys returns all the RegistryKeys in the collection.
-func (c *StixCollection) RegistryKeys() []*RegistryKey {
+func (c *Collection) RegistryKeys() []*RegistryKey {
 	data := make([]*RegistryKey, 0, len(c.objects[TypeRegistryKey]))
 	for _, v := range c.objects[TypeRegistryKey] {
 		data = append(data, v.(*RegistryKey))
@@ -629,7 +630,7 @@ func (c *StixCollection) RegistryKeys() []*RegistryKey {
 }
 
 // Relationship returns the Relationship with the identifier id.
-func (c *StixCollection) Relationship(id Identifier) *Relationship {
+func (c *Collection) Relationship(id Identifier) *Relationship {
 	obj := c.getObject(TypeRelationship, id)
 	if obj == nil {
 		return nil
@@ -638,7 +639,7 @@ func (c *StixCollection) Relationship(id Identifier) *Relationship {
 }
 
 // Relationships returns all the Relationships in the collection.
-func (c *StixCollection) Relationships() []*Relationship {
+func (c *Collection) Relationships() []*Relationship {
 	data := make([]*Relationship, 0, len(c.objects[TypeRelationship]))
 	for _, v := range c.objects[TypeRelationship] {
 		data = append(data, v.(*Relationship))
@@ -647,7 +648,7 @@ func (c *StixCollection) Relationships() []*Relationship {
 }
 
 // Report returns the Report with the identifier id.
-func (c *StixCollection) Report(id Identifier) *Report {
+func (c *Collection) Report(id Identifier) *Report {
 	obj := c.getObject(TypeReport, id)
 	if obj == nil {
 		return nil
@@ -656,7 +657,7 @@ func (c *StixCollection) Report(id Identifier) *Report {
 }
 
 // Reports returns all the Reports in the collection.
-func (c *StixCollection) Reports() []*Report {
+func (c *Collection) Reports() []*Report {
 	data := make([]*Report, 0, len(c.objects[TypeReport]))
 	for _, v := range c.objects[TypeReport] {
 		data = append(data, v.(*Report))
@@ -665,7 +666,7 @@ func (c *StixCollection) Reports() []*Report {
 }
 
 // Sighting returns the Sighting with the identifier id.
-func (c *StixCollection) Sighting(id Identifier) *Sighting {
+func (c *Collection) Sighting(id Identifier) *Sighting {
 	obj := c.getObject(TypeSighting, id)
 	if obj == nil {
 		return nil
@@ -674,7 +675,7 @@ func (c *StixCollection) Sighting(id Identifier) *Sighting {
 }
 
 // Sightings returns all the Sightings in the collection.
-func (c *StixCollection) Sightings() []*Sighting {
+func (c *Collection) Sightings() []*Sighting {
 	data := make([]*Sighting, 0, len(c.objects[TypeSighting]))
 	for _, v := range c.objects[TypeSighting] {
 		data = append(data, v.(*Sighting))
@@ -683,7 +684,7 @@ func (c *StixCollection) Sightings() []*Sighting {
 }
 
 // Software returns the Software with the identifier id.
-func (c *StixCollection) Software(id Identifier) *Software {
+func (c *Collection) Software(id Identifier) *Software {
 	obj := c.getObject(TypeSoftware, id)
 	if obj == nil {
 		return nil
@@ -692,7 +693,7 @@ func (c *StixCollection) Software(id Identifier) *Software {
 }
 
 // AllSoftware returns all the Software in the collection.
-func (c *StixCollection) AllSoftware() []*Software {
+func (c *Collection) AllSoftware() []*Software {
 	data := make([]*Software, 0, len(c.objects[TypeSoftware]))
 	for _, v := range c.objects[TypeSoftware] {
 		data = append(data, v.(*Software))
@@ -701,7 +702,7 @@ func (c *StixCollection) AllSoftware() []*Software {
 }
 
 // ThreatActor returns the ThreatActor with the identifier id.
-func (c *StixCollection) ThreatActor(id Identifier) *ThreatActor {
+func (c *Collection) ThreatActor(id Identifier) *ThreatActor {
 	obj := c.getObject(TypeThreatActor, id)
 	if obj == nil {
 		return nil
@@ -710,7 +711,7 @@ func (c *StixCollection) ThreatActor(id Identifier) *ThreatActor {
 }
 
 // ThreatActors returns all the ThreatActors in the collection.
-func (c *StixCollection) ThreatActors() []*ThreatActor {
+func (c *Collection) ThreatActors() []*ThreatActor {
 	data := make([]*ThreatActor, 0, len(c.objects[TypeThreatActor]))
 	for _, v := range c.objects[TypeThreatActor] {
 		data = append(data, v.(*ThreatActor))
@@ -719,7 +720,7 @@ func (c *StixCollection) ThreatActors() []*ThreatActor {
 }
 
 // Tool returns the Tool with the identifier id.
-func (c *StixCollection) Tool(id Identifier) *Tool {
+func (c *Collection) Tool(id Identifier) *Tool {
 	obj := c.getObject(TypeTool, id)
 	if obj == nil {
 		return nil
@@ -728,7 +729,7 @@ func (c *StixCollection) Tool(id Identifier) *Tool {
 }
 
 // Tools returns all the Tools in the collection.
-func (c *StixCollection) Tools() []*Tool {
+func (c *Collection) Tools() []*Tool {
 	data := make([]*Tool, 0, len(c.objects[TypeTool]))
 	for _, v := range c.objects[TypeTool] {
 		data = append(data, v.(*Tool))
@@ -737,7 +738,7 @@ func (c *StixCollection) Tools() []*Tool {
 }
 
 // URL returns the URL with the identifier id.
-func (c *StixCollection) URL(id Identifier) *URL {
+func (c *Collection) URL(id Identifier) *URL {
 	obj := c.getObject(TypeURL, id)
 	if obj == nil {
 		return nil
@@ -746,7 +747,7 @@ func (c *StixCollection) URL(id Identifier) *URL {
 }
 
 // URLs returns all the URLs in the collection.
-func (c *StixCollection) URLs() []*URL {
+func (c *Collection) URLs() []*URL {
 	data := make([]*URL, 0, len(c.objects[TypeURL]))
 	for _, v := range c.objects[TypeURL] {
 		data = append(data, v.(*URL))
@@ -755,7 +756,7 @@ func (c *StixCollection) URLs() []*URL {
 }
 
 // UserAccount returns the UserAccount with the identifier id.
-func (c *StixCollection) UserAccount(id Identifier) *UserAccount {
+func (c *Collection) UserAccount(id Identifier) *UserAccount {
 	obj := c.getObject(TypeUserAccount, id)
 	if obj == nil {
 		return nil
@@ -764,7 +765,7 @@ func (c *StixCollection) UserAccount(id Identifier) *UserAccount {
 }
 
 // UserAccounts returns all the UserAccounts in the collection.
-func (c *StixCollection) UserAccounts() []*UserAccount {
+func (c *Collection) UserAccounts() []*UserAccount {
 	data := make([]*UserAccount, 0, len(c.objects[TypeUserAccount]))
 	for _, v := range c.objects[TypeUserAccount] {
 		data = append(data, v.(*UserAccount))
@@ -773,7 +774,7 @@ func (c *StixCollection) UserAccounts() []*UserAccount {
 }
 
 // Vulnerability returns the Vulnerability with the identifier id.
-func (c *StixCollection) Vulnerability(id Identifier) *Vulnerability {
+func (c *Collection) Vulnerability(id Identifier) *Vulnerability {
 	obj := c.getObject(TypeVulnerability, id)
 	if obj == nil {
 		return nil
@@ -782,7 +783,7 @@ func (c *StixCollection) Vulnerability(id Identifier) *Vulnerability {
 }
 
 // Vulnerabilities returns all the Vulnerabilities in the collection.
-func (c *StixCollection) Vulnerabilities() []*Vulnerability {
+func (c *Collection) Vulnerabilities() []*Vulnerability {
 	data := make([]*Vulnerability, 0, len(c.objects[TypeVulnerability]))
 	for _, v := range c.objects[TypeVulnerability] {
 		data = append(data, v.(*Vulnerability))
@@ -791,7 +792,7 @@ func (c *StixCollection) Vulnerabilities() []*Vulnerability {
 }
 
 // X509Certificate returns the X509Certificate with the identifier id.
-func (c *StixCollection) X509Certificate(id Identifier) *X509Certificate {
+func (c *Collection) X509Certificate(id Identifier) *X509Certificate {
 	obj := c.getObject(TypeX509Certificate, id)
 	if obj == nil {
 		return nil
@@ -800,7 +801,7 @@ func (c *StixCollection) X509Certificate(id Identifier) *X509Certificate {
 }
 
 // X509Certificates returns all the X509Certificates in the collection.
-func (c *StixCollection) X509Certificates() []*X509Certificate {
+func (c *Collection) X509Certificates() []*X509Certificate {
 	data := make([]*X509Certificate, 0, len(c.objects[TypeX509Certificate]))
 	for _, v := range c.objects[TypeX509Certificate] {
 		data = append(data, v.(*X509Certificate))
@@ -808,11 +809,11 @@ func (c *StixCollection) X509Certificates() []*X509Certificate {
 	return data
 }
 
-func (c *StixCollection) getObject(typ STIXType, id Identifier) interface{} {
+func (c *Collection) getObject(typ STIXType, id Identifier) interface{} {
 	return c.objects[typ][id]
 }
 
-func objectInit(c *StixCollection) {
+func objectInit(c *Collection) {
 	c.objects = map[STIXType]map[Identifier]interface{}{}
 	for _, k := range AllTypes {
 		c.objects[k] = map[Identifier]interface{}{}
@@ -821,8 +822,8 @@ func objectInit(c *StixCollection) {
 
 // FromJSON parses JSON data and returns a StixCollection with the extracted
 // objects.
-func FromJSON(data []byte) (*StixCollection, error) {
-	collection := &StixCollection{}
+func FromJSON(data []byte) (*Collection, error) {
+	collection := &Collection{}
 
 	// First assume it is a STIX bundle.
 	var bundle Bundle
@@ -848,11 +849,11 @@ func FromJSON(data []byte) (*StixCollection, error) {
 	return nil, fmt.Errorf("unknown JSON format")
 }
 
-func processBundle(collection *StixCollection, bundle Bundle) error {
+func processBundle(collection *Collection, bundle Bundle) error {
 	return processObjects(collection, bundle.Objects)
 }
 
-func processObjects(collection *StixCollection, objects []json.RawMessage) error {
+func processObjects(collection *Collection, objects []json.RawMessage) error {
 	var peak peakObject
 	var err error
 	for _, data := range objects {
