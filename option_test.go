@@ -114,7 +114,7 @@ func TestCyberObservableOptions(t *testing.T) {
 		}{}
 		err := OptionExtension("test", "")(obj)
 		a.Error(err)
-		a.Equal("extension field not avaliable in the object", err.Error())
+		a.Equal("extension field not available in the object", err.Error())
 	})
 
 	t.Run("extensions_bad_json_data", func(t *testing.T) {

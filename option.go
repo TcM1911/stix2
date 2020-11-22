@@ -161,7 +161,7 @@ func OptionExtension(name string, value interface{}) STIXOption {
 
 		ev := f.FieldByName("Extensions")
 		if !ev.IsValid() || !ev.CanSet() {
-			return fmt.Errorf("extension field not avaliable in the object")
+			return fmt.Errorf("extension field not available in the object")
 		}
 
 		ext, ok := ev.Interface().(map[string]json.RawMessage)
