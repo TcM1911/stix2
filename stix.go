@@ -11,8 +11,8 @@ import (
 	"time"
 )
 
-// StixObject is a generic representation of a STIX object.
-type StixObject interface {
+// STIXObject is a generic representation of a STIX object.
+type STIXObject interface {
 	// GetID returns the identifier for the object.
 	GetID() Identifier
 	// GetType returns the object's type.
@@ -33,7 +33,7 @@ type StixCollection struct {
 
 // Get returns the object with matching ID or nil if it does not exist in the
 // collection.
-func (c *StixCollection) Get(id Identifier) StixObject {
+func (c *StixCollection) Get(id Identifier) STIXObject {
 	parts := strings.Split(string(id), "--")
 	if len(parts) != 2 {
 		// Incorrect format for the ID.
@@ -49,11 +49,11 @@ func (c *StixCollection) Get(id Identifier) StixObject {
 		// No object with the ID.
 		return nil
 	}
-	return obj.(StixObject)
+	return obj.(STIXObject)
 }
 
 // Add adds or updates an object in the collection.
-func (c *StixCollection) Add(obj StixObject) error {
+func (c *StixCollection) Add(obj STIXObject) error {
 	c.objinit.Do(func() {
 		objectInit(c)
 	})
@@ -66,17 +66,17 @@ func (c *StixCollection) Add(obj StixObject) error {
 }
 
 // AllObjects returns a slice of all StixObjects that are in the collection.
-func (c *StixCollection) AllObjects() []StixObject {
+func (c *StixCollection) AllObjects() []STIXObject {
 	// Calculate the size of the array.
 	size := 0
 	for _, ar := range c.objects {
 		size = size + len(ar)
 	}
 
-	result := make([]StixObject, 0, size)
+	result := make([]STIXObject, 0, size)
 	for _, v := range c.objects {
 		for _, vv := range v {
-			result = append(result, vv.(StixObject))
+			result = append(result, vv.(STIXObject))
 		}
 	}
 	return result
@@ -953,7 +953,7 @@ func processObjects(collection *StixCollection, objects []json.RawMessage) error
 			return fmt.Errorf("bad json data: %s", err)
 		}
 
-		err = collection.Add(obj.(StixObject))
+		err = collection.Add(obj.(STIXObject))
 		if err != nil {
 			return fmt.Errorf("failed to add %s object to collection: %s", peak.Type, err)
 		}

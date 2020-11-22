@@ -195,7 +195,7 @@ func TestGetCreatedAndModified(t *testing.T) {
 	ts := time.Now()
 
 	tests := []struct {
-		object     StixObject
+		object     STIXObject
 		tscreated  *time.Time
 		tsmodified *time.Time
 	}{

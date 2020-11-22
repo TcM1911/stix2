@@ -184,7 +184,7 @@ func (i Identifier) ForTypes(typ ...StixType) bool {
 }
 
 // HasValidIdentifier checks that the StixObject has a valid identifer.
-func HasValidIdentifier(obj StixObject) bool {
+func HasValidIdentifier(obj STIXObject) bool {
 	parts := strings.Split(string(obj.GetID()), "--")
 	if len(parts) != 2 {
 		return false

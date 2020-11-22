@@ -25,7 +25,7 @@ type Bundle struct {
 }
 
 // NewBundle creates a new STIX Bundle.
-func NewBundle(objs ...StixObject) (*Bundle, error) {
+func NewBundle(objs ...STIXObject) (*Bundle, error) {
 	b := &Bundle{Type: TypeBundle, ID: NewIdentifier(TypeBundle)}
 	a := make([]json.RawMessage, 0, len(objs))
 	for _, v := range objs {
