@@ -16,7 +16,7 @@ type STIXObject interface {
 	// GetID returns the identifier for the object.
 	GetID() Identifier
 	// GetType returns the object's type.
-	GetType() StixType
+	GetType() STIXType
 	// GetCreated returns the created time for the STIX object. If the object
 	// does not have a time defined, nil is returned.
 	GetCreated() *time.Time
@@ -27,7 +27,7 @@ type STIXObject interface {
 
 // StixCollection is a collection of STIX objects.
 type StixCollection struct {
-	objects map[StixType]map[Identifier]interface{}
+	objects map[STIXType]map[Identifier]interface{}
 	objinit sync.Once
 }
 
@@ -39,7 +39,7 @@ func (c *StixCollection) Get(id Identifier) STIXObject {
 		// Incorrect format for the ID.
 		return nil
 	}
-	bucket, ok := c.objects[StixType(parts[0])]
+	bucket, ok := c.objects[STIXType(parts[0])]
 	if !ok {
 		// No objects for this type.
 		return nil
@@ -808,12 +808,12 @@ func (c *StixCollection) X509Certificates() []*X509Certificate {
 	return data
 }
 
-func (c *StixCollection) getObject(typ StixType, id Identifier) interface{} {
+func (c *StixCollection) getObject(typ STIXType, id Identifier) interface{} {
 	return c.objects[typ][id]
 }
 
 func objectInit(c *StixCollection) {
-	c.objects = map[StixType]map[Identifier]interface{}{}
+	c.objects = map[STIXType]map[Identifier]interface{}{}
 	for _, k := range AllTypes {
 		c.objects[k] = map[Identifier]interface{}{}
 	}
@@ -962,5 +962,5 @@ func processObjects(collection *StixCollection, objects []json.RawMessage) error
 }
 
 type peakObject struct {
-	Type StixType `json:"type"`
+	Type STIXType `json:"type"`
 }

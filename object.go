@@ -18,7 +18,7 @@ const (
 	SpecVersion21 = "2.1"
 )
 
-func newSTIXRelationshipObject(typ StixType) STIXRelationshipObject {
+func newSTIXRelationshipObject(typ STIXType) STIXRelationshipObject {
 	id := NewIdentifier(typ)
 	t := time.Now()
 	return STIXRelationshipObject{
@@ -37,7 +37,7 @@ func newSTIXRelationshipObject(typ StixType) STIXRelationshipObject {
 type STIXRelationshipObject struct {
 	// The type property identifies the type of STIX Object. The value of the
 	// type property MUST be the name of one of the types of STIX Objects
-	Type StixType `json:"type"`
+	Type STIXType `json:"type"`
 	// The id property uniquely identifies this object. For objects that
 	// support versioning, all objects with the same id are considered
 	// different versions of the same object and the version of the object is
@@ -120,7 +120,7 @@ func (s *STIXRelationshipObject) GetID() Identifier {
 }
 
 // GetType returns the object's type.
-func (s *STIXRelationshipObject) GetType() StixType {
+func (s *STIXRelationshipObject) GetType() STIXType {
 	return s.Type
 }
 
@@ -142,7 +142,7 @@ func (s *STIXRelationshipObject) GetModified() *time.Time {
 	return &s.Modified.Time
 }
 
-func newSTIXDomainObject(typ StixType) STIXDomainObject {
+func newSTIXDomainObject(typ STIXType) STIXDomainObject {
 	id := NewIdentifier(typ)
 	t := time.Now()
 	return STIXDomainObject{
@@ -160,7 +160,7 @@ func newSTIXDomainObject(typ StixType) STIXDomainObject {
 type STIXDomainObject struct {
 	// The type property identifies the type of STIX Object. The value of the
 	// type property MUST be the name of one of the types of STIX Objects
-	Type StixType `json:"type"`
+	Type STIXType `json:"type"`
 	// The id property uniquely identifies this object. For objects that
 	// support versioning, all objects with the same id are considered
 	// different versions of the same object and the version of the object is
@@ -261,7 +261,7 @@ func (s *STIXDomainObject) GetID() Identifier {
 }
 
 // GetType returns the object's type.
-func (s *STIXDomainObject) GetType() StixType {
+func (s *STIXDomainObject) GetType() STIXType {
 	return s.Type
 }
 
@@ -289,7 +289,7 @@ func (s *STIXDomainObject) GetModified() *time.Time {
 type STIXCyberObservableObject struct {
 	// The type property identifies the type of STIX Object. The value of the
 	// type property MUST be the name of one of the types of STIX Objects
-	Type StixType `json:"type"`
+	Type STIXType `json:"type"`
 	// The id property uniquely identifies this object. For objects that
 	// support versioning, all objects with the same id are considered
 	// different versions of the same object and the version of the object is
@@ -342,7 +342,7 @@ func (o *STIXCyberObservableObject) GetID() Identifier {
 }
 
 // GetType returns the object's type.
-func (o *STIXCyberObservableObject) GetType() StixType {
+func (o *STIXCyberObservableObject) GetType() STIXType {
 	return o.Type
 }
 
@@ -371,7 +371,7 @@ func (o *STIXCyberObservableObject) canonicalizeExtensions() string {
 	return buf.String()
 }
 
-func newSTIXCyberObservableObject(typ StixType) STIXCyberObservableObject {
+func newSTIXCyberObservableObject(typ STIXType) STIXCyberObservableObject {
 	return STIXCyberObservableObject{
 		Type:        typ,
 		SpecVersion: SpecVersion21,

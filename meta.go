@@ -16,7 +16,7 @@ import (
 type LanguageContent struct {
 	// The type property identifies the type of STIX Object. The value of the
 	// type property MUST be the name of one of the types of STIX Objects
-	Type StixType `json:"type"`
+	Type STIXType `json:"type"`
 	// The id property uniquely identifies this object. For objects that
 	// support versioning, all objects with the same id are considered
 	// different versions of the same object and the version of the object is
@@ -134,7 +134,7 @@ func (l *LanguageContent) GetID() Identifier {
 }
 
 // GetType returns the object's type.
-func (l *LanguageContent) GetType() StixType {
+func (l *LanguageContent) GetType() STIXType {
 	return l.Type
 }
 
@@ -198,7 +198,7 @@ func NewLanguageContent(object Identifier, content map[string]map[string]interfa
 type MarkingDefinition struct {
 	// The type property identifies the type of STIX Object. The value of the
 	// type property MUST be the name of one of the types of STIX Objects
-	Type StixType `json:"type"`
+	Type STIXType `json:"type"`
 	// The id property uniquely identifies this object. For objects that
 	// support versioning, all objects with the same id are considered
 	// different versions of the same object and the version of the object is
@@ -252,7 +252,7 @@ func (m *MarkingDefinition) GetID() Identifier {
 }
 
 // GetType returns the object's type.
-func (m *MarkingDefinition) GetType() StixType {
+func (m *MarkingDefinition) GetType() STIXType {
 	return m.Type
 }
 

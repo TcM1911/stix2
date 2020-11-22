@@ -14,7 +14,7 @@ import (
 // being in the same Bundle.
 type Bundle struct {
 	// Type property identifies the type of object.
-	Type StixType `json:"type"`
+	Type STIXType `json:"type"`
 	// ID is an identifier for this Bundle. The id property for the Bundle is
 	// designed to help tools that may need it for processing, but tools are
 	// not required to store or track it. Tools that consume STIX should not

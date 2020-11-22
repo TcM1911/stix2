@@ -148,7 +148,7 @@ func (s *emptryTestStruct) GetModified() *time.Time {
 	panic("Failed")
 }
 
-func (s *emptryTestStruct) GetType() StixType {
+func (s *emptryTestStruct) GetType() STIXType {
 	panic("Failed")
 }
 
@@ -181,7 +181,7 @@ func (s *badType) GetModified() *time.Time {
 	panic("Failed")
 }
 
-func (s *badType) GetType() StixType {
+func (s *badType) GetType() STIXType {
 	panic("Failed")
 }
 
