@@ -358,20 +358,6 @@ func (o *STIXCyberObservableObject) GetModified() *time.Time {
 	return nil
 }
 
-func (o *STIXCyberObservableObject) addExtension(key string, val interface{}) {
-	if o.Extensions == nil {
-		o.Extensions = make(map[string]json.RawMessage)
-	}
-	// If error drop the data.
-	buf := &bytes.Buffer{}
-	c := codec.NewEncoder(buf, &codec.JsonHandle{})
-	err := c.Encode(val)
-	if err != nil {
-		return
-	}
-	o.Extensions[key] = json.RawMessage(buf.Bytes())
-}
-
 func (o *STIXCyberObservableObject) canonicalizeExtensions() string {
 	if len(o.Extensions) == 0 {
 		return ""
