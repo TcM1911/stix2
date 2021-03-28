@@ -14,7 +14,7 @@ them to the Collection. The Bundle can be created by calling the `ToBundle`
 method on the Collection object. The Bundle can be serialized to `JSON`
 using the `JSON` encoder in the standard library.
 
-	c := &stix2.Collection{}
+	c := stix2.New()
 	ip, err := stix2.NewIPv4Address("10.0.0.1")
 	c.Add(ip)
 	ip, err = stix2.NewIPv4Address("10.0.0.2")
@@ -25,7 +25,7 @@ using the `JSON` encoder in the standard library.
 Example of a malware using an infrastructure. Taken from:
 https://docs.oasis-open.org/cti/stix/v2.1/csprd02/stix-v2.1-csprd02.html#_Toc26789941
 
-	collection := &stix2.Collection{}
+	collection := stix2.New()
 	domain, err := stix2.NewDomainName("example.com")
 	collection.Add(domain)
 
