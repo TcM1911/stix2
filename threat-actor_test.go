@@ -153,7 +153,7 @@ func TestThreatActorAttributedTo(t *testing.T) {
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
 		assert.Equal(a.ID, rel.Source)
-		assert.Equal(RelationshipTypeAttrubutedTo, rel.RelationshipType)
+		assert.Equal(RelationshipTypeAttributedTo, rel.RelationshipType)
 	})
 
 	t.Run("invalid_type", func(t *testing.T) {

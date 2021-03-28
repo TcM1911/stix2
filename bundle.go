@@ -14,7 +14,7 @@ import (
 // being in the same Bundle.
 type Bundle struct {
 	// Type property identifies the type of object.
-	Type StixType `json:"type"`
+	Type STIXType `json:"type"`
 	// ID is an identifier for this Bundle. The id property for the Bundle is
 	// designed to help tools that may need it for processing, but tools are
 	// not required to store or track it. Tools that consume STIX should not
@@ -25,7 +25,7 @@ type Bundle struct {
 }
 
 // NewBundle creates a new STIX Bundle.
-func NewBundle(objs ...StixObject) (*Bundle, error) {
+func NewBundle(objs ...STIXObject) (*Bundle, error) {
 	b := &Bundle{Type: TypeBundle, ID: NewIdentifier(TypeBundle)}
 	a := make([]json.RawMessage, 0, len(objs))
 	for _, v := range objs {

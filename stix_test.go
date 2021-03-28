@@ -176,9 +176,9 @@ func TestFromJSONAll(t *testing.T) {
 	assert.Nil(c.X509Certificate(Identifier("")))
 }
 
-func TestAllObjectsStixCollection(t *testing.T) {
+func TestAllObjectsCollection(t *testing.T) {
 	assert := assert.New(t)
-	c := &StixCollection{}
+	c := &Collection{}
 	ip, err := NewIPv4Address("10.0.0.1")
 	assert.NoError(err)
 	c.Add(ip)
@@ -195,7 +195,7 @@ func TestGetCreatedAndModified(t *testing.T) {
 	ts := time.Now()
 
 	tests := []struct {
-		object     StixObject
+		object     STIXObject
 		tscreated  *time.Time
 		tsmodified *time.Time
 	}{
@@ -233,7 +233,7 @@ func TestGetCreatedAndModified(t *testing.T) {
 }
 
 func TestGetFromCollection(t *testing.T) {
-	c := &StixCollection{}
+	c := &Collection{}
 	m, _ := NewMalware(true, OptionName("Test object"))
 	c.Add(m)
 

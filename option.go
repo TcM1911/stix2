@@ -11,7 +11,7 @@ import (
 
 // STIXOption is an optional parameter when constructing an
 // STIX object.
-type STIXOption func(a StixObject) error
+type STIXOption func(a STIXObject) error
 
 /*
 	Options for Common Properties
@@ -24,7 +24,7 @@ type STIXOption func(a StixObject) error
 //		- MarkingDefinition
 //		- Bundle
 func OptionSpecVersion(ver string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "SpecVersion", ver, reflect.String)
 	}
 }
@@ -35,7 +35,7 @@ func OptionSpecVersion(ver string) STIXOption {
 //		- LanguageContent
 //		- MarkingDefinition
 func OptionCreatedBy(id Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "CreatedBy", id, reflect.String)
 	}
 }
@@ -46,7 +46,7 @@ func OptionCreatedBy(id Identifier) STIXOption {
 //		- LanguageContent
 //		- MarkingDefinition
 func OptionCreated(t *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Created", t, reflect.Ptr)
 	}
 }
@@ -56,7 +56,7 @@ func OptionCreated(t *Timestamp) STIXOption {
 //		- STIX Relationships Objects
 //		- LanguageContent
 func OptionModified(t *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Modified", t, reflect.Ptr)
 	}
 }
@@ -66,7 +66,7 @@ func OptionModified(t *Timestamp) STIXOption {
 //		- STIX Relationships Objects
 //		- LanguageContent
 func OptionRevoked(rev bool) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Revoked", rev, reflect.Bool)
 	}
 }
@@ -76,7 +76,7 @@ func OptionRevoked(rev bool) STIXOption {
 //		- STIX Relationships Objects
 //		- LanguageContent
 func OptionLabels(labels []string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Labels", labels, reflect.Slice)
 	}
 }
@@ -86,7 +86,7 @@ func OptionLabels(labels []string) STIXOption {
 //		- STIX Relationships Objects
 //		- LanguageContent
 func OptionConfidence(confidence int) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Confidence", confidence, reflect.Int)
 	}
 }
@@ -95,7 +95,7 @@ func OptionConfidence(confidence int) STIXOption {
 //		- STIX Domain Objects
 //		- STIX Relationships Objects
 func OptionLang(lang string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Lang", lang, reflect.String)
 	}
 }
@@ -106,7 +106,7 @@ func OptionLang(lang string) STIXOption {
 //		- LanguageContent
 //		- MarkingDefinition
 func OptionExternalReferences(refs []*ExternalReference) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "ExternalReferences", refs, reflect.Slice)
 	}
 }
@@ -118,7 +118,7 @@ func OptionExternalReferences(refs []*ExternalReference) STIXOption {
 //		- LanguageContent
 //		- MarkingDefinition
 func OptionObjectMarking(om []Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "ObjectMarking", om, reflect.Slice)
 	}
 }
@@ -130,7 +130,7 @@ func OptionObjectMarking(om []Identifier) STIXOption {
 //		- LanguageContent
 //		- MarkingDefinition
 func OptionGranularMarking(gm []*GranularMarking) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "GranularMarking", gm, reflect.Slice)
 	}
 }
@@ -138,7 +138,7 @@ func OptionGranularMarking(gm []*GranularMarking) STIXOption {
 // OptionDefanged sets the defanged attribute. This option is valid for the types:
 //		- STIX Cyber-observable Objects
 func OptionDefanged(b bool) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Defanged", b, reflect.Bool)
 	}
 }
@@ -146,7 +146,7 @@ func OptionDefanged(b bool) STIXOption {
 // OptionExtension adds an extension. This option is valid for the types:
 //		- STIX Cyber-observable Objects
 func OptionExtension(name string, value interface{}) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		val, err := reflectValue(obj)
 		if err != nil {
 			return err
@@ -211,7 +211,7 @@ func OptionExtension(name string, value interface{}) STIXOption {
 //		- Relationship
 //		- Sighting
 func OptionDescription(des string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Description", des, reflect.String)
 	}
 }
@@ -225,7 +225,7 @@ func OptionDescription(des string) STIXOption {
 //		- ThreatActor
 //		- Tool
 func OptionAliases(a []string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Aliases", a, reflect.Slice)
 	}
 }
@@ -237,7 +237,7 @@ func OptionAliases(a []string) STIXOption {
 //		- Malware
 //		- Tool
 func OptionKillChainPhase(k []*KillChainPhase) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "KillChainPhase", k, reflect.Slice)
 	}
 }
@@ -250,7 +250,7 @@ func OptionKillChainPhase(k []*KillChainPhase) STIXOption {
 //		- ThreatActor
 //		- Sighting
 func OptionFirstSeen(t *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "FirstSeen", t, reflect.Ptr)
 	}
 }
@@ -263,7 +263,7 @@ func OptionFirstSeen(t *Timestamp) STIXOption {
 //		- ThreatActor
 //		- Sighting
 func OptionLastSeen(t *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "LastSeen", t, reflect.Ptr)
 	}
 }
@@ -271,7 +271,7 @@ func OptionLastSeen(t *Timestamp) STIXOption {
 // OptionObjective sets the objective attribute. This option is valid for the types:
 //		- Campaign
 func OptionObjective(o string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Objective", o, reflect.String)
 	}
 }
@@ -284,7 +284,7 @@ func OptionObjective(o string) STIXOption {
 //		- AutonomousSystem
 //		- MarkingDefinition
 func OptionName(n string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Name", n, reflect.String)
 	}
 }
@@ -292,7 +292,7 @@ func OptionName(n string) STIXOption {
 // OptionClass sets the identity class attribute. This option is valid for the types:
 //		- Identity
 func OptionClass(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Class", s, reflect.String)
 	}
 }
@@ -301,7 +301,7 @@ func OptionClass(s string) STIXOption {
 //		- Identity
 //		- ThreatActor
 func OptionRoles(s []string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Roles", s, reflect.Slice)
 	}
 }
@@ -309,7 +309,7 @@ func OptionRoles(s []string) STIXOption {
 // OptionSectors sets the sectors attribute. This option is valid for the types:
 //		- Identity
 func OptionSectors(s []string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Sectors", s, reflect.Slice)
 	}
 }
@@ -317,7 +317,7 @@ func OptionSectors(s []string) STIXOption {
 // OptionContactInformation sets the contact information attribute. This option is valid for the types:
 //		- Identity
 func OptionContactInformation(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "ContactInformation", s, reflect.String)
 	}
 }
@@ -330,7 +330,7 @@ func OptionContactInformation(s string) STIXOption {
 //		- ThreatActor
 //		- Tool
 func OptionTypes(s []string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Types", s, reflect.Slice)
 	}
 }
@@ -338,7 +338,7 @@ func OptionTypes(s []string) STIXOption {
 // OptionPatternVersion sets the pattern version attribute. This option is valid for the types:
 //		- Indicator
 func OptionPatternVersion(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "PatternVersion", s, reflect.String)
 	}
 }
@@ -346,7 +346,7 @@ func OptionPatternVersion(s string) STIXOption {
 // OptionValidUntil sets the valid until attribute. This option is valid for the types:
 //		- Indicator
 func OptionValidUntil(t *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "ValidUntil", t, reflect.Ptr)
 	}
 }
@@ -355,7 +355,7 @@ func OptionValidUntil(t *Timestamp) STIXOption {
 //		- IntrusionSet
 //		- ThreatActor
 func OptionGoals(s []string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Goals", s, reflect.Slice)
 	}
 }
@@ -364,7 +364,7 @@ func OptionGoals(s []string) STIXOption {
 //		- IntrusionSet
 //		- ThreatActor
 func OptionResourceLevel(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "ResourceLevel", s, reflect.String)
 	}
 }
@@ -373,7 +373,7 @@ func OptionResourceLevel(s string) STIXOption {
 //		- IntrusionSet
 //		- ThreatActor
 func OptionPrimaryMotivation(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "PrimaryMotivation", s, reflect.String)
 	}
 }
@@ -382,7 +382,7 @@ func OptionPrimaryMotivation(s string) STIXOption {
 //		- IntrusionSet
 //		- ThreatActor
 func OptionSecondaryMotivations(s []string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "SecondaryMotivations", s, reflect.Slice)
 	}
 }
@@ -390,7 +390,7 @@ func OptionSecondaryMotivations(s []string) STIXOption {
 // OptionPrecision sets the precision attribute. This option is valid for the types:
 //		- Location
 func OptionPrecision(p float64) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Precision", p, reflect.Float64)
 	}
 }
@@ -398,7 +398,7 @@ func OptionPrecision(p float64) STIXOption {
 // OptionAdministrativeArea sets the administrative area attribute. This option is valid for the types:
 //		- Location
 func OptionAdministrativeArea(a string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "AdministrativeArea", a, reflect.String)
 	}
 }
@@ -406,7 +406,7 @@ func OptionAdministrativeArea(a string) STIXOption {
 // OptionCity sets the city attribute. This option is valid for the types:
 //		- Location
 func OptionCity(c string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "City", c, reflect.String)
 	}
 }
@@ -414,7 +414,7 @@ func OptionCity(c string) STIXOption {
 // OptionStreetAddress sets the street address attribute. This option is valid for the types:
 //		- Location
 func OptionStreetAddress(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "StreetAddress", s, reflect.String)
 	}
 }
@@ -422,7 +422,7 @@ func OptionStreetAddress(s string) STIXOption {
 // OptionPostalCode sets the postal code attribute. This option is valid for the types:
 //		- Location
 func OptionPostalCode(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "PostalCode", s, reflect.String)
 	}
 }
@@ -430,7 +430,7 @@ func OptionPostalCode(s string) STIXOption {
 // OptionOperatingSystems sets the OS attribute. This option is valid for the types:
 //		- Malware
 func OptionOperatingSystems(s []Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "OperatingSystems", s, reflect.Slice)
 	}
 }
@@ -438,7 +438,7 @@ func OptionOperatingSystems(s []Identifier) STIXOption {
 // OptionArchitecture sets the architecture attribute. This option is valid for the types:
 //		- Malware
 func OptionArchitecture(s []string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Architecture", s, reflect.Slice)
 	}
 }
@@ -447,7 +447,7 @@ func OptionArchitecture(s []string) STIXOption {
 //		- Malware
 //		- Software
 func OptionLanguages(s []string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Languages", s, reflect.Slice)
 	}
 }
@@ -455,7 +455,7 @@ func OptionLanguages(s []string) STIXOption {
 // OptionCapabilities sets the capabilities attribute. This option is valid for the types:
 //		- Malware
 func OptionCapabilities(s []string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Capabilities", s, reflect.Slice)
 	}
 }
@@ -463,7 +463,7 @@ func OptionCapabilities(s []string) STIXOption {
 // OptionSamples sets the samples attribute. This option is valid for the types:
 //		- Malware
 func OptionSamples(s []Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Samples", s, reflect.Slice)
 	}
 }
@@ -474,7 +474,7 @@ func OptionSamples(s []Identifier) STIXOption {
 //		- Software
 //		- X509Certificate
 func OptionVersion(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Version", s, reflect.String)
 	}
 }
@@ -482,7 +482,7 @@ func OptionVersion(s string) STIXOption {
 // OptionHostVM sets the host VM attribute. This option is valid for the types:
 //		- MalwareAnalysis
 func OptionHostVM(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "HostVM", s, reflect.String)
 	}
 }
@@ -490,7 +490,7 @@ func OptionHostVM(s Identifier) STIXOption {
 // OptionOperatingSystem sets the OS attribute. This option is valid for the types:
 //		- MalwareAnalysis
 func OptionOperatingSystem(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "OperatingSystem", s, reflect.String)
 	}
 }
@@ -498,7 +498,7 @@ func OptionOperatingSystem(s Identifier) STIXOption {
 // OptionInstalledSoftware sets the installed software attribute. This option is valid for the types:
 //		- MalwareAnalysis
 func OptionInstalledSoftware(s []Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "InstalledSoftware", s, reflect.Slice)
 	}
 }
@@ -507,7 +507,7 @@ func OptionInstalledSoftware(s []Identifier) STIXOption {
 //		- MalwareAnalysis
 // attribute. This option is valid for the types:
 func OptionConfigurationVersion(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "ConfigurationVersion", s, reflect.String)
 	}
 }
@@ -515,7 +515,7 @@ func OptionConfigurationVersion(s string) STIXOption {
 // OptionModules sets the modules attribute. This option is valid for the types:
 //		- MalwareAnalysis
 func OptionModules(s []string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Modules", s, reflect.Slice)
 	}
 }
@@ -524,7 +524,7 @@ func OptionModules(s []string) STIXOption {
 // attribute. This option is valid for the types:
 //		- MalwareAnalysis
 func OptionAnalysisEngineVersion(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "AnalysisEngineVersion", s, reflect.String)
 	}
 }
@@ -533,7 +533,7 @@ func OptionAnalysisEngineVersion(s string) STIXOption {
 // version attribute. This option is valid for the types:
 //		- MalwareAnalysis
 func OptionAnalysisDefinitionVersion(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "AnalysisDefinitionVersion", s, reflect.String)
 	}
 }
@@ -541,7 +541,7 @@ func OptionAnalysisDefinitionVersion(s string) STIXOption {
 // OptionSubmitted sets the submitted attribute. This option is valid for the types:
 //		- MalwareAnalysis
 func OptionSubmitted(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Submitted", s, reflect.Ptr)
 	}
 }
@@ -549,7 +549,7 @@ func OptionSubmitted(s *Timestamp) STIXOption {
 // OptionAnalysisStarted sets the analysis started attribute. This option is valid for the types:
 //		- MalwareAnalysis
 func OptionAnalysisStarted(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "AnalysisStarted", s, reflect.Ptr)
 	}
 }
@@ -557,7 +557,7 @@ func OptionAnalysisStarted(s *Timestamp) STIXOption {
 // OptionAnalysisEnded sets the analysis ended attribute. This option is valid for the types:
 //		- MalwareAnalysis
 func OptionAnalysisEnded(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "AnalysisEnded", s, reflect.Ptr)
 	}
 }
@@ -565,7 +565,7 @@ func OptionAnalysisEnded(s *Timestamp) STIXOption {
 // OptionResultName sets the analysis result name attribute. This option is valid for the types:
 //		- MalwareAnalysis
 func OptionResultName(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "ResultName", s, reflect.String)
 	}
 }
@@ -573,7 +573,7 @@ func OptionResultName(s string) STIXOption {
 // OptionSample sets the analysis sample attribute. This option is valid for the types:
 //		- MalwareAnalysis
 func OptionSample(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Sample", s, reflect.String)
 	}
 }
@@ -581,7 +581,7 @@ func OptionSample(s Identifier) STIXOption {
 // OptionAbstract sets the abstract attribute. This option is valid for the types:
 //		- Note
 func OptionAbstract(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Abstract", s, reflect.String)
 	}
 }
@@ -590,7 +590,7 @@ func OptionAbstract(s string) STIXOption {
 //		- Note
 //		- Opinion
 func OptionAuthors(s []string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Authors", s, reflect.Slice)
 	}
 }
@@ -598,7 +598,7 @@ func OptionAuthors(s []string) STIXOption {
 // OptionExplanation sets the explanation attribute. This option is valid for the types:
 //		- Opinion
 func OptionExplanation(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Explanation", s, reflect.String)
 	}
 }
@@ -606,7 +606,7 @@ func OptionExplanation(s string) STIXOption {
 // OptionSophistication sets the sophistication attribute. This option is valid for the types:
 //		- ThreatActor
 func OptionSophistication(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Sophistication", s, reflect.String)
 	}
 }
@@ -614,7 +614,7 @@ func OptionSophistication(s string) STIXOption {
 // OptionPersonalMotivations sets the personal motivations attribute. This option is valid for the types:
 //		- ThreatActor
 func OptionPersonalMotivations(s []string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "PersonalMotivations", s, reflect.Slice)
 	}
 }
@@ -622,7 +622,7 @@ func OptionPersonalMotivations(s []string) STIXOption {
 // OptionStartTime sets the start time attribute. This option is valid for the types:
 //		- Relationship
 func OptionStartTime(t *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "StartTime", t, reflect.Ptr)
 	}
 }
@@ -630,7 +630,7 @@ func OptionStartTime(t *Timestamp) STIXOption {
 // OptionStopTime sets the stop time attribute. This option is valid for the types:
 //		- Relationship
 func OptionStopTime(t *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "StopTime", t, reflect.Ptr)
 	}
 }
@@ -638,7 +638,7 @@ func OptionStopTime(t *Timestamp) STIXOption {
 // OptionCount sets the count attribute. This option is valid for the types:
 //		- Sighting
 func OptionCount(c int64) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Count", c, reflect.Int64)
 	}
 }
@@ -646,7 +646,7 @@ func OptionCount(c int64) STIXOption {
 // OptionObservedData sets the ObservedData attribute. This option is valid for the types:
 //		- Sighting
 func OptionObservedData(d []Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "ObservedData", d, reflect.Slice)
 	}
 }
@@ -654,7 +654,7 @@ func OptionObservedData(d []Identifier) STIXOption {
 // OptionWhereSighted sets the WhereSighted attribute. This option is valid for the types:
 //		- Sighting
 func OptionWhereSighted(i []Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "WhereSighted", i, reflect.Slice)
 	}
 }
@@ -662,7 +662,7 @@ func OptionWhereSighted(i []Identifier) STIXOption {
 // OptionSummary sets the summary attribute. This option is valid for the types:
 //		- Sighting
 func OptionSummary(b bool) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Summary", b, reflect.Bool)
 	}
 }
@@ -671,7 +671,7 @@ func OptionSummary(b bool) STIXOption {
 //		- Artifact
 //		- File
 func OptionMimeType(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "MimeType", s, reflect.String)
 	}
 }
@@ -679,7 +679,7 @@ func OptionMimeType(s string) STIXOption {
 // OptionPayload sets the payload attribute. This option is valid for the types:
 //		- Artifact
 func OptionPayload(s Binary) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Payload", s, reflect.Slice)
 	}
 }
@@ -687,7 +687,7 @@ func OptionPayload(s Binary) STIXOption {
 // OptionURL sets the URL attribute. This option is valid for the types:
 //		- Artifact
 func OptionURL(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "URL", s, reflect.String)
 	}
 }
@@ -697,7 +697,7 @@ func OptionURL(s string) STIXOption {
 //		- File
 //		- X509Certificate
 func OptionHashes(s Hashes) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Hashes", s, reflect.Map)
 	}
 }
@@ -705,7 +705,7 @@ func OptionHashes(s Hashes) STIXOption {
 // OptionEncryption sets the encryption algorithm attribute. This option is valid for the types:
 //		- Artifact
 func OptionEncryption(s EncryptionAlgorithm) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Encryption", s, reflect.Uint8)
 	}
 }
@@ -714,7 +714,7 @@ func OptionEncryption(s EncryptionAlgorithm) STIXOption {
 //		- Artifact
 //		- RegistryKey
 func OptionKey(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Key", s, reflect.String)
 	}
 }
@@ -722,7 +722,7 @@ func OptionKey(s string) STIXOption {
 // OptionRIR sets the rir attribute. This option is valid for the types:
 //		- AutonomousSystem
 func OptionRIR(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "RIR", s, reflect.String)
 	}
 }
@@ -730,7 +730,7 @@ func OptionRIR(s string) STIXOption {
 // OptionPathEncoding sets the path encoding attribute. This option is valid for the types:
 //		- Directory
 func OptionPathEncoding(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "PathEnc", s, reflect.String)
 	}
 }
@@ -739,7 +739,7 @@ func OptionPathEncoding(s string) STIXOption {
 //		- Directory
 //		- File
 func OptionCtime(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Ctime", s, reflect.Ptr)
 	}
 }
@@ -748,7 +748,7 @@ func OptionCtime(s *Timestamp) STIXOption {
 //		- Directory
 //		- File
 func OptionMtime(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Mtime", s, reflect.Ptr)
 	}
 }
@@ -757,7 +757,7 @@ func OptionMtime(s *Timestamp) STIXOption {
 //		- Directory
 //		- File
 func OptionAtime(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Atime", s, reflect.Ptr)
 	}
 }
@@ -766,7 +766,7 @@ func OptionAtime(s *Timestamp) STIXOption {
 //		- Directory
 //		- File
 func OptionContains(s []Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Contains", s, reflect.Slice)
 	}
 }
@@ -776,7 +776,7 @@ func OptionContains(s []Identifier) STIXOption {
 //		- IPv4Address
 //		- IPv6Address
 func OptionResolvesTo(s []Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "ResolvesTo", s, reflect.Slice)
 	}
 }
@@ -785,7 +785,7 @@ func OptionResolvesTo(s []Identifier) STIXOption {
 //		- EmailAddress
 //		- UserAccount
 func OptionDisplayName(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "DisplayName", s, reflect.String)
 	}
 }
@@ -795,7 +795,7 @@ func OptionDisplayName(s string) STIXOption {
 //		- IPv4Address
 //		- IPv6Address
 func OptionBelongsTo(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "BelongsTo", s, reflect.String)
 	}
 }
@@ -803,7 +803,7 @@ func OptionBelongsTo(s Identifier) STIXOption {
 // OptionDate sets the date attribute. This option is valid for the types:
 //		- EmailMessage
 func OptionDate(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Date", s, reflect.Ptr)
 	}
 }
@@ -811,7 +811,7 @@ func OptionDate(s *Timestamp) STIXOption {
 // OptionContentType sets the content type attribute. This option is valid for the types:
 //		- EmailMessage
 func OptionContentType(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "ContentType", s, reflect.String)
 	}
 }
@@ -819,7 +819,7 @@ func OptionContentType(s string) STIXOption {
 // OptionFrom sets the from attribute. This option is valid for the types:
 //		- EmailMessage
 func OptionFrom(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "From", s, reflect.String)
 	}
 }
@@ -827,7 +827,7 @@ func OptionFrom(s Identifier) STIXOption {
 // OptionSender sets the sender attribute. This option is valid for the types:
 //		- EmailMessage
 func OptionSender(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Sender", s, reflect.String)
 	}
 }
@@ -835,7 +835,7 @@ func OptionSender(s Identifier) STIXOption {
 // OptionTo sets the to attribute. This option is valid for the types:
 //		- EmailMessage
 func OptionTo(s []Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "To", s, reflect.Slice)
 	}
 }
@@ -843,7 +843,7 @@ func OptionTo(s []Identifier) STIXOption {
 // OptionCC sets the CC attribute. This option is valid for the types:
 //		- EmailMessage
 func OptionCC(s []Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "CC", s, reflect.Slice)
 	}
 }
@@ -851,7 +851,7 @@ func OptionCC(s []Identifier) STIXOption {
 // OptionBCC sets the BCC attribute. This option is valid for the types:
 //		- EmailMessage
 func OptionBCC(s []Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "BCC", s, reflect.Slice)
 	}
 }
@@ -859,7 +859,7 @@ func OptionBCC(s []Identifier) STIXOption {
 // OptionMessageID sets the message ID attribute. This option is valid for the types:
 //		- EmailMessage
 func OptionMessageID(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "MessageID", s, reflect.String)
 	}
 }
@@ -867,7 +867,7 @@ func OptionMessageID(s string) STIXOption {
 // OptionSubject sets the subject attribute. This option is valid for the types:
 //		- EmailMessage
 func OptionSubject(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Subject", s, reflect.String)
 	}
 }
@@ -875,7 +875,7 @@ func OptionSubject(s string) STIXOption {
 // OptionReceivedLines sets the received lines attribute. This option is valid for the types:
 //		- EmailMessage
 func OptionReceivedLines(s []string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "ReceivedLines", s, reflect.Slice)
 	}
 }
@@ -884,7 +884,7 @@ func OptionReceivedLines(s []string) STIXOption {
 // attribute. This option is valid for the types:
 //		- EmailMessage
 func OptionAdditionalHeaderFields(s map[string]string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "AdditionalHeaderFields", s, reflect.Map)
 	}
 }
@@ -892,7 +892,7 @@ func OptionAdditionalHeaderFields(s map[string]string) STIXOption {
 // OptionBody sets the body attribute. This option is valid for the types:
 //		- EmailMessage
 func OptionBody(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Body", s, reflect.String)
 	}
 }
@@ -900,7 +900,7 @@ func OptionBody(s string) STIXOption {
 // OptionBodyMultipart sets the body multipart attribute. This option is valid for the types:
 //		- EmailMessage
 func OptionBodyMultipart(s []EmailMIME) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "BodyMultipart", s, reflect.Slice)
 	}
 }
@@ -908,7 +908,7 @@ func OptionBodyMultipart(s []EmailMIME) STIXOption {
 // OptionRawEmail sets the raw email attribute. This option is valid for the types:
 //		- EmailMessage
 func OptionRawEmail(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "RawEmail", s, reflect.String)
 	}
 }
@@ -916,7 +916,7 @@ func OptionRawEmail(s Identifier) STIXOption {
 // OptionSize sets the size attribute. This option is valid for the types:
 //		- File
 func OptionSize(s int64) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Size", s, reflect.Int64)
 	}
 }
@@ -924,7 +924,7 @@ func OptionSize(s int64) STIXOption {
 // OptionNameEnc sets the name encoding attribute. This option is valid for the types:
 //		- File
 func OptionNameEnc(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "NameEnc", s, reflect.String)
 	}
 }
@@ -932,7 +932,7 @@ func OptionNameEnc(s string) STIXOption {
 // OptionMagicNumber sets the magic number attribute. This option is valid for the types:
 //		- File
 func OptionMagicNumber(s Hex) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "MagicNumber", s, reflect.String)
 	}
 }
@@ -940,7 +940,7 @@ func OptionMagicNumber(s Hex) STIXOption {
 // OptionParentDirectory sets the parent directory attribute. This option is valid for the types:
 //		- File
 func OptionParentDirectory(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "ParentDirectory", s, reflect.String)
 	}
 }
@@ -948,7 +948,7 @@ func OptionParentDirectory(s Identifier) STIXOption {
 // OptionContent sets the content attribute. This option is valid for the types:
 //		- File
 func OptionContent(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Content", s, reflect.String)
 	}
 }
@@ -956,7 +956,7 @@ func OptionContent(s Identifier) STIXOption {
 // OptionStart sets the start attribute. This option is valid for the types:
 //		- NetworkTraffic
 func OptionStart(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Start", s, reflect.Ptr)
 	}
 }
@@ -964,7 +964,7 @@ func OptionStart(s *Timestamp) STIXOption {
 // OptionEnd sets the end attribute. This option is valid for the types:
 //		- NetworkTraffic
 func OptionEnd(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "End", s, reflect.Ptr)
 	}
 }
@@ -972,7 +972,7 @@ func OptionEnd(s *Timestamp) STIXOption {
 // OptionIsActive sets the is active attribute. This option is valid for the types:
 //		- NetworkTraffic
 func OptionIsActive(s bool) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "IsActive", s, reflect.Bool)
 	}
 }
@@ -980,7 +980,7 @@ func OptionIsActive(s bool) STIXOption {
 // OptionSrc sets the src attribute. This option is valid for the types:
 //		- NetworkTraffic
 func OptionSrc(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Src", s, reflect.String)
 	}
 }
@@ -988,7 +988,7 @@ func OptionSrc(s Identifier) STIXOption {
 // OptionDst sets the dst attribute. This option is valid for the types:
 //		- NetworkTraffic
 func OptionDst(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Dst", s, reflect.String)
 	}
 }
@@ -996,7 +996,7 @@ func OptionDst(s Identifier) STIXOption {
 // OptionSrcPort sets the src port attribute. This option is valid for the types:
 //		- NetworkTraffic
 func OptionSrcPort(s int64) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "SrcPort", s, reflect.Int64)
 	}
 }
@@ -1004,7 +1004,7 @@ func OptionSrcPort(s int64) STIXOption {
 // OptionDstPort sets the dst port attribute. This option is valid for the types:
 //		- NetworkTraffic
 func OptionDstPort(s int64) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "DstPort", s, reflect.Int64)
 	}
 }
@@ -1012,7 +1012,7 @@ func OptionDstPort(s int64) STIXOption {
 // OptionSrcByteCount sets the src byte count attribute. This option is valid for the types:
 //		- NetworkTraffic
 func OptionSrcByteCount(s int64) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "SrcByteCount", s, reflect.Int64)
 	}
 }
@@ -1020,7 +1020,7 @@ func OptionSrcByteCount(s int64) STIXOption {
 // OptionDstByteCount sets the dst byte count attribute. This option is valid for the types:
 //		- NetworkTraffic
 func OptionDstByteCount(s int64) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "DstByteCount", s, reflect.Int64)
 	}
 }
@@ -1028,7 +1028,7 @@ func OptionDstByteCount(s int64) STIXOption {
 // OptionSrcPackets sets the src packets attribute. This option is valid for the types:
 //		- NetworkTraffic
 func OptionSrcPackets(s int64) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "SrcPackets", s, reflect.Int64)
 	}
 }
@@ -1036,7 +1036,7 @@ func OptionSrcPackets(s int64) STIXOption {
 // OptionDstPackets sets the dst packets attribute. This option is valid for the types:
 //		- NetworkTraffic
 func OptionDstPackets(s int64) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "DstPackets", s, reflect.Int64)
 	}
 }
@@ -1044,7 +1044,7 @@ func OptionDstPackets(s int64) STIXOption {
 // OptionIPFIX sets the IPFIX attribute. This option is valid for the types:
 //		- NetworkTraffic
 func OptionIPFIX(s map[string]interface{}) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "IPFIX", s, reflect.Map)
 	}
 }
@@ -1052,7 +1052,7 @@ func OptionIPFIX(s map[string]interface{}) STIXOption {
 // OptionSrcPayload sets the src payload attribute. This option is valid for the types:
 //		- NetworkTraffic
 func OptionSrcPayload(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "SrcPayload", s, reflect.String)
 	}
 }
@@ -1060,7 +1060,7 @@ func OptionSrcPayload(s Identifier) STIXOption {
 // OptionDstPayload sets the src payload attribute. This option is valid for the types:
 //		- NetworkTraffic
 func OptionDstPayload(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "DstPayload", s, reflect.String)
 	}
 }
@@ -1068,7 +1068,7 @@ func OptionDstPayload(s Identifier) STIXOption {
 // OptionEncapsulates sets the encapsulates attribute. This option is valid for the types:
 //		- NetworkTraffic
 func OptionEncapsulates(s []Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Encapsulates", s, reflect.Slice)
 	}
 }
@@ -1076,7 +1076,7 @@ func OptionEncapsulates(s []Identifier) STIXOption {
 // OptionEncapsulated sets the encapsulated attribute. This option is valid for the types:
 //		- NetworkTraffic
 func OptionEncapsulated(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Encapsulated", s, reflect.String)
 	}
 }
@@ -1084,7 +1084,7 @@ func OptionEncapsulated(s Identifier) STIXOption {
 // OptionIsHidden sets the is hidden attribute. This option is valid for the types:
 //		- Process
 func OptionIsHidden(s bool) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "IsHidden", s, reflect.Bool)
 	}
 }
@@ -1092,7 +1092,7 @@ func OptionIsHidden(s bool) STIXOption {
 // OptionPID sets the PID attribute. This option is valid for the types:
 //		- Process
 func OptionPID(s int64) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "PID", s, reflect.Int64)
 	}
 }
@@ -1100,7 +1100,7 @@ func OptionPID(s int64) STIXOption {
 // OptionCreatedTime sets the created time attribute. This option is valid for the types:
 //		- Process
 func OptionCreatedTime(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "CreatedTime", s, reflect.Ptr)
 	}
 }
@@ -1108,7 +1108,7 @@ func OptionCreatedTime(s *Timestamp) STIXOption {
 // OptionCwd sets the cwd attribute. This option is valid for the types:
 //		- Process
 func OptionCwd(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Cwd", s, reflect.String)
 	}
 }
@@ -1116,7 +1116,7 @@ func OptionCwd(s string) STIXOption {
 // OptionCommandLine sets the command line attribute. This option is valid for the types:
 //		- Process
 func OptionCommandLine(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "CommandLine", s, reflect.String)
 	}
 }
@@ -1124,7 +1124,7 @@ func OptionCommandLine(s string) STIXOption {
 // OptionEnvVars sets the environment variables attribute. This option is valid for the types:
 //		- Process
 func OptionEnvVars(s map[string]string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "EnvVars", s, reflect.Map)
 	}
 }
@@ -1132,7 +1132,7 @@ func OptionEnvVars(s map[string]string) STIXOption {
 // OptionOpenedConnections sets the opened connections attribute. This option is valid for the types:
 //		- Process
 func OptionOpenedConnections(s []Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "OpenedConnections", s, reflect.Slice)
 	}
 }
@@ -1141,7 +1141,7 @@ func OptionOpenedConnections(s []Identifier) STIXOption {
 //		- Process
 //		- RegistryKey
 func OptionCreatorUser(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "CreatorUser", s, reflect.String)
 	}
 }
@@ -1149,7 +1149,7 @@ func OptionCreatorUser(s Identifier) STIXOption {
 // OptionImage sets the image attribute. This option is valid for the types:
 //		- Process
 func OptionImage(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Image", s, reflect.String)
 	}
 }
@@ -1157,7 +1157,7 @@ func OptionImage(s Identifier) STIXOption {
 // OptionParent sets the parent attribute. This option is valid for the types:
 //		- Process
 func OptionParent(s Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Parent", s, reflect.String)
 	}
 }
@@ -1165,7 +1165,7 @@ func OptionParent(s Identifier) STIXOption {
 // OptionChild sets the child attribute. This option is valid for the types:
 //		- Process
 func OptionChild(s []Identifier) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Child", s, reflect.Slice)
 	}
 }
@@ -1173,7 +1173,7 @@ func OptionChild(s []Identifier) STIXOption {
 // OptionCPE sets the CPE attribute. This option is valid for the types:
 //		- Software
 func OptionCPE(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "CPE", s, reflect.String)
 	}
 }
@@ -1181,7 +1181,7 @@ func OptionCPE(s string) STIXOption {
 // OptionSWID sets the SWID attribute. This option is valid for the types:
 //		- Software
 func OptionSWID(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "SWID", s, reflect.String)
 	}
 }
@@ -1189,7 +1189,7 @@ func OptionSWID(s string) STIXOption {
 // OptionVendor sets the vendor attribute. This option is valid for the types:
 //		- Software
 func OptionVendor(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Vendor", s, reflect.String)
 	}
 }
@@ -1197,14 +1197,14 @@ func OptionVendor(s string) STIXOption {
 // OptionUserID sets the user id attribute. This option is valid for the types:
 //		- Software
 func OptionUserID(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "UserID", s, reflect.String)
 	}
 }
 
 // OptionCredential sets the credential attribute. This option is valid for the types:
 func OptionCredential(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Credential", s, reflect.String)
 	}
 }
@@ -1212,7 +1212,7 @@ func OptionCredential(s string) STIXOption {
 // OptionAccountLogin sets the account login attribute. This option is valid for the types:
 //		- UserAccount
 func OptionAccountLogin(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "AccountLogin", s, reflect.String)
 	}
 }
@@ -1220,7 +1220,7 @@ func OptionAccountLogin(s string) STIXOption {
 // OptionAccountType sets the account type attribute. This option is valid for the types:
 //		- UserAccount
 func OptionAccountType(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "AccountType", s, reflect.String)
 	}
 }
@@ -1228,7 +1228,7 @@ func OptionAccountType(s string) STIXOption {
 // OptionIsServiceAccount sets the is service account attribute. This option is valid for the types:
 //		- UserAccount
 func OptionIsServiceAccount(s bool) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "IsServiceAccount", s, reflect.Bool)
 	}
 }
@@ -1236,7 +1236,7 @@ func OptionIsServiceAccount(s bool) STIXOption {
 // OptionIsPrivileged sets the is privileged attribute. This option is valid for the types:
 //		- UserAccount
 func OptionIsPrivileged(s bool) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "IsPrivileged", s, reflect.Bool)
 	}
 }
@@ -1244,7 +1244,7 @@ func OptionIsPrivileged(s bool) STIXOption {
 // OptionCanEscalatePrivs sets the can escalate privs attribute. This option is valid for the types:
 //		- UserAccount
 func OptionCanEscalatePrivs(s bool) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "CanEscalatePrivs", s, reflect.Bool)
 	}
 }
@@ -1252,7 +1252,7 @@ func OptionCanEscalatePrivs(s bool) STIXOption {
 // OptionIsDisabled sets the is disabled attribute. This option is valid for the types:
 //		- UserAccount
 func OptionIsDisabled(s bool) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "IsDisabled", s, reflect.Bool)
 	}
 }
@@ -1260,7 +1260,7 @@ func OptionIsDisabled(s bool) STIXOption {
 // OptionAccountCreated sets the account created attribute. This option is valid for the types:
 //		- UserAccount
 func OptionAccountCreated(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "AccountCreated", s, reflect.Ptr)
 	}
 }
@@ -1268,7 +1268,7 @@ func OptionAccountCreated(s *Timestamp) STIXOption {
 // OptionAccountExpires sets the account expires attribute. This option is valid for the types:
 //		- UserAccount
 func OptionAccountExpires(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "AccountExpires", s, reflect.Ptr)
 	}
 }
@@ -1277,7 +1277,7 @@ func OptionAccountExpires(s *Timestamp) STIXOption {
 // attribute. This option is valid for the types:
 //		- UserAccount
 func OptionCredentialLastChanged(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "CredentialLastChanged", s, reflect.Ptr)
 	}
 }
@@ -1285,7 +1285,7 @@ func OptionCredentialLastChanged(s *Timestamp) STIXOption {
 // OptionAccountFirstLogin sets the account first login attribute. This option is valid for the types:
 //		- UserAccount
 func OptionAccountFirstLogin(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "AccountFirstLogin", s, reflect.Ptr)
 	}
 }
@@ -1293,7 +1293,7 @@ func OptionAccountFirstLogin(s *Timestamp) STIXOption {
 // OptionAccountLastLogin sets the account last login attribute. This option is valid for the types:
 //		- UserAccount
 func OptionAccountLastLogin(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "AccountLastLogin", s, reflect.Ptr)
 	}
 }
@@ -1301,7 +1301,7 @@ func OptionAccountLastLogin(s *Timestamp) STIXOption {
 // OptionValues sets the values attribute. This option is valid for the types:
 //		- RegistryKey
 func OptionValues(s []*RegistryValue) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Values", s, reflect.Slice)
 	}
 }
@@ -1309,7 +1309,7 @@ func OptionValues(s []*RegistryValue) STIXOption {
 // OptionModifiedTime sets the modified time attribute. This option is valid for the types:
 //		- RegistryKey
 func OptionModifiedTime(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "ModifiedTime", s, reflect.Ptr)
 	}
 }
@@ -1317,7 +1317,7 @@ func OptionModifiedTime(s *Timestamp) STIXOption {
 // OptionNumberOfSubkeys sets the number of subkeys attribute. This option is valid for the types:
 //		- RegistryKey
 func OptionNumberOfSubkeys(s int64) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "NumberOfSubkeys", s, reflect.Int64)
 	}
 }
@@ -1325,7 +1325,7 @@ func OptionNumberOfSubkeys(s int64) STIXOption {
 // OptionSelfSigned sets the self-signed attribute. This option is valid for the types:
 //		- X509Certificate
 func OptionSelfSigned(s bool) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "SelfSigned", s, reflect.Bool)
 	}
 }
@@ -1333,7 +1333,7 @@ func OptionSelfSigned(s bool) STIXOption {
 // OptionSerialNumber sets the serial number attribute. This option is valid for the types:
 //		- X509Certificate
 func OptionSerialNumber(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "SerialNumber", s, reflect.String)
 	}
 }
@@ -1341,7 +1341,7 @@ func OptionSerialNumber(s string) STIXOption {
 // OptionSignatureAlgorithm sets the signature algorithm attribute. This option is valid for the types:
 //		- X509Certificate
 func OptionSignatureAlgorithm(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "SignatureAlgorithm", s, reflect.String)
 	}
 }
@@ -1349,7 +1349,7 @@ func OptionSignatureAlgorithm(s string) STIXOption {
 // OptionIssuer sets the issuer attribute. This option is valid for the types:
 //		- X509Certificate
 func OptionIssuer(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "Issuer", s, reflect.String)
 	}
 }
@@ -1358,7 +1358,7 @@ func OptionIssuer(s string) STIXOption {
 // attribute. This option is valid for the types:
 //		- X509Certificate
 func OptionValidityNotBefore(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "ValidityNotBefore", s, reflect.Ptr)
 	}
 }
@@ -1367,7 +1367,7 @@ func OptionValidityNotBefore(s *Timestamp) STIXOption {
 // attribute. This option is valid for the types:
 //		- X509Certificate
 func OptionValidityNotAfter(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "ValidityNotAfter", s, reflect.Ptr)
 	}
 }
@@ -1376,7 +1376,7 @@ func OptionValidityNotAfter(s *Timestamp) STIXOption {
 // algorithm attribute. This option is valid for the types:
 //		- X509Certificate
 func OptionSubjectPublicKeyAlgorithm(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "SubjectPublicKeyAlghorithm", s, reflect.String)
 	}
 }
@@ -1385,7 +1385,7 @@ func OptionSubjectPublicKeyAlgorithm(s string) STIXOption {
 // modulus attribute. This option is valid for the types:
 //		- X509Certificate
 func OptionSubjectPublicKeyModulus(s string) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "SubjectPublicKeyModulus", s, reflect.String)
 	}
 }
@@ -1394,7 +1394,7 @@ func OptionSubjectPublicKeyModulus(s string) STIXOption {
 // exponent attribute. This option is valid for the types:
 //		- X509Certificate
 func OptionSubjectPublicKeyExponent(s int64) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "SubjectPublicKeyExponent", s, reflect.Int64)
 	}
 }
@@ -1402,7 +1402,7 @@ func OptionSubjectPublicKeyExponent(s int64) STIXOption {
 // OptionV3Extensions sets the x.509v3 extensions attribute. This option is valid for the types:
 //		- X509Certificate
 func OptionV3Extensions(s X509v3Extension) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "X509v3Extensions", s, reflect.Struct)
 	}
 }
@@ -1410,7 +1410,7 @@ func OptionV3Extensions(s X509v3Extension) STIXOption {
 // OptionObjectModified sets the object modified attribute. This option is valid for the types:
 //		- LanguageContent
 func OptionObjectModified(s *Timestamp) STIXOption {
-	return func(obj StixObject) error {
+	return func(obj STIXObject) error {
 		return setField(obj, "ObjectModified", s, reflect.Ptr)
 	}
 }
@@ -1419,7 +1419,7 @@ func OptionObjectModified(s *Timestamp) STIXOption {
 	Helper functions
 */
 
-func applyOptions(obj StixObject, opts []STIXOption) error {
+func applyOptions(obj STIXObject, opts []STIXOption) error {
 	for _, opt := range opts {
 		if opt == nil {
 			continue
@@ -1431,7 +1431,7 @@ func applyOptions(obj StixObject, opts []STIXOption) error {
 	return nil
 }
 
-func setField(obj StixObject, field string, value interface{}, kind reflect.Kind) error {
+func setField(obj STIXObject, field string, value interface{}, kind reflect.Kind) error {
 	val, err := reflectValue(obj)
 	if err != nil {
 		return err
@@ -1450,7 +1450,7 @@ func setField(obj StixObject, field string, value interface{}, kind reflect.Kind
 	return nil
 }
 
-func reflectValue(obj StixObject) (reflect.Value, error) {
+func reflectValue(obj STIXObject) (reflect.Value, error) {
 	val := reflect.ValueOf(obj)
 
 	// Check the type.

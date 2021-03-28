@@ -167,14 +167,14 @@ func (h Hashes) getIDContribution() string {
 // exact same identifier value.
 type Identifier string
 
-// ForType checks if the identifier is for the StixType.
-func (i Identifier) ForType(typ StixType) bool {
+// ForType checks if the identifier is for the STIXType.
+func (i Identifier) ForType(typ STIXType) bool {
 	return strings.Index(string(i), string(typ)) == 0
 }
 
 // ForTypes checks if the Identifier is for any of the types given.
 // True is returned if one of the types matches.
-func (i Identifier) ForTypes(typ ...StixType) bool {
+func (i Identifier) ForTypes(typ ...STIXType) bool {
 	for _, t := range typ {
 		if i.ForType(t) {
 			return true
@@ -183,8 +183,8 @@ func (i Identifier) ForTypes(typ ...StixType) bool {
 	return false
 }
 
-// HasValidIdentifier checks that the StixObject has a valid identifer.
-func HasValidIdentifier(obj StixObject) bool {
+// HasValidIdentifier checks that the STIXObject has a valid identifer.
+func HasValidIdentifier(obj STIXObject) bool {
 	parts := strings.Split(string(obj.GetID()), "--")
 	if len(parts) != 2 {
 		return false
@@ -203,17 +203,17 @@ func HasValidIdentifier(obj StixObject) bool {
 // Cyber-observable Object.
 var CyberObservableNamespace = uuid.MustParse("00abedb4-aa42-466c-9c01-fed23315a9b7")
 
-// NewIdentifier creates a new Identifier. The Identifier uses the StixType and
+// NewIdentifier creates a new Identifier. The Identifier uses the STIXType and
 // a UUIDv4 to produce a random ID. This function should be used when
 // generating identifiers for TIX Domain Objects, STIX Relationship Objects,
 // STIX Meta Objects, and STIX Bundle Object.
-func NewIdentifier(typ StixType) Identifier {
+func NewIdentifier(typ STIXType) Identifier {
 	id := uuid.New()
 	return Identifier(fmt.Sprintf("%s--%s", typ, id))
 }
 
 // NewObservableIdenfier creates a new STIX Cyber-observable Object identifier.
-func NewObservableIdenfier(value string, typ StixType) Identifier {
+func NewObservableIdenfier(value string, typ STIXType) Identifier {
 	id := uuid.NewSHA1(CyberObservableNamespace, []byte(value))
 	return Identifier(fmt.Sprintf("%s--%s", typ, id))
 }
@@ -232,98 +232,98 @@ func IsValidIdentifier(id Identifier) bool {
 	return true
 }
 
-// StixType is type strings used in Stix objects.
-type StixType string
+// STIXType is type strings used in STIX objects.
+type STIXType string
 
 const (
 	// TypeAutonomousSystem is used for AS type.
-	TypeAutonomousSystem StixType = "autonomous-system"
+	TypeAutonomousSystem STIXType = "autonomous-system"
 	// TypeArtifact is used for artifact type.
-	TypeArtifact StixType = "artifact"
+	TypeArtifact STIXType = "artifact"
 	// TypeAttackPattern is used for attack-pattern type.
-	TypeAttackPattern StixType = "attack-pattern"
+	TypeAttackPattern STIXType = "attack-pattern"
 	// TypeBundle is used for the bundle type.
-	TypeBundle StixType = "bundle"
+	TypeBundle STIXType = "bundle"
 	// TypeCampaign is used for campaign type.
-	TypeCampaign StixType = "campaign"
+	TypeCampaign STIXType = "campaign"
 	// TypeCourseOfAction is used for course of action type.
-	TypeCourseOfAction StixType = "course-of-action"
+	TypeCourseOfAction STIXType = "course-of-action"
 	// TypeDirectory is used for directory type.
-	TypeDirectory StixType = "directory"
+	TypeDirectory STIXType = "directory"
 	// TypeDomainName is used for domain name types.
-	TypeDomainName StixType = "domain-name"
+	TypeDomainName STIXType = "domain-name"
 	// TypeEmailAddress is used for email address type.
-	TypeEmailAddress StixType = "email-addr"
+	TypeEmailAddress STIXType = "email-addr"
 	// TypeEmailMIME is used for email Mime type.
-	TypeEmailMIME StixType = "mime-part-type"
+	TypeEmailMIME STIXType = "mime-part-type"
 	// TypeEmailMessage is used for email message type.
-	TypeEmailMessage StixType = "email-message"
+	TypeEmailMessage STIXType = "email-message"
 	// TypeFile is used for file types.
-	TypeFile StixType = "file"
+	TypeFile STIXType = "file"
 	// TypeGrouping is used for grouping type.
-	TypeGrouping StixType = "grouping"
+	TypeGrouping STIXType = "grouping"
 	// TypeIPv4Addr is used for IPv4 address types.
-	TypeIPv4Addr StixType = "ipv4-addr"
+	TypeIPv4Addr STIXType = "ipv4-addr"
 	// TypeIPv6Addr is used for IPv6 address types.
-	TypeIPv6Addr StixType = "ipv6-addr"
+	TypeIPv6Addr STIXType = "ipv6-addr"
 	// TypeIdentity is used for identity types.
-	TypeIdentity StixType = "identity"
+	TypeIdentity STIXType = "identity"
 	// TypeIndicator is used for indicator types.
-	TypeIndicator StixType = "indicator"
+	TypeIndicator STIXType = "indicator"
 	// TypeInfrastructure is used for infrastructure type.
-	TypeInfrastructure StixType = "infrastructure"
+	TypeInfrastructure STIXType = "infrastructure"
 	// TypeIntrusionSet is used for intrusion set type.
-	TypeIntrusionSet StixType = "intrusion-set"
+	TypeIntrusionSet STIXType = "intrusion-set"
 	// TypeLanguageContent is used for language content type.
-	TypeLanguageContent StixType = "language-content"
+	TypeLanguageContent STIXType = "language-content"
 	// TypeLocation is used for location type.
-	TypeLocation StixType = "location"
+	TypeLocation STIXType = "location"
 	// TypeMACAddress is used for MAC address type.
-	TypeMACAddress StixType = "mac-addr"
+	TypeMACAddress STIXType = "mac-addr"
 	// TypeMalware is used for malware type.
-	TypeMalware StixType = "malware"
+	TypeMalware STIXType = "malware"
 	// TypeMalwareAnalysis is used for file types.
-	TypeMalwareAnalysis StixType = "malware-analysis"
+	TypeMalwareAnalysis STIXType = "malware-analysis"
 	// TypeMarkingDefinition is used for marking definition type.
-	TypeMarkingDefinition StixType = "marking-definition"
+	TypeMarkingDefinition STIXType = "marking-definition"
 	// TypeMutex is used for mutex type.
-	TypeMutex StixType = "mutex"
+	TypeMutex STIXType = "mutex"
 	// TypeNetworkTraffic is used for network traffic type.
-	TypeNetworkTraffic StixType = "network-traffic"
+	TypeNetworkTraffic STIXType = "network-traffic"
 	// TypeNote is used for the note type.
-	TypeNote StixType = "note"
+	TypeNote STIXType = "note"
 	// TypeObservedData is used for observed data type.
-	TypeObservedData StixType = "observed-data"
+	TypeObservedData STIXType = "observed-data"
 	// TypeOpinion is used for the opinion type.
-	TypeOpinion StixType = "opinion"
+	TypeOpinion STIXType = "opinion"
 	// TypeProcess is used for process type.
-	TypeProcess StixType = "process"
+	TypeProcess STIXType = "process"
 	// TypeRegistryKey is used for registry key type.
-	TypeRegistryKey StixType = "windows-registry-key"
+	TypeRegistryKey STIXType = "windows-registry-key"
 	// TypeRelationship is used for relationship types.
-	TypeRelationship StixType = "relationship"
+	TypeRelationship STIXType = "relationship"
 	// TypeReport is used for the report type.
-	TypeReport StixType = "report"
+	TypeReport STIXType = "report"
 	// TypeSighting is used for sighting types.
-	TypeSighting StixType = "sighting"
+	TypeSighting STIXType = "sighting"
 	// TypeSoftware is used for software type.
-	TypeSoftware StixType = "software"
+	TypeSoftware STIXType = "software"
 	// TypeThreatActor is used for threat actor type.
-	TypeThreatActor StixType = "threat-actor"
+	TypeThreatActor STIXType = "threat-actor"
 	// TypeTool is used for tool type.
-	TypeTool StixType = "tool"
+	TypeTool STIXType = "tool"
 	// TypeURL is used for URL types.
-	TypeURL StixType = "url"
+	TypeURL STIXType = "url"
 	// TypeUserAccount is used for user account type.
-	TypeUserAccount StixType = "user-account"
+	TypeUserAccount STIXType = "user-account"
 	// TypeVulnerability is used for vulnerability type.
-	TypeVulnerability StixType = "vulnerability"
+	TypeVulnerability STIXType = "vulnerability"
 	// TypeX509Certificate is used for X.509 certificate type.
-	TypeX509Certificate StixType = "x509-certificate"
+	TypeX509Certificate STIXType = "x509-certificate"
 )
 
 // AllTypes is a list of all STIX types.
-var AllTypes = []StixType{
+var AllTypes = []STIXType{
 	TypeAutonomousSystem,
 	TypeArtifact,
 	TypeAttackPattern,

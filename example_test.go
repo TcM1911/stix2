@@ -73,8 +73,8 @@ func ExampleFromJSON() {
 	// IMDDOS
 }
 
-func ExampleStixCollection_ToBundle() {
-	c := &stix2.StixCollection{}
+func ExampleCollection_ToBundle() {
+	c := &stix2.Collection{}
 	ip, err := stix2.NewIPv4Address("10.0.0.1")
 	if err != nil {
 		fmt.Println(err)
@@ -101,7 +101,7 @@ func ExampleStixCollection_ToBundle() {
 
 func Example() {
 	// Taken from: https://docs.oasis-open.org/cti/stix/v2.1/csprd02/stix-v2.1-csprd02.html#_Toc26789941
-	collection := &stix2.StixCollection{}
+	collection := &stix2.Collection{}
 	domain, err := stix2.NewDomainName("example.com")
 	if err != nil {
 		fmt.Println(err)
