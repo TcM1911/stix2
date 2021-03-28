@@ -25,11 +25,38 @@ type STIXObject interface {
 	GetModified() *time.Time
 }
 
+// CollectionOption is an optional parameter when constructing a Colletion.
+type CollectionOption func(c *Collection)
+
+// NoSortOption instructs the collection to not track the order items have been
+// added. By default, GetAll items returns the objects in the order they were
+// added. If this option is provided, the order returned is non-deterministic.
+func NoSortOption() CollectionOption {
+	return func(c *Collection) {
+		c.noSort = true
+	}
+}
+
+// New creates a new Collection.
+func New(opts ...CollectionOption) *Collection {
+	c := &Collection{}
+
+	for _, opt := range opts {
+		opt(c)
+	}
+
+	return c
+}
+
 // Collection is a collection of STIX objects. This object is not part of the
 // STIX specification.
 type Collection struct {
 	objects map[STIXType]map[Identifier]interface{}
 	objinit sync.Once
+
+	// Options
+	noSort bool
+	order  []Identifier
 }
 
 // Get returns the object with matching ID or nil if it does not exist in the
@@ -63,11 +90,30 @@ func (c *Collection) Add(obj STIXObject) error {
 	}
 	bucket := c.objects[obj.GetType()]
 	bucket[obj.GetID()] = obj
+
+	// Add to the order if we should track it.
+	if !c.noSort {
+		c.order = append(c.order, obj.GetID())
+	}
+
 	return nil
 }
 
 // AllObjects returns a slice of all STIXObjects that are in the collection.
 func (c *Collection) AllObjects() []STIXObject {
+	// If track the order, we use it to get all the objects. Otherwise, we have
+	// to iterrate throw all buckets.
+
+	if !c.noSort && len(c.order) != 0 {
+		result := make([]STIXObject, 0, len(c.order))
+		for _, id := range c.order {
+			result = append(result, c.Get(id))
+		}
+		return result
+	}
+
+	// Scenario where we don't track the order.
+
 	// Calculate the size of the array.
 	size := 0
 	for _, ar := range c.objects {
@@ -821,8 +867,8 @@ func objectInit(c *Collection) {
 
 // FromJSON parses JSON data and returns a Collection with the extracted
 // objects.
-func FromJSON(data []byte) (*Collection, error) {
-	collection := &Collection{}
+func FromJSON(data []byte, opts ...CollectionOption) (*Collection, error) {
+	collection := New(opts...)
 
 	// First assume it is a STIX bundle.
 	var bundle Bundle

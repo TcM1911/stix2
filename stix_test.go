@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"reflect"
 	"testing"
 	"time"
 
@@ -25,20 +26,49 @@ func TestFromJSON(t *testing.T) {
 	data, err := ioutil.ReadAll(f)
 	require.NoError(t, err)
 
-	c, err := FromJSON(data)
-	assert.NoError(err)
-	assert.NotNil(c)
+	t.Run("parse", func(t *testing.T) {
+		c, err := FromJSON(data)
+		assert.NoError(err)
+		assert.NotNil(c)
 
-	assert.Len(c.AttackPatterns(), 7)
-	assert.Len(c.Identities(), 5)
-	assert.Len(c.Indicators(), 12)
-	assert.Len(c.IntrusionSets(), 1)
-	assert.Len(c.AllMalware(), 6)
-	assert.Len(c.MarkingDefinitions(), 1)
-	assert.Len(c.Relationships(), 30)
-	assert.Len(c.Reports(), 1)
-	assert.Len(c.ThreatActors(), 5)
-	assert.Len(c.Tools(), 10)
+		assert.Len(c.AttackPatterns(), 7)
+		assert.Len(c.Identities(), 5)
+		assert.Len(c.Indicators(), 12)
+		assert.Len(c.IntrusionSets(), 1)
+		assert.Len(c.AllMalware(), 6)
+		assert.Len(c.MarkingDefinitions(), 1)
+		assert.Len(c.Relationships(), 30)
+		assert.Len(c.Reports(), 1)
+		assert.Len(c.ThreatActors(), 5)
+		assert.Len(c.Tools(), 10)
+	})
+
+	t.Run("keep-order", func(t *testing.T) {
+		c, err := FromJSON(data)
+		assert.NoError(err)
+		assert.NotNil(c)
+		assert.Equal(c.AllObjects(), c.AllObjects())
+	})
+
+	t.Run("do-not-keep-order", func(t *testing.T) {
+		c, err := FromJSON(data, NoSortOption())
+		assert.NoError(err)
+		assert.NotNil(c)
+
+		objs := c.AllObjects()
+
+		// Because it deterministic, we loop to ensure with don't have a random
+		// match.
+		pass := false
+		for i := 0; i < 1000; i++ {
+			if !reflect.DeepEqual(objs, c.AllObjects()) {
+				// We have found a case that doesn't match so we can exit the loop.
+				pass = true
+				break
+			}
+		}
+		assert.True(pass, "Order is not deterministic")
+	})
 }
 
 func TestFromJSONAll(t *testing.T) {
