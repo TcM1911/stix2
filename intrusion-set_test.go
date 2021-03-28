@@ -137,7 +137,7 @@ func TestIntrusionSetAttributedTo(t *testing.T) {
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
 		assert.Equal(obj.ID, rel.Source)
-		assert.Equal(RelationshipTypeAttrubutedTo, rel.RelationshipType)
+		assert.Equal(RelationshipTypeAttributedTo, rel.RelationshipType)
 	})
 
 	t.Run("invalid_type", func(t *testing.T) {

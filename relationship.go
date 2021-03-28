@@ -84,8 +84,8 @@ type RelationshipType string
 const (
 	// RelationshipTypeAVAnalysisOf is an AV analysis of relationship.
 	RelationshipTypeAVAnalysisOf RelationshipType = "av-analysis-of"
-	// RelationshipTypeAttrubutedTo is an attributed to relationship.
-	RelationshipTypeAttrubutedTo RelationshipType = "attributed-to"
+	// RelationshipTypeAttributedTo is an attributed to relationship.
+	RelationshipTypeAttributedTo RelationshipType = "attributed-to"
 	// RelationshipTypeAuthoredBy is an authored by relationship.
 	RelationshipTypeAuthoredBy RelationshipType = "authored-by"
 	// RelationshipTypeBasedOn is a based on relationship.

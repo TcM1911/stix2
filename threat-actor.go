@@ -78,7 +78,7 @@ func (a *ThreatActor) AddAttributedTo(id Identifier, opts ...STIXOption) (*Relat
 	if !IsValidIdentifier(id) || !id.ForType(TypeIdentity) {
 		return nil, ErrInvalidParameter
 	}
-	return NewRelationship(RelationshipTypeAttrubutedTo, a.ID, id, opts...)
+	return NewRelationship(RelationshipTypeAttributedTo, a.ID, id, opts...)
 }
 
 // AddCompromises creates a relationship that describes that the Threat Actor

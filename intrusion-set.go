@@ -79,7 +79,7 @@ func (c *IntrusionSet) AddAttributedTo(id Identifier, opts ...STIXOption) (*Rela
 	if !IsValidIdentifier(id) || !id.ForType(TypeThreatActor) {
 		return nil, ErrInvalidParameter
 	}
-	return NewRelationship(RelationshipTypeAttrubutedTo, c.ID, id, opts...)
+	return NewRelationship(RelationshipTypeAttributedTo, c.ID, id, opts...)
 }
 
 // AddCompromises describes that the Intrusion Set compromises the related
