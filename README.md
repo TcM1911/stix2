@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.com/TcM1911/stix2.svg?branch=master)](https://travis-ci.com/TcM1911/stix2)
+[![Build](https://github.com/TcM1911/stix2/actions/workflows/build.yml/badge.svg)](https://github.com/TcM1911/stix2/actions/workflows/build.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/TcM1911/stix2)](https://goreportcard.com/report/github.com/TcM1911/stix2)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/TcM1911/stix2?label=Latest)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/TcM1911/stix2)
-[![Go Doc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](http://godoc.org/github.com/TcM1911/stix2)
+[![Go Reference](https://pkg.go.dev/badge/github.com/TcM1911/stix2.svg)](https://pkg.go.dev/github.com/TcM1911/stix2)
 [![codecov](https://codecov.io/gh/TcM1911/stix2/branch/master/graph/badge.svg)](https://codecov.io/gh/TcM1911/stix2)
 
 # stix2
