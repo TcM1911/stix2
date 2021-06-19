@@ -289,6 +289,15 @@ func TestGetFromCollection(t *testing.T) {
 	}
 }
 
+func TestDuplicateInCollection(t *testing.T) {
+	d, _ := NewDomainName("example.com")
+	col := New()
+	col.Add(d)
+	col.Add(d)
+
+	assert.Len(t, col.AllObjects(), 1)
+}
+
 func getResource(file string) (*os.File, error) {
 	pth, err := filepath.Abs(filepath.Join("testresources", file))
 	if err != nil {
