@@ -89,10 +89,14 @@ func (c *Collection) Add(obj STIXObject) error {
 		return fmt.Errorf("%s has an invalid identifier", obj.GetID())
 	}
 	bucket := c.objects[obj.GetType()]
+
+	// Check if the item already exist.
+	_, update := bucket[obj.GetID()]
+
 	bucket[obj.GetID()] = obj
 
-	// Add to the order if we should track it.
-	if !c.noSort {
+	// Add to the order if we should track it and item is new.
+	if !c.noSort && !update {
 		c.order = append(c.order, obj.GetID())
 	}
 
@@ -859,9 +863,9 @@ func (c *Collection) getObject(typ STIXType, id Identifier) interface{} {
 }
 
 func objectInit(c *Collection) {
-	c.objects = map[STIXType]map[Identifier]interface{}{}
+	c.objects = make(map[STIXType]map[Identifier]interface{})
 	for _, k := range AllTypes {
-		c.objects[k] = map[Identifier]interface{}{}
+		c.objects[k] = make(map[Identifier]interface{})
 	}
 }
 
