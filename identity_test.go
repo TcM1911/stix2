@@ -41,7 +41,7 @@ func TestIdentity(t *testing.T) {
 		specVer := "2.0"
 
 		roles := []string{"CEO", "Retailer"}
-		class := IdentityClassUnspecified
+		class := IdentityClassUnknown
 		sectors := []string{IdentitySectorDefence, IdentitySectorEntertainment}
 		contact := "123 Main ST"
 
