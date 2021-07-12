@@ -86,7 +86,7 @@ type EmailMessage struct {
 	// AdditionalHeaderFields specifies any other header fields (except for
 	// date, received_lines, content_type, from_ref, sender_ref, to_refs,
 	// cc_refs, bcc_refs, and subject) found in the email message.
-	AdditionalHeaderFields map[string]string `json:"additional_header_fields,omitempty"`
+	AdditionalHeaderFields map[string][]string `json:"additional_header_fields,omitempty"`
 	// Body specifies a string containing the email body. This property MUST
 	// NOT be used if IsMultipart is true.
 	Body string `json:"body,omitempty"`

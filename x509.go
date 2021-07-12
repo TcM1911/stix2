@@ -40,9 +40,9 @@ type X509Certificate struct {
 	// Subject specifies the name of the entity associated with the public key
 	// stored in the subject public key field of the certificate.
 	Subject string `json:"subject,omitempty"`
-	// SubjectPublicKeyAlghorithm specifies the name of the algorithm with
+	// SubjectPublicKeyAlgorithm specifies the name of the algorithm with
 	// which to encrypt data being sent to the subject.
-	SubjectPublicKeyAlghorithm string `json:"subject_public_key_algorithm,omitempty"`
+	SubjectPublicKeyAlgorithm string `json:"subject_public_key_algorithm,omitempty"`
 	// SubjectPublicKeyModulus specifies the modulus portion of the subject’s
 	// public RSA key.
 	SubjectPublicKeyModulus string `json:"subject_public_key_modulus,omitempty"`

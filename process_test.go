@@ -74,8 +74,8 @@ func TestProcess(t *testing.T) {
 
 	t.Run("process-extension", func(t *testing.T) {
 		ext := &WindowsProcessExtension{
-			ASLR:          true,
-			InterityLevel: IntegrityLevelMedium,
+			ASLR:           true,
+			IntegrityLevel: IntegrityLevelMedium,
 		}
 		f, _ := NewProcess(OptionExtension(ExtWindowsProcess, ext))
 		assert.Len(f.Extensions, 1)

@@ -51,7 +51,7 @@ func (c *Campaign) AddTargets(id Identifier, opts ...STIXOption) (*Relationship,
 // AddUses creates a relationship to either a malware or tool that is used by
 // the campaign
 func (c *Campaign) AddUses(id Identifier, opts ...STIXOption) (*Relationship, error) {
-	if !IsValidIdentifier(id) || (!id.ForType(TypeMalware) && !id.ForType(TypeTool)) {
+	if !IsValidIdentifier(id) || (!id.ForType(TypeAttackPattern) && !id.ForType(TypeInfrastructure) && !id.ForType(TypeMalware) && !id.ForType(TypeTool)) {
 		return nil, ErrInvalidParameter
 	}
 	return NewRelationship(RelationshipTypeTargets, c.ID, id, opts...)

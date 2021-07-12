@@ -29,7 +29,7 @@ type Tool struct {
 	// potentially including its purpose and its key characteristics.
 	Description string `json:"description,omitempty"`
 	// Types is the kind(s) of tool(s) being described.
-	Types []string `json:"tool_types"`
+	Types []string `json:"tool_types,omitempty"`
 	// Aliases are alternative names used to identify this Tool.
 	Aliases []string `json:"aliases,omitempty"`
 	// KillChainPhase is the list of kill chain phases for which this Tool can

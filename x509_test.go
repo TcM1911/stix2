@@ -75,7 +75,7 @@ func TestX509Certificate(t *testing.T) {
 		assert.Equal(ts, obj.ValidityNotBefore)
 		assert.Equal(ts, obj.ValidityNotAfter)
 		assert.Equal(testStr, obj.Subject)
-		assert.Equal(testStr, obj.SubjectPublicKeyAlghorithm)
+		assert.Equal(testStr, obj.SubjectPublicKeyAlgorithm)
 		assert.Equal(testStr, obj.SubjectPublicKeyModulus)
 		assert.Equal(num, obj.SubjectPublicKeyExponent)
 		assert.Equal(v3, obj.X509v3Extensions)

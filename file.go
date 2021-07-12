@@ -186,7 +186,7 @@ type PDFExtension struct {
 	Version string `json:"version,omitempty"`
 	// IsOptimized specifies whether the PDF file has been optimized.
 	IsOptimized bool `json:"is_optimized,omitempty"`
-	// DocumentInfo pecifies details of the PDF document information dictionary
+	// DocumentInfo specifies details of the PDF document information dictionary
 	// (DID), which includes properties like the document creation data and
 	// producer, as a dictionary. Each key in the dictionary SHOULD be a
 	// case-preserved version of the corresponding entry in the document
@@ -290,10 +290,10 @@ type WindowsPEOptionalHeader struct {
 	// multiple such sections, this refers to the sum of the sizes of each
 	// section. The value of this property MUST NOT be negative.
 	SizeOfCode int64 `json:"size_of_code,omitempty"`
-	// SizeOfInializedData specifies the size of the initialized data section.
+	// SizeOfInitializedData specifies the size of the initialized data section.
 	// If there are multiple such sections, this refers to the sum of the sizes
 	// of each section. The value of this property MUST NOT be negative.
-	SizeOfInializedData int64 `json:"size_of_initialized_data,omitempty"`
+	SizeOfInitializedData int64 `json:"size_of_initialized_data,omitempty"`
 	// SizeOfUninitializedData specifies the size of the uninitialized data
 	// section. If there are multiple such sections, this refers to the sum of
 	// the sizes of each section. The value of this property MUST NOT be

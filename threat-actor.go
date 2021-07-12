@@ -22,7 +22,7 @@ type ThreatActor struct {
 	// potentially including its purpose and its key characteristics.
 	Description string `json:"description,omitempty"`
 	// Types specifies the type(s) of this threat actor.
-	Types []string `json:"threat_actor_types"`
+	Types []string `json:"threat_actor_types,omitempty"`
 	// Aliases is a list of other names that this Threat Actor is believed to
 	// use.
 	Aliases []string `json:"aliases,omitempty"`

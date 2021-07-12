@@ -883,7 +883,7 @@ func OptionReceivedLines(s []string) STIXOption {
 // OptionAdditionalHeaderFields sets the additional header fields
 // attribute. This option is valid for the types:
 //		- EmailMessage
-func OptionAdditionalHeaderFields(s map[string]string) STIXOption {
+func OptionAdditionalHeaderFields(s map[string][]string) STIXOption {
 	return func(obj STIXObject) error {
 		return setField(obj, "AdditionalHeaderFields", s, reflect.Map)
 	}
@@ -1377,7 +1377,7 @@ func OptionValidityNotAfter(s *Timestamp) STIXOption {
 //		- X509Certificate
 func OptionSubjectPublicKeyAlgorithm(s string) STIXOption {
 	return func(obj STIXObject) error {
-		return setField(obj, "SubjectPublicKeyAlghorithm", s, reflect.String)
+		return setField(obj, "SubjectPublicKeyAlgorithm", s, reflect.String)
 	}
 }
 

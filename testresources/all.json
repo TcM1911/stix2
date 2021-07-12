@@ -446,9 +446,9 @@
       ],
       "subject": "Check out this picture of a cat!",
       "additional_header_fields": {
-         "Content-Disposition": "inline",
-         "X-Mailer": "Mutt/1.5.23",
-         "X-Originating-IP": "198.51.100.3"
+         "Content-Disposition": ["inline"],
+         "X-Mailer": ["Mutt/1.5.23"],
+         "X-Originating-IP": ["198.51.100.3"]
       },
       "body_multipart": [{
             "content_type": "text/plain; charset=utf-8",
