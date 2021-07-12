@@ -24,6 +24,6 @@ func NewMutex(value string, opts ...STIXOption) (*Mutex, error) {
 	}
 
 	err := applyOptions(obj, opts)
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", value), TypeMutex)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[\"%s\"]", value), TypeMutex)
 	return obj, err
 }

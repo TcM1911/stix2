@@ -40,7 +40,7 @@ func TestEmailAddress(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionSpecVersion(specVer),
 			OptionDefanged(true),
-			OptionExtension("test", struct{}{}),
+			// OptionExtension("test", struct{}{}),
 			//
 			OptionDisplayName(name),
 			OptionBelongsTo(belong),
@@ -116,7 +116,6 @@ func TestEmailMessage(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionSpecVersion(specVer),
 			OptionDefanged(true),
-			OptionExtension("test", struct{}{}),
 			//
 			OptionDate(ts),
 			OptionContentType(msg),

@@ -54,7 +54,7 @@ func NewRegistryKey(opts ...STIXOption) (*RegistryKey, error) {
 		}
 		idContri = append(idContri, fmt.Sprintf(`%s`, strings.Join(a, ",")))
 	}
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeRegistryKey)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeRegistryKey)
 	return obj, err
 }
 

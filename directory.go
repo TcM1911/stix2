@@ -43,6 +43,6 @@ func NewDirectory(path string, opts ...STIXOption) (*Directory, error) {
 	}
 
 	err := applyOptions(obj, opts)
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", path), TypeDirectory)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[\"%s\"]", path), TypeDirectory)
 	return obj, err
 }

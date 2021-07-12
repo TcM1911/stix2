@@ -30,6 +30,6 @@ func NewAutonomousSystem(number int64, opts ...STIXOption) (*AutonomousSystem, e
 	}
 
 	err := applyOptions(obj, opts)
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%d]", number), TypeAutonomousSystem)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[%d]", number), TypeAutonomousSystem)
 	return obj, err
 }

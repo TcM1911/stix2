@@ -55,6 +55,6 @@ func NewSoftware(name string, opts ...STIXOption) (*Software, error) {
 	if obj.Version != "" {
 		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.Version))
 	}
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeSoftware)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeSoftware)
 	return obj, err
 }

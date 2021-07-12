@@ -73,7 +73,7 @@ func NewX509Certificate(opts ...STIXOption) (*X509Certificate, error) {
 	if obj.SerialNumber != "" {
 		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.SerialNumber))
 	}
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeX509Certificate)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeX509Certificate)
 	return obj, err
 }
 

@@ -42,7 +42,6 @@ func TestRegistryKey(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionSpecVersion(specVer),
 			OptionDefanged(true),
-			OptionExtension("test", struct{}{}),
 			//
 			OptionKey(testStr),
 			OptionValues(val),

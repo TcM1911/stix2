@@ -45,7 +45,6 @@ func TestFile(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionSpecVersion(specVer),
 			OptionDefanged(true),
-			OptionExtension("test", struct{}{}),
 			//
 			OptionSize(size),
 			OptionNameEnc(someString),

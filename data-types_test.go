@@ -164,7 +164,7 @@ func TestIdentifier(t *testing.T) {
 	})
 
 	t.Run("NewObservableID", func(t *testing.T) {
-		id := NewObservableIdenfier("198.51.100.3", TypeIPv4Addr)
+		id := NewObservableIdentifier("198.51.100.3", TypeIPv4Addr)
 		assert.Equal(Identifier("ipv4-addr--0ec1740c-3e52-5d42-8659-da680987dff8"), id)
 	})
 }

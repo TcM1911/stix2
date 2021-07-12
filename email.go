@@ -34,7 +34,7 @@ func NewEmailAddress(value string, opts ...STIXOption) (*EmailAddress, error) {
 	}
 
 	err := applyOptions(obj, opts)
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", value), TypeEmailAddress)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[\"%s\"]", value), TypeEmailAddress)
 	return obj, err
 }
 
@@ -118,7 +118,7 @@ func NewEmailMessage(multipart bool, opts ...STIXOption) (*EmailMessage, error) 
 	if obj.Body != "" {
 		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.Body))
 	}
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeEmailMessage)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeEmailMessage)
 	return obj, err
 }
 

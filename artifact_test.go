@@ -53,7 +53,6 @@ func TestArtifact(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionSpecVersion(specVer),
 			OptionDefanged(true),
-			OptionExtension("test", struct{}{}),
 			//
 			OptionMimeType(mime),
 			OptionPayload(payload),

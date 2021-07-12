@@ -38,7 +38,6 @@ func TestDomain(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionSpecVersion(specVer),
 			OptionDefanged(true),
-			OptionExtension("test", struct{}{}),
 			OptionResolvesTo([]Identifier{resolve}),
 		}
 		obj, err := NewDomainName(name, opts...)

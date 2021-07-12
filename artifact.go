@@ -65,7 +65,7 @@ func NewArtifact(opts ...STIXOption) (*Artifact, error) {
 	if len(obj.Payload) != 0 {
 		contriStr = append(contriStr, `"`+obj.Payload.String()+`"`)
 	}
-	obj.ID = NewObservableIdenfier("["+strings.Join(contriStr, ",")+"]", TypeArtifact)
+	obj.ID = NewObservableIdentifier("["+strings.Join(contriStr, ",")+"]", TypeArtifact)
 	return obj, nil
 }
 

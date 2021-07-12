@@ -212,8 +212,8 @@ func NewIdentifier(typ STIXType) Identifier {
 	return Identifier(fmt.Sprintf("%s--%s", typ, id))
 }
 
-// NewObservableIdenfier creates a new STIX Cyber-observable Object identifier.
-func NewObservableIdenfier(value string, typ STIXType) Identifier {
+// NewObservableIdentifier creates a new STIX Cyber-observable Object identifier.
+func NewObservableIdentifier(value string, typ STIXType) Identifier {
 	id := uuid.NewSHA1(CyberObservableNamespace, []byte(value))
 	return Identifier(fmt.Sprintf("%s--%s", typ, id))
 }

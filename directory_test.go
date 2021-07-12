@@ -41,7 +41,6 @@ func TestDirectory(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionSpecVersion(specVer),
 			OptionDefanged(true),
-			OptionExtension("test", struct{}{}),
 			//
 			OptionPathEncoding(pthEnc),
 			OptionCtime(ts),

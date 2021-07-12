@@ -36,7 +36,6 @@ func TestProcess(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionSpecVersion(specVer),
 			OptionDefanged(true),
-			OptionExtension("test", struct{}{}),
 			//
 			OptionIsHidden(true),
 			OptionPID(testInt),

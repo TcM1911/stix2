@@ -43,7 +43,6 @@ func TestNetworkTraffic(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionSpecVersion(specVer),
 			OptionDefanged(true),
-			OptionExtension("test", struct{}{}),
 			//
 			OptionStart(ts),
 			OptionEnd(ts),

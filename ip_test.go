@@ -37,7 +37,6 @@ func TestIPv4Address(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionSpecVersion(specVer),
 			OptionDefanged(true),
-			OptionExtension("test", struct{}{}),
 		}
 		obj, err := NewIPv4Address(val, opts...)
 		assert.NotNil(obj)
@@ -158,7 +157,6 @@ func TestIPv6Address(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionSpecVersion(specVer),
 			OptionDefanged(true),
-			OptionExtension("test", struct{}{}),
 		}
 		obj, err := NewIPv6Address(val, opts...)
 		assert.NotNil(obj)

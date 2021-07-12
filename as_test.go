@@ -39,7 +39,6 @@ func TestAS(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionSpecVersion(specVer),
 			OptionDefanged(true),
-			OptionExtension("test", struct{}{}),
 			//
 			OptionName(name),
 			OptionRIR(rir),

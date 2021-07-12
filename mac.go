@@ -24,6 +24,6 @@ func NewMACAddress(value string, opts ...STIXOption) (*MACAddress, error) {
 	}
 
 	err := applyOptions(obj, opts)
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", value), TypeMACAddress)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[\"%s\"]", value), TypeMACAddress)
 	return obj, err
 }

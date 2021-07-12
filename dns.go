@@ -40,6 +40,6 @@ func NewDomainName(value string, opts ...STIXOption) (*DomainName, error) {
 	}
 
 	err := applyOptions(obj, opts)
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", value), TypeDomainName)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[\"%s\"]", value), TypeDomainName)
 	return obj, err
 }

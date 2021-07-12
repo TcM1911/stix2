@@ -37,7 +37,6 @@ func TestURL(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionSpecVersion(specVer),
 			OptionDefanged(true),
-			OptionExtension("test", struct{}{}),
 		}
 		obj, err := NewURL(val, opts...)
 		assert.NotNil(obj)

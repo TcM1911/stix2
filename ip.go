@@ -51,7 +51,7 @@ func NewIPv4Address(value string, opts ...STIXOption) (*IPv4Address, error) {
 	}
 
 	err := applyOptions(obj, opts)
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", value), TypeIPv4Addr)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[\"%s\"]", value), TypeIPv4Addr)
 	return obj, err
 }
 
@@ -101,6 +101,6 @@ func NewIPv6Address(value string, opts ...STIXOption) (*IPv6Address, error) {
 	}
 
 	err := applyOptions(obj, opts)
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", value), TypeIPv6Addr)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[\"%s\"]", value), TypeIPv6Addr)
 	return obj, err
 }

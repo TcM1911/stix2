@@ -26,6 +26,6 @@ func NewURL(value string, opts ...STIXOption) (*URL, error) {
 	}
 
 	err := applyOptions(obj, opts)
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", value), TypeURL)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[\"%s\"]", value), TypeURL)
 	return obj, err
 }
