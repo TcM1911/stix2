@@ -157,6 +157,9 @@ const (
 	InfrastructureTypeReconnaissance = "reconnaissance"
 	// InfrastructureTypeStaging specifies infrastructure used for staging.
 	InfrastructureTypeStaging = "staging"
+	// InfrastructureTypeWorkstation specifies an endpoint machine used for
+	// work by an organization that needs protection.
+	InfrastructureTypeWorkstation = "workstation"
 	// InfrastructureTypeUndefined specifies an infrastructure of some
 	// undefined type.
 	InfrastructureTypeUndefined = "undefined"

@@ -76,10 +76,14 @@ const (
 	// hash string for this value MUST be a valid SHA3-512 message digest as
 	// defined in [FIPS202].
 	SHA3512 HashAlgorithm = "SHA3-512"
-	// SSDEEP is he ssdeep fuzzy hashing algorithm. The corresponding hash
+	// SSDEEP is the ssdeep fuzzy hashing algorithm. The corresponding hash
 	// string for this value MUST be a valid piecewise hash as defined in the
 	// [SSDEEP] specification.
 	SSDEEP HashAlgorithm = "SSDEEP"
+	// TLSH is the TLSH fuzzy hashing algorithm. The corresponding hash string
+	// for this value MUST be a valid 35 byte long hash as defined in the [TLSH]
+	// specification.
+	TLSH HashAlgorithm = "TLSH"
 )
 
 // HashAlgorithm is a vocabulary of hashing algorithms.
