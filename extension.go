@@ -1,6 +1,9 @@
 package stix2
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 type Extensions map[string]interface{}
 
@@ -160,6 +163,56 @@ type ExtensionDefinition struct {
 	ExtensionProperties []string `json:"extension_properties,omitempty"`
 }
 
+// NewExtensionDefinition creates a new ExtensionDefinition object.
+func NewExtensionDefinition(name string, schema string, version string, extTypes []ExtensionType, opts ...STIXOption) (*ExtensionDefinition, error) {
+	// Check the arguments
+	if name == "" ||
+		schema == "" ||
+		version == "" ||
+		len(extTypes) == 0 {
+		return nil, ErrInvalidParameter
+	}
+
+	now := &Timestamp{time.Now()}
+	id := NewIdentifier(TypeExtensionDefinition)
+	obj := &ExtensionDefinition{
+		Type:           TypeExtensionDefinition,
+		ID:             id,
+		SpecVersion:    SpecVersion21,
+		Created:        now,
+		Modified:       now,
+		Name:           name,
+		Schema:         schema,
+		Version:        version,
+		ExtensionTypes: extTypes,
+	}
+
+	err := applyOptions(obj, opts)
+	return obj, err
+}
+
+// GetID returns the identifier for the object.
+func (e *ExtensionDefinition) GetID() Identifier {
+	return e.ID
+}
+
+// GetType returns the object's type.
+func (e *ExtensionDefinition) GetType() STIXType {
+	return e.Type
+}
+
+// GetCreated returns the created time for the STIX object. If the object
+// does not have a time defined, nil is returned.
+func (e *ExtensionDefinition) GetCreated() *time.Time {
+	return &e.Created.Time
+}
+
+// GetModified returns the modified time for the STIX object. If the object
+// does not have a time defined, nil is returned.
+func (e *ExtensionDefinition) GetModified() *time.Time {
+	return &e.Modified.Time
+}
+
 // ExtensionType describes what type of extension it is.
 type ExtensionType uint8
 
@@ -170,13 +223,19 @@ func (typ ExtensionType) String() string {
 
 // UnmarshalJSON extracts the encryption algorithm from the json data.
 func (typ *ExtensionType) UnmarshalJSON(b []byte) error {
-	t := string(b[1 : len(b)-1])
+	var s string
+	err := json.Unmarshal(b, &s)
+	if err != nil {
+		return err
+	}
+
 	for k, v := range encExtTypeMap {
-		if v == t {
+		if v == s {
 			*typ = k
 			return nil
 		}
 	}
+
 	*typ = ExtensionTypeInvalid
 	return nil
 }

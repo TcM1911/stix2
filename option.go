@@ -178,6 +178,14 @@ func OptionExtension(name string, value interface{}) STIXOption {
 	}
 }
 
+// OptionExtensionProperties adds an extension. This option is valid for the types:
+//		- STIX ExtensionDefinition
+func OptionExtensionProperties(value []string) STIXOption {
+	return func(obj STIXObject) error {
+		return setField(obj, "ExtensionProperties", value, reflect.Slice)
+	}
+}
+
 /*
 	Other properties
 */

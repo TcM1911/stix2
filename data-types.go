@@ -258,6 +258,8 @@ const (
 	TypeEmailMIME STIXType = "mime-part-type"
 	// TypeEmailMessage is used for email message type.
 	TypeEmailMessage STIXType = "email-message"
+	// TypeExtensionDefinition is used for extension definition type.
+	TypeExtensionDefinition STIXType = "extension-definition"
 	// TypeFile is used for file types.
 	TypeFile STIXType = "file"
 	// TypeGrouping is used for grouping type.
