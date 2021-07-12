@@ -92,7 +92,7 @@ type LanguageContent struct {
 	// Language Content applies to. It MUST be an exact match for the modified
 	// time of the STIX Object being referenced.
 	ObjectModified *Timestamp `json:"object_modified,omitempty"`
-	// Contents scontains the actual Language Content (translation).
+	// Contents contains the actual Language Content (translation).
 	//
 	// The keys in the dictionary MUST be RFC 5646 language codes for which
 	// language content is being provided [RFC5646]. The values each consist of

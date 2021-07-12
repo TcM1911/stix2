@@ -82,8 +82,8 @@ func NewRelationship(relType RelationshipType, source, target Identifier, opts .
 type RelationshipType string
 
 const (
-	// RelationshipTypeAVAnalysisOf is an AV analysis of relationship.
-	RelationshipTypeAVAnalysisOf RelationshipType = "av-analysis-of"
+	// RelationshipTypeAnalysisOf is an analysis of relationship.
+	RelationshipTypeAnalysisOf RelationshipType = "analysis-of"
 	// RelationshipTypeAttributedTo is an attributed to relationship.
 	RelationshipTypeAttributedTo RelationshipType = "attributed-to"
 	// RelationshipTypeAuthoredBy is an authored by relationship.

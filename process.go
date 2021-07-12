@@ -107,9 +107,9 @@ type WindowsProcessExtension struct {
 	// case-preserved version of the original name. For example, given a name
 	// of "lpDesktop" the corresponding key would be lpDesktop.
 	StartupInfo map[string]interface{} `json:"startup_info,omitempty"`
-	// InterityLevel specifies the Windows integrity level, or trustworthiness,
+	// IntegrityLevel specifies the Windows integrity level, or trustworthiness,
 	// of the process.
-	InterityLevel WindowsIntegrityLevel `json:"integrity_level,omitempty"`
+	IntegrityLevel WindowsIntegrityLevel `json:"integrity_level,omitempty"`
 }
 
 // WindowsIntegrityLevel is a security feature and represent the
