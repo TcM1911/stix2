@@ -69,10 +69,9 @@ const (
 	// IdentityClassClass represents a class of entities, such as all
 	// hospitals, all Europeans, or the Domain Administrators in a system.
 	IdentityClassClass = "class"
-	// IdentityClassUnspecified represents an unspecified (or unknown) whether
-	// the classification is an individual, group, system, organization, or
-	// class.
-	IdentityClassUnspecified = "unspecified"
+	// IdentityClassUnknown is unknown whether the classification is an individual,
+	// group, system, organization, or class.
+	IdentityClassUnknown = "unknown"
 )
 
 const (
@@ -82,6 +81,10 @@ const (
 	IdentitySectorAerospace = "aerospace"
 	// IdentitySectorAutomotive represents the automotive sector.
 	IdentitySectorAutomotive = "automotive"
+	// IdentitySectorChemical represents the chemical sector.
+	IdentitySectorChemical = "chemical"
+	// IdentitySectorCommercial represents the commercial sector.
+	IdentitySectorCommercial = "commercial"
 	// IdentitySectorCommunications represents the communications sector.
 	IdentitySectorCommunications = "communications"
 	// IdentitySectorConstruction represents the construction sector.
@@ -96,6 +99,10 @@ const (
 	IdentitySectorEntertainment = "entertainment"
 	// IdentitySectorFinancialServices represents the financial service sector.
 	IdentitySectorFinancialServices = "financial-services"
+	// IdentitySectorEmergencyServices represents the emergency services.
+	IdentitySectorEmergencyServices = "emergency-services"
+	// IdentitySectorGovernment represents the government.
+	IdentitySectorGovernment = "government"
 	// IdentitySectorGovernmentNational represents the national government.
 	IdentitySectorGovernmentNational = "government-national"
 	// IdentitySectorGovernmentRegional represents the regional government.
@@ -110,6 +117,12 @@ const (
 	IdentitySectorHospitalityLeisure = "hospitality-leisure"
 	// IdentitySectorInfrastructure represents the infrastructure sector.
 	IdentitySectorInfrastructure = "infrastructure"
+	// IdentitySectorInfrastructureDams represents the dams infrastructure sector.
+	IdentitySectorInfrastructureDams = "dams"
+	// IdentitySectorInfrastructureNuclear represents the nuclear infrastructure sector.
+	IdentitySectorInfrastructureNuclear = "nuclear"
+	// IdentitySectorInfrastructureWater represents the water infrastructure sector.
+	IdentitySectorInfrastructureWater = "water"
 	// IdentitySectorInsurance represents the insurance sector.
 	IdentitySectorInsurance = "insurance"
 	// IdentitySectorManufacturing represents the manufacturing sector.
