@@ -111,6 +111,8 @@ func TestFromJSONAll(t *testing.T) {
 	assert.NotNil(c.EmailMessages())
 	assert.NotNil(c.EmailMessage(Identifier("email-message--cf9b4b7f-14c8-5955-8065-020e0316b559")))
 	assert.Nil(c.EmailMessage(Identifier("")))
+	assert.NotNil(c.ExtensionDefinition(Identifier("extension-definition--9c59fd79-4215-4ba2-920d-3e4f320e1e62")))
+	assert.Nil(c.ExtensionDefinition(Identifier("")))
 	assert.NotNil(c.Files())
 	assert.NotNil(c.File(Identifier("file--6ce09d9c-0ad3-5ebf-900c-e3cb288955b5")))
 	assert.Nil(c.File(Identifier("")))

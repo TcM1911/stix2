@@ -336,6 +336,7 @@ var AllTypes = []STIXType{
 	TypeEmailAddress,
 	TypeEmailMIME,
 	TypeEmailMessage,
+	TypeExtensionDefinition,
 	TypeFile,
 	TypeGrouping,
 	TypeIPv4Addr,

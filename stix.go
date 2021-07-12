@@ -300,6 +300,24 @@ func (c *Collection) EmailMessages() []*EmailMessage {
 	return data
 }
 
+// ExtensionDefinition returns the ExtensionDefinition with the identifier id.
+func (c *Collection) ExtensionDefinition(id Identifier) *ExtensionDefinition {
+	obj := c.getObject(TypeExtensionDefinition, id)
+	if obj == nil {
+		return nil
+	}
+	return obj.(*ExtensionDefinition)
+}
+
+// ExtensionDefinitions returns all the ExtensionDefinitions in the collection.
+func (c *Collection) ExtensionDefinitions() []*ExtensionDefinition {
+	data := make([]*ExtensionDefinition, 0, len(c.objects[TypeExtensionDefinition]))
+	for _, v := range c.objects[TypeExtensionDefinition] {
+		data = append(data, v.(*ExtensionDefinition))
+	}
+	return data
+}
+
 // File returns the File with the identifier id.
 func (c *Collection) File(id Identifier) *File {
 	obj := c.getObject(TypeFile, id)
@@ -932,6 +950,8 @@ func processObjects(collection *Collection, objects []json.RawMessage) error {
 			obj = &EmailAddress{}
 		case TypeEmailMessage:
 			obj = &EmailMessage{}
+		case TypeExtensionDefinition:
+			obj = &ExtensionDefinition{}
 		case TypeFile:
 			obj = &File{}
 		case TypeGrouping:
