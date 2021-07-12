@@ -159,4 +159,36 @@ func TestUserAccount(t *testing.T) {
 		assert.Equal("the grugq", obj.DisplayName)
 		assert.Equal(AccountTwitter, obj.AccountType)
 	})
+
+	t.Run("parse-unix-user", func(t *testing.T) {
+		data := []byte(`{
+			"type": "user-account",
+			"spec_version": "2.1",
+			"id": "user-account--0d5b424b-93b8-5cd8-ac36-306e1789d63c",
+			"user_id": "1001",
+			"account_login": "jdoe",
+			"account_type": "unix",
+			"display_name": "John Doe",
+			"is_service_account": false,
+			"is_privileged": false,
+			"can_escalate_privs": true,
+			"extensions": {
+			  "unix-account-ext": {
+				"gid": 1001,
+				"groups": ["wheel"],
+				"home_dir": "/home/jdoe",
+				"shell": "/bin/bash"
+			  }
+			}
+		  }
+`)
+
+		var obj *UserAccount
+		err := json.Unmarshal(data, &obj)
+		assert.NoError(err)
+
+		ext := obj.UNIXAccountExtension()
+		assert.NotNil(ext)
+		assert.Equal(int64(1001), ext.GID)
+	})
 }

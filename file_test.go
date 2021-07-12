@@ -247,4 +247,146 @@ func TestFile(t *testing.T) {
 		assert.Equal(Hex("818f"), pext.Characteristics)
 		assert.Equal("CODE", pext.Sections[0].Name)
 	})
+
+	t.Run("parse-archive", func(t *testing.T) {
+		data := []byte(`{
+			"type": "file",
+			"spec_version": "2.1",
+			"id": "file--9a1f834d-2506-5367-baec-7aa63996ac43",
+			"name": "foo.zip",
+			"hashes": {
+			  "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
+			},
+			"mime_type": "application/zip",
+			"extensions": {
+			  "archive-ext": {
+				"contains_refs": [
+				  "file--019fde1c-94ca-5967-8b3c-a906a51d87ac",
+				  "file--94fc2163-dec3-5715-b824-6e689c4de865",
+				  "file--d07ff290-d7e0-545b-a2ff-04602a9e0b73"
+				]
+			  }
+			}
+		  }
+`)
+
+		var obj *File
+		err := json.Unmarshal(data, &obj)
+		assert.NoError(err)
+
+		ext := obj.ArchiveExtension()
+		assert.NotNil(ext)
+		assert.Contains(ext.Contains, Identifier("file--94fc2163-dec3-5715-b824-6e689c4de865"))
+	})
+
+	t.Run("ntfs", func(t *testing.T) {
+		data := []byte(`{
+			"type": "file",
+			"spec_version": "2.1",
+			"id": "file--73c4cd13-7206-5100-88ef-822c42d3f02c",
+			"hashes": {
+			  "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
+			},
+			"extensions": {
+			  "ntfs-ext": {
+				"alternate_data_streams": [
+				  {
+					"name": "second.stream",
+					"size": 25536
+				  }
+				]
+			  }
+			}
+		  }
+`)
+		var obj *File
+		err := json.Unmarshal(data, &obj)
+		assert.NoError(err)
+
+		ext := obj.NTFSExtension()
+		assert.NotNil(ext)
+		assert.Equal("second.stream", ext.AltDataStreams[0].Name)
+		assert.Equal(int64(25536), ext.AltDataStreams[0].Size)
+	})
+
+	t.Run("pdf", func(t *testing.T) {
+		data := []byte(`{
+			"type": "file",
+			"spec_version": "2.1",
+			"id": "file--ec3415cc-5f4f-5ec8-bdb1-6f86996ae66d",
+			"name": "example.pdf",
+			"extensions": {
+			  "pdf-ext": {
+				"version": "1.7",
+				"document_info_dict": {
+				  "Title": "Sample document",
+				  "Author": "Adobe Systems Incorporated",
+				  "Creator": "Adobe FrameMaker 5.5.3 for Power Macintosh",
+				  "Producer": "Acrobat Distiller 3.01 for Power Macintosh",
+				  "CreationDate": "20070412090123-02"
+				},
+				"pdfid0": "DFCE52BD827ECF765649852119D",
+				"pdfid1": "57A1E0F9ED2AE523E313C"
+			  }
+			}
+		  }
+`)
+
+		var obj *File
+		err := json.Unmarshal(data, &obj)
+		assert.NoError(err)
+
+		ext := obj.PDFExtension()
+		assert.NotNil(ext)
+		assert.Equal("1.7", ext.Version)
+		assert.Equal("Adobe Systems Incorporated", ext.DocumentInfo["Author"])
+		assert.Equal("DFCE52BD827ECF765649852119D", ext.PDFid0)
+	})
+
+	t.Run("raster-image", func(t *testing.T) {
+		data := []byte(`{
+			"type": "file",
+			"spec_version": "2.1",
+			"id": "file--c7d1e135-8b34-549a-bb47-302f5cf998ed",
+			"name": "picture.jpg",
+			"hashes": {
+			  "SHA-256": "4bac27393bdd9777ce02453256c5577cd02275510b2227f473d03f533924f877"
+			},
+			"extensions": {
+			  "raster-image-ext": {
+				"exif_tags": {
+				  "Make": "Nikon",
+				  "Model": "D7000",
+				  "XResolution": 4928,
+				  "YResolution": 3264
+				}
+			  }
+			}
+		  }
+`)
+
+		var obj *File
+		err := json.Unmarshal(data, &obj)
+		assert.NoError(err)
+
+		ext := obj.RasterImageExtension()
+		assert.NotNil(ext)
+		assert.Equal("Nikon", ext.ExifTags["Make"])
+		assert.Equal(float64(4928), ext.ExifTags["XResolution"])
+	})
+
+	t.Run("return-nil-on-empty-extension", func(t *testing.T) {
+		f := &File{}
+
+		e := f.ArchiveExtension()
+		assert.Nil(e)
+		f.NTFSExtension()
+		assert.Nil(e)
+		f.PDFExtension()
+		assert.Nil(e)
+		f.RasterImageExtension()
+		assert.Nil(e)
+		f.WindowsPEBinaryExtension()
+		assert.Nil(e)
+	})
 }

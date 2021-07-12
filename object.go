@@ -5,7 +5,6 @@ package stix2
 
 import (
 	"bytes"
-	"encoding/json"
 	"time"
 
 	"github.com/ugorji/go/codec"
@@ -315,7 +314,7 @@ type STIXCyberObservableObject struct {
 	// object has been defanged.
 	Defanged bool `json:"defanged,omitempty"`
 	// Specifies any extensions of the object, as a dictionary.
-	Extensions map[string]json.RawMessage `json:"extensions,omitempty"`
+	Extensions Extensions `json:"extensions,omitempty"`
 }
 
 // AddDerivedFrom adds a relationship to an object that this object is derived

@@ -1,12 +1,8 @@
 package stix2
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
 	"reflect"
-
-	"github.com/ugorji/go/codec"
 )
 
 // STIXOption is an optional parameter when constructing an
@@ -164,23 +160,16 @@ func OptionExtension(name string, value interface{}) STIXOption {
 			return fmt.Errorf("extension field not available in the object")
 		}
 
-		ext, ok := ev.Interface().(map[string]json.RawMessage)
+		ext, ok := ev.Interface().(Extensions)
 		if !ok {
 			return fmt.Errorf("extensions field is of wrong type")
 		}
 
 		if ext == nil {
-			ext = make(map[string]json.RawMessage)
+			ext = Extensions{}
 		}
 
-		// If error drop the data.
-		buf := &bytes.Buffer{}
-		c := codec.NewEncoder(buf, &codec.JsonHandle{})
-		err = c.Encode(value)
-		if err != nil {
-			return fmt.Errorf("error when processing extension data: %w", err)
-		}
-		ext[name] = json.RawMessage(buf.Bytes())
+		ext[name] = value
 
 		// Save the extensions field
 		ev.Set(reflect.ValueOf(ext))

@@ -4,7 +4,6 @@
 package stix2
 
 import (
-	"encoding/json"
 	"fmt"
 	"strings"
 )
@@ -59,9 +58,7 @@ func (f *File) ArchiveExtension() *ArchiveFileExtension {
 	if !ok {
 		return nil
 	}
-	var v ArchiveFileExtension
-	json.Unmarshal(data, &v)
-	return &v
+	return data.(*ArchiveFileExtension)
 }
 
 // NTFSExtension returns the NTFS extension for the object or nil.
@@ -70,9 +67,7 @@ func (f *File) NTFSExtension() *NTFSFileExtension {
 	if !ok {
 		return nil
 	}
-	var v NTFSFileExtension
-	json.Unmarshal(data, &v)
-	return &v
+	return data.(*NTFSFileExtension)
 }
 
 // PDFExtension returns the PDF extension for the object or nil.
@@ -81,9 +76,7 @@ func (f *File) PDFExtension() *PDFExtension {
 	if !ok {
 		return nil
 	}
-	var v PDFExtension
-	json.Unmarshal(data, &v)
-	return &v
+	return data.(*PDFExtension)
 }
 
 // RasterImageExtension returns the raster image extension for the object or nil.
@@ -92,9 +85,7 @@ func (f *File) RasterImageExtension() *RasterImageExtension {
 	if !ok {
 		return nil
 	}
-	var v RasterImageExtension
-	json.Unmarshal(data, &v)
-	return &v
+	return data.(*RasterImageExtension)
 }
 
 // WindowsPEBinaryExtension returns the Windows PE binary extension for the
@@ -104,9 +95,7 @@ func (f *File) WindowsPEBinaryExtension() *WindowsPEBinaryExtension {
 	if !ok {
 		return nil
 	}
-	var v WindowsPEBinaryExtension
-	json.Unmarshal(data, &v)
-	return &v
+	return data.(*WindowsPEBinaryExtension)
 }
 
 // NewFile creates a new File object. A File object MUST contain at least one
@@ -136,7 +125,7 @@ func NewFile(name string, hashes Hashes, opts ...STIXOption) (*File, error) {
 	if obj.ParentDirectory != "" {
 		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.ParentDirectory))
 	}
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeFile)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeFile)
 	return obj, err
 }
 

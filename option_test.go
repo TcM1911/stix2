@@ -35,14 +35,13 @@ func TestCyberObservableOptions(t *testing.T) {
 		a.NoError(err)
 		a.Equal(gms, o.GranularMarking)
 
-		ext := struct {
-			TestField string
-		}{TestField: "test value"}
+		ext := map[string]string{}
+		ext["TestField"] = "test value"
 
 		err = OptionExtension("TestExtension", ext)(o)
 		a.NoError(err)
 		a.Len(o.Extensions, 1)
-		a.Contains(string(o.Extensions["TestExtension"]), "test value")
+		a.Contains(o.Extensions["TestExtension"].(map[string]string)["TestField"], "test value")
 	})
 
 	t.Run("nil_object", func(t *testing.T) {
@@ -115,13 +114,6 @@ func TestCyberObservableOptions(t *testing.T) {
 		err := OptionExtension("test", "")(obj)
 		a.Error(err)
 		a.Equal("extension field not available in the object", err.Error())
-	})
-
-	t.Run("extensions_bad_json_data", func(t *testing.T) {
-		obj := &testObject{}
-		err := OptionExtension("test", complex(42, 1337))(obj)
-		a.Error(err)
-		a.Equal("error when processing extension data: json encode error: unsupported kind complex128, for (42+1337i)", err.Error())
 	})
 
 	t.Run("extenstion_not_pinter_to_struct", func(t *testing.T) {

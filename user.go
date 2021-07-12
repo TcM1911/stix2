@@ -4,7 +4,6 @@
 package stix2
 
 import (
-	"encoding/json"
 	"fmt"
 	"strings"
 )
@@ -72,9 +71,7 @@ func (n *UserAccount) UNIXAccountExtension() *UNIXAccountExtension {
 	if !ok {
 		return nil
 	}
-	var v UNIXAccountExtension
-	json.Unmarshal(data, &v)
-	return &v
+	return data.(*UNIXAccountExtension)
 }
 
 // NewUserAccount creates a new UserAccount object.
@@ -99,7 +96,7 @@ func NewUserAccount(opts ...STIXOption) (*UserAccount, error) {
 	if obj.AccountLogin != "" {
 		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.AccountLogin))
 	}
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeUserAccount)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeUserAccount)
 	return obj, err
 }
 

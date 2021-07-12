@@ -4,7 +4,6 @@
 package stix2
 
 import (
-	"encoding/json"
 	"fmt"
 	"strings"
 )
@@ -96,9 +95,7 @@ func (n *NetworkTraffic) HTTPRequestExtension() *HTTPRequestExtension {
 	if !ok {
 		return nil
 	}
-	var v HTTPRequestExtension
-	json.Unmarshal(data, &v)
-	return &v
+	return data.(*HTTPRequestExtension)
 }
 
 // ICMPExtension returns the ICMP extension for the object or nil.
@@ -107,9 +104,7 @@ func (n *NetworkTraffic) ICMPExtension() *ICMPExtension {
 	if !ok {
 		return nil
 	}
-	var v ICMPExtension
-	json.Unmarshal(data, &v)
-	return &v
+	return data.(*ICMPExtension)
 }
 
 // SocketExtension returns the socket extension for the object or nil.
@@ -118,9 +113,7 @@ func (n *NetworkTraffic) SocketExtension() *SocketExtension {
 	if !ok {
 		return nil
 	}
-	var v SocketExtension
-	json.Unmarshal(data, &v)
-	return &v
+	return data.(*SocketExtension)
 }
 
 // TCPExtension returns the tcp extension for the object or nil.
@@ -129,9 +122,7 @@ func (n *NetworkTraffic) TCPExtension() *TCPExtension {
 	if !ok {
 		return nil
 	}
-	var v TCPExtension
-	json.Unmarshal(data, &v)
-	return &v
+	return data.(*TCPExtension)
 }
 
 // NewNetworkTraffic creates a new NetworkTraffic object. A NetworkTraffic object MUST contain at least one
@@ -164,7 +155,7 @@ func NewNetworkTraffic(proto []string, opts ...STIXOption) (*NetworkTraffic, err
 		idContri = append(idContri, fmt.Sprintf("%d", obj.DstPort))
 	}
 	idContri = append(idContri, fmt.Sprintf(`["%s"]`, strings.Join(obj.Protocols, `","`)))
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeNetworkTraffic)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeNetworkTraffic)
 	return obj, err
 }
 
