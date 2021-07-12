@@ -89,7 +89,7 @@ func TestCyberObservableOptions(t *testing.T) {
 		obj := &structWithWrongKind{}
 		err := OptionExtension("tesst", "")(obj)
 		a.Error(err)
-		a.Equal("object is not a STIXCyberObservableObject", err.Error())
+		a.Equal("object can not have extensions", err.Error())
 	})
 
 	t.Run("extensions_wrong_extension_kind", func(t *testing.T) {
@@ -101,7 +101,7 @@ func TestCyberObservableOptions(t *testing.T) {
 		}{}
 		err := OptionExtension("test", "")(obj)
 		a.Error(err)
-		a.Equal("extensions field is of wrong type", err.Error())
+		a.Equal("object can not have extensions", err.Error())
 	})
 
 	t.Run("extensions_no_field", func(t *testing.T) {
@@ -113,7 +113,7 @@ func TestCyberObservableOptions(t *testing.T) {
 		}{}
 		err := OptionExtension("test", "")(obj)
 		a.Error(err)
-		a.Equal("extension field not available in the object", err.Error())
+		a.Equal("object can not have extensions", err.Error())
 	})
 
 	t.Run("extenstion_not_pinter_to_struct", func(t *testing.T) {

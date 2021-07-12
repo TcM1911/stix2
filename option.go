@@ -140,7 +140,7 @@ func OptionDefanged(b bool) STIXOption {
 }
 
 // OptionExtension adds an extension. This option is valid for the types:
-//		- STIX Cyber-observable Objects
+//		- All types execpt Bundle and Extension.
 func OptionExtension(name string, value interface{}) STIXOption {
 	return func(obj STIXObject) error {
 		val, err := reflectValue(obj)
@@ -148,22 +148,14 @@ func OptionExtension(name string, value interface{}) STIXOption {
 			return err
 		}
 
-		f := val.FieldByName("STIXCyberObservableObject")
-		if !f.IsValid() || !f.CanSet() || f.Kind() != reflect.Struct {
-			return fmt.Errorf("object is not a STIXCyberObservableObject")
+		ev, err := findFieldForExtension(val)
+		if err != nil {
+			return err
 		}
 
-		// Extract extension
-
-		ev := f.FieldByName("Extensions")
-		if !ev.IsValid() || !ev.CanSet() {
-			return fmt.Errorf("extension field not available in the object")
-		}
-
-		ext, ok := ev.Interface().(Extensions)
-		if !ok {
-			return fmt.Errorf("extensions field is of wrong type")
-		}
+		// If this cast fails, we are dealing with an incorrect implemented type.
+		// In this case, we let it panic.
+		ext := ev.Interface().(Extensions)
 
 		if ext == nil {
 			ext = Extensions{}
@@ -176,6 +168,42 @@ func OptionExtension(name string, value interface{}) STIXOption {
 
 		return nil
 	}
+}
+
+func findFieldForExtension(val reflect.Value) (reflect.Value, error) {
+	var subStruct *reflect.Value
+
+	// Check if it is in a potential substruct.
+
+	f := val.FieldByName("STIXCyberObservableObject")
+	if f.IsValid() && f.CanSet() && f.Kind() == reflect.Struct {
+		cpy := f
+		subStruct = &cpy
+	}
+
+	f = val.FieldByName("STIXDomainObject")
+	if f.IsValid() && f.CanSet() && f.Kind() == reflect.Struct {
+		cpy := f
+		subStruct = &cpy
+	}
+
+	f = val.FieldByName("STIXRelationshipObject")
+	if f.IsValid() && f.CanSet() && f.Kind() == reflect.Struct {
+		cpy := f
+		subStruct = &cpy
+	}
+
+	if subStruct != nil {
+		// Substruct found so set val to it.
+		val = *subStruct
+	}
+
+	f = val.FieldByName("Extensions")
+	if f.IsValid() && f.CanSet() && f.Kind() == reflect.Map {
+		return f, nil
+	}
+
+	return f, fmt.Errorf("object can not have extensions")
 }
 
 // OptionExtensionProperties adds an extension. This option is valid for the types:

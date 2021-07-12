@@ -85,6 +85,8 @@ type LanguageContent struct {
 	// Marking Definition object (i.e., it cannot contain any circular
 	// references).
 	GranularMarking []*GranularMarking `json:"granular_markings,omitempty"`
+	// Specifies any extensions of the object, as a dictionary.
+	Extensions Extensions `json:"extensions,omitempty"`
 	// Object identifies the id of the object that this Language Content
 	// applies to. It MUST be the identifier for a STIX Object.
 	Object Identifier `json:"object_ref"`
@@ -236,6 +238,8 @@ type MarkingDefinition struct {
 	// Marking Definition object (i.e., it cannot contain any circular
 	// references).
 	GranularMarking []*GranularMarking `json:"granular_markings,omitempty"`
+	// Specifies any extensions of the object, as a dictionary.
+	Extensions Extensions `json:"extensions,omitempty"`
 	// Name is used to identify the Marking Definition.
 	Name string `json:"name,omitempty"`
 	// DefinitionType identifies the type of Marking Definition. The value of

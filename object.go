@@ -111,6 +111,8 @@ type STIXRelationshipObject struct {
 	// Marking Definition object (i.e., it cannot contain any circular
 	// references).
 	GranularMarking []*GranularMarking `json:"granular_markings,omitempty"`
+	// Specifies any extensions of the object, as a dictionary.
+	Extensions Extensions `json:"extensions,omitempty"`
 }
 
 // GetID returns the identifier for the object.
@@ -234,6 +236,8 @@ type STIXDomainObject struct {
 	// Marking Definition object (i.e., it cannot contain any circular
 	// references).
 	GranularMarking []*GranularMarking `json:"granular_markings,omitempty"`
+	// Specifies any extensions of the object, as a dictionary.
+	Extensions Extensions `json:"extensions,omitempty"`
 }
 
 // AddDerivedFrom adds a relationship to an object that this object is derived

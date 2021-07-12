@@ -149,6 +149,40 @@ func TestExtensionType(t *testing.T) {
 	})
 }
 
+func TestSetExtensionsOption(t *testing.T) {
+	assert := assert.New(t)
+
+	t.Run("SDO", func(t *testing.T) {
+		obj, err := NewAttackPattern("Some name", OptionExtension("extension-definition--9c59fd79-4215-4ba2-920d-3e4f320e1e62", extPropJson))
+		assert.NoError(err)
+		assert.NotNil(obj)
+	})
+
+	t.Run("SCO", func(t *testing.T) {
+		obj, err := NewDomainName("example.com", OptionExtension("extension-definition--9c59fd79-4215-4ba2-920d-3e4f320e1e62", extPropJson))
+		assert.NoError(err)
+		assert.NotNil(obj)
+	})
+
+	t.Run("SRO", func(t *testing.T) {
+		obj, err := NewRelationship(RelationshipTypeBasedOn, NewIdentifier(TypeArtifact), NewIdentifier(TypeFile), OptionExtension("extension-definition--9c59fd79-4215-4ba2-920d-3e4f320e1e62", extPropJson))
+		assert.NoError(err)
+		assert.NotNil(obj)
+	})
+
+	t.Run("Language", func(t *testing.T) {
+		obj, err := NewLanguageContent(NewIdentifier(TypeArtifact), make(map[string]map[string]interface{}), OptionExtension("extension-definition--9c59fd79-4215-4ba2-920d-3e4f320e1e62", extPropJson))
+		assert.NoError(err)
+		assert.NotNil(obj)
+	})
+
+	t.Run("Markings", func(t *testing.T) {
+		obj, err := NewMarkingDefinition("some new marking", "something", OptionExtension("extension-definition--9c59fd79-4215-4ba2-920d-3e4f320e1e62", extPropJson))
+		assert.NoError(err)
+		assert.NotNil(obj)
+	})
+}
+
 const extPropJson = `{
 	"id": "extension-definition--9c59fd79-4215-4ba2-920d-3e4f320e1e62",
 	"type": "extension-definition",
