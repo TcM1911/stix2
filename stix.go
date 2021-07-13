@@ -37,6 +37,12 @@ func NoSortOption() CollectionOption {
 	}
 }
 
+func DropCustomOption() CollectionOption {
+	return func(c *Collection) {
+		c.noSort = true
+	}
+}
+
 // New creates a new Collection.
 func New(opts ...CollectionOption) *Collection {
 	c := &Collection{}
@@ -55,8 +61,9 @@ type Collection struct {
 	objinit sync.Once
 
 	// Options
-	noSort bool
-	order  []Identifier
+	noSort     bool
+	order      []Identifier
+	dropCustom bool
 }
 
 // Get returns the object with matching ID or nil if it does not exist in the
@@ -82,13 +89,19 @@ func (c *Collection) Get(id Identifier) STIXObject {
 
 // Add adds or updates an object in the collection.
 func (c *Collection) Add(obj STIXObject) error {
-	c.objinit.Do(func() {
-		objectInit(c)
-	})
 	if !HasValidIdentifier(obj) {
 		return fmt.Errorf("%s has an invalid identifier", obj.GetID())
 	}
-	bucket := c.objects[obj.GetType()]
+
+	if c.objects == nil {
+		c.objects = make(map[STIXType]map[Identifier]interface{})
+	}
+
+	bucket, ok := c.objects[obj.GetType()]
+	if !ok {
+		bucket = make(map[Identifier]interface{})
+		c.objects[obj.GetType()] = bucket
+	}
 
 	// Check if the item already exist.
 	_, update := bucket[obj.GetID()]
@@ -877,14 +890,15 @@ func (c *Collection) X509Certificates() []*X509Certificate {
 }
 
 func (c *Collection) getObject(typ STIXType, id Identifier) interface{} {
-	return c.objects[typ][id]
-}
-
-func objectInit(c *Collection) {
-	c.objects = make(map[STIXType]map[Identifier]interface{})
-	for _, k := range AllTypes {
-		c.objects[k] = make(map[Identifier]interface{})
+	bucket, ok := c.objects[typ]
+	if !ok {
+		return nil
 	}
+	obj, ok := bucket[id]
+	if !ok {
+		return nil
+	}
+	return obj
 }
 
 // FromJSON parses JSON data and returns a Collection with the extracted
@@ -1015,7 +1029,10 @@ func processObjects(collection *Collection, objects []json.RawMessage) error {
 		case TypeX509Certificate:
 			obj = &X509Certificate{}
 		default:
-			return fmt.Errorf("%s is not a supported type", peak.Type)
+			if collection.dropCustom {
+				continue
+			}
+			obj = &CustomObject{}
 		}
 
 		err := json.Unmarshal(data, &obj)

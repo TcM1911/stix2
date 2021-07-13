@@ -183,6 +183,43 @@ func TestSetExtensionsOption(t *testing.T) {
 	})
 }
 
+func TestExtensionCustomObject(t *testing.T) {
+	assert := assert.New(t)
+	data := []byte(fmt.Sprintf("[%s,%s]", extPropJson, customObject))
+
+	t.Run("Getters", func(t *testing.T) {
+		custom := &CustomObject{}
+		custom.Set("str", "str")
+		custom.Set("int", int64(42))
+		custom.Set("strSlice", []string{"1", "2"})
+		custom.Set("modified", "20140220")
+
+		assert.Equal("str", custom.GetAsString("str"))
+		assert.Equal("", custom.GetAsString("str2"))
+		assert.Equal(int64(42), custom.GetAsNumber("int"))
+		assert.Equal(int64(0), custom.GetAsNumber("int2"))
+		assert.Equal([]string{"1", "2"}, custom.GetAsStringSlice("strSlice"))
+		assert.Nil(custom.GetAsStringSlice("strSlice2"))
+		assert.Equal(STIXType(""), custom.GetType())
+		assert.Nil(custom.GetCreated())
+		assert.Nil(custom.GetModified())
+	})
+
+	t.Run("parse-no-handler", func(t *testing.T) {
+		c, err := FromJSON(data)
+		assert.NoError(err)
+		assert.NotNil(c)
+		obj := c.Get(Identifier("my-favorite-sdo--ac97aae4-83f1-46ca-a351-7aeb76678189"))
+		assert.NotNil(obj)
+		custom := obj.(*CustomObject)
+		assert.Equal(STIXType("my-favorite-sdo"), custom.GetType())
+		assert.Equal("value2", custom.Get("some_property_name2").(string))
+		assert.Nil(custom.Get("does_not_exist"))
+		assert.NotNil(custom.GetCreated())
+		assert.NotNil(custom.GetModified())
+	})
+}
+
 const extPropJson = `{
 	"id": "extension-definition--9c59fd79-4215-4ba2-920d-3e4f320e1e62",
 	"type": "extension-definition",
@@ -195,5 +232,20 @@ const extPropJson = `{
 	"schema": "https://www.example.com/schema-my-favorite-sdo-1/v1/",
 	"version": "1.2.1",
 	"extension_types": ["new-sdo"]
-  }
-`
+  }`
+
+const customObject = `{
+	"type": "my-favorite-sdo",
+	"spec_version": "2.1",
+	"id": "my-favorite-sdo--ac97aae4-83f1-46ca-a351-7aeb76678189",
+	"created": "2014-02-20T09:16:08.989000Z",
+	"modified": "2014-02-20T09:16:08.989000Z",
+	"name": "This is the name of my favorite",
+	"some_property_name1": "value1",
+	"some_property_name2": "value2",
+	"extensions": {
+	  "extension-definition--9c59fd79-4215-4ba2-920d-3e4f320e1e62": {
+		"extension_type": "new-sdo"
+	  }
+	}
+  }`

@@ -267,3 +267,90 @@ var encExtTypeMap = map[ExtensionType]string{
 	ExtensionTypePropertyExtension:         "property-extension",
 	ExtensionTypeToplevelPropertyExtension: "toplevel-property-extension",
 }
+
+// CustomObject is a custom STIX object that allows for extending the specification
+// by creating a new type.
+type CustomObject map[string]interface{}
+
+// Get retrives an attribute from the custom object.
+func (c CustomObject) Get(key string) interface{} {
+	val, ok := c[key]
+	if !ok {
+		return nil
+	}
+	return val
+}
+
+// Set adds an attribute to the custom object.
+func (c CustomObject) Set(key string, val interface{}) {
+	c[key] = val
+}
+
+// GetAsString returns the requested attribute as a string.
+func (c CustomObject) GetAsString(key string) string {
+	s := c.Get(key)
+	if s == nil {
+		return ""
+	}
+	return s.(string)
+}
+
+// GetAsStringSlice returns the requested attribute as a string slice.
+func (c CustomObject) GetAsStringSlice(key string) []string {
+	s := c.Get(key)
+	if s == nil {
+		return nil
+	}
+	return s.([]string)
+}
+
+// GetAsNumber returns the requested attribute as a number.
+func (c CustomObject) GetAsNumber(key string) int64 {
+	s := c.Get(key)
+	if s == nil {
+		return int64(0)
+	}
+	return s.(int64)
+}
+
+// GetID returns the identifier for the object.
+func (c CustomObject) GetID() Identifier {
+	val, ok := c["id"]
+	if !ok {
+		return Identifier("")
+	}
+	return Identifier(val.(string))
+}
+
+// GetType returns the object's type.
+func (c CustomObject) GetType() STIXType {
+	val, ok := c["type"]
+	if !ok {
+		return STIXType("")
+	}
+	return STIXType(val.(string))
+}
+
+// GetCreated returns the created time for the STIX object. If the object
+// does not have a time defined, nil is returned.
+func (c CustomObject) GetCreated() *time.Time {
+	return convTimeString(c, "created")
+}
+
+// GetModified returns the modified time for the STIX object. If the object
+// does not have a time defined, nil is returned.
+func (c CustomObject) GetModified() *time.Time {
+	return convTimeString(c, "modified")
+}
+
+func convTimeString(c CustomObject, key string) *time.Time {
+	ts, ok := c[key]
+	if !ok {
+		return nil
+	}
+	t, err := time.Parse(time.RFC3339Nano, ts.(string))
+	if err != nil {
+		return nil
+	}
+	return &t
+}
