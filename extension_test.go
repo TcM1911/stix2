@@ -218,6 +218,15 @@ func TestExtensionCustomObject(t *testing.T) {
 		assert.NotNil(custom.GetCreated())
 		assert.NotNil(custom.GetModified())
 	})
+
+	t.Run("allow-ignoring-custom-objects", func(t *testing.T) {
+		c, err := FromJSON(data, DropCustomOption())
+		assert.NoError(err)
+
+		obj := c.Get(Identifier("my-favorite-sdo--ac97aae4-83f1-46ca-a351-7aeb76678189"))
+		assert.Nil(obj)
+		assert.Len(c.ExtensionDefinitions(), 1)
+	})
 }
 
 const extPropJson = `{

@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
-	"sync"
 	"time"
 )
 
@@ -39,7 +38,7 @@ func NoSortOption() CollectionOption {
 
 func DropCustomOption() CollectionOption {
 	return func(c *Collection) {
-		c.noSort = true
+		c.dropCustom = true
 	}
 }
 
@@ -58,7 +57,6 @@ func New(opts ...CollectionOption) *Collection {
 // STIX specification.
 type Collection struct {
 	objects map[STIXType]map[Identifier]interface{}
-	objinit sync.Once
 
 	// Options
 	noSort     bool
