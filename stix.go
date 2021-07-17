@@ -6,6 +6,7 @@ package stix2
 import (
 	"encoding/json"
 	"fmt"
+	"reflect"
 	"strings"
 	"time"
 )
@@ -22,6 +23,13 @@ type STIXObject interface {
 	// GetModified returns the modified time for the STIX object. If the object
 	// does not have a time defined, nil is returned.
 	GetModified() *time.Time
+	// GetExtendedTopLevelProperties returns the extra top level properties or
+	// nil for the object.
+	GetExtendedTopLevelProperties() *CustomObject
+}
+
+type canHaveExtensions interface {
+	addCustomProperties(*CustomObject)
 }
 
 // CollectionOption is an optional parameter when constructing a Colletion.
@@ -949,7 +957,7 @@ func processBundle(collection *Collection, bundle Bundle) error {
 }
 
 func processObjects(collection *Collection, objects []json.RawMessage) error {
-	var peak peakObject
+	var peak map[string]interface{}
 	var err error
 	for _, data := range objects {
 		err = json.Unmarshal(data, &peak)
@@ -957,9 +965,15 @@ func processObjects(collection *Collection, objects []json.RawMessage) error {
 			return err
 		}
 
+		typ, ok := peak["type"]
+		if !ok {
+			// Invalid so skip.
+			continue
+		}
+
 		var obj interface{}
 
-		switch peak.Type {
+		switch STIXType(typ.(string)) {
 		case TypeAutonomousSystem:
 			obj = &AutonomousSystem{}
 		case TypeArtifact:
@@ -1054,14 +1068,57 @@ func processObjects(collection *Collection, objects []json.RawMessage) error {
 			return fmt.Errorf("bad json data: %s", err)
 		}
 
+		// Add potential extended top level properties to the object.
+		if !collection.dropCustom {
+			// Filter out non custom objects.
+			filterOutNonCustom(peak, obj)
+
+			// If we still have properties, add them.
+			if len(peak) != 0 {
+				if o, ok := obj.(canHaveExtensions); ok {
+					custom := &CustomObject{}
+					for k := range peak {
+						custom.Set(k, peak[k])
+					}
+					o.addCustomProperties(custom)
+				}
+			}
+		}
+
 		err = collection.Add(obj.(STIXObject))
 		if err != nil {
-			return fmt.Errorf("failed to add %s object to collection: %s", peak.Type, err)
+			return fmt.Errorf("failed to add %s object to collection: %s", typ, err)
 		}
 	}
 	return nil
 }
 
-type peakObject struct {
-	Type STIXType `json:"type"`
+func filterOutNonCustom(m map[string]interface{}, obj interface{}) {
+	typ := reflect.TypeOf(obj)
+	if typ.Kind() == reflect.Ptr {
+		typ = typ.Elem()
+	}
+
+	// Not a struct, nothing else to do.
+	if typ.Kind() != reflect.Struct {
+		return
+	}
+
+	val := reflect.ValueOf(obj)
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+
+	for i := 0; i < typ.NumField(); i++ {
+		f := typ.Field(i)
+
+		switch f.Name {
+		case "STIXRelationshipObject", "STIXDomainObject", "STIXCyberObservableObject":
+			fv := val.Field(i)
+			filterOutNonCustom(m, fv.Interface())
+		default:
+			key := strings.Split(f.Tag.Get("json"), ",")
+			delete(m, key[0])
+		}
+	}
 }

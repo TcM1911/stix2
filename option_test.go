@@ -132,6 +132,10 @@ func TestCyberObservableOptions(t *testing.T) {
 
 type emptryTestStruct struct{}
 
+func (s *emptryTestStruct) GetExtendedTopLevelProperties() *CustomObject {
+	panic("Failed")
+}
+
 func (s *emptryTestStruct) GetCreated() *time.Time {
 	panic("Failed")
 }
@@ -164,6 +168,10 @@ type structWithWrongFieldKind struct {
 }
 
 type badType string
+
+func (s *badType) GetExtendedTopLevelProperties() *CustomObject {
+	panic("Failed")
+}
 
 func (s *badType) GetCreated() *time.Time {
 	panic("Failed")

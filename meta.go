@@ -128,6 +128,18 @@ type LanguageContent struct {
 	// in the target or to properties that do not exist in the target object
 	// MUST be ignored.
 	Contents map[string]map[string]interface{} `json:"contents"`
+
+	toplevelProperties *CustomObject
+}
+
+func (s *LanguageContent) addCustomProperties(c *CustomObject) {
+	s.toplevelProperties = c
+}
+
+// GetExtendedTopLevelProperties returns the extra top level properties or
+// nil for the object.
+func (s *LanguageContent) GetExtendedTopLevelProperties() *CustomObject {
+	return s.toplevelProperties
 }
 
 // GetID returns the identifier for the object.
@@ -248,6 +260,18 @@ type MarkingDefinition struct {
 	// Definition contains the marking object itself (e.g., the TLP marking,
 	// the Statement, or some other marking definition defined).
 	Definition interface{} `json:"definition"`
+
+	toplevelProperties *CustomObject
+}
+
+func (s *MarkingDefinition) addCustomProperties(c *CustomObject) {
+	s.toplevelProperties = c
+}
+
+// GetExtendedTopLevelProperties returns the extra top level properties or
+// nil for the object.
+func (s *MarkingDefinition) GetExtendedTopLevelProperties() *CustomObject {
+	return s.toplevelProperties
 }
 
 // GetID returns the identifier for the object.

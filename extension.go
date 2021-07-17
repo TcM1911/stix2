@@ -213,6 +213,12 @@ func (e *ExtensionDefinition) GetModified() *time.Time {
 	return &e.Modified.Time
 }
 
+// GetExtendedTopLevelProperties returns the extra top level properties or
+// nil for the object.
+func (s *ExtensionDefinition) GetExtendedTopLevelProperties() *CustomObject {
+	return nil
+}
+
 // ExtensionType describes what type of extension it is.
 type ExtensionType uint8
 
@@ -360,4 +366,10 @@ func convTimeString(c CustomObject, key string) *time.Time {
 		return nil
 	}
 	return &t
+}
+
+// GetExtendedTopLevelProperties returns the extra top level properties or
+// nil for the object.
+func (s *CustomObject) GetExtendedTopLevelProperties() *CustomObject {
+	return nil
 }

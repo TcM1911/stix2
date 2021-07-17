@@ -113,6 +113,12 @@ type STIXRelationshipObject struct {
 	GranularMarking []*GranularMarking `json:"granular_markings,omitempty"`
 	// Specifies any extensions of the object, as a dictionary.
 	Extensions Extensions `json:"extensions,omitempty"`
+
+	toplevelProperties *CustomObject
+}
+
+func (s *STIXRelationshipObject) addCustomProperties(c *CustomObject) {
+	s.toplevelProperties = c
 }
 
 // GetID returns the identifier for the object.
@@ -141,6 +147,12 @@ func (s *STIXRelationshipObject) GetModified() *time.Time {
 		return nil
 	}
 	return &s.Modified.Time
+}
+
+// GetExtendedTopLevelProperties returns the extra top level properties or
+// nil for the object.
+func (s *STIXRelationshipObject) GetExtendedTopLevelProperties() *CustomObject {
+	return s.toplevelProperties
 }
 
 func newSTIXDomainObject(typ STIXType) STIXDomainObject {
@@ -240,6 +252,18 @@ type STIXDomainObject struct {
 	// the dictionary is either one of the extension types defined by the STIX
 	// specification or a *CustomObject.
 	Extensions Extensions `json:"extensions,omitempty"`
+
+	toplevelProperties *CustomObject
+}
+
+func (s *STIXDomainObject) addCustomProperties(c *CustomObject) {
+	s.toplevelProperties = c
+}
+
+// GetExtendedTopLevelProperties returns the extra top level properties or
+// nil for the object.
+func (s *STIXDomainObject) GetExtendedTopLevelProperties() *CustomObject {
+	return s.toplevelProperties
 }
 
 // AddDerivedFrom adds a relationship to an object that this object is derived
@@ -321,6 +345,18 @@ type STIXCyberObservableObject struct {
 	Defanged bool `json:"defanged,omitempty"`
 	// Specifies any extensions of the object, as a dictionary.
 	Extensions Extensions `json:"extensions,omitempty"`
+
+	toplevelProperties *CustomObject
+}
+
+func (s *STIXCyberObservableObject) addCustomProperties(c *CustomObject) {
+	s.toplevelProperties = c
+}
+
+// GetExtendedTopLevelProperties returns the extra top level properties or
+// nil for the object.
+func (s *STIXCyberObservableObject) GetExtendedTopLevelProperties() *CustomObject {
+	return s.toplevelProperties
 }
 
 // AddDerivedFrom adds a relationship to an object that this object is derived

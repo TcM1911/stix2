@@ -89,6 +89,7 @@ func TestExtensionProperties(t *testing.T) {
 		assert.NotNil(o.GetID())
 		assert.NotNil(o.GetCreated())
 		assert.NotNil(o.GetModified())
+		assert.Nil(o.GetExtendedTopLevelProperties())
 	})
 
 	t.Run("json-parsing", func(t *testing.T) {
@@ -252,6 +253,99 @@ func TestExtensionCustomObject(t *testing.T) {
 		assert.Equal(int64(8), ext.GetAsNumber("toxicity"))
 		assert.Equal("property-extension", ext.GetAsString("extension_type"))
 	})
+
+	t.Run("check-some-attributes", func(t *testing.T) {
+		obj := &CustomObject{}
+		assert.Equal(Identifier(""), obj.GetID(), "should return empty string if not set")
+		assert.Nil(obj.GetExtendedTopLevelProperties(), "should always return nil")
+	})
+}
+
+func TestExtensionTopLevelProperties(t *testing.T) {
+	assert := assert.New(t)
+	data := []byte(fmt.Sprintf("[%s,%s,%s,%s,%s,%s]",
+		extPropJson,
+		sdoWithTopLevelAttributes,
+		markingsWithTopLevelAttributes,
+		languageWithTopLevelAttributes,
+		scoWithTopLevelAttributes,
+		sroWithTopLevelAttributes,
+	))
+
+	t.Run("parse-sdo-from-json", func(t *testing.T) {
+		c, err := FromJSON(data)
+		assert.NoError(err)
+		assert.NotNil(c)
+
+		obj := c.Indicator(Identifier("indicator--e97bfccf-8970-4a3c-9cd1-5b5b97ed5d0d"))
+		assert.NotNil(obj)
+
+		ext := obj.GetExtendedTopLevelProperties()
+		assert.NotNil(ext)
+
+		assert.Equal(int64(5), ext.GetAsNumber("rank"))
+		assert.Equal(int64(8), ext.GetAsNumber("toxicity"))
+	})
+
+	t.Run("parse-sco-from-json", func(t *testing.T) {
+		c, err := FromJSON(data)
+		assert.NoError(err)
+		assert.NotNil(c)
+
+		obj := c.URL(Identifier("url--c1477287-23ac-5971-a010-5c287877fa60"))
+		assert.NotNil(obj)
+
+		ext := obj.GetExtendedTopLevelProperties()
+		assert.NotNil(ext)
+
+		assert.Equal(int64(5), ext.GetAsNumber("rank"))
+		assert.Equal(int64(8), ext.GetAsNumber("toxicity"))
+	})
+
+	t.Run("parse-sro-from-json", func(t *testing.T) {
+		c, err := FromJSON(data)
+		assert.NoError(err)
+		assert.NotNil(c)
+
+		obj := c.Sighting(Identifier("sighting--ee20065d-2555-424f-ad9e-0f8428623c75"))
+		assert.NotNil(obj)
+
+		ext := obj.GetExtendedTopLevelProperties()
+		assert.NotNil(ext)
+
+		assert.Equal(int64(5), ext.GetAsNumber("rank"))
+		assert.Equal(int64(8), ext.GetAsNumber("toxicity"))
+	})
+
+	t.Run("parse-marking-from-json", func(t *testing.T) {
+		c, err := FromJSON(data)
+		assert.NoError(err)
+		assert.NotNil(c)
+
+		obj := c.MarkingDefinition(Identifier("marking-definition--34098fce-860f-48ae-8e50-ebd3cc5e41da"))
+		assert.NotNil(obj)
+
+		ext := obj.GetExtendedTopLevelProperties()
+		assert.NotNil(ext)
+
+		assert.Equal(int64(5), ext.GetAsNumber("rank"))
+		assert.Equal(int64(8), ext.GetAsNumber("toxicity"))
+	})
+
+	t.Run("parse-language-from-json", func(t *testing.T) {
+		c, err := FromJSON(data)
+		assert.NoError(err)
+		assert.NotNil(c)
+
+		obj := c.LanguageContent(Identifier("language-content--b86bd89f-98bb-4fa9-8cb2-9ad421da981d"))
+		assert.NotNil(obj)
+
+		ext := obj.GetExtendedTopLevelProperties()
+		assert.NotNil(ext)
+
+		assert.Equal(int64(5), ext.GetAsNumber("rank"))
+		assert.Equal(int64(8), ext.GetAsNumber("toxicity"))
+	})
 }
 
 const extPropJson = `{
@@ -304,3 +398,107 @@ const sdoWithExtensionAttributes = `{
 	  }
 	}
   }`
+
+const sdoWithTopLevelAttributes = `{
+	"type": "indicator",
+	"spec_version": "2.1",
+	"id": "indicator--e97bfccf-8970-4a3c-9cd1-5b5b97ed5d0d",
+	"created": "2014-02-20T09:16:08.989000Z",
+	"modified": "2014-02-20T09:16:08.989000Z",
+	"name": "File hash for Poison Ivy variant",
+	"description": "This file hash indicates that a sample of Poison Ivy is present.",
+	"labels": ["malicious-activity"],
+	"pattern": "[file:hashes.'SHA-256' = 'ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c']",
+	"pattern_type": "stix",
+	"valid_from": "2014-02-20T09:00:00.000000Z",
+	"rank": 5,
+	"toxicity": 8,
+	"extensions": {
+	  "extension-definition--d83fce45-ef58-4c6c-a3f4-1fbc32e98c6e": {
+		"extension_type": "toplevel-property-extension"
+	  }
+	}
+}`
+
+const markingsWithTopLevelAttributes = `{
+    "type": "marking-definition",
+    "spec_version": "2.1",
+    "id": "marking-definition--34098fce-860f-48ae-8e50-ebd3cc5e41da",
+    "created": "2016-08-01T00:00:00.000Z",
+    "definition_type": "statement",
+    "definition": {
+      "statement": "Copyright 2019, Example Corp"
+    },
+	"rank": 5,
+	"toxicity": 8,
+	"extensions": {
+	  "extension-definition--d83fce45-ef58-4c6c-a3f4-1fbc32e98c6e": {
+		"extension_type": "toplevel-property-extension"
+	  }
+	}
+}`
+
+const languageWithTopLevelAttributes = `{
+    "type": "language-content",
+    "id": "language-content--b86bd89f-98bb-4fa9-8cb2-9ad421da981d",
+    "spec_version": "2.1",
+    "created": "2017-02-08T21:31:22.007Z",
+    "modified": "2017-02-08T21:31:22.007Z",
+    "object_ref": "campaign--12a111f0-b824-4baf-a224-83b80237a094",
+    "object_modified": "2017-02-08T21:31:22.007Z",
+    "contents": {
+      "de": {
+        "name": "Bank Angriff",
+        "description": "Weitere Informationen über Banküberfall"
+      },
+      "fr": {
+        "name": "Attaque Bank",
+        "description": "Plus d'informations sur la crise bancaire"
+      }
+    },
+	"rank": 5,
+	"toxicity": 8,
+	"extensions": {
+	  "extension-definition--d83fce45-ef58-4c6c-a3f4-1fbc32e98c6e": {
+		"extension_type": "toplevel-property-extension"
+	  }
+	}
+}`
+
+const scoWithTopLevelAttributes = `{
+    "type": "url",
+    "spec_version": "2.1",
+    "id": "url--c1477287-23ac-5971-a010-5c287877fa60",
+    "value": "https://example.com/research/index.html",
+	"rank": 5,
+	"toxicity": 8,
+	"extensions": {
+	  "extension-definition--d83fce45-ef58-4c6c-a3f4-1fbc32e98c6e": {
+		"extension_type": "toplevel-property-extension"
+	  }
+	}
+}`
+
+const sroWithTopLevelAttributes = `{
+    "type": "sighting",
+    "spec_version": "2.1",
+    "id": "sighting--ee20065d-2555-424f-ad9e-0f8428623c75",
+    "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
+    "created": "2016-04-06T20:08:31.000Z",
+    "modified": "2016-04-06T20:08:31.000Z",
+    "first_seen": "2015-12-21T19:00:00Z",
+    "last_seen": "2015-12-21T19:00:00Z",
+    "count": 50,
+    "sighting_of_ref": "indicator--8e2e2d2b-17d4-4cbf-938f-98ee46b3cd3f",
+    "observed_data_refs": [
+      "observed-data--b67d30ff-02ac-498a-92f9-32f845f448cf"
+    ],
+    "where_sighted_refs": ["identity--b67d30ff-02ac-498a-92f9-32f845f448ff"],
+	"rank": 5,
+	"toxicity": 8,
+	"extensions": {
+	  "extension-definition--d83fce45-ef58-4c6c-a3f4-1fbc32e98c6e": {
+		"extension_type": "toplevel-property-extension"
+	  }
+	}
+}`
