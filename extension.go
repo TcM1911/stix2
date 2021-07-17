@@ -46,7 +46,7 @@ func (o *Extensions) UnmarshalJSON(b []byte) error {
 		case ExtWindowsService:
 			ext = &WindowsServiceExtension{}
 		default:
-			ext = &map[string]interface{}{}
+			ext = &CustomObject{}
 		}
 
 		err = json.Unmarshal(v, ext)
@@ -305,12 +305,19 @@ func (c CustomObject) GetAsStringSlice(key string) []string {
 }
 
 // GetAsNumber returns the requested attribute as a number.
+// The value has to be an expected integer.
 func (c CustomObject) GetAsNumber(key string) int64 {
 	s := c.Get(key)
 	if s == nil {
 		return int64(0)
 	}
-	return s.(int64)
+
+	if i, ok := s.(int64); ok {
+		return i
+	}
+
+	// The JSON unmarshal converts JSON numbers to float64
+	return int64(s.(float64))
 }
 
 // GetID returns the identifier for the object.

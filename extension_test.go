@@ -234,6 +234,24 @@ func TestExtensionCustomObject(t *testing.T) {
 		assert.Nil(obj)
 		assert.Len(c.ExtensionDefinitions(), 1)
 	})
+
+	t.Run("existing-STIX-object-with-extra-properties", func(t *testing.T) {
+		data := []byte(fmt.Sprintf("[%s,%s]", extPropJson, sdoWithExtensionAttributes))
+		c, err := FromJSON(data)
+		assert.NoError(err)
+		assert.NotNil(c)
+
+		ind := c.Indicator(Identifier("indicator--e97bfccf-8970-4a3c-9cd1-5b5b97ed5d0c"))
+		assert.NotNil(ind)
+		e, ok := ind.Extensions["extension-definition--d83fce45-ef58-4c6c-a3f4-1fbc32e98c6e"]
+		assert.True(ok)
+		assert.NotNil(e)
+
+		ext := e.(*CustomObject)
+		assert.Equal(int64(5), ext.GetAsNumber("rank"))
+		assert.Equal(int64(8), ext.GetAsNumber("toxicity"))
+		assert.Equal("property-extension", ext.GetAsString("extension_type"))
+	})
 }
 
 const extPropJson = `{
@@ -262,6 +280,27 @@ const customObject = `{
 	"extensions": {
 	  "extension-definition--9c59fd79-4215-4ba2-920d-3e4f320e1e62": {
 		"extension_type": "new-sdo"
+	  }
+	}
+  }`
+
+const sdoWithExtensionAttributes = `{
+	"type": "indicator",
+	"spec_version": "2.1",
+	"id": "indicator--e97bfccf-8970-4a3c-9cd1-5b5b97ed5d0c",
+	"created": "2014-02-20T09:16:08.989000Z",
+	"modified": "2014-02-20T09:16:08.989000Z",
+	"name": "File hash for Poison Ivy variant",
+	"description": "This file hash indicates that a sample of Poison Ivy is present.",
+	"labels": ["malicious-activity"],
+	"pattern": "[file:hashes.'SHA-256' = 'ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c']",
+	"pattern_type": "stix",
+	"valid_from": "2014-02-20T09:00:00.000000Z",
+	"extensions": {
+	  "extension-definition--d83fce45-ef58-4c6c-a3f4-1fbc32e98c6e": {
+		"extension_type": "property-extension",
+		"rank": 5,
+		"toxicity": 8
 	  }
 	}
   }`

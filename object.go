@@ -236,7 +236,9 @@ type STIXDomainObject struct {
 	// Marking Definition object (i.e., it cannot contain any circular
 	// references).
 	GranularMarking []*GranularMarking `json:"granular_markings,omitempty"`
-	// Specifies any extensions of the object, as a dictionary.
+	// Specifies any extensions of the object, as a dictionary. The values of
+	// the dictionary is either one of the extension types defined by the STIX
+	// specification or a *CustomObject.
 	Extensions Extensions `json:"extensions,omitempty"`
 }
 
