@@ -54,6 +54,10 @@ type X509Certificate struct {
 	X509v3Extensions X509v3Extension `json:"x509_v3_extensions,omitempty"`
 }
 
+func (o *X509Certificate) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewX509Certificate creates a new X509Certificate object.
 func NewX509Certificate(opts ...STIXOption) (*X509Certificate, error) {
 	if len(opts) == 0 {

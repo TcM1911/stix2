@@ -346,6 +346,106 @@ func TestExtensionTopLevelProperties(t *testing.T) {
 		assert.Equal(int64(5), ext.GetAsNumber("rank"))
 		assert.Equal(int64(8), ext.GetAsNumber("toxicity"))
 	})
+
+	t.Run("sco-marshal-to-JSON", func(t *testing.T) {
+		c, err := FromJSON(data)
+		assert.NoError(err)
+		assert.NotNil(c)
+
+		objects := c.URLs()
+
+		c2 := New()
+		for _, o := range objects {
+			c2.Add(o)
+		}
+
+		b, err := c2.ToBundle()
+		assert.NoError(err)
+
+		buf, err := json.Marshal(b)
+		assert.NoError(err)
+		assert.Contains(string(buf), `"toxicity":8`)
+	})
+
+	t.Run("sdo-marshal-to-JSON", func(t *testing.T) {
+		c, err := FromJSON(data)
+		assert.NoError(err)
+		assert.NotNil(c)
+
+		objects := c.Indicators()
+
+		c2 := New()
+		for _, o := range objects {
+			c2.Add(o)
+		}
+
+		b, err := c2.ToBundle()
+		assert.NoError(err)
+
+		buf, err := json.Marshal(b)
+		assert.NoError(err)
+		assert.Contains(string(buf), `"toxicity":8`)
+	})
+
+	t.Run("sro-marshal-to-JSON", func(t *testing.T) {
+		c, err := FromJSON(data)
+		assert.NoError(err)
+		assert.NotNil(c)
+
+		objects := c.Sightings()
+
+		c2 := New()
+		for _, o := range objects {
+			c2.Add(o)
+		}
+
+		b, err := c2.ToBundle()
+		assert.NoError(err)
+
+		buf, err := json.Marshal(b)
+		assert.NoError(err)
+		assert.Contains(string(buf), `"toxicity":8`)
+	})
+
+	t.Run("language-marshal-to-JSON", func(t *testing.T) {
+		c, err := FromJSON(data)
+		assert.NoError(err)
+		assert.NotNil(c)
+
+		objects := c.LanguageContents()
+
+		c2 := New()
+		for _, o := range objects {
+			c2.Add(o)
+		}
+
+		b, err := c2.ToBundle()
+		assert.NoError(err)
+
+		buf, err := json.Marshal(b)
+		assert.NoError(err)
+		assert.Contains(string(buf), `"toxicity":8`)
+	})
+
+	t.Run("markings-marshal-to-JSON", func(t *testing.T) {
+		c, err := FromJSON(data)
+		assert.NoError(err)
+		assert.NotNil(c)
+
+		objects := c.MarkingDefinitions()
+
+		c2 := New()
+		for _, o := range objects {
+			c2.Add(o)
+		}
+
+		b, err := c2.ToBundle()
+		assert.NoError(err)
+
+		buf, err := json.Marshal(b)
+		assert.NoError(err)
+		assert.Contains(string(buf), `"toxicity":8`)
+	})
 }
 
 const extPropJson = `{

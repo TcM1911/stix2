@@ -88,6 +88,10 @@ type NetworkTraffic struct {
 	Encapsulated Identifier `json:"encapsulated_by_ref,omitempty"`
 }
 
+func (o *NetworkTraffic) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // HTTPRequestExtension returns the HTTP request extension for the object or
 // nil.
 func (n *NetworkTraffic) HTTPRequestExtension() *HTTPRequestExtension {

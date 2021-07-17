@@ -35,6 +35,10 @@ type Infrastructure struct {
 	LastSeen *Timestamp `json:"last_seen,omitempty"`
 }
 
+func (o *Infrastructure) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // AddConsistsOf documents the objects that are used to make up an
 // infrastructure instance, such as ipv4-addr, ipv6-addr, domain-name, url. An
 // infrastructure instance consists of zero or more objects.

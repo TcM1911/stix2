@@ -5,6 +5,7 @@ package stix2
 
 import (
 	"bytes"
+	"encoding/json"
 	"time"
 
 	"github.com/ugorji/go/codec"
@@ -417,4 +418,14 @@ func newSTIXCyberObservableObject(typ STIXType) STIXCyberObservableObject {
 		Type:        typ,
 		SpecVersion: SpecVersion21,
 	}
+}
+
+func marshalToJSONHelper(obj STIXObject) ([]byte, error) {
+	// There are some extra top level properties that needs to be handled.
+	// Convert to a map to retain correct JSON structure.
+	m, err := objectToMap(obj)
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(m)
 }

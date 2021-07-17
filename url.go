@@ -14,6 +14,10 @@ type URL struct {
 	Value string `json:"value"`
 }
 
+func (o *URL) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewURL creates a new URL object.
 func NewURL(value string, opts ...STIXOption) (*URL, error) {
 	if value == "" {

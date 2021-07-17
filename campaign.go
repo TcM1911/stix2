@@ -38,6 +38,10 @@ type Campaign struct {
 	Objective string `json:"objective,omitempty"`
 }
 
+func (o *Campaign) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // AddTargets creates a relationship to either an identity, location, or
 // vulnerability that is targeted by this campaign.
 func (c *Campaign) AddTargets(id Identifier, opts ...STIXOption) (*Relationship, error) {

@@ -41,6 +41,10 @@ type Opinion struct {
 	Objects []Identifier `json:"object_refs"`
 }
 
+func (o *Opinion) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewOpinion creates a new Opinion object.
 func NewOpinion(val OpinionValue, objects []Identifier, opts ...STIXOption) (*Opinion, error) {
 	if len(objects) == 0 {

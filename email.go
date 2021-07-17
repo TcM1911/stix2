@@ -22,6 +22,10 @@ type EmailAddress struct {
 	BelongsTo Identifier `json:"belongs_to_ref,omitempty"`
 }
 
+func (o *EmailAddress) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewEmailAddress creates a new EmailAddress object.
 func NewEmailAddress(value string, opts ...STIXOption) (*EmailAddress, error) {
 	if value == "" {
@@ -97,6 +101,10 @@ type EmailMessage struct {
 	// including both the headers and body, as a reference to an Artifact
 	// object.
 	RawEmail Identifier `json:"raw_email_ref,omitempty"`
+}
+
+func (o *EmailMessage) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
 }
 
 // NewEmailMessage creates a new EmailMessage object.

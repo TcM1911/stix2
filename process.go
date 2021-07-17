@@ -44,6 +44,10 @@ type Process struct {
 	Child []Identifier `json:"child_refs,omitempty"`
 }
 
+func (o *Process) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // WindowsProcessExtension returns the Windows process extension for the object
 // or nil.
 func (n *Process) WindowsProcessExtension() *WindowsProcessExtension {

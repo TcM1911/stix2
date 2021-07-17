@@ -21,6 +21,10 @@ type IPv4Address struct {
 	BelongsTo []Identifier `json:"belongs_to_refs,omitempty"`
 }
 
+func (o *IPv4Address) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // AddResolvesTo describes that this IPv4Address resolves to one or more Layer
 // 2 Media Access Control (MAC) addresses.
 func (c *IPv4Address) AddResolvesTo(id Identifier, opts ...STIXOption) (*Relationship, error) {
@@ -69,6 +73,10 @@ type IPv6Address struct {
 	// BelongsTo specifies a list of references to one or more autonomous
 	// systems (AS) that the IPv6 address belongs to.
 	BelongsTo []Identifier `json:"belongs_to_refs,omitempty"`
+}
+
+func (o *IPv6Address) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
 }
 
 // AddResolvesTo describes that this IPv6Address resolves to one or more Layer

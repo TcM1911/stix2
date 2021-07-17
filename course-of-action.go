@@ -22,6 +22,10 @@ type CourseOfAction struct {
 	Description string `json:"description,omitempty"`
 }
 
+func (o *CourseOfAction) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // AddInvestigates creates an investigate relationship between the course of
 // action and an indicator.
 func (c *CourseOfAction) AddInvestigates(id Identifier, opts ...STIXOption) (*Relationship, error) {

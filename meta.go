@@ -132,6 +132,10 @@ type LanguageContent struct {
 	toplevelProperties *CustomObject
 }
 
+func (o *LanguageContent) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 func (s *LanguageContent) addCustomProperties(c *CustomObject) {
 	s.toplevelProperties = c
 }
@@ -262,6 +266,10 @@ type MarkingDefinition struct {
 	Definition interface{} `json:"definition"`
 
 	toplevelProperties *CustomObject
+}
+
+func (o *MarkingDefinition) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
 }
 
 func (s *MarkingDefinition) addCustomProperties(c *CustomObject) {

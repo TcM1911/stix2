@@ -24,7 +24,7 @@ type Indicator struct {
 	Description string `json:"description,omitempty"`
 	// Types is an open vocabulary that specifies a set of
 	// categorizations for this indicator.
-	Types []string `json:"indicator_types"`
+	Types []string `json:"indicator_types,omitempty"`
 	// Pattern is the detection pattern for this Indicator.
 	Pattern string `json:"pattern"`
 	// PatternType is the type of pattern used in this indicator. The property
@@ -45,6 +45,10 @@ type Indicator struct {
 	// KillChainPhases is the kill chain phase(s) to which this Indicator
 	// corresponds.
 	KillChainPhase []*KillChainPhase `json:"kill_chain_phases,omitempty"`
+}
+
+func (o *Indicator) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
 }
 
 // AddIndicates creates a relationship that describes that the Indicator can

@@ -73,6 +73,10 @@ type IntrusionSet struct {
 	SecondaryMotivations []string `json:"secondary_motivations,omitempty"`
 }
 
+func (o *IntrusionSet) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // AddAttributedTo describes that the related Threat Actor is involved in
 // carrying out the Intrusion Set.
 func (c *IntrusionSet) AddAttributedTo(id Identifier, opts ...STIXOption) (*Relationship, error) {

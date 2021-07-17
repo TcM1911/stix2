@@ -52,6 +52,10 @@ type File struct {
 	Content Identifier `json:"content_ref,omitempty"`
 }
 
+func (o *File) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // ArchiveExtension returns the archive extension for the object or nil.
 func (f *File) ArchiveExtension() *ArchiveFileExtension {
 	data, ok := f.Extensions[ExtArchive]

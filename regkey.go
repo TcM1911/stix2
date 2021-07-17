@@ -31,6 +31,10 @@ type RegistryKey struct {
 	NumberOfSubkeys int64 `json:"number_of_subkeys,omitempty"`
 }
 
+func (o *RegistryKey) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewRegistryKey creates a new RegistryKey object.
 func NewRegistryKey(opts ...STIXOption) (*RegistryKey, error) {
 	if len(opts) == 0 {

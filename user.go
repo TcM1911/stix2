@@ -64,6 +64,10 @@ type UserAccount struct {
 	AccountLastLogin *Timestamp `json:"account_last_login,omitempty"`
 }
 
+func (o *UserAccount) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // UNIXAccountExtension returns the Unix account extension for the object or
 // nil.
 func (n *UserAccount) UNIXAccountExtension() *UNIXAccountExtension {

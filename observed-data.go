@@ -79,6 +79,10 @@ type ObservedData struct {
 	ObjectRefs []Identifier `json:"object_refs,omitempty"`
 }
 
+func (o *ObservedData) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewObservedData creates a new ObservedData object.
 func NewObservedData(firstObserved, lastObserved *Timestamp, numberObserved int64, objectsRef []Identifier, opts ...STIXOption) (*ObservedData, error) {
 	if len(objectsRef) == 0 || firstObserved == nil || lastObserved == nil || numberObserved < 1 {

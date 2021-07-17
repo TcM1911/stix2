@@ -98,6 +98,10 @@ type Sighting struct {
 	Summary bool `json:"summary,omitempty"`
 }
 
+func (o *Sighting) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewSighting creates a new Sighting of seen (s) Identifier.  Function returns
 // a wrapped error if ErrInvalidProperty if an optional property's value is
 // invalid according to the spec.

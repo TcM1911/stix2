@@ -31,6 +31,10 @@ type Software struct {
 	Version string `json:"version,omitempty"`
 }
 
+func (o *Software) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewSoftware creates a new Software object. A Software object MUST contain at least one
 // of hashes or name.
 func NewSoftware(name string, opts ...STIXOption) (*Software, error) {

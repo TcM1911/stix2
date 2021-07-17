@@ -18,6 +18,10 @@ type AutonomousSystem struct {
 	RIR string `json:"rir,omitempty"`
 }
 
+func (o *AutonomousSystem) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewAutonomousSystem creates a new AutonomousSystem object.
 func NewAutonomousSystem(number int64, opts ...STIXOption) (*AutonomousSystem, error) {
 	if number == 0 {

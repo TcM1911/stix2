@@ -1122,3 +1122,98 @@ func filterOutNonCustom(m map[string]interface{}, obj interface{}) {
 		}
 	}
 }
+
+func objectToMap(obj STIXObject) (map[string]interface{}, error) {
+	m := make(map[string]interface{})
+	err := valueToMap(obj, m)
+	return m, err
+}
+
+func valueToMap(obj interface{}, m map[string]interface{}) error {
+	typ := reflect.TypeOf(obj)
+	if typ.Kind() == reflect.Ptr {
+		typ = typ.Elem()
+	}
+
+	// Not a struct, nothing else to do.
+	if typ.Kind() != reflect.Struct {
+		return fmt.Errorf("%s is an invalid type", typ.Name())
+	}
+
+	val := reflect.ValueOf(obj)
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+	for i := 0; i < typ.NumField(); i++ {
+		f := typ.Field(i)
+
+		fv := val.Field(i)
+		switch f.Name {
+		case "STIXRelationshipObject", "STIXDomainObject", "STIXCyberObservableObject":
+			err := valueToMap(fv.Interface(), m)
+			if err != nil {
+				return err
+			}
+		default:
+			jsonTag := f.Tag.Get("json")
+			if jsonTag == "" {
+				continue
+			}
+			jsonTagParts := strings.Split(jsonTag, ",")
+
+			// Check if zero value. If it is skip it unless it's required.
+			if fv.Kind() != reflect.Bool && fv.IsZero() {
+				skip := false
+				for _, p := range jsonTagParts {
+					if p == "omitempty" {
+						skip = true
+					}
+				}
+				if !skip {
+					return fmt.Errorf("%s is empty but is required", f.Name)
+				}
+				continue
+			}
+
+			m[jsonTagParts[0]] = fv.Interface()
+		}
+	}
+
+	// Extract top level properties.
+	if ob, ok := obj.(STIXCyberObservableObject); ok {
+		if ob.toplevelProperties != nil {
+			for k, v := range *ob.toplevelProperties {
+				m[k] = v
+			}
+		}
+	}
+	if ob, ok := obj.(STIXDomainObject); ok {
+		if ob.toplevelProperties != nil {
+			for k, v := range *ob.toplevelProperties {
+				m[k] = v
+			}
+		}
+	}
+	if ob, ok := obj.(STIXRelationshipObject); ok {
+		if ob.toplevelProperties != nil {
+			for k, v := range *ob.toplevelProperties {
+				m[k] = v
+			}
+		}
+	}
+	if ob, ok := obj.(*MarkingDefinition); ok {
+		if ob.toplevelProperties != nil {
+			for k, v := range *ob.toplevelProperties {
+				m[k] = v
+			}
+		}
+	}
+	if ob, ok := obj.(*LanguageContent); ok {
+		if ob.toplevelProperties != nil {
+			for k, v := range *ob.toplevelProperties {
+				m[k] = v
+			}
+		}
+	}
+	return nil
+}

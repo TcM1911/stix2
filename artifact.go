@@ -36,6 +36,10 @@ type Artifact struct {
 	Key string `json:"decryption_key,omitempty"`
 }
 
+func (o *Artifact) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewArtifact creates a new Artifact object.
 func NewArtifact(opts ...STIXOption) (*Artifact, error) {
 	base := newSTIXCyberObservableObject(TypeArtifact)

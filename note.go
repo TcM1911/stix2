@@ -27,6 +27,10 @@ type Note struct {
 	Objects []Identifier `json:"object_refs"`
 }
 
+func (o *Note) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewNote creates a new Note object.
 func NewNote(content string, objects []Identifier, opts ...STIXOption) (*Note, error) {
 	if len(objects) == 0 {

@@ -12,6 +12,10 @@ type Mutex struct {
 	Name string `json:"name"`
 }
 
+func (o *Mutex) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewMutex creates a new Mutex object.
 func NewMutex(value string, opts ...STIXOption) (*Mutex, error) {
 	if value == "" {
