@@ -144,6 +144,22 @@ func (c *Collection) AllObjects() []STIXObject {
 	return result
 }
 
+// GetAll returns all the items of the STIXType in the collection. This can
+// be used to return for example, custom types. Nil is returned if not types
+// are part of the collection.
+func (c *Collection) GetAll(typ STIXType) []STIXObject {
+	bucket, ok := c.objects[typ]
+	if !ok {
+		return nil
+	}
+
+	objects := make([]STIXObject, 0, len(bucket))
+	for _, v := range bucket {
+		objects = append(objects, v.(STIXObject))
+	}
+	return objects
+}
+
 // ToBundle returns a STIX bundle with all the STIXObjects in the Collection.
 func (c *Collection) ToBundle() (*Bundle, error) {
 	return NewBundle(c.AllObjects()...)

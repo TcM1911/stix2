@@ -217,6 +217,13 @@ func TestExtensionCustomObject(t *testing.T) {
 		assert.Nil(custom.Get("does_not_exist"))
 		assert.NotNil(custom.GetCreated())
 		assert.NotNil(custom.GetModified())
+
+		objects := c.GetAll(STIXType("my-favorite-sdo"))
+		assert.NotNil(objects)
+		assert.Len(objects, 1)
+
+		noObjects := c.GetAll(STIXType("sdo-does-not-exist"))
+		assert.Nil(noObjects)
 	})
 
 	t.Run("allow-ignoring-custom-objects", func(t *testing.T) {
