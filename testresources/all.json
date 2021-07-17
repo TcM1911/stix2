@@ -645,8 +645,10 @@
     "type": "malware-analysis",
     "spec_version": "2.1",
     "id": "malware-analysis--d0a5219b-4960-4b0c-a9ce-ed7b0552cc1b",
-    "av_result": "benign",
-    "created": "2016-08-02T00:00:00.000Z"
+    "result": "benign",
+    "created": "2016-08-02T00:00:00.000Z",
+    "modified": "2016-08-02T00:00:00.000Z",
+    "product": "some-av"
   },
   {
     "id": "extension-definition--9c59fd79-4215-4ba2-920d-3e4f320e1e62",

@@ -25,24 +25,15 @@ func (typ Binary) String() string {
 
 // UnmarshalJSON extracts the binary data from the json data.
 func (typ *Binary) UnmarshalJSON(b []byte) error {
-	if len(b) < 2 {
-		return nil
-	}
-	t := string(b[1 : len(b)-1])
-	data, err := base64.StdEncoding.DecodeString(t)
-	if err != nil {
-		return err
-	}
-	*typ = data
-	return nil
+	var buf []byte
+	err := json.Unmarshal(b, &buf)
+	*typ = Binary(buf)
+	return err
 }
 
 // MarshalJSON converts the binary data to base64 for JSON serialization.
 func (typ Binary) MarshalJSON() ([]byte, error) {
-	if len(typ) < 1 {
-		return []byte{}, nil
-	}
-	return []byte("\"" + typ.String() + "\""), nil
+	return json.Marshal([]byte(typ))
 }
 
 // Hex type encodes an array of octets (8-bit bytes) as hexadecimal. The string
@@ -452,9 +443,6 @@ func (t *Timestamp) MarshalJSON() ([]byte, error) {
 func (t *Timestamp) UnmarshalJSON(b []byte) error {
 	// Removing the two " and parse the timestamp.
 	stamp, err := time.Parse(time.RFC3339Nano, string(b[1:len(b)-1]))
-	if err != nil {
-		return err
-	}
 	*t = Timestamp{stamp}
-	return nil
+	return err
 }

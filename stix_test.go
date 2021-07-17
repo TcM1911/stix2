@@ -4,6 +4,7 @@
 package stix2
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -298,6 +299,27 @@ func TestDuplicateInCollection(t *testing.T) {
 	col.Add(d)
 
 	assert.Len(t, col.AllObjects(), 1)
+}
+
+func TestJSONMarshal(t *testing.T) {
+	assert := assert.New(t)
+	f, err := getResource("all.json")
+	require.NoError(t, err)
+	defer f.Close()
+
+	data, err := ioutil.ReadAll(f)
+	require.NoError(t, err)
+
+	c, err := FromJSON(data)
+	assert.NoError(err)
+	assert.NotNil(c)
+
+	bundle, err := c.ToBundle()
+	assert.NoError(err)
+
+	buf, err := json.Marshal(bundle)
+	assert.NoError(err)
+	assert.NotNil(buf)
 }
 
 func getResource(file string) (*os.File, error) {
