@@ -150,3 +150,92 @@ func Example() {
 	}
 	fmt.Println(string(data))
 }
+
+func ExampleCustomObject() {
+	// Define the custom fields
+	ext := &stix2.CustomObject{}
+	ext.Set("some_new_property", "a string value")
+
+	// The extension definition.
+	ed, _ := stix2.NewExtensionDefinition(
+		"A custom extension",
+		"https://example.com/v1/schema",
+		"1.0",
+		[]stix2.ExtensionType{stix2.ExtensionTypePropertyExtension},
+	)
+
+	// Create a DomainName object with the additional field.
+	d, _ := stix2.NewDomainName("example.com", stix2.OptionExtension(string(ed.ID), ext))
+
+	fmt.Println(d.Extensions[string(ed.ID)].(*stix2.CustomObject).GetAsString("some_new_property"))
+
+	//Output:
+	// a string value
+}
+
+func ExampleCustomObject_attack() {
+	data := []byte(`[{
+		"id": "attack-pattern--3fc9b85a-2862-4363-a64d-d692e3ffbee0",
+		"description": "Adversaries may search for common password storage locations to obtain user credentials. Passwords are stored in several places on a system, depending on the operating system or application holding the credentials. There are also specific applications that store passwords to make it easier for users manage and maintain. Once credentials are obtained, they can be used to perform lateral movement and access restricted information.",
+		"name": "Credentials from Password Stores",
+		"created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+		"object_marking_refs": [
+			"marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+		],
+		"external_references": [
+			{
+				"source_name": "mitre-attack",
+				"external_id": "T1555",
+				"url": "https://attack.mitre.org/techniques/T1555"
+			}
+		],
+		"type": "attack-pattern",
+		"kill_chain_phases": [
+			{
+				"kill_chain_name": "mitre-attack",
+				"phase_name": "credential-access"
+			}
+		],
+		"modified": "2021-04-29T21:00:19.428Z",
+		"created": "2020-02-11T18:48:28.456Z",
+		"x_mitre_platforms": [
+			"Linux",
+			"macOS",
+			"Windows"
+		],
+		"x_mitre_is_subtechnique": false,
+		"x_mitre_version": "1.0",
+		"x_mitre_detection": "Monitor system calls, file read events, and processes for suspicious activity that could indicate searching for a password  or other activity related to performing keyword searches (e.g. password, pwd, login, store, secure, credentials, etc.) in process memory for credentials. File read events should be monitored surrounding known password storage applications.",
+		"x_mitre_permissions_required": [
+			"Administrator"
+		],
+		"x_mitre_data_sources": [
+			"Process: Process Creation",
+			"File: File Access",
+			"Command: Command Execution",
+			"Process: OS API Execution",
+			"Process: Process Access"
+		],
+		"spec_version": "2.1",
+		"x_mitre_domains": [
+			"enterprise-attack"
+		],
+		"x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5"
+}]`)
+
+	col, err := stix2.FromJSON(data)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	obj := col.AttackPattern(stix2.Identifier("attack-pattern--3fc9b85a-2862-4363-a64d-d692e3ffbee0"))
+	fmt.Println(obj.Name)
+
+	// Get the custom properties.
+	ext := obj.GetExtendedTopLevelProperties()
+	fmt.Println(ext.GetAsString("x_mitre_version"))
+
+	//Output:
+	// Credentials from Password Stores
+	// 1.0
+}
