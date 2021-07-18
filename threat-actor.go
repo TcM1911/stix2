@@ -73,6 +73,10 @@ type ThreatActor struct {
 	PersonalMotivations []string `json:"personal_motivations,omitempty"`
 }
 
+func (o *ThreatActor) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // AddAttributedTo creates a relationship to the ThreatActor's real identity.
 func (a *ThreatActor) AddAttributedTo(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeIdentity) {

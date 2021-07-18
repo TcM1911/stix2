@@ -36,6 +36,10 @@ type Artifact struct {
 	Key string `json:"decryption_key,omitempty"`
 }
 
+func (o *Artifact) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewArtifact creates a new Artifact object.
 func NewArtifact(opts ...STIXOption) (*Artifact, error) {
 	base := newSTIXCyberObservableObject(TypeArtifact)
@@ -65,7 +69,7 @@ func NewArtifact(opts ...STIXOption) (*Artifact, error) {
 	if len(obj.Payload) != 0 {
 		contriStr = append(contriStr, `"`+obj.Payload.String()+`"`)
 	}
-	obj.ID = NewObservableIdenfier("["+strings.Join(contriStr, ",")+"]", TypeArtifact)
+	obj.ID = NewObservableIdentifier("["+strings.Join(contriStr, ",")+"]", TypeArtifact)
 	return obj, nil
 }
 

@@ -1,12 +1,11 @@
+// Copyright 2021 Joakim Kennedy. All rights reserved. Use of
+// this source code is governed by the included BSD license.
+
 package stix2
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
 	"reflect"
-
-	"github.com/ugorji/go/codec"
 )
 
 // STIXOption is an optional parameter when constructing an
@@ -144,7 +143,7 @@ func OptionDefanged(b bool) STIXOption {
 }
 
 // OptionExtension adds an extension. This option is valid for the types:
-//		- STIX Cyber-observable Objects
+//		- All types execpt Bundle and Extension.
 func OptionExtension(name string, value interface{}) STIXOption {
 	return func(obj STIXObject) error {
 		val, err := reflectValue(obj)
@@ -152,40 +151,69 @@ func OptionExtension(name string, value interface{}) STIXOption {
 			return err
 		}
 
-		f := val.FieldByName("STIXCyberObservableObject")
-		if !f.IsValid() || !f.CanSet() || f.Kind() != reflect.Struct {
-			return fmt.Errorf("object is not a STIXCyberObservableObject")
+		ev, err := findFieldForExtension(val)
+		if err != nil {
+			return err
 		}
 
-		// Extract extension
-
-		ev := f.FieldByName("Extensions")
-		if !ev.IsValid() || !ev.CanSet() {
-			return fmt.Errorf("extension field not available in the object")
-		}
-
-		ext, ok := ev.Interface().(map[string]json.RawMessage)
-		if !ok {
-			return fmt.Errorf("extensions field is of wrong type")
-		}
+		// If this cast fails, we are dealing with an incorrect implemented type.
+		// In this case, we let it panic.
+		ext := ev.Interface().(Extensions)
 
 		if ext == nil {
-			ext = make(map[string]json.RawMessage)
+			ext = Extensions{}
 		}
 
-		// If error drop the data.
-		buf := &bytes.Buffer{}
-		c := codec.NewEncoder(buf, &codec.JsonHandle{})
-		err = c.Encode(value)
-		if err != nil {
-			return fmt.Errorf("error when processing extension data: %w", err)
-		}
-		ext[name] = json.RawMessage(buf.Bytes())
+		ext[name] = value
 
 		// Save the extensions field
 		ev.Set(reflect.ValueOf(ext))
 
 		return nil
+	}
+}
+
+func findFieldForExtension(val reflect.Value) (reflect.Value, error) {
+	var subStruct *reflect.Value
+
+	// Check if it is in a potential substruct.
+
+	f := val.FieldByName("STIXCyberObservableObject")
+	if f.IsValid() && f.CanSet() && f.Kind() == reflect.Struct {
+		cpy := f
+		subStruct = &cpy
+	}
+
+	f = val.FieldByName("STIXDomainObject")
+	if f.IsValid() && f.CanSet() && f.Kind() == reflect.Struct {
+		cpy := f
+		subStruct = &cpy
+	}
+
+	f = val.FieldByName("STIXRelationshipObject")
+	if f.IsValid() && f.CanSet() && f.Kind() == reflect.Struct {
+		cpy := f
+		subStruct = &cpy
+	}
+
+	if subStruct != nil {
+		// Substruct found so set val to it.
+		val = *subStruct
+	}
+
+	f = val.FieldByName("Extensions")
+	if f.IsValid() && f.CanSet() && f.Kind() == reflect.Map {
+		return f, nil
+	}
+
+	return f, fmt.Errorf("object can not have extensions")
+}
+
+// OptionExtensionProperties adds an extension. This option is valid for the types:
+//		- STIX ExtensionDefinition
+func OptionExtensionProperties(value []string) STIXOption {
+	return func(obj STIXObject) error {
+		return setField(obj, "ExtensionProperties", value, reflect.Slice)
 	}
 }
 

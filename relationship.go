@@ -60,6 +60,10 @@ type Relationship struct {
 	StopTime *Timestamp `json:"stop_time,omitempty"`
 }
 
+func (o *Relationship) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewRelationship creates a new Relationship object.
 func NewRelationship(relType RelationshipType, source, target Identifier, opts ...STIXOption) (*Relationship, error) {
 	if relType == "" || source == "" || target == "" {

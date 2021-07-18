@@ -35,6 +35,10 @@ type Report struct {
 	Objects []Identifier `json:"object_refs"`
 }
 
+func (o *Report) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewReport creates a new Report object.
 func NewReport(name string, published *Timestamp, objects []Identifier, opts ...STIXOption) (*Report, error) {
 	if name == "" || published == nil || len(objects) == 0 {

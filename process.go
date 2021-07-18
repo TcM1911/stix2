@@ -4,7 +4,6 @@
 package stix2
 
 import (
-	"encoding/json"
 	"fmt"
 )
 
@@ -45,6 +44,10 @@ type Process struct {
 	Child []Identifier `json:"child_refs,omitempty"`
 }
 
+func (o *Process) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // WindowsProcessExtension returns the Windows process extension for the object
 // or nil.
 func (n *Process) WindowsProcessExtension() *WindowsProcessExtension {
@@ -52,9 +55,7 @@ func (n *Process) WindowsProcessExtension() *WindowsProcessExtension {
 	if !ok {
 		return nil
 	}
-	var v WindowsProcessExtension
-	json.Unmarshal(data, &v)
-	return &v
+	return data.(*WindowsProcessExtension)
 }
 
 // WindowsServiceExtension returns the Windows service extension for the object
@@ -64,9 +65,7 @@ func (n *Process) WindowsServiceExtension() *WindowsServiceExtension {
 	if !ok {
 		return nil
 	}
-	var v WindowsServiceExtension
-	json.Unmarshal(data, &v)
-	return &v
+	return data.(*WindowsServiceExtension)
 }
 
 // NewProcess creates a new Process object.

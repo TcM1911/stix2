@@ -39,6 +39,10 @@ type Tool struct {
 	Version string `json:"tool_version,omitempty"`
 }
 
+func (o *Tool) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // AddDelivers creates a relationship that describes that this Tool is used to
 // deliver a malware instance (or family).
 func (a *Tool) AddDelivers(id Identifier, opts ...STIXOption) (*Relationship, error) {

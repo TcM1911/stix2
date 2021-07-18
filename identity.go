@@ -34,6 +34,10 @@ type Identity struct {
 	ContactInformation string `json:"contact_information,omitempty"`
 }
 
+func (o *Identity) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // AddLocatedAt creates a relationship to a location hat the Identity is
 // located at or in the related Location.
 func (c *Identity) AddLocatedAt(id Identifier, opts ...STIXOption) (*Relationship, error) {

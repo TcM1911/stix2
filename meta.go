@@ -85,6 +85,8 @@ type LanguageContent struct {
 	// Marking Definition object (i.e., it cannot contain any circular
 	// references).
 	GranularMarking []*GranularMarking `json:"granular_markings,omitempty"`
+	// Specifies any extensions of the object, as a dictionary.
+	Extensions Extensions `json:"extensions,omitempty"`
 	// Object identifies the id of the object that this Language Content
 	// applies to. It MUST be the identifier for a STIX Object.
 	Object Identifier `json:"object_ref"`
@@ -126,6 +128,22 @@ type LanguageContent struct {
 	// in the target or to properties that do not exist in the target object
 	// MUST be ignored.
 	Contents map[string]map[string]interface{} `json:"contents"`
+
+	toplevelProperties *CustomObject
+}
+
+func (o *LanguageContent) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
+func (s *LanguageContent) addCustomProperties(c *CustomObject) {
+	s.toplevelProperties = c
+}
+
+// GetExtendedTopLevelProperties returns the extra top level properties or
+// nil for the object.
+func (s *LanguageContent) GetExtendedTopLevelProperties() *CustomObject {
+	return s.toplevelProperties
 }
 
 // GetID returns the identifier for the object.
@@ -236,6 +254,8 @@ type MarkingDefinition struct {
 	// Marking Definition object (i.e., it cannot contain any circular
 	// references).
 	GranularMarking []*GranularMarking `json:"granular_markings,omitempty"`
+	// Specifies any extensions of the object, as a dictionary.
+	Extensions Extensions `json:"extensions,omitempty"`
 	// Name is used to identify the Marking Definition.
 	Name string `json:"name,omitempty"`
 	// DefinitionType identifies the type of Marking Definition. The value of
@@ -244,6 +264,22 @@ type MarkingDefinition struct {
 	// Definition contains the marking object itself (e.g., the TLP marking,
 	// the Statement, or some other marking definition defined).
 	Definition interface{} `json:"definition"`
+
+	toplevelProperties *CustomObject
+}
+
+func (o *MarkingDefinition) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
+func (s *MarkingDefinition) addCustomProperties(c *CustomObject) {
+	s.toplevelProperties = c
+}
+
+// GetExtendedTopLevelProperties returns the extra top level properties or
+// nil for the object.
+func (s *MarkingDefinition) GetExtendedTopLevelProperties() *CustomObject {
+	return s.toplevelProperties
 }
 
 // GetID returns the identifier for the object.

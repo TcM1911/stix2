@@ -31,6 +31,10 @@ type Directory struct {
 	Contains []Identifier `json:"contains_refs,omitempty"`
 }
 
+func (o *Directory) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewDirectory creates a new Directory object.
 func NewDirectory(path string, opts ...STIXOption) (*Directory, error) {
 	if path == "" {
@@ -43,6 +47,6 @@ func NewDirectory(path string, opts ...STIXOption) (*Directory, error) {
 	}
 
 	err := applyOptions(obj, opts)
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", path), TypeDirectory)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[\"%s\"]", path), TypeDirectory)
 	return obj, err
 }

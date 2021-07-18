@@ -34,6 +34,10 @@ type Grouping struct {
 	Objects []Identifier `json:"object_refs"`
 }
 
+func (o *Grouping) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewGrouping creates a new Grouping object.
 func NewGrouping(context string, objects []Identifier, opts ...STIXOption) (*Grouping, error) {
 	if context == "" || len(objects) < 1 {

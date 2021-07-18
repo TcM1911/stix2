@@ -78,6 +78,10 @@ type Location struct {
 	PostalCode string `json:"postal_code,omitempty"`
 }
 
+func (o *Location) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewLocation creates a new Location object.
 func NewLocation(region, country string, lat, long float64, opts ...STIXOption) (*Location, error) {
 	if region == "" && country == "" && lat == float64(0) && long == float64(0) {

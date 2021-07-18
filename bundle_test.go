@@ -57,5 +57,5 @@ func TestCreateBundle(t *testing.T) {
 
 	data, err := json.Marshal(b)
 	assert.NoError(err)
-	assert.Contains(string(data), `"type":"ipv4-addr","id":"ipv4-addr--8e9dc7c8-b845-5cfb-9c37-cff3a18e08d6","spec_version":"2.1","value":"10.0.0.1"`)
+	assert.Contains(string(data), `"id":"ipv4-addr--8e9dc7c8-b845-5cfb-9c37-cff3a18e08d6","spec_version":"2.1","type":"ipv4-addr","value":"10.0.0.1"`)
 }

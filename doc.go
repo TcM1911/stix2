@@ -50,5 +50,15 @@ https://docs.oasis-open.org/cti/stix/v2.1/csprd02/stix-v2.1-csprd02.html#_Toc267
 
 	b, err := collection.ToBundle()
 	data, err := json.MarshalIndent(b, "", "\t")
+
+Extensions and Customization
+
+With the release of version 2.1 of the specification custom properties
+has been deprecated. Instead, `property-extension` functionality should
+be used. This library supports parsing objects with old custom properties
+for backwards compatibility. The fields can be accessed via the
+`GetExtendedTopLevelProperties` method.
+
+See the examples on how to work with extensions.
 */
 package stix2

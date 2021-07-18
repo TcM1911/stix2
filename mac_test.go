@@ -37,7 +37,6 @@ func TestMACAddress(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionSpecVersion(specVer),
 			OptionDefanged(true),
-			OptionExtension("test", struct{}{}),
 		}
 		obj, err := NewMACAddress(val, opts...)
 		assert.NotNil(obj)

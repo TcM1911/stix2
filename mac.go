@@ -12,6 +12,10 @@ type MACAddress struct {
 	Value string `json:"value"`
 }
 
+func (o *MACAddress) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewMACAddress creates a new MACAddress object.
 func NewMACAddress(value string, opts ...STIXOption) (*MACAddress, error) {
 	if value == "" {
@@ -24,6 +28,6 @@ func NewMACAddress(value string, opts ...STIXOption) (*MACAddress, error) {
 	}
 
 	err := applyOptions(obj, opts)
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", value), TypeMACAddress)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[\"%s\"]", value), TypeMACAddress)
 	return obj, err
 }

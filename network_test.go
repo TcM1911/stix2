@@ -43,7 +43,6 @@ func TestNetworkTraffic(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionSpecVersion(specVer),
 			OptionDefanged(true),
-			OptionExtension("test", struct{}{}),
 			//
 			OptionStart(ts),
 			OptionEnd(ts),
@@ -308,6 +307,12 @@ func TestNetworkTraffic(t *testing.T) {
 		assert.True(ext.IsListening)
 	})
 
+	t.Run("socket-type-marshal", func(t *testing.T) {
+		b, err := json.Marshal(SocketTypeStream)
+		assert.NoError(err)
+		assert.Equal([]byte(`"SOCK_STREAM"`), b)
+	})
+
 	t.Run("socket-type-unmarshal-short", func(t *testing.T) {
 		d1 := []byte("A")
 		var typ SocketType
@@ -333,5 +338,88 @@ func TestNetworkTraffic(t *testing.T) {
 		err := ptr.UnmarshalJSON(d1)
 		assert.NoError(err)
 		assert.Equal(SocketFamilyUnknownValue, typ)
+	})
+
+	t.Run("HTTP-ext-parse", func(t *testing.T) {
+		data := []byte(`{
+			"type": "network-traffic",
+			"spec_version": "2.1",
+			"id": "network-traffic--f8ae967a-3dc3-5cdf-8f94-8505abff00c2",
+			"dst_ref": "ipv4-addr--6da8dad3-4de3-5f8e-ab23-45d0b8f12f16",
+			"protocols": ["tcp", "http"],
+			"extensions": {
+			  "http-request-ext": {
+				"request_method": "get",
+				"request_value": "/download.html",
+				"request_version": "http/1.1",
+				"request_header": {
+				  "Accept-Encoding": ["gzip,deflate"],
+				  "User-Agent": ["Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6) Gecko/20040113"],
+				  "Host": ["www.example.com"]
+				}
+			  }
+			}
+		  }
+`)
+		var obj *NetworkTraffic
+		err := json.Unmarshal(data, &obj)
+		assert.NoError(err)
+
+		ext := obj.HTTPRequestExtension()
+		assert.NotNil(ext)
+		assert.Equal("get", ext.Method)
+	})
+
+	t.Run("ICMP-parsing", func(t *testing.T) {
+		data := []byte(`{
+			"type": "network-traffic",
+			"spec_version": "2.1",
+			"id": "network-traffic--e7a939ca-78c6-5f27-8ae0-4ad112454626",
+			"src_ref": "ipv4-addr--d7177770-fc12-586b-9244-426596a7008e",
+			"dst_ref": "ipv4-addr--03b708d9-7761-5523-ab75-5ea096294a68",
+			"protocols": ["icmp"],
+			"extensions": {
+			  "icmp-ext": {
+				"icmp_type_hex": "08",
+				"icmp_code_hex": "00"
+			  }
+			}
+		  }
+`)
+
+		var obj *NetworkTraffic
+		err := json.Unmarshal(data, &obj)
+		assert.NoError(err)
+
+		ext := obj.ICMPExtension()
+		assert.NotNil(ext)
+		assert.Equal(Hex("08"), ext.Type)
+	})
+
+	t.Run("parse-tcp-ext", func(t *testing.T) {
+		data := []byte(`{
+			"type": "network-traffic",
+			"spec_version": "2.1",
+			"id": "network-traffic--09ca55c3-97e5-5966-bad0-1d41d557ae13",
+			"src_ref": "ipv4-addr--89830c10-2e94-57fa-8ca6-e0537d2719d1",
+			"dst_ref": "ipv4-addr--45f4c6fb-2d7d-576a-a571-edc78d899a72",
+			"src_port": 3372,
+			"dst_port": 80,
+			"protocols": ["tcp"],
+			"extensions": {
+			  "tcp-ext": {
+				"src_flags_hex": "00000002"
+			  }
+			}
+		  }
+`)
+
+		var obj *NetworkTraffic
+		err := json.Unmarshal(data, &obj)
+		assert.NoError(err)
+
+		ext := obj.TCPExtension()
+		assert.NotNil(ext)
+		assert.Equal(Hex("00000002"), ext.SrcFlags)
 	})
 }

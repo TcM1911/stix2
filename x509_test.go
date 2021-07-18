@@ -42,7 +42,6 @@ func TestX509Certificate(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionSpecVersion(specVer),
 			OptionDefanged(true),
-			OptionExtension("test", struct{}{}),
 			//
 			OptionSelfSigned(true),
 			OptionHashes(hashes),

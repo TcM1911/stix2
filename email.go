@@ -22,6 +22,10 @@ type EmailAddress struct {
 	BelongsTo Identifier `json:"belongs_to_ref,omitempty"`
 }
 
+func (o *EmailAddress) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewEmailAddress creates a new EmailAddress object.
 func NewEmailAddress(value string, opts ...STIXOption) (*EmailAddress, error) {
 	if value == "" {
@@ -34,7 +38,7 @@ func NewEmailAddress(value string, opts ...STIXOption) (*EmailAddress, error) {
 	}
 
 	err := applyOptions(obj, opts)
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", value), TypeEmailAddress)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[\"%s\"]", value), TypeEmailAddress)
 	return obj, err
 }
 
@@ -99,6 +103,10 @@ type EmailMessage struct {
 	RawEmail Identifier `json:"raw_email_ref,omitempty"`
 }
 
+func (o *EmailMessage) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewEmailMessage creates a new EmailMessage object.
 func NewEmailMessage(multipart bool, opts ...STIXOption) (*EmailMessage, error) {
 	base := newSTIXCyberObservableObject(TypeEmailMessage)
@@ -118,7 +126,7 @@ func NewEmailMessage(multipart bool, opts ...STIXOption) (*EmailMessage, error) 
 	if obj.Body != "" {
 		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.Body))
 	}
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeEmailMessage)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeEmailMessage)
 	return obj, err
 }
 

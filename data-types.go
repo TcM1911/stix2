@@ -25,24 +25,15 @@ func (typ Binary) String() string {
 
 // UnmarshalJSON extracts the binary data from the json data.
 func (typ *Binary) UnmarshalJSON(b []byte) error {
-	if len(b) < 2 {
-		return nil
-	}
-	t := string(b[1 : len(b)-1])
-	data, err := base64.StdEncoding.DecodeString(t)
-	if err != nil {
-		return err
-	}
-	*typ = data
-	return nil
+	var buf []byte
+	err := json.Unmarshal(b, &buf)
+	*typ = Binary(buf)
+	return err
 }
 
 // MarshalJSON converts the binary data to base64 for JSON serialization.
 func (typ Binary) MarshalJSON() ([]byte, error) {
-	if len(typ) < 1 {
-		return []byte{}, nil
-	}
-	return []byte("\"" + typ.String() + "\""), nil
+	return json.Marshal([]byte(typ))
 }
 
 // Hex type encodes an array of octets (8-bit bytes) as hexadecimal. The string
@@ -216,8 +207,8 @@ func NewIdentifier(typ STIXType) Identifier {
 	return Identifier(fmt.Sprintf("%s--%s", typ, id))
 }
 
-// NewObservableIdenfier creates a new STIX Cyber-observable Object identifier.
-func NewObservableIdenfier(value string, typ STIXType) Identifier {
+// NewObservableIdentifier creates a new STIX Cyber-observable Object identifier.
+func NewObservableIdentifier(value string, typ STIXType) Identifier {
 	id := uuid.NewSHA1(CyberObservableNamespace, []byte(value))
 	return Identifier(fmt.Sprintf("%s--%s", typ, id))
 }
@@ -262,6 +253,8 @@ const (
 	TypeEmailMIME STIXType = "mime-part-type"
 	// TypeEmailMessage is used for email message type.
 	TypeEmailMessage STIXType = "email-message"
+	// TypeExtensionDefinition is used for extension definition type.
+	TypeExtensionDefinition STIXType = "extension-definition"
 	// TypeFile is used for file types.
 	TypeFile STIXType = "file"
 	// TypeGrouping is used for grouping type.
@@ -338,6 +331,7 @@ var AllTypes = []STIXType{
 	TypeEmailAddress,
 	TypeEmailMIME,
 	TypeEmailMessage,
+	TypeExtensionDefinition,
 	TypeFile,
 	TypeGrouping,
 	TypeIPv4Addr,
@@ -453,9 +447,6 @@ func (t *Timestamp) MarshalJSON() ([]byte, error) {
 func (t *Timestamp) UnmarshalJSON(b []byte) error {
 	// Removing the two " and parse the timestamp.
 	stamp, err := time.Parse(time.RFC3339Nano, string(b[1:len(b)-1]))
-	if err != nil {
-		return err
-	}
 	*t = Timestamp{stamp}
-	return nil
+	return err
 }

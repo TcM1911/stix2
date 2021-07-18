@@ -112,6 +112,14 @@ type STIXRelationshipObject struct {
 	// Marking Definition object (i.e., it cannot contain any circular
 	// references).
 	GranularMarking []*GranularMarking `json:"granular_markings,omitempty"`
+	// Specifies any extensions of the object, as a dictionary.
+	Extensions Extensions `json:"extensions,omitempty"`
+
+	toplevelProperties *CustomObject
+}
+
+func (s *STIXRelationshipObject) addCustomProperties(c *CustomObject) {
+	s.toplevelProperties = c
 }
 
 // GetID returns the identifier for the object.
@@ -140,6 +148,12 @@ func (s *STIXRelationshipObject) GetModified() *time.Time {
 		return nil
 	}
 	return &s.Modified.Time
+}
+
+// GetExtendedTopLevelProperties returns the extra top level properties or
+// nil for the object.
+func (s *STIXRelationshipObject) GetExtendedTopLevelProperties() *CustomObject {
+	return s.toplevelProperties
 }
 
 func newSTIXDomainObject(typ STIXType) STIXDomainObject {
@@ -235,6 +249,22 @@ type STIXDomainObject struct {
 	// Marking Definition object (i.e., it cannot contain any circular
 	// references).
 	GranularMarking []*GranularMarking `json:"granular_markings,omitempty"`
+	// Specifies any extensions of the object, as a dictionary. The values of
+	// the dictionary is either one of the extension types defined by the STIX
+	// specification or a *CustomObject.
+	Extensions Extensions `json:"extensions,omitempty"`
+
+	toplevelProperties *CustomObject
+}
+
+func (s *STIXDomainObject) addCustomProperties(c *CustomObject) {
+	s.toplevelProperties = c
+}
+
+// GetExtendedTopLevelProperties returns the extra top level properties or
+// nil for the object.
+func (s *STIXDomainObject) GetExtendedTopLevelProperties() *CustomObject {
+	return s.toplevelProperties
 }
 
 // AddDerivedFrom adds a relationship to an object that this object is derived
@@ -315,7 +345,19 @@ type STIXCyberObservableObject struct {
 	// object has been defanged.
 	Defanged bool `json:"defanged,omitempty"`
 	// Specifies any extensions of the object, as a dictionary.
-	Extensions map[string]json.RawMessage `json:"extensions,omitempty"`
+	Extensions Extensions `json:"extensions,omitempty"`
+
+	toplevelProperties *CustomObject
+}
+
+func (s *STIXCyberObservableObject) addCustomProperties(c *CustomObject) {
+	s.toplevelProperties = c
+}
+
+// GetExtendedTopLevelProperties returns the extra top level properties or
+// nil for the object.
+func (s *STIXCyberObservableObject) GetExtendedTopLevelProperties() *CustomObject {
+	return s.toplevelProperties
 }
 
 // AddDerivedFrom adds a relationship to an object that this object is derived
@@ -376,4 +418,14 @@ func newSTIXCyberObservableObject(typ STIXType) STIXCyberObservableObject {
 		Type:        typ,
 		SpecVersion: SpecVersion21,
 	}
+}
+
+func marshalToJSONHelper(obj STIXObject) ([]byte, error) {
+	// There are some extra top level properties that needs to be handled.
+	// Convert to a map to retain correct JSON structure.
+	m, err := objectToMap(obj)
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(m)
 }

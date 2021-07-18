@@ -68,10 +68,12 @@ b, err := collection.ToBundle()
 data, err := json.MarshalIndent(b, "", "\t")
 ```
 
-## To-do
+## Extensions and Customization
 
-- [x] Provide a solution to create a bundle from the collection object.
-- [ ] Add more data validations when creating objects
-- [ ] Support and documentation for customization
-- [ ] Ensure SITX 2.0 is supported
+With the release of version 2.1 of the specification custom properties
+has been deprecated. Instead, `property-extension` functionality should
+be used. This library supports parsing objects with old custom properties
+for backwards compatibility. The fields can be accessed via the 
+`GetExtendedTopLevelProperties` method.
 
+See the examples in the documentation on how to work with extensions.

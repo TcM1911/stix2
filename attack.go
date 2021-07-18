@@ -29,6 +29,10 @@ type AttackPattern struct {
 	KillChainPhase []*KillChainPhase `json:"kill_chain_phases,omitempty"`
 }
 
+func (o *AttackPattern) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // AddDelivers creates a relationship to a malware delivered by this object.
 func (a *AttackPattern) AddDelivers(id Identifier, opts ...STIXOption) (*Relationship, error) {
 	if !IsValidIdentifier(id) || !id.ForType(TypeMalware) {

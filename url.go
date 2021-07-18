@@ -14,6 +14,10 @@ type URL struct {
 	Value string `json:"value"`
 }
 
+func (o *URL) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewURL creates a new URL object.
 func NewURL(value string, opts ...STIXOption) (*URL, error) {
 	if value == "" {
@@ -26,6 +30,6 @@ func NewURL(value string, opts ...STIXOption) (*URL, error) {
 	}
 
 	err := applyOptions(obj, opts)
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", value), TypeURL)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[\"%s\"]", value), TypeURL)
 	return obj, err
 }

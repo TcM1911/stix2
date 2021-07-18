@@ -18,6 +18,10 @@ type AutonomousSystem struct {
 	RIR string `json:"rir,omitempty"`
 }
 
+func (o *AutonomousSystem) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewAutonomousSystem creates a new AutonomousSystem object.
 func NewAutonomousSystem(number int64, opts ...STIXOption) (*AutonomousSystem, error) {
 	if number == 0 {
@@ -30,6 +34,6 @@ func NewAutonomousSystem(number int64, opts ...STIXOption) (*AutonomousSystem, e
 	}
 
 	err := applyOptions(obj, opts)
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%d]", number), TypeAutonomousSystem)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[%d]", number), TypeAutonomousSystem)
 	return obj, err
 }

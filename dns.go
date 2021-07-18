@@ -19,6 +19,10 @@ type DomainName struct {
 	ResolvesTo []Identifier `json:"resolves_to_refs,omitempty"`
 }
 
+func (o *DomainName) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // AddResolvesTo describes that this Domain Name resolves to one or more IP
 // addresses or domain names.
 func (c *DomainName) AddResolvesTo(id Identifier, opts ...STIXOption) (*Relationship, error) {
@@ -40,6 +44,6 @@ func NewDomainName(value string, opts ...STIXOption) (*DomainName, error) {
 	}
 
 	err := applyOptions(obj, opts)
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[\"%s\"]", value), TypeDomainName)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[\"%s\"]", value), TypeDomainName)
 	return obj, err
 }

@@ -35,14 +35,13 @@ func TestCyberObservableOptions(t *testing.T) {
 		a.NoError(err)
 		a.Equal(gms, o.GranularMarking)
 
-		ext := struct {
-			TestField string
-		}{TestField: "test value"}
+		ext := map[string]string{}
+		ext["TestField"] = "test value"
 
 		err = OptionExtension("TestExtension", ext)(o)
 		a.NoError(err)
 		a.Len(o.Extensions, 1)
-		a.Contains(string(o.Extensions["TestExtension"]), "test value")
+		a.Contains(o.Extensions["TestExtension"].(map[string]string)["TestField"], "test value")
 	})
 
 	t.Run("nil_object", func(t *testing.T) {
@@ -90,7 +89,7 @@ func TestCyberObservableOptions(t *testing.T) {
 		obj := &structWithWrongKind{}
 		err := OptionExtension("tesst", "")(obj)
 		a.Error(err)
-		a.Equal("object is not a STIXCyberObservableObject", err.Error())
+		a.Equal("object can not have extensions", err.Error())
 	})
 
 	t.Run("extensions_wrong_extension_kind", func(t *testing.T) {
@@ -102,7 +101,7 @@ func TestCyberObservableOptions(t *testing.T) {
 		}{}
 		err := OptionExtension("test", "")(obj)
 		a.Error(err)
-		a.Equal("extensions field is of wrong type", err.Error())
+		a.Equal("object can not have extensions", err.Error())
 	})
 
 	t.Run("extensions_no_field", func(t *testing.T) {
@@ -114,14 +113,7 @@ func TestCyberObservableOptions(t *testing.T) {
 		}{}
 		err := OptionExtension("test", "")(obj)
 		a.Error(err)
-		a.Equal("extension field not available in the object", err.Error())
-	})
-
-	t.Run("extensions_bad_json_data", func(t *testing.T) {
-		obj := &testObject{}
-		err := OptionExtension("test", complex(42, 1337))(obj)
-		a.Error(err)
-		a.Equal("error when processing extension data: json encode error: unsupported kind complex128, for (42+1337i)", err.Error())
+		a.Equal("object can not have extensions", err.Error())
 	})
 
 	t.Run("extenstion_not_pinter_to_struct", func(t *testing.T) {
@@ -139,6 +131,10 @@ func TestCyberObservableOptions(t *testing.T) {
 }
 
 type emptryTestStruct struct{}
+
+func (s *emptryTestStruct) GetExtendedTopLevelProperties() *CustomObject {
+	panic("Failed")
+}
 
 func (s *emptryTestStruct) GetCreated() *time.Time {
 	panic("Failed")
@@ -172,6 +168,10 @@ type structWithWrongFieldKind struct {
 }
 
 type badType string
+
+func (s *badType) GetExtendedTopLevelProperties() *CustomObject {
+	panic("Failed")
+}
 
 func (s *badType) GetCreated() *time.Time {
 	panic("Failed")

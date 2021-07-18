@@ -4,6 +4,7 @@
 package stix2
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -111,6 +112,8 @@ func TestFromJSONAll(t *testing.T) {
 	assert.NotNil(c.EmailMessages())
 	assert.NotNil(c.EmailMessage(Identifier("email-message--cf9b4b7f-14c8-5955-8065-020e0316b559")))
 	assert.Nil(c.EmailMessage(Identifier("")))
+	assert.NotNil(c.ExtensionDefinition(Identifier("extension-definition--9c59fd79-4215-4ba2-920d-3e4f320e1e62")))
+	assert.Nil(c.ExtensionDefinition(Identifier("")))
 	assert.NotNil(c.Files())
 	assert.NotNil(c.File(Identifier("file--6ce09d9c-0ad3-5ebf-900c-e3cb288955b5")))
 	assert.Nil(c.File(Identifier("")))
@@ -296,6 +299,47 @@ func TestDuplicateInCollection(t *testing.T) {
 	col.Add(d)
 
 	assert.Len(t, col.AllObjects(), 1)
+}
+
+func TestJSONMarshal(t *testing.T) {
+	assert := assert.New(t)
+	f, err := getResource("all.json")
+	require.NoError(t, err)
+	defer f.Close()
+
+	data, err := ioutil.ReadAll(f)
+	require.NoError(t, err)
+
+	c, err := FromJSON(data)
+	assert.NoError(err)
+	assert.NotNil(c)
+
+	bundle, err := c.ToBundle()
+	assert.NoError(err)
+
+	buf, err := json.Marshal(bundle)
+	assert.NoError(err)
+	assert.NotNil(buf)
+}
+
+func TestMarshalHandleErrorConditions(t *testing.T) {
+	assert := assert.New(t)
+
+	t.Run("error-when-required-field-is-missing", func(t *testing.T) {
+		d, err := NewDomainName("example.com")
+		assert.NoError(err)
+		d.Value = ""
+		_, err = marshalToJSONHelper(d)
+		assert.Error(err)
+	})
+
+	t.Run("error-when-required-field-is-missing-in-parent", func(t *testing.T) {
+		d, err := NewDomainName("example.com")
+		assert.NoError(err)
+		d.ID = ""
+		_, err = marshalToJSONHelper(d)
+		assert.Error(err)
+	})
 }
 
 func getResource(file string) (*os.File, error) {

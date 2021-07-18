@@ -6,8 +6,8 @@ package stix2
 import (
 	"encoding/json"
 	"fmt"
+	"reflect"
 	"strings"
-	"sync"
 	"time"
 )
 
@@ -23,6 +23,13 @@ type STIXObject interface {
 	// GetModified returns the modified time for the STIX object. If the object
 	// does not have a time defined, nil is returned.
 	GetModified() *time.Time
+	// GetExtendedTopLevelProperties returns the extra top level properties or
+	// nil for the object.
+	GetExtendedTopLevelProperties() *CustomObject
+}
+
+type canHaveExtensions interface {
+	addCustomProperties(*CustomObject)
 }
 
 // CollectionOption is an optional parameter when constructing a Colletion.
@@ -34,6 +41,12 @@ type CollectionOption func(c *Collection)
 func NoSortOption() CollectionOption {
 	return func(c *Collection) {
 		c.noSort = true
+	}
+}
+
+func DropCustomOption() CollectionOption {
+	return func(c *Collection) {
+		c.dropCustom = true
 	}
 }
 
@@ -52,11 +65,11 @@ func New(opts ...CollectionOption) *Collection {
 // STIX specification.
 type Collection struct {
 	objects map[STIXType]map[Identifier]interface{}
-	objinit sync.Once
 
 	// Options
-	noSort bool
-	order  []Identifier
+	noSort     bool
+	order      []Identifier
+	dropCustom bool
 }
 
 // Get returns the object with matching ID or nil if it does not exist in the
@@ -67,14 +80,9 @@ func (c *Collection) Get(id Identifier) STIXObject {
 		// Incorrect format for the ID.
 		return nil
 	}
-	bucket, ok := c.objects[STIXType(parts[0])]
-	if !ok {
-		// No objects for this type.
-		return nil
-	}
-	obj, ok := bucket[id]
-	if !ok {
-		// No object with the ID.
+
+	obj := c.getObject(STIXType(parts[0]), id)
+	if obj == nil {
 		return nil
 	}
 	return obj.(STIXObject)
@@ -82,13 +90,19 @@ func (c *Collection) Get(id Identifier) STIXObject {
 
 // Add adds or updates an object in the collection.
 func (c *Collection) Add(obj STIXObject) error {
-	c.objinit.Do(func() {
-		objectInit(c)
-	})
 	if !HasValidIdentifier(obj) {
 		return fmt.Errorf("%s has an invalid identifier", obj.GetID())
 	}
-	bucket := c.objects[obj.GetType()]
+
+	if c.objects == nil {
+		c.objects = make(map[STIXType]map[Identifier]interface{})
+	}
+
+	bucket, ok := c.objects[obj.GetType()]
+	if !ok {
+		bucket = make(map[Identifier]interface{})
+		c.objects[obj.GetType()] = bucket
+	}
 
 	// Check if the item already exist.
 	_, update := bucket[obj.GetID()]
@@ -131,6 +145,22 @@ func (c *Collection) AllObjects() []STIXObject {
 		}
 	}
 	return result
+}
+
+// GetAll returns all the items of the STIXType in the collection. This can
+// be used to return for example, custom types. Nil is returned if not types
+// are part of the collection.
+func (c *Collection) GetAll(typ STIXType) []STIXObject {
+	bucket, ok := c.objects[typ]
+	if !ok {
+		return nil
+	}
+
+	objects := make([]STIXObject, 0, len(bucket))
+	for _, v := range bucket {
+		objects = append(objects, v.(STIXObject))
+	}
+	return objects
 }
 
 // ToBundle returns a STIX bundle with all the STIXObjects in the Collection.
@@ -296,6 +326,24 @@ func (c *Collection) EmailMessages() []*EmailMessage {
 	data := make([]*EmailMessage, 0, len(c.objects[TypeEmailMessage]))
 	for _, v := range c.objects[TypeEmailMessage] {
 		data = append(data, v.(*EmailMessage))
+	}
+	return data
+}
+
+// ExtensionDefinition returns the ExtensionDefinition with the identifier id.
+func (c *Collection) ExtensionDefinition(id Identifier) *ExtensionDefinition {
+	obj := c.getObject(TypeExtensionDefinition, id)
+	if obj == nil {
+		return nil
+	}
+	return obj.(*ExtensionDefinition)
+}
+
+// ExtensionDefinitions returns all the ExtensionDefinitions in the collection.
+func (c *Collection) ExtensionDefinitions() []*ExtensionDefinition {
+	data := make([]*ExtensionDefinition, 0, len(c.objects[TypeExtensionDefinition]))
+	for _, v := range c.objects[TypeExtensionDefinition] {
+		data = append(data, v.(*ExtensionDefinition))
 	}
 	return data
 }
@@ -859,14 +907,15 @@ func (c *Collection) X509Certificates() []*X509Certificate {
 }
 
 func (c *Collection) getObject(typ STIXType, id Identifier) interface{} {
-	return c.objects[typ][id]
-}
-
-func objectInit(c *Collection) {
-	c.objects = make(map[STIXType]map[Identifier]interface{})
-	for _, k := range AllTypes {
-		c.objects[k] = make(map[Identifier]interface{})
+	bucket, ok := c.objects[typ]
+	if !ok {
+		return nil
 	}
+	obj, ok := bucket[id]
+	if !ok {
+		return nil
+	}
+	return obj
 }
 
 // FromJSON parses JSON data and returns a Collection with the extracted
@@ -903,7 +952,7 @@ func processBundle(collection *Collection, bundle Bundle) error {
 }
 
 func processObjects(collection *Collection, objects []json.RawMessage) error {
-	var peak peakObject
+	var peak map[string]interface{}
 	var err error
 	for _, data := range objects {
 		err = json.Unmarshal(data, &peak)
@@ -911,9 +960,15 @@ func processObjects(collection *Collection, objects []json.RawMessage) error {
 			return err
 		}
 
+		typ, ok := peak["type"]
+		if !ok {
+			// Invalid so skip.
+			continue
+		}
+
 		var obj interface{}
 
-		switch peak.Type {
+		switch STIXType(typ.(string)) {
 		case TypeAutonomousSystem:
 			obj = &AutonomousSystem{}
 		case TypeArtifact:
@@ -932,6 +987,8 @@ func processObjects(collection *Collection, objects []json.RawMessage) error {
 			obj = &EmailAddress{}
 		case TypeEmailMessage:
 			obj = &EmailMessage{}
+		case TypeExtensionDefinition:
+			obj = &ExtensionDefinition{}
 		case TypeFile:
 			obj = &File{}
 		case TypeGrouping:
@@ -995,7 +1052,10 @@ func processObjects(collection *Collection, objects []json.RawMessage) error {
 		case TypeX509Certificate:
 			obj = &X509Certificate{}
 		default:
-			return fmt.Errorf("%s is not a supported type", peak.Type)
+			if collection.dropCustom {
+				continue
+			}
+			obj = &CustomObject{}
 		}
 
 		err := json.Unmarshal(data, &obj)
@@ -1003,14 +1063,152 @@ func processObjects(collection *Collection, objects []json.RawMessage) error {
 			return fmt.Errorf("bad json data: %s", err)
 		}
 
+		// Add potential extended top level properties to the object.
+		if !collection.dropCustom {
+			// Filter out non custom objects.
+			filterOutNonCustom(peak, obj)
+
+			// If we still have properties, add them.
+			if len(peak) != 0 {
+				if o, ok := obj.(canHaveExtensions); ok {
+					custom := &CustomObject{}
+					for k := range peak {
+						custom.Set(k, peak[k])
+					}
+					o.addCustomProperties(custom)
+				}
+			}
+		}
+
 		err = collection.Add(obj.(STIXObject))
 		if err != nil {
-			return fmt.Errorf("failed to add %s object to collection: %s", peak.Type, err)
+			return fmt.Errorf("failed to add %s object to collection: %s", typ, err)
 		}
 	}
 	return nil
 }
 
-type peakObject struct {
-	Type STIXType `json:"type"`
+func filterOutNonCustom(m map[string]interface{}, obj interface{}) {
+	typ := reflect.TypeOf(obj)
+	if typ.Kind() == reflect.Ptr {
+		typ = typ.Elem()
+	}
+
+	// Not a struct, nothing else to do.
+	if typ.Kind() != reflect.Struct {
+		return
+	}
+
+	val := reflect.ValueOf(obj)
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+
+	for i := 0; i < typ.NumField(); i++ {
+		f := typ.Field(i)
+
+		switch f.Name {
+		case "STIXRelationshipObject", "STIXDomainObject", "STIXCyberObservableObject":
+			fv := val.Field(i)
+			filterOutNonCustom(m, fv.Interface())
+		default:
+			key := strings.Split(f.Tag.Get("json"), ",")
+			delete(m, key[0])
+		}
+	}
+}
+
+func objectToMap(obj STIXObject) (map[string]interface{}, error) {
+	m := make(map[string]interface{})
+	err := valueToMap(obj, m)
+	return m, err
+}
+
+func valueToMap(obj interface{}, m map[string]interface{}) error {
+	typ := reflect.TypeOf(obj)
+	if typ.Kind() == reflect.Ptr {
+		typ = typ.Elem()
+	}
+
+	// Not a struct, nothing else to do.
+	if typ.Kind() != reflect.Struct {
+		return fmt.Errorf("%s is an invalid type", typ.Name())
+	}
+
+	val := reflect.ValueOf(obj)
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+	for i := 0; i < typ.NumField(); i++ {
+		f := typ.Field(i)
+
+		fv := val.Field(i)
+		switch f.Name {
+		case "STIXRelationshipObject", "STIXDomainObject", "STIXCyberObservableObject":
+			err := valueToMap(fv.Interface(), m)
+			if err != nil {
+				return err
+			}
+		default:
+			jsonTag := f.Tag.Get("json")
+			if jsonTag == "" {
+				continue
+			}
+			jsonTagParts := strings.Split(jsonTag, ",")
+
+			// Check if zero value. If it is skip it unless it's required.
+			if fv.Kind() != reflect.Bool && fv.IsZero() {
+				skip := false
+				for _, p := range jsonTagParts {
+					if p == "omitempty" {
+						skip = true
+					}
+				}
+				if !skip {
+					return fmt.Errorf("%s is empty but is required", f.Name)
+				}
+				continue
+			}
+
+			m[jsonTagParts[0]] = fv.Interface()
+		}
+	}
+
+	// Extract top level properties.
+	if ob, ok := obj.(STIXCyberObservableObject); ok {
+		if ob.toplevelProperties != nil {
+			for k, v := range *ob.toplevelProperties {
+				m[k] = v
+			}
+		}
+	}
+	if ob, ok := obj.(STIXDomainObject); ok {
+		if ob.toplevelProperties != nil {
+			for k, v := range *ob.toplevelProperties {
+				m[k] = v
+			}
+		}
+	}
+	if ob, ok := obj.(STIXRelationshipObject); ok {
+		if ob.toplevelProperties != nil {
+			for k, v := range *ob.toplevelProperties {
+				m[k] = v
+			}
+		}
+	}
+	if ob, ok := obj.(*MarkingDefinition); ok {
+		if ob.toplevelProperties != nil {
+			for k, v := range *ob.toplevelProperties {
+				m[k] = v
+			}
+		}
+	}
+	if ob, ok := obj.(*LanguageContent); ok {
+		if ob.toplevelProperties != nil {
+			for k, v := range *ob.toplevelProperties {
+				m[k] = v
+			}
+		}
+	}
+	return nil
 }

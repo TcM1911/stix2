@@ -13,7 +13,7 @@ import (
 func TestCrashCollectionAdd(t *testing.T) {
 	runFolderTest(t, "crashesCollectionAdd", func(a *assert.Assertions, testData []byte) {
 		a.NotPanics(func() {
-			col, err := stix2.FromJSON(testData)
+			col, err := stix2.FromJSON(testData, stix2.DropCustomOption())
 			a.Error(err)
 			a.Nil(col)
 		})

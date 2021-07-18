@@ -31,6 +31,10 @@ type Software struct {
 	Version string `json:"version,omitempty"`
 }
 
+func (o *Software) MarshalJSON() ([]byte, error) {
+	return marshalToJSONHelper(o)
+}
+
 // NewSoftware creates a new Software object. A Software object MUST contain at least one
 // of hashes or name.
 func NewSoftware(name string, opts ...STIXOption) (*Software, error) {
@@ -55,6 +59,6 @@ func NewSoftware(name string, opts ...STIXOption) (*Software, error) {
 	if obj.Version != "" {
 		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.Version))
 	}
-	obj.ID = NewObservableIdenfier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeSoftware)
+	obj.ID = NewObservableIdentifier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeSoftware)
 	return obj, err
 }
