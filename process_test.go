@@ -80,6 +80,15 @@ func TestProcess(t *testing.T) {
 		assert.Len(f.Extensions, 1)
 		stored := f.WindowsProcessExtension()
 		assert.Equal(ext, stored)
+
+		// JSON encoding/decoding without errors.
+		data, err := f.MarshalJSON()
+		assert.NoError(err)
+		assert.NotNil(data)
+
+		var proc Process
+		err = json.Unmarshal(data, &proc)
+		assert.NoError(err)
 	})
 
 	t.Run("process-extension-nil", func(t *testing.T) {
@@ -100,6 +109,15 @@ func TestProcess(t *testing.T) {
 		assert.Len(f.Extensions, 1)
 		stored := f.WindowsServiceExtension()
 		assert.Equal(ext, stored)
+
+		// JSON encoding/decoding without errors.
+		data, err := f.MarshalJSON()
+		assert.NoError(err)
+		assert.NotNil(data)
+
+		var proc Process
+		err = json.Unmarshal(data, &proc)
+		assert.NoError(err)
 	})
 
 	t.Run("service-extension-nil", func(t *testing.T) {
