@@ -405,7 +405,7 @@ func (o *STIXCyberObservableObject) canonicalizeExtensions() string {
 		return ""
 	}
 	buf := &bytes.Buffer{}
-	c := codec.NewEncoder(buf, &codec.JsonHandle{})
+	c := codec.NewEncoder(buf, &codec.JsonHandle{BasicHandle: codec.BasicHandle{EncodeOptions: codec.EncodeOptions{Canonical: true}}})
 	err := c.Encode(o.Extensions)
 	if err != nil {
 		return ""
