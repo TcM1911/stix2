@@ -322,6 +322,26 @@ func TestJSONMarshal(t *testing.T) {
 	assert.NotNil(buf)
 }
 
+func TestMarshalHandleErrorConditions(t *testing.T) {
+	assert := assert.New(t)
+
+	t.Run("error-when-required-field-is-missing", func(t *testing.T) {
+		d, err := NewDomainName("example.com")
+		assert.NoError(err)
+		d.Value = ""
+		_, err = marshalToJSONHelper(d)
+		assert.Error(err)
+	})
+
+	t.Run("error-when-required-field-is-missing-in-parent", func(t *testing.T) {
+		d, err := NewDomainName("example.com")
+		assert.NoError(err)
+		d.ID = ""
+		_, err = marshalToJSONHelper(d)
+		assert.Error(err)
+	})
+}
+
 func getResource(file string) (*os.File, error) {
 	pth, err := filepath.Abs(filepath.Join("testresources", file))
 	if err != nil {

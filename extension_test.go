@@ -261,6 +261,12 @@ func TestExtensionCustomObject(t *testing.T) {
 		assert.Equal(Identifier(""), obj.GetID(), "should return empty string if not set")
 		assert.Nil(obj.GetExtendedTopLevelProperties(), "should always return nil")
 	})
+
+	t.Run("json-marshal-handler-should-return-error", func(t *testing.T) {
+		obj := &CustomObject{}
+		_, err := marshalToJSONHelper(obj)
+		assert.Error(err)
+	})
 }
 
 func TestExtensionTopLevelProperties(t *testing.T) {

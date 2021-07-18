@@ -80,14 +80,9 @@ func (c *Collection) Get(id Identifier) STIXObject {
 		// Incorrect format for the ID.
 		return nil
 	}
-	bucket, ok := c.objects[STIXType(parts[0])]
-	if !ok {
-		// No objects for this type.
-		return nil
-	}
-	obj, ok := bucket[id]
-	if !ok {
-		// No object with the ID.
+
+	obj := c.getObject(STIXType(parts[0]), id)
+	if obj == nil {
 		return nil
 	}
 	return obj.(STIXObject)
