@@ -3,7 +3,10 @@
 
 package stix2
 
-import "strings"
+import (
+	"encoding/json"
+	"strings"
+)
 
 // Artifact object permits capturing an array of bytes (8-bits), as a
 // base64-encoded string, or linking to a file-like payload. One of payload_bin
@@ -80,6 +83,11 @@ type EncryptionAlgorithm uint8
 // String returns the string representation of the type.
 func (typ EncryptionAlgorithm) String() string {
 	return encAlgMap[typ]
+}
+
+// MarshalJSON converts the enum type to the JSON string.
+func (typ EncryptionAlgorithm) MarshalJSON() ([]byte, error) {
+	return json.Marshal(typ.String())
 }
 
 // UnmarshalJSON extracts the encryption algorithm from the json data.

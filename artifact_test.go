@@ -153,4 +153,18 @@ func TestEncryptionAlgorithm(t *testing.T) {
 		assert.NoError(err)
 		assert.Equal(EncryptionAlgorithmNone, obj.Encryption)
 	})
+
+	t.Run("marshalJSON", func(t *testing.T) {
+		a, err := NewArtifact(
+			OptionHashes(Hashes{"SHA-256": "2cbb138d4097f05fffeb968b34a4e62884fc4755d7d043e2d3760950f1e1a9ee", "MD5": "0da609bd9ec46237557373f1c5cfcae9"}),
+			OptionKey("key"),
+			OptionPayload(Binary("Hello World")),
+			OptionEncryption(EncryptionAlgorithmChaCha20Poly1305),
+		)
+		assert.NoError(err)
+
+		data, err := json.Marshal(a)
+		assert.NoError(err)
+		assert.Contains(string(data), EncryptionAlgorithmChaCha20Poly1305.String())
+	})
 }
