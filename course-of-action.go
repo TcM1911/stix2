@@ -32,7 +32,7 @@ func (c *CourseOfAction) AddInvestigates(id Identifier, opts ...STIXOption) (*Re
 	if !IsValidIdentifier(id) || !id.ForType(TypeIndicator) {
 		return nil, ErrInvalidParameter
 	}
-	return NewRelationship(RelationshipTypeTargets, c.ID, id, opts...)
+	return NewRelationship(RelationshipTypeInvestigates, c.ID, id, opts...)
 }
 
 // AddMitigates creates a relationship to an attack pattern, indicator,
@@ -41,7 +41,7 @@ func (c *CourseOfAction) AddMitigates(id Identifier, opts ...STIXOption) (*Relat
 	if !IsValidIdentifier(id) || (!id.ForType(TypeAttackPattern) && !id.ForType(TypeIndicator) && !id.ForType(TypeMalware) && !id.ForType(TypeTool) && !id.ForType(TypeVulnerability)) {
 		return nil, ErrInvalidParameter
 	}
-	return NewRelationship(RelationshipTypeTargets, c.ID, id, opts...)
+	return NewRelationship(RelationshipTypeMitigates, c.ID, id, opts...)
 }
 
 // AddRemediates creates a relationship to a malware or a vulnerability that
@@ -50,7 +50,7 @@ func (c *CourseOfAction) AddRemediates(id Identifier, opts ...STIXOption) (*Rela
 	if !IsValidIdentifier(id) || (!id.ForType(TypeMalware) && !id.ForType(TypeVulnerability)) {
 		return nil, ErrInvalidParameter
 	}
-	return NewRelationship(RelationshipTypeTargets, c.ID, id, opts...)
+	return NewRelationship(RelationshipTypeRemediates, c.ID, id, opts...)
 }
 
 // NewCourseOfAction creates a new CourseOfAction object.
