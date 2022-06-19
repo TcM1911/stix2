@@ -132,6 +132,8 @@ const (
 	RelationshipTypeImpersonates RelationshipType = "impersonates"
 	// RelationshipTypeIndicates is an indicates relationship.
 	RelationshipTypeIndicates RelationshipType = "indicates"
+	// RelationshipTypeInvestigates is an indicates relationship.
+	RelationshipTypeInvestigates RelationshipType = "investigates"
 	// RelationshipTypeLocatedAt is a located at relationship.
 	RelationshipTypeLocatedAt RelationshipType = "located-at"
 	// RelationshipTypeMitigates is a mitigates relationship.
@@ -142,6 +144,8 @@ const (
 	RelationshipTypeOwns RelationshipType = "owns"
 	// RelationshipTypeRelatedTo is a related to relationship.
 	RelationshipTypeRelatedTo RelationshipType = "related-to"
+	// RelationshipTypeRemediates is a related to relationship.
+	RelationshipTypeRemediates RelationshipType = "remediates"
 	// RelationshipTypeResolvesTo is a resolves to relationship.
 	RelationshipTypeResolvesTo RelationshipType = "resolves-to"
 	// RelationshipTypeStaticAnalysisOf is a static analysis of relationship.

@@ -113,6 +113,7 @@ func TestCourseOfActionMitigates(t *testing.T) {
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
 		assert.Equal(obj.ID, rel.Source)
+		assert.Equal(RelationshipTypeMitigates, rel.RelationshipType)
 	})
 
 	t.Run("indicator", func(t *testing.T) {
@@ -123,6 +124,7 @@ func TestCourseOfActionMitigates(t *testing.T) {
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
 		assert.Equal(obj.ID, rel.Source)
+		assert.Equal(RelationshipTypeMitigates, rel.RelationshipType)
 	})
 
 	t.Run("malware", func(t *testing.T) {
@@ -133,6 +135,7 @@ func TestCourseOfActionMitigates(t *testing.T) {
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
 		assert.Equal(obj.ID, rel.Source)
+		assert.Equal(RelationshipTypeMitigates, rel.RelationshipType)
 	})
 
 	t.Run("tool", func(t *testing.T) {
@@ -143,6 +146,7 @@ func TestCourseOfActionMitigates(t *testing.T) {
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
 		assert.Equal(obj.ID, rel.Source)
+		assert.Equal(RelationshipTypeMitigates, rel.RelationshipType)
 	})
 
 	t.Run("vulnerability", func(t *testing.T) {
@@ -153,6 +157,7 @@ func TestCourseOfActionMitigates(t *testing.T) {
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
 		assert.Equal(obj.ID, rel.Source)
+		assert.Equal(RelationshipTypeMitigates, rel.RelationshipType)
 	})
 
 	t.Run("invalid_type", func(t *testing.T) {
@@ -176,6 +181,7 @@ func TestCourseOfActionRemediates(t *testing.T) {
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
 		assert.Equal(obj.ID, rel.Source)
+		assert.Equal(RelationshipTypeRemediates, rel.RelationshipType)
 	})
 
 	t.Run("vulnerability", func(t *testing.T) {
@@ -186,6 +192,7 @@ func TestCourseOfActionRemediates(t *testing.T) {
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
 		assert.Equal(obj.ID, rel.Source)
+		assert.Equal(RelationshipTypeRemediates, rel.RelationshipType)
 	})
 
 	t.Run("invalid_type", func(t *testing.T) {
@@ -209,6 +216,7 @@ func TestCourseOfActionAddInvestigates(t *testing.T) {
 		assert.NoError(err)
 		assert.Equal(id, rel.Target)
 		assert.Equal(obj.ID, rel.Source)
+		assert.Equal(RelationshipTypeInvestigates, rel.RelationshipType)
 	})
 
 	t.Run("invalid_type", func(t *testing.T) {
