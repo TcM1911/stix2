@@ -194,6 +194,20 @@ func HasValidIdentifier(obj STIXObject) bool {
 	return err == nil
 }
 
+func HasValidIdentifierNoUUID(obj STIXObject) bool {
+	parts := strings.Split(string(obj.GetID()), "--")
+	if len(parts) != 2 {
+		return false
+	}
+	if parts[0] != string(obj.GetType()) {
+		return false
+	}
+	if parts[0] == "" {
+		return false
+	}
+	return true
+}
+
 // CyberObservableNamespace is the UUIDv5 namespace for for STIX
 // Cyber-observable Object.
 var CyberObservableNamespace = uuid.MustParse("00abedb4-aa42-466c-9c01-fed23315a9b7")
