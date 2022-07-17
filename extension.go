@@ -281,9 +281,9 @@ var encExtTypeMap = map[ExtensionType]string{
 // by creating a new type.
 type CustomObject map[string]interface{}
 
-// Get retrives an attribute from the custom object.
-func (c CustomObject) Get(key string) interface{} {
-	val, ok := c[key]
+// Get retrieves an attribute from the custom object.
+func (c *CustomObject) Get(key string) interface{} {
+	val, ok := (*c)[key]
 	if !ok {
 		return nil
 	}
@@ -291,12 +291,12 @@ func (c CustomObject) Get(key string) interface{} {
 }
 
 // Set adds an attribute to the custom object.
-func (c CustomObject) Set(key string, val interface{}) {
-	c[key] = val
+func (c *CustomObject) Set(key string, val interface{}) {
+	(*c)[key] = val
 }
 
 // GetAsString returns the requested attribute as a string.
-func (c CustomObject) GetAsString(key string) string {
+func (c *CustomObject) GetAsString(key string) string {
 	s := c.Get(key)
 	if s == nil {
 		return ""
@@ -305,7 +305,7 @@ func (c CustomObject) GetAsString(key string) string {
 }
 
 // GetAsStringSlice returns the requested attribute as a string slice.
-func (c CustomObject) GetAsStringSlice(key string) []string {
+func (c *CustomObject) GetAsStringSlice(key string) []string {
 	s := c.Get(key)
 	if s == nil {
 		return nil
@@ -315,7 +315,7 @@ func (c CustomObject) GetAsStringSlice(key string) []string {
 
 // GetAsNumber returns the requested attribute as a number.
 // The value has to be an expected integer.
-func (c CustomObject) GetAsNumber(key string) int64 {
+func (c *CustomObject) GetAsNumber(key string) int64 {
 	s := c.Get(key)
 	if s == nil {
 		return int64(0)
@@ -330,8 +330,8 @@ func (c CustomObject) GetAsNumber(key string) int64 {
 }
 
 // GetID returns the identifier for the object.
-func (c CustomObject) GetID() Identifier {
-	val, ok := c["id"]
+func (c *CustomObject) GetID() Identifier {
+	val, ok := (*c)["id"]
 	if !ok {
 		return Identifier("")
 	}
@@ -339,8 +339,8 @@ func (c CustomObject) GetID() Identifier {
 }
 
 // GetType returns the object's type.
-func (c CustomObject) GetType() STIXType {
-	val, ok := c["type"]
+func (c *CustomObject) GetType() STIXType {
+	val, ok := (*c)["type"]
 	if !ok {
 		return STIXType("")
 	}
@@ -349,14 +349,14 @@ func (c CustomObject) GetType() STIXType {
 
 // GetCreated returns the created time for the STIX object. If the object
 // does not have a time defined, nil is returned.
-func (c CustomObject) GetCreated() *time.Time {
-	return convTimeString(c, "created")
+func (c *CustomObject) GetCreated() *time.Time {
+	return convTimeString(*c, "created")
 }
 
 // GetModified returns the modified time for the STIX object. If the object
 // does not have a time defined, nil is returned.
-func (c CustomObject) GetModified() *time.Time {
-	return convTimeString(c, "modified")
+func (c *CustomObject) GetModified() *time.Time {
+	return convTimeString(*c, "modified")
 }
 
 func convTimeString(c CustomObject, key string) *time.Time {
@@ -372,7 +372,8 @@ func convTimeString(c CustomObject, key string) *time.Time {
 }
 
 // GetExtendedTopLevelProperties returns the extra top level properties or
-// nil for the object.
+// nil for the object. For a CustomObject, this method just returns a pointer
+// the the object it
 func (s *CustomObject) GetExtendedTopLevelProperties() *CustomObject {
-	return nil
+	return s
 }
