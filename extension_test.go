@@ -496,22 +496,34 @@ func TestMitreCustomObject(t *testing.T) {
 		]
 	}`)
 
-	col, err := FromJSON(data, UseCustomParser("x-mitre-tactic", func(data []byte) (STIXObject, error) {
-		var tactic mitreTactic
-		err := json.Unmarshal(data, &tactic)
-		if err != nil {
-			return nil, err
-		}
-		return &tactic, nil
-	}))
-	r.NoError(err)
+	t.Run("parse-object", func(t *testing.T) {
+		col, err := FromJSON(data, UseCustomParser("x-mitre-tactic", func(data []byte) (STIXObject, error) {
+			var tactic mitreTactic
+			err := json.Unmarshal(data, &tactic)
+			if err != nil {
+				return nil, err
+			}
+			return &tactic, nil
+		}))
+		r.NoError(err)
 
-	objs := col.GetAll("x-mitre-tactic")
-	r.Len(objs, 1)
+		objs := col.GetAll("x-mitre-tactic")
+		r.Len(objs, 1)
 
-	obj := objs[0].(*mitreTactic)
-	r.Len(obj.ExternalReferences, 1)
-	r.Equal("TA0006", obj.ExternalReferences[0].ExternalID)
+		obj := objs[0].(*mitreTactic)
+		r.Len(obj.ExternalReferences, 1)
+		r.Equal("TA0006", obj.ExternalReferences[0].ExternalID)
+	})
+
+	t.Run("handle-error", func(t *testing.T) {
+		col, err := FromJSON(data, UseCustomParser("x-mitre-tactic", func(data []byte) (STIXObject, error) {
+			return nil, fmt.Errorf("expected error in test")
+		}))
+
+		r.Nil(col)
+		r.Error(err)
+		r.Contains(err.Error(), "expected error in test")
+	})
 }
 
 type mitreTactic struct {
