@@ -32,7 +32,7 @@ type canHaveExtensions interface {
 	addCustomProperties(*CustomObject)
 }
 
-// CollectionOption is an optional parameter when constructing a Colletion.
+// CollectionOption is an optional parameter when constructing a Collection.
 type CollectionOption func(c *Collection)
 
 // NoSortOption instructs the collection to not track the order items have been
@@ -47,6 +47,17 @@ func NoSortOption() CollectionOption {
 func DropCustomOption() CollectionOption {
 	return func(c *Collection) {
 		c.dropCustom = true
+	}
+}
+
+// UseCustomParser allows for providing a parser for Custom objects. This can be used to parse
+// a specific object into a concrete type.
+func UseCustomParser(typ STIXType, handler func(data []byte) (STIXObject, error)) CollectionOption {
+	return func(c *Collection) {
+		if c.customHandler == nil {
+			c.customHandler = make(map[STIXType]func([]byte) (STIXObject, error))
+		}
+		c.customHandler[typ] = handler
 	}
 }
 
@@ -67,9 +78,10 @@ type Collection struct {
 	objects map[STIXType]map[Identifier]interface{}
 
 	// Options
-	noSort     bool
-	order      []Identifier
-	dropCustom bool
+	noSort        bool
+	order         []Identifier
+	dropCustom    bool
+	customHandler map[STIXType]func([]byte) (STIXObject, error)
 }
 
 // Get returns the object with matching ID or nil if it does not exist in the
@@ -968,94 +980,105 @@ func processObjects(collection *Collection, objects []json.RawMessage) error {
 
 		var obj interface{}
 
-		switch STIXType(typ.(string)) {
-		case TypeAutonomousSystem:
-			obj = &AutonomousSystem{}
-		case TypeArtifact:
-			obj = &Artifact{}
-		case TypeAttackPattern:
-			obj = &AttackPattern{}
-		case TypeCampaign:
-			obj = &Campaign{}
-		case TypeCourseOfAction:
-			obj = &CourseOfAction{}
-		case TypeDirectory:
-			obj = &Directory{}
-		case TypeDomainName:
-			obj = &DomainName{}
-		case TypeEmailAddress:
-			obj = &EmailAddress{}
-		case TypeEmailMessage:
-			obj = &EmailMessage{}
-		case TypeExtensionDefinition:
-			obj = &ExtensionDefinition{}
-		case TypeFile:
-			obj = &File{}
-		case TypeGrouping:
-			obj = &Grouping{}
-		case TypeIPv4Addr:
-			obj = &IPv4Address{}
-		case TypeIPv6Addr:
-			obj = &IPv6Address{}
-		case TypeIdentity:
-			obj = &Identity{}
-		case TypeIndicator:
-			obj = &Indicator{}
-		case TypeInfrastructure:
-			obj = &Infrastructure{}
-		case TypeIntrusionSet:
-			obj = &IntrusionSet{}
-		case TypeLanguageContent:
-			obj = &LanguageContent{}
-		case TypeLocation:
-			obj = &Location{}
-		case TypeMACAddress:
-			obj = &MACAddress{}
-		case TypeMalware:
-			obj = &Malware{}
-		case TypeMalwareAnalysis:
-			obj = &MalwareAnalysis{}
-		case TypeMarkingDefinition:
-			obj = &MarkingDefinition{}
-		case TypeMutex:
-			obj = &Mutex{}
-		case TypeNetworkTraffic:
-			obj = &NetworkTraffic{}
-		case TypeNote:
-			obj = &Note{}
-		case TypeObservedData:
-			obj = &ObservedData{}
-		case TypeOpinion:
-			obj = &Opinion{}
-		case TypeProcess:
-			obj = &Process{}
-		case TypeRegistryKey:
-			obj = &RegistryKey{}
-		case TypeRelationship:
-			obj = &Relationship{}
-		case TypeReport:
-			obj = &Report{}
-		case TypeSighting:
-			obj = &Sighting{}
-		case TypeSoftware:
-			obj = &Software{}
-		case TypeThreatActor:
-			obj = &ThreatActor{}
-		case TypeTool:
-			obj = &Tool{}
-		case TypeURL:
-			obj = &URL{}
-		case TypeUserAccount:
-			obj = &UserAccount{}
-		case TypeVulnerability:
-			obj = &Vulnerability{}
-		case TypeX509Certificate:
-			obj = &X509Certificate{}
-		default:
-			if collection.dropCustom {
-				continue
+		// Check if a custom parser should be used, if so use it.
+		if collection.customHandler != nil && collection.customHandler[STIXType(typ.(string))] != nil {
+			handler := collection.customHandler[STIXType(typ.(string))]
+			tmp, err := handler(data)
+			if err != nil {
+				return fmt.Errorf("parser for %s returned error for %s: %w", typ, peak["id"], err)
 			}
-			obj = &CustomObject{}
+			obj = tmp
+		} else {
+			// If not use the builtin logic.
+			switch STIXType(typ.(string)) {
+			case TypeAutonomousSystem:
+				obj = &AutonomousSystem{}
+			case TypeArtifact:
+				obj = &Artifact{}
+			case TypeAttackPattern:
+				obj = &AttackPattern{}
+			case TypeCampaign:
+				obj = &Campaign{}
+			case TypeCourseOfAction:
+				obj = &CourseOfAction{}
+			case TypeDirectory:
+				obj = &Directory{}
+			case TypeDomainName:
+				obj = &DomainName{}
+			case TypeEmailAddress:
+				obj = &EmailAddress{}
+			case TypeEmailMessage:
+				obj = &EmailMessage{}
+			case TypeExtensionDefinition:
+				obj = &ExtensionDefinition{}
+			case TypeFile:
+				obj = &File{}
+			case TypeGrouping:
+				obj = &Grouping{}
+			case TypeIPv4Addr:
+				obj = &IPv4Address{}
+			case TypeIPv6Addr:
+				obj = &IPv6Address{}
+			case TypeIdentity:
+				obj = &Identity{}
+			case TypeIndicator:
+				obj = &Indicator{}
+			case TypeInfrastructure:
+				obj = &Infrastructure{}
+			case TypeIntrusionSet:
+				obj = &IntrusionSet{}
+			case TypeLanguageContent:
+				obj = &LanguageContent{}
+			case TypeLocation:
+				obj = &Location{}
+			case TypeMACAddress:
+				obj = &MACAddress{}
+			case TypeMalware:
+				obj = &Malware{}
+			case TypeMalwareAnalysis:
+				obj = &MalwareAnalysis{}
+			case TypeMarkingDefinition:
+				obj = &MarkingDefinition{}
+			case TypeMutex:
+				obj = &Mutex{}
+			case TypeNetworkTraffic:
+				obj = &NetworkTraffic{}
+			case TypeNote:
+				obj = &Note{}
+			case TypeObservedData:
+				obj = &ObservedData{}
+			case TypeOpinion:
+				obj = &Opinion{}
+			case TypeProcess:
+				obj = &Process{}
+			case TypeRegistryKey:
+				obj = &RegistryKey{}
+			case TypeRelationship:
+				obj = &Relationship{}
+			case TypeReport:
+				obj = &Report{}
+			case TypeSighting:
+				obj = &Sighting{}
+			case TypeSoftware:
+				obj = &Software{}
+			case TypeThreatActor:
+				obj = &ThreatActor{}
+			case TypeTool:
+				obj = &Tool{}
+			case TypeURL:
+				obj = &URL{}
+			case TypeUserAccount:
+				obj = &UserAccount{}
+			case TypeVulnerability:
+				obj = &Vulnerability{}
+			case TypeX509Certificate:
+				obj = &X509Certificate{}
+			default:
+				if collection.dropCustom {
+					continue
+				}
+				obj = &CustomObject{}
+			}
 		}
 
 		err := json.Unmarshal(data, &obj)
