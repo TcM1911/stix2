@@ -373,7 +373,7 @@ func convTimeString(c CustomObject, key string) *time.Time {
 
 // GetExtendedTopLevelProperties returns the extra top level properties or
 // nil for the object. For a CustomObject, this method just returns a pointer
-// the the object it
+// to the object itself.
 func (s *CustomObject) GetExtendedTopLevelProperties() *CustomObject {
 	return s
 }
