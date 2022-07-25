@@ -6,8 +6,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestExtensionJSONParsing(t *testing.T) {
@@ -259,7 +261,8 @@ func TestExtensionCustomObject(t *testing.T) {
 	t.Run("check-some-attributes", func(t *testing.T) {
 		obj := &CustomObject{}
 		assert.Equal(Identifier(""), obj.GetID(), "should return empty string if not set")
-		assert.Nil(obj.GetExtendedTopLevelProperties(), "should always return nil")
+		assert.NotNil(obj.GetExtendedTopLevelProperties(), "should not return nil")
+		assert.Equal(obj, obj.GetExtendedTopLevelProperties())
 	})
 
 	t.Run("json-marshal-handler-should-return-error", func(t *testing.T) {
@@ -454,6 +457,118 @@ func TestExtensionTopLevelProperties(t *testing.T) {
 		assert.NoError(err)
 		assert.Contains(string(buf), `"toxicity":8`)
 	})
+}
+
+func TestMitreCustomObject(t *testing.T) {
+	r := require.New(t)
+
+	data := []byte(`{
+		"type": "bundle",
+		"id": "bundle--099f4d3b-9c94-4472-a5b9-b26186b786b0",
+		"spec_version": "2.0",
+		"objects": [
+			{
+				"x_mitre_domains": [
+					"enterprise-attack"
+				],
+				"object_marking_refs": [
+					"marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+				],
+				"id": "x-mitre-tactic--2558fd61-8c75-4730-94c4-11926db2a263",
+				"type": "x-mitre-tactic",
+				"created": "2018-10-17T00:14:20.652Z",
+				"created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+				"external_references": [
+					{
+						"external_id": "TA0006",
+						"url": "https://attack.mitre.org/tactics/TA0006",
+						"source_name": "mitre-attack"
+					}
+				],
+				"modified": "2019-07-19T17:43:41.967Z",
+				"name": "Credential Access",
+				"description": "The adversary is trying to steal account names and passwords.\n\nCredential Access consists of techniques for stealing credentials like account names and passwords. Techniques used to get credentials include keylogging or credential dumping. Using legitimate credentials can give adversaries access to systems, make them harder to detect, and provide the opportunity to create more accounts to help achieve their goals.",
+				"x_mitre_version": "1.0",
+				"x_mitre_attack_spec_version": "2.1.0",
+				"x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+				"x_mitre_shortname": "credential-access"
+			}
+		]
+	}`)
+
+	t.Run("parse-object", func(t *testing.T) {
+		col, err := FromJSON(data, UseCustomParser("x-mitre-tactic", func(data []byte) (STIXObject, error) {
+			var tactic mitreTactic
+			err := json.Unmarshal(data, &tactic)
+			if err != nil {
+				return nil, err
+			}
+			return &tactic, nil
+		}))
+		r.NoError(err)
+
+		objs := col.GetAll("x-mitre-tactic")
+		r.Len(objs, 1)
+
+		obj := objs[0].(*mitreTactic)
+		r.Len(obj.ExternalReferences, 1)
+		r.Equal("TA0006", obj.ExternalReferences[0].ExternalID)
+	})
+
+	t.Run("handle-error", func(t *testing.T) {
+		col, err := FromJSON(data, UseCustomParser("x-mitre-tactic", func(data []byte) (STIXObject, error) {
+			return nil, fmt.Errorf("expected error in test")
+		}))
+
+		r.Nil(col)
+		r.Error(err)
+		r.Contains(err.Error(), "expected error in test")
+	})
+}
+
+type mitreTactic struct {
+	Domains            []string             `json:"x_mitre_domains"`
+	ObjectMarkingRefs  []Identifier         `json:"object_marking_refs"`
+	ID                 Identifier           `json:"id"`
+	Type               STIXType             `json:"type"`
+	Created            Timestamp            `json:"created"`
+	CreatedBy          Identifier           `json:"created_by_ref"`
+	ExternalReferences []*ExternalReference `json:"external_references"`
+	Modified           Timestamp            `json:"modified"`
+	Name               string               `json:"name"`
+	Description        string               `json:"description"`
+	Version            string               `json:"x_mitre_version"`
+	AttackSpecVersion  string               `json:"x_mitre_attack_spec_version"`
+	ModifiedBy         Identifier           `json:"x_mitre_modified_by_ref"`
+	ShortName          string               `json:"x_mitre_shortname"`
+}
+
+// GetID returns the identifier for the object.
+func (m mitreTactic) GetID() Identifier {
+	return m.ID
+}
+
+// GetType returns the object's type.
+func (m mitreTactic) GetType() STIXType {
+	return m.Type
+}
+
+// GetCreated returns the created time for the STIX object. If the object
+// does not have a time defined, nil is returned.
+func (m mitreTactic) GetCreated() *time.Time {
+	return &m.Created.Time
+}
+
+// GetModified returns the modified time for the STIX object. If the object
+// does not have a time defined, nil is returned.
+func (m mitreTactic) GetModified() *time.Time {
+	return &m.Modified.Time
+}
+
+// GetExtendedTopLevelProperties returns the extra top level properties or
+// nil for the object.
+func (m mitreTactic) GetExtendedTopLevelProperties() *CustomObject {
+	return nil
 }
 
 const extPropJson = `{
