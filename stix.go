@@ -918,6 +918,24 @@ func (c *Collection) X509Certificates() []*X509Certificate {
 	return data
 }
 
+// Incident returns the Incident with the identifier id.
+func (c *Collection) Incident(id Identifier) *Incident {
+	obj := c.getObject(TypeIncident, id)
+	if obj == nil {
+		return nil
+	}
+	return obj.(*Incident)
+}
+
+// Incidents returns all the Incidents in the collection
+func (c *Collection) Incidents() []*Incident {
+	data := make([]*Incident, 0, len(c.objects[TypeIncident]))
+	for _, v := range c.objects[TypeIncident] {
+		data = append(data, v.(*Incident))
+	}
+	return data
+}
+
 func (c *Collection) getObject(typ STIXType, id Identifier) interface{} {
 	bucket, ok := c.objects[typ]
 	if !ok {
@@ -1015,6 +1033,8 @@ func processObjects(collection *Collection, objects []json.RawMessage) error {
 				obj = &File{}
 			case TypeGrouping:
 				obj = &Grouping{}
+			case TypeIncident:
+				obj = &Incident{}
 			case TypeIPv4Addr:
 				obj = &IPv4Address{}
 			case TypeIPv6Addr:

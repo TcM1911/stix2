@@ -259,6 +259,8 @@ const (
 	TypeFile STIXType = "file"
 	// TypeGrouping is used for grouping type.
 	TypeGrouping STIXType = "grouping"
+	// TypeIncident is used for incident type.
+	TypeIncident STIXType = "incident"
 	// TypeIPv4Addr is used for IPv4 address types.
 	TypeIPv4Addr STIXType = "ipv4-addr"
 	// TypeIPv6Addr is used for IPv6 address types.
@@ -337,6 +339,7 @@ var AllTypes = []STIXType{
 	TypeIPv4Addr,
 	TypeIPv6Addr,
 	TypeIdentity,
+	TypeIncident,
 	TypeIndicator,
 	TypeInfrastructure,
 	TypeIntrusionSet,
