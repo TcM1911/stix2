@@ -58,7 +58,7 @@ func (c *Campaign) AddUses(id Identifier, opts ...STIXOption) (*Relationship, er
 	if !IsValidIdentifier(id) || (!id.ForType(TypeAttackPattern) && !id.ForType(TypeInfrastructure) && !id.ForType(TypeMalware) && !id.ForType(TypeTool)) {
 		return nil, ErrInvalidParameter
 	}
-	return NewRelationship(RelationshipTypeTargets, c.ID, id, opts...)
+	return NewRelationship(RelationshipTypeUses, c.ID, id, opts...)
 }
 
 // AddAttributedTo creates a relationship to either an intrusion set or a
@@ -67,7 +67,7 @@ func (c *Campaign) AddAttributedTo(id Identifier, opts ...STIXOption) (*Relation
 	if !IsValidIdentifier(id) || (!id.ForType(TypeIntrusionSet) && !id.ForType(TypeThreatActor)) {
 		return nil, ErrInvalidParameter
 	}
-	return NewRelationship(RelationshipTypeTargets, c.ID, id, opts...)
+	return NewRelationship(RelationshipTypeAttributedTo, c.ID, id, opts...)
 }
 
 // AddCompromises creates a relationship to an infrastructure that is
@@ -76,7 +76,7 @@ func (c *Campaign) AddCompromises(id Identifier, opts ...STIXOption) (*Relations
 	if !IsValidIdentifier(id) || !id.ForType(TypeInfrastructure) {
 		return nil, ErrInvalidParameter
 	}
-	return NewRelationship(RelationshipTypeTargets, c.ID, id, opts...)
+	return NewRelationship(RelationshipTypeCompromises, c.ID, id, opts...)
 }
 
 // AddOriginatesFrom creates a relationship to a location that the campaign
@@ -85,7 +85,7 @@ func (c *Campaign) AddOriginatesFrom(id Identifier, opts ...STIXOption) (*Relati
 	if !IsValidIdentifier(id) || !id.ForType(TypeLocation) {
 		return nil, ErrInvalidParameter
 	}
-	return NewRelationship(RelationshipTypeTargets, c.ID, id, opts...)
+	return NewRelationship(RelationshipTypeOriginatesFrom, c.ID, id, opts...)
 }
 
 // NewCampaign creates a new Campaign object.
