@@ -142,6 +142,8 @@ const (
 	RegionEasternAsia = "eastern-asia"
 	// RegionSouthernAsia is a region identifier for Southern Asia.
 	RegionSouthernAsia = "southern-asia"
+	// RegionSouthEasternAsia is a region identifier for South Eastern Asia
+	RegionSouthEasternAsia = "south-eastern-asia"
 	// RegionWesternAsia is a region identifier for Western Asia.
 	RegionWesternAsia = "western-asia"
 	// RegionEurope is a region identifier for Europe.
