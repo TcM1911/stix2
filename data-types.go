@@ -438,7 +438,7 @@ type Timestamp struct {
 func (t *Timestamp) String() string {
 	// Go trims any trailing zeros, so instead of using the RFC3339Nano format,
 	// we use a modified version of it.
-	return t.Format("2006-01-02T15:04:05.000Z07:00")
+	return t.UTC().Format("2006-01-02T15:04:05.000Z07:00")
 }
 
 // MarshalJSON  creates a RFC 3339-formatted timestamp.

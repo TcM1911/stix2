@@ -243,6 +243,15 @@ func TestTimestamp(t *testing.T) {
 		assert.Contains(string(data), "2016-01-20T12:31:12.123Z")
 	})
 
+	t.Run("Marshal_always_utc", func(t *testing.T) {
+		tm := time.Date(2016, 1, 20, 13, 31, 12, 0, time.FixedZone("TEST", 3600))
+		s := struct{ Created *Timestamp }{Created: &Timestamp{tm}}
+		assert.Equal(2016, s.Created.Year())
+		data, err := json.Marshal(&s)
+		assert.NoError(err)
+		assert.Contains(string(data), "2016-01-20T12:31:12.000Z")
+	})
+
 	t.Run("Unmarshal_no_sub", func(t *testing.T) {
 		var s struct{ Created *Timestamp }
 		data := []byte(`{"created": "2016-01-20T12:31:12Z"}`)
