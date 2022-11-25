@@ -128,6 +128,25 @@ func TestOpinionValue(t *testing.T) {
 		}
 	})
 
+	t.Run("marshalJSON", func(t *testing.T) {
+		tests := []struct {
+			op  OpinionValue
+			str string
+		}{
+			{OpinionStronglyDisagree, `"strongly-disagree"`},
+			{OpinionDisagree, `"disagree"`},
+			{OpinionNeutral, `"neutral"`},
+			{OpinionAgree, `"agree"`},
+			{OpinionStronglyAgree, `"strongly-agree"`},
+			{OpinionValue(0), `""`},
+		}
+		for _, test := range tests {
+			j, err := test.op.MarshalJSON()
+			assert.NoError(err)
+			assert.Equal(test.str, string(j))
+		}
+	})
+
 	t.Run("unmarshalJSON", func(t *testing.T) {
 		tests := []struct {
 			op  OpinionValue

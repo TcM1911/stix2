@@ -3,6 +3,8 @@
 
 package stix2
 
+import "fmt"
+
 // Opinion is an assessment of the correctness of the information in a STIX
 // Object produced by a different entity. The primary property is the opinion
 // property, which captures the level of agreement or disagreement using a
@@ -100,6 +102,10 @@ func (typ OpinionValue) String() string {
 		return ""
 	}
 	return val
+}
+
+func (typ OpinionValue) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`"%s"`, typ.String())), nil
 }
 
 // UnmarshalJSON extracts the OpinionValue from the json data.
