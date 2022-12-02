@@ -1443,6 +1443,14 @@ func OptionObjectModified(s *Timestamp) STIXOption {
 	}
 }
 
+// OptionObjectRefs sets the object_refs attribute. This option is valid for the types:
+//   - ObservedData
+func OptionObjectRefs(objects []Identifier) STIXOption {
+	return func(obj STIXObject) error {
+		return setField(obj, "ObjectRefs", objects, reflect.Slice)
+	}
+}
+
 /*
 	Helper functions
 */

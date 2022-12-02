@@ -84,8 +84,8 @@ func (o *ObservedData) MarshalJSON() ([]byte, error) {
 }
 
 // NewObservedData creates a new ObservedData object.
-func NewObservedData(firstObserved, lastObserved *Timestamp, numberObserved int64, objectsRef []Identifier, opts ...STIXOption) (*ObservedData, error) {
-	if len(objectsRef) == 0 || firstObserved == nil || lastObserved == nil || numberObserved < 1 {
+func NewObservedData(firstObserved, lastObserved *Timestamp, numberObserved int64, opts ...STIXOption) (*ObservedData, error) {
+	if firstObserved == nil || lastObserved == nil || numberObserved < 1 {
 		return nil, ErrPropertyMissing
 	}
 	base := newSTIXDomainObject(TypeObservedData)
@@ -94,7 +94,6 @@ func NewObservedData(firstObserved, lastObserved *Timestamp, numberObserved int6
 		FirstObserved:    firstObserved,
 		LastObserved:     lastObserved,
 		NumberObserved:   numberObserved,
-		ObjectRefs:       objectsRef,
 	}
 
 	err := applyOptions(obj, opts)

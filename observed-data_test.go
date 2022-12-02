@@ -20,13 +20,13 @@ func TestObservedData(t *testing.T) {
 	objs := []Identifier{Identifier("1"), Identifier("2")}
 
 	t.Run("missing_property", func(t *testing.T) {
-		obj, err := NewObservedData(nil, nil, int64(0), []Identifier{}, nil)
+		obj, err := NewObservedData(nil, nil, int64(0), nil)
 		assert.Nil(obj)
 		assert.Equal(ErrPropertyMissing, err)
 	})
 
 	t.Run("no_optional", func(t *testing.T) {
-		obj, err := NewObservedData(first, last, count, objs, nil)
+		obj, err := NewObservedData(first, last, count, nil)
 		assert.NotNil(obj)
 		assert.NoError(err)
 	})
@@ -54,8 +54,9 @@ func TestObservedData(t *testing.T) {
 			OptionObjectMarking(objmark),
 			OptionRevoked(true),
 			OptionSpecVersion(specVer),
+			OptionObjectRefs(objs),
 		}
-		obj, err := NewObservedData(first, last, count, objs, opts...)
+		obj, err := NewObservedData(first, last, count, opts...)
 		assert.NotNil(obj)
 		assert.NoError(err)
 		assert.Equal(conf, obj.Confidence)
