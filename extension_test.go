@@ -5,6 +5,7 @@ package stix2
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 	"testing"
 	"time"
 
@@ -107,6 +108,17 @@ func TestExtensionProperties(t *testing.T) {
 
 func TestExtensionType(t *testing.T) {
 	assert := assert.New(t)
+	t.Run("valid-marshal", func(t *testing.T) {
+		c := New()
+		ext, err0 := NewExtensionDefinition("test", "testSchema", "1.0", []ExtensionType{ExtensionTypePropertyExtension})
+		c.Add(ext)
+		b, err1 := c.ToBundle()
+		s, err2 := json.MarshalIndent(b, "", "   ")
+		assert.NoError(err0)
+		assert.NoError(err1)
+		assert.NoError(err2)
+		assert.True(strings.Contains(string(s), "property-extension"))
+	})
 
 	t.Run("parse-invalid", func(t *testing.T) {
 		invalid := []byte(`{

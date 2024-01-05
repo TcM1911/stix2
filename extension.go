@@ -230,6 +230,10 @@ func (typ ExtensionType) String() string {
 	return encExtTypeMap[typ]
 }
 
+func (o ExtensionType) MarshalJSON() ([]byte, error) {
+	return json.Marshal(o.String())
+}
+
 // UnmarshalJSON extracts the encryption algorithm from the json data.
 func (typ *ExtensionType) UnmarshalJSON(b []byte) error {
 	var s string
