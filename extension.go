@@ -230,6 +230,7 @@ func (typ ExtensionType) String() string {
 	return encExtTypeMap[typ]
 }
 
+// MarshalJSON converts the uint8 to string for JSON serialization.
 func (o ExtensionType) MarshalJSON() ([]byte, error) {
 	return json.Marshal(o.String())
 }
