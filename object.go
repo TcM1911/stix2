@@ -4,11 +4,10 @@
 package stix2
 
 import (
-	"bytes"
 	"encoding/json"
 	"time"
 
-	"github.com/ugorji/go/codec"
+	"github.com/TcM1911/stix2/internal/jsoncanonicalizer"
 )
 
 const (
@@ -404,13 +403,15 @@ func (o *STIXCyberObservableObject) canonicalizeExtensions() string {
 	if len(o.Extensions) == 0 {
 		return ""
 	}
-	buf := &bytes.Buffer{}
-	c := codec.NewEncoder(buf, &codec.JsonHandle{BasicHandle: codec.BasicHandle{EncodeOptions: codec.EncodeOptions{Canonical: true}}})
-	err := c.Encode(o.Extensions)
+	buf, err := json.Marshal(o.Extensions)
 	if err != nil {
 		return ""
 	}
-	return buf.String()
+	result, err := jsoncanonicalizer.Transform(buf)
+	if err != nil {
+		return ""
+	}
+	return string(result)
 }
 
 func newSTIXCyberObservableObject(typ STIXType) STIXCyberObservableObject {
