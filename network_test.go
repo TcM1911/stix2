@@ -28,9 +28,21 @@ func TestNetworkTraffic(t *testing.T) {
 	})
 
 	t.Run("with_property", func(t *testing.T) {
-		obj, err := NewNetworkTraffic(val, nil)
+		obj, err := NewNetworkTraffic(val, OptionDst(ref))
 		assert.NotNil(obj)
 		assert.NoError(err)
+	})
+
+	t.Run("error_if_no_src_or_dst", func(t *testing.T) {
+		obj, err := NewNetworkTraffic(val)
+		assert.Nil(obj)
+		assert.Error(err)
+	})
+
+	t.Run("error_when_setting_wrong_parameter", func(t *testing.T) {
+		obj, err := NewNetworkTraffic(val, OptionCity("invalid-field"))
+		assert.Nil(obj)
+		assert.Error(err)
 	})
 
 	t.Run("payload_with_options", func(t *testing.T) {
@@ -173,14 +185,14 @@ func TestNetworkTraffic(t *testing.T) {
 
 	t.Run("http-extension", func(t *testing.T) {
 		ext := &HTTPRequestExtension{Method: "get", Value: "/", HTTPVersion: "1.1"}
-		f, _ := NewNetworkTraffic(val, OptionExtension(ExtHTTPRequest, ext))
+		f, _ := NewNetworkTraffic(val, OptionDst(ref), OptionExtension(ExtHTTPRequest, ext))
 		assert.Len(f.Extensions, 1)
 		stored := f.HTTPRequestExtension()
 		assert.Equal(ext, stored)
 	})
 
 	t.Run("http-extension-nil", func(t *testing.T) {
-		f, _ := NewNetworkTraffic(val)
+		f, _ := NewNetworkTraffic(val, OptionDst(ref))
 		assert.Len(f.Extensions, 0)
 		stored := f.HTTPRequestExtension()
 		assert.Nil(stored)
@@ -188,14 +200,14 @@ func TestNetworkTraffic(t *testing.T) {
 
 	t.Run("icmp-extension", func(t *testing.T) {
 		ext := &ICMPExtension{Type: Hex("08"), Code: Hex("00")}
-		f, _ := NewNetworkTraffic(val, OptionExtension(ExtICMP, ext))
+		f, _ := NewNetworkTraffic(val, OptionDst(ref), OptionExtension(ExtICMP, ext))
 		assert.Len(f.Extensions, 1)
 		stored := f.ICMPExtension()
 		assert.Equal(ext, stored)
 	})
 
 	t.Run("icmp-extension-nil", func(t *testing.T) {
-		f, _ := NewNetworkTraffic(val)
+		f, _ := NewNetworkTraffic(val, OptionDst(ref))
 		assert.Len(f.Extensions, 0)
 		stored := f.ICMPExtension()
 		assert.Nil(stored)
@@ -203,14 +215,14 @@ func TestNetworkTraffic(t *testing.T) {
 
 	t.Run("socket-extension", func(t *testing.T) {
 		ext := &SocketExtension{AddressFamily: SocketFamilyINET, SocketType: SocketTypeRaw}
-		f, _ := NewNetworkTraffic(val, OptionExtension(ExtSocket, ext))
+		f, _ := NewNetworkTraffic(val, OptionDst(ref), OptionExtension(ExtSocket, ext))
 		assert.Len(f.Extensions, 1)
 		stored := f.SocketExtension()
 		assert.Equal(ext, stored)
 	})
 
 	t.Run("socket-extension-nil", func(t *testing.T) {
-		f, _ := NewNetworkTraffic(val)
+		f, _ := NewNetworkTraffic(val, OptionDst(ref))
 		assert.Len(f.Extensions, 0)
 		stored := f.SocketExtension()
 		assert.Nil(stored)
@@ -218,7 +230,7 @@ func TestNetworkTraffic(t *testing.T) {
 
 	t.Run("unknown-socket-family", func(t *testing.T) {
 		ext := &SocketExtension{AddressFamily: SocketFamilyUnknownValue, SocketType: SocketTypeUnknown}
-		f, err := NewNetworkTraffic(val, OptionExtension(ExtSocket, ext))
+		f, err := NewNetworkTraffic(val, OptionDst(ref), OptionExtension(ExtSocket, ext))
 		assert.NoError(err)
 		assert.Len(f.Extensions, 1)
 		stored := f.SocketExtension()
@@ -241,14 +253,14 @@ func TestNetworkTraffic(t *testing.T) {
 
 	t.Run("tcp-extension", func(t *testing.T) {
 		ext := &TCPExtension{SrcFlags: Hex("FF")}
-		f, _ := NewNetworkTraffic(val, OptionExtension(ExtTCP, ext))
+		f, _ := NewNetworkTraffic(val, OptionDst(ref), OptionExtension(ExtTCP, ext))
 		assert.Len(f.Extensions, 1)
 		stored := f.TCPExtension()
 		assert.Equal(ext, stored)
 	})
 
 	t.Run("socket-extension-nil", func(t *testing.T) {
-		f, _ := NewNetworkTraffic(val)
+		f, _ := NewNetworkTraffic(val, OptionDst(ref))
 		assert.Len(f.Extensions, 0)
 		stored := f.TCPExtension()
 		assert.Nil(stored)

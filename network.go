@@ -129,8 +129,19 @@ func (n *NetworkTraffic) TCPExtension() *TCPExtension {
 	return data.(*TCPExtension)
 }
 
-// NewNetworkTraffic creates a new NetworkTraffic object. A NetworkTraffic object MUST contain at least one
-// of hashes or name.
+// NewNetworkTraffic creates a new NetworkTraffic object. The Network Traffic
+// object represents arbitrary network traffic that originates from a source
+// and is addressed to a destination. The network traffic MAY or MAY NOT
+// constitute a valid unicast, multicast, or broadcast network connection. This
+// MAY also include traffic that is not established, such as a SYN flood. To
+// allow for use cases where a source or destination address may be sensitive
+// and not suitable for sharing, such as addresses that are internal to an
+// organization’s network, the source and destination properties (Src and Dst,
+// respectively) are defined as optional.
+//
+// However, a Network Traffic object MUST contain the protocols property and at
+// least one of the Src or Dst properties and SHOULD contain the SrcPort and
+// DstPort properties.
 func NewNetworkTraffic(proto []string, opts ...STIXOption) (*NetworkTraffic, error) {
 	if len(proto) == 0 {
 		return nil, ErrInvalidParameter
@@ -142,9 +153,22 @@ func NewNetworkTraffic(proto []string, opts ...STIXOption) (*NetworkTraffic, err
 	}
 
 	err := applyOptions(obj, opts)
-	idContri := make([]string, 0, 5)
+	if err != nil {
+		return nil, err
+	}
+	if obj.Src == "" && obj.Dst == "" {
+		return nil, fmt.Errorf("at least one of src or dst is required")
+	}
+
+	// The fields that contribute to the ID are:
+	// start, end, src_ref, dst_ref, src_port, dst_port, protocols, extensions
+
+	idContri := make([]string, 0, 8)
 	if obj.Start != nil {
 		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.Start.String()))
+	}
+	if obj.End != nil {
+		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.End.String()))
 	}
 	if obj.Src != "" {
 		idContri = append(idContri, fmt.Sprintf(`"%s"`, obj.Src))
@@ -158,7 +182,11 @@ func NewNetworkTraffic(proto []string, opts ...STIXOption) (*NetworkTraffic, err
 	if obj.DstPort != 0 {
 		idContri = append(idContri, fmt.Sprintf("%d", obj.DstPort))
 	}
+	// Protocols are required so we don't need to do a check here.
 	idContri = append(idContri, fmt.Sprintf(`["%s"]`, strings.Join(obj.Protocols, `","`)))
+	if len(obj.Extensions) != 0 {
+		idContri = append(idContri, obj.canonicalizeExtensions())
+	}
 	obj.ID = NewObservableIdentifier(fmt.Sprintf("[%s]", strings.Join(idContri, ",")), TypeNetworkTraffic)
 	return obj, err
 }
