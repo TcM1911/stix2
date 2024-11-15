@@ -4,8 +4,10 @@
 package stix2
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
+	"io"
 	"reflect"
 	"strings"
 	"time"
@@ -946,6 +948,43 @@ func (c *Collection) getObject(typ STIXType, id Identifier) interface{} {
 		return nil
 	}
 	return obj
+}
+
+func FromReader(reader io.Reader, opts ...CollectionOption) (*Collection, error) {
+	collection := New(opts...)
+	buff := bufio.NewReader(reader)
+	piece, err := buff.Peek(10)
+	if err != nil && !(err == io.EOF || err == bufio.ErrBufferFull) {
+		return nil, err
+	}
+	var isArray bool
+	for _, b := range piece {
+		if b == '{' {
+			isArray = false
+			break
+		}
+		if b == '[' {
+			isArray = true
+			break
+		}
+	}
+
+	decoder := json.NewDecoder(buff)
+	if isArray {
+		var slice []json.RawMessage
+		if err := decoder.Decode(&slice); err != nil {
+			return nil, err
+		}
+
+		return collection, processObjects(collection, slice)
+	}
+
+	var bundle Bundle
+	if err := decoder.Decode(&bundle); err != nil {
+		return nil, err
+	}
+
+	return collection, processBundle(collection, bundle)
 }
 
 // FromJSON parses JSON data and returns a Collection with the extracted
