@@ -72,6 +72,37 @@ func TestFromJSON(t *testing.T) {
 	})
 }
 
+func TestFromJSONCustomPropertiesDoNotCarryBetweenObjects(t *testing.T) {
+	data := []byte(`[
+		{
+			"type": "x-mitre-collection",
+			"id": "x-mitre-collection--11111111-1111-4111-8111-111111111111",
+			"x_mitre_contents": ["course-of-action"],
+			"x_mitre_probe": "probe-value"
+		},
+		{
+			"type": "course-of-action",
+			"id": "course-of-action--22222222-2222-4222-8222-222222222222",
+			"name": "test"
+		}
+	]`)
+
+	c, err := FromJSON(data)
+	require.NoError(t, err)
+
+	first := c.Get("x-mitre-collection--11111111-1111-4111-8111-111111111111").(*CustomObject)
+	properties := first.GetExtendedTopLevelProperties()
+	require.NotNil(t, properties)
+	assert.Equal(t, []interface{}{"course-of-action"}, properties.Get("x_mitre_contents"))
+	assert.Equal(t, "probe-value", properties.Get("x_mitre_probe"))
+
+	second := c.CourseOfAction("course-of-action--22222222-2222-4222-8222-222222222222")
+	require.NotNil(t, second)
+	properties = second.GetExtendedTopLevelProperties()
+	assert.True(t, properties == nil || properties.Get("x_mitre_contents") == nil)
+	assert.True(t, properties == nil || properties.Get("x_mitre_probe") == nil)
+}
+
 func TestFromJSONAll(t *testing.T) {
 	assert := assert.New(t)
 	f, err := getResource("all.json")
