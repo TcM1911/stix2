@@ -982,9 +982,9 @@ func processBundle(collection *Collection, bundle Bundle) error {
 }
 
 func processObjects(collection *Collection, objects []json.RawMessage) error {
-	var peak map[string]interface{}
 	var err error
 	for _, data := range objects {
+		peak := make(map[string]interface{})
 		err = json.Unmarshal(data, &peak)
 		if err != nil {
 			return err
